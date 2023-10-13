@@ -1,0 +1,34 @@
+#type-page {
+  width: 100%;
+  height: 100%;;
+  font-family: 'Source Code Pro';
+  font-size: 40px;
+}
+
+#type-page > div {
+  width: 50%;
+  height: 100%;
+  transition: opacity 1s;
+}
+
+#type-page > div > span {
+  color: white;
+  transition: color 0.5s;
+}
+
+#type-page > div > span:hover {
+  cursor: pointer;
+  color: gold;
+}
+
+#type-liberal {
+  float: left;
+  background-color: rgb(15, 20, 30);
+  border-right: 1px solid azure;
+}
+
+#type-conservative {
+  float: right;
+  background-color: rgb(124,10,2);
+  border-left: 1px solid azure;
+}
