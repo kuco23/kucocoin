@@ -25,15 +25,16 @@ const config: HardhatUserConfig = {
     tests: "./test"
   },
   solidity: {
-    version: "0.8.20",
+    version: '0.8.20',
     settings: {
       metadata: {
-        bytecodeHash: "none"
+        bytecodeHash: 'none',
       },
+      evmVersion: 'london',
       optimizer: {
         enabled: true,
-        runs: 800
-      }
+        runs: 10000,
+      },
     },
   },
   typechain: {

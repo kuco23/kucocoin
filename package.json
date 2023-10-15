@@ -1,6 +1,6 @@
 {
   "name": "kucocoin",
-  "description": "kucocoin token implementation",
+  "description": "kucocoin token",
   "version": "0.0.0",
   "author": {
     "name": "Nejc Ševerkar",
@@ -14,12 +14,14 @@
     "test": "hardhat test",
     "---------- frontend ----------": "---------- frontend ----------",
     "parcel-build": "parcel build frontend/index.html --public-url ./",
-    "parcel-start": "parcel frontend/index.html",
+    "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",
     "---------- github ci -----------": "---------- github ci -----------",
     "predeploy": "yarn parcel-build",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
+    "@ethersproject/keccak256": "^5.7.0",
+    "@metamask/providers": "^13.1.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
@@ -33,6 +35,7 @@
     "@types/node": "^18.11.9",
     "chai": "^4.3.7",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
     "ethers": "^6.4.0",
     "gh-pages": "^6.0.0",
     "hardhat": "^2.12.2",
@@ -47,6 +50,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.9.3"
+    "@openzeppelin/contracts": "^4.9.3",
+    "blazeswap": "git+https://github.com/blazeswap/contracts.git"
   }
 }

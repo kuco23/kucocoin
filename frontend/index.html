@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/type-page.css" />
     <link rel="stylesheet" type="text/css" href="css/kucocoin-page.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-    <script type="module" src="script/page-transitions.ts"></script>
+    <script type="module" src="script/page.ts"></script>
   </head>
   <body>
 
@@ -34,6 +34,13 @@
           call our transactions trans actions, and our motto is
           black chains matter.
         </span>
+      </div>
+      <div id="kucocoin-price">
+        <span>Price: <span id="kucocoin-price-out">...loading</span></span>
+      </div>
+      <div id="kucocoin-buy">
+        <input type="text" id="kucocoin-buy-input" value="0.0000"> <span>C2FLR</span>
+        <input type="button" id="kucocoin-buy-button" value="Buy">
       </div>
     </div>
 
