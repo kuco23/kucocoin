@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - deploy
+permissions:
+    contents: write
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
