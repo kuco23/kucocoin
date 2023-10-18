@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
 
+import "hardhat/console.sol";
+
 
 contract KucoCoin is ERC20, Ownable {
     struct Secret {
@@ -27,6 +29,13 @@ contract KucoCoin is ERC20, Ownable {
         _mint(msg.sender, 100 ether);
     }
 
+    modifier dexApprove(uint256 _amount) {
+        _transfer(msg.sender, address(this), _amount);
+        _approve(address(this), address(blazeSwapRouter), _amount);
+        _;
+        _approve(address(this), address(blazeSwapRouter), 0);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // secret functionality
 
@@ -42,20 +51,27 @@ contract KucoCoin is ERC20, Ownable {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // blazeswap integration
 
-    function addLiquidity(uint256 _amount) external payable {
-        _transfer(msg.sender, address(this), _amount);
-        _approve(address(this), address(blazeSwapRouter), _amount);
+    function addLiquidity(uint256 _amount) external payable dexApprove(_amount) {
         blazeSwapRouter.addLiquidityNAT{value: msg.value}(
             address(this), _amount, 0, 0, 0, msg.sender, block.timestamp
         );
     }
 
-    function buy() external payable {
+    function buy(address _receiver) external payable {
         address[] memory path = new address[](2);
         path[0] = wNat;
         path[1] = address(this);
         blazeSwapRouter.swapExactNATForTokens{value: msg.value}(
-            0, path, msg.sender, block.timestamp
+            0, path, _receiver, block.timestamp
+        );
+    }
+
+    function sell(uint256 _amount, address _receiver) external dexApprove(_amount) {
+        address[] memory path = new address[](2);
+        path[0] = address(this);
+        path[1] = wNat;
+        blazeSwapRouter.swapExactTokensForNAT(
+            _amount, 0, path, _receiver, block.timestamp
         );
     }
 

@@ -1,32 +1,48 @@
 import $ from 'jquery'
-import { formatUnits, parseEther } from 'ethers';
-import { costwo, costwoId } from './constants';
-import { getKucocoinReserves, buyKucocoin } from './contracts'
-import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { formatUnits, parseEther } from 'ethers'
+import { switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
+import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
+import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 declare var window: any
+declare var alert: any
 const ethereum: MetaMaskInpageProvider = window.ethereum
 
-async function switchMetamaskNetworkIfNecessary() {
-  if (ethereum.networkVersion! !== costwoId.toString()) {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: costwo.chainId }]
-      })
-    } catch (err: any) {
-      if (err.code === 4902) { // Chain not added to MetaMask
-        await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [costwo]
-        })
-      }
-    }
+async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
+  await func()
+  setInterval(func, interval)
+}
+
+async function updateKucoPrice(): Promise<void> {
+  const { 0: reserveKUCO, 1: reserveNAT } = await getLiquidityReserves()
+  const priceBips = BigInt(10_000) * reserveNAT / reserveKUCO
+  const formattedPrice = formatUnits(priceBips.toString(), 4)
+  $('#kucocoin-price-out').text(`KUCO = ${formattedPrice} C2FLR`)
+}
+
+async function updateKucoBalance(): Promise<void> {
+  try {
+    const balance = await getKucoBalance(ethereum)
+    const formattedBalance = formatUnits(balance.toString(), 18)
+    $('#kucocoin-balance-out').text(`KUCO Balance: ${formattedBalance}`)
+  } catch (err: any) {
+    $('#kucocoin-balance-out').text(err.message)
   }
 }
 
-$(async () => {
+async function onBuyKuco(): Promise<void> {
+  $('#kucocoin-buy-button').on('click', async () => {
+    try {
+      const amountInput = $('#kucocoin-buy-input').val()!
+      const amount = parseEther(amountInput)
+      await buyKuco(amount, ethereum)
+    } catch (err: any) {
+      alert(err.message)
+    }
+  })
+}
 
+$(async () => {
   // transition from type page into kucocoin
   for (const alignment of ['liberal', 'conservative']) {
     const other = alignment === 'liberal' ? 'conservative' : 'liberal'
@@ -42,18 +58,10 @@ $(async () => {
       })
     })
   }
-
-  // setup metamask network
-  await switchMetamaskNetworkIfNecessary()
-  // show KUCO price in NAT
-  const { 0: reserveKUCO, 1: reserveNAT } = await getKucocoinReserves(ethereum)
-  const priceBips = BigInt(10_000) * reserveNAT / reserveKUCO
-  const formattedPrice = formatUnits(priceBips.toString(), 4)
-  $('#kucocoin-price').text(`KUCO = ${formattedPrice} C2FLR`)
-  // implement buy
-  $('#kucocoin-buy-button').on('click', async () => {
-    const amountInput = $('#kucocoin-buy-input').val()!
-    const amount = parseEther(amountInput)
-    await buyKucocoin(amount, ethereum)
-  })
+  // setup metamask handles
+  await switchNetworkIfNecessary(ethereum)
+  await addKucoCoinToken(ethereum)
+  await setImmediateInterval(updateKucoPrice, 10_000)
+  await setImmediateInterval(updateKucoBalance, 10_000)
+  await onBuyKuco()
 })

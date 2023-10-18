@@ -19,7 +19,6 @@ jobs:
       - name: deploy page
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          target-branch: deploy
           build_dir: dist
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
