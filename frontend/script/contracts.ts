@@ -3,11 +3,11 @@ import { kucocoin, network } from "./constants"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
-export async function getLiquidityReserves(): Promise<[bigint, bigint]> {
+export async function getLiquidityReserves(): Promise<{ "KUCO": bigint, "NAT": bigint }> {
   const provider = new JsonRpcProvider(network.rpcUrls[0])
   const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
-  const reserves = await contract.getPoolReserves()
-  return reserves
+  const { 0: reserveKUCO, 1: reserveNAT } = await contract.getPoolReserves()
+  return { "KUCO": reserveKUCO, "NAT": reserveNAT }
 }
 
 export async function buyKuco(amount: bigint, ethereum: MetaMaskInpageProvider): Promise<void> {

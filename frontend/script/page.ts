@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
 import { switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
+import { network } from './constants'
 import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
@@ -14,10 +15,10 @@ async function setImmediateInterval(func: () => Promise<any>, interval: number):
 }
 
 async function updateKucoPrice(): Promise<void> {
-  const { 0: reserveKUCO, 1: reserveNAT } = await getLiquidityReserves()
-  const priceBips = BigInt(10_000) * reserveNAT / reserveKUCO
+  const reserves = await getLiquidityReserves()
+  const priceBips = BigInt(10_000) * reserves.NAT / reserves.KUCO
   const formattedPrice = formatUnits(priceBips.toString(), 4)
-  $('#kucocoin-price-out').text(`KUCO = ${formattedPrice} C2FLR`)
+  $('#kucocoin-price-out').text(`KUCO = ${formattedPrice} ${network.nativeCurrency.symbol}`)
 }
 
 async function updateKucoBalance(): Promise<void> {
