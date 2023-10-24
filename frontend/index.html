@@ -17,6 +17,7 @@
 
   <!-- Main CSS Files -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/custom.css">
 
   <!-- Namari Color CSS -->
   <link rel="stylesheet" href="css/namari-color.css">
@@ -29,6 +30,7 @@
 
   <!--Google Webfonts-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -60,12 +62,8 @@
             <!--Logo-->
             <div id="logo">
 
-              <!--Logo that is shown on the banner-->
-              <img src="images/logo.png" id="banner-logo" alt="Landing Page" />
-              <!--End of Banner Logo-->
-
               <!--The Logo that is shown on the sticky Navigation Bar-->
-              <img src="images/logo-2.png" id="navigation-logo" alt="Landing Page" />
+              <img src="images/logo.png" id="navigation-logo" alt="Landing Page" />
               <!--End of Navigation Logo-->
 
             </div>
@@ -112,13 +110,13 @@
                   <a href="#banner">Home</a>
                 </li>
                 <li>
-                  <a href="#about">About</a>
+                  <a href="#about">about</a>
                 </li>
                 <li>
                   <a href="#gallery">Gallery</a>
                 </li>
                 <li>
-                  <a href="#services">Services</a>
+                  <a href="#buy">Buy</a>
                 </li>
                 <li>
                   <a href="#testimonials">Testimonials</a>
@@ -150,10 +148,6 @@
             <h2>The best token according to research done by scientists!</h2>
           </div>
 
-          <!--Call to Action-->
-          <a href="#" class="button">BUY KUCOCOIN</a>
-          <!--End Call to Action-->
-
         </div>
 
       </div><!--End of Row-->
@@ -165,72 +159,53 @@
       <!--Introduction-->
       <section id="about" class="introduction scrollto">
 
-        <div class="row clearfix">
+          <div class="col-1-3">
 
-          <div class="col-3">
-            <div class="section-heading">
-              <h3>SUCCESS</h3>
-              <h2 class="section-title">How We Help You To Sell Your Product</h2>
-              <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!</p>
+            <!--Icon Block-->
+            <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
+              <div class="icon-block-description">
+                <h4>What is KucoCoin?</h4>
+                <p>
+                  KucoCoin is an ERC20 token deployed on the Flare network...
+                </p>
+              </div>
             </div>
-
-          </div>
-
-          <div class="col-2-3">
+            <!--End of Icon Block-->
 
             <!--Icon Block-->
             <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.1s">
-              <!--Icon-->
-              <div class="icon">
-                <i class="fa fa-html5 fa-2x"></i>
-              </div>
-              <!--Icon Block Description-->
               <div class="icon-block-description">
-                <h4>HTML5 &amp; CSS3</h4>
-                <p>Has ne tritani atomorum conclusionemque, in dolorum volumus cotidieque eum. At vis choro
-                  neglegentur iudico</p>
+                <h4>Attaining stability</h4>
+                <p>
+                  KucoCoin revolutionizes the market by introducing a blockade on transactions
+                  at any time chosen by a decentralized validation process controlled by the centralized token owner.
+                  Blocking every single KUCO transaction means no exchange swapping can happen at that time.
+                  This means no price change of the KUCO is possible, as it can be neither bought nor sold.
+                  As a result, KUCO, can be viewed as a stablecoin sometimes.
+                </p>
               </div>
             </div>
             <!--End of Icon Block-->
 
             <!--Icon Block-->
             <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.3s">
-              <!--Icon-->
-              <div class="icon">
-                <i class="fa fa-bolt fa-2x"></i>
-              </div>
-              <!--Icon Block Description-->
               <div class="icon-block-description">
-                <h4>Easy to Use</h4>
-                <p>Cu vero ipsum vim, doctus facilisi sea in. Eam ex falli honestatis repudiandae, sit
-                  detracto mediocrem disputationi</p>
+                <h4>Zero-knowledge capabilities</h4>
+                <p>
+                  KucoCoin believes in zero-knowledge-proof technology.
+                  To show support we prove to have zero knowledge of this technology by implementing a system
+                  that allows users to use zero-knowledge-proofs with KucoCoin.
+                  Our contract provides a function `acceptZK` which accepts a totally unrestricted bytes
+                  object and emits an event that it has been provided. That object can be anything you want it to be,
+                  it can be a ZK-snark, ZK-stark, or a utf8-encoded message "I love KucoCoin!"".
+                  The possibilities are endless, just like your love for KucoCoin!
+                </p>
               </div>
             </div>
             <!--End of Icon Block-->
 
             <!--Icon Block-->
             <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-              <!--Icon-->
-              <div class="icon">
-                <i class="fa fa-tablet fa-2x"></i>
-              </div>
-              <!--Icon Block Description-->
-              <div class="icon-block-description">
-                <h4>Fully Responsive</h4>
-                <p>Id porro tritani recusabo usu, eum intellegam consequuntur et. Fugit debet ea sit, an pro
-                  nemore vivendum</p>
-              </div>
-            </div>
-            <!--End of Icon Block-->
-
-            <!--Icon Block-->
-            <div class="col-2 icon-block icon-top wow fadeInUp" data-wow-delay="0.5s">
-              <!--Icon-->
-              <div class="icon">
-                <i class="fa fa-rocket fa-2x"></i>
-              </div>
-              <!--Icon Block Description-->
               <div class="icon-block-description">
                 <h4>Parallax Effect</h4>
                 <p>Id porro tritani recusabo usu, eum intellegam consequuntur et. Fugit debet ea sit, an pro
@@ -270,51 +245,20 @@
 
 
       <!--Content Section-->
-      <div id="services" class="scrollto clearfix">
+      <div id="buy" class="scrollto clearfix">
 
-        <div class="row no-padding-bottom clearfix">
+        <div class="row no-padding-bottom clearfix buy-kuco-container">
 
-
-          <!--Content Left Side-->
-          <div class="col-3">
-            <!--User Testimonial-->
-            <blockquote class="testimonial text-right bigtest">
-              <q>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore
-                et dolore magna aliqua</q>
-              <footer>— John Doe, Happy Customer</footer>
-            </blockquote>
-            <!-- End of Testimonial-->
-
-          </div>
-          <!--End Content Left Side-->
-
-          <!--Content of the Right Side-->
-          <div class="col-3">
+          <div class="center">
             <div class="section-heading">
-              <h3>BELIEVING</h3>
-              <h2 class="section-title">Focusing On What Matters Most</h2>
-              <p class="section-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!</p>
+              <h3>Buy KUCO</h3>
+              <h2 class="section-title">Buying KucoCoin (KUCO) has never been so simple</h2>
+              <p class="section-subtitle">The price of KUCO on the liquidity pool is currently <span style="" id="kuco-price-out"></span></p>
             </div>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-              totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo.
-            </p>
-            <p>
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-              consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-              Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet!
-            </p>
-            <!-- Just replace the Video ID "UYJ5IjBRlW8" with the ID of your video on YouTube (Found within the URL) -->
-            <a href="#" data-videoid="UYJ5IjBRlW8" data-videosite="youtube" class="button video link-lightbox">
-              WATCH VIDEO <i class="fa fa-play" aria-hidden="true"></i>
-            </a>
-          </div>
-          <!--End Content Right Side-->
-
-          <div class="col-3">
-            <img src="images/dancer.jpg" alt="Dancer" />
+            <div class="buy-kuco-inputs-container">
+              <input id="buy-kuco-input" class="buy-kuco" type="text" placeholder="Input amount C2FLR">
+              <button id="buy-kuco-button" class="buy-kuco" type="button">BUY KUCO</button>
+            </div>
           </div>
 
         </div>
@@ -330,39 +274,39 @@
 
           <div class="section-heading">
             <h3>FEEDBACK</h3>
-            <h2 class="section-title">What people are saying about KucoCoin</h2>
+            <h2 class="section-title">What other coins are saying about KucoCoin</h2>
           </div>
 
           <!--User Testimonial-->
           <blockquote class="col-3 testimonial classic">
-            <img src="images/user-images/nejc.jpg" alt="User" />
+            <img src="images/user-images/bitcoin.jpg" alt="User" />
             <q>
-              KucoCoin is a life changer, its advanced technology is beyond any of the technology in the world.
-              The imagination of the developers is beyond any of the imagination of the world also.
+              KucoCoin is a life changer, its advanced technology is beyond any of the technology in the world
+              or my name isn't Bitcoin.
             </q>
-            <footer>Nejc Ševerkar - Founder</footer>
+            <footer>Bitcoin - old af coin</footer>
           </blockquote>
           <!-- End of Testimonial-->
 
           <!--User Testimonial-->
           <blockquote class="col-3 testimonial classic">
-            <img src="images/user-images/jošt.jpg" alt="User" />
+            <img src="images/user-images/ethereum.png" alt="User" />
             <q>
-              Nejc is a true visionary who knows everything about 99% of the things.
-              He is a true genius and a true leader. I would cut off my wife's right arm for him.
+              KucoCoin takes smart contracts and boosts them up with steroids on cocaine.
+              It is all that I aspire to be, yet know that never will be.
             </q>
-            <footer>Jošt - Cofounder</footer>
+            <footer>Ethereum - deprecated coin</footer>
           </blockquote>
           <!-- End of Testimonial-->
 
           <!--User Testimonial-->
           <blockquote class="col-3 testimonial classic">
-            <img src="images/user-images/nejc.jpg" alt="User" />
+            <img src="images/user-images/kucocoin.webp" alt="User" />
             <q>
-              I truly am as great as the they say. And I can make the world as great as I am.
-              The world is ready for it, the world is ready for KucoCoin! Buy it or perish.
+              I am so great. And I can make the world as great as I am.
+              The world is ready for me, the world is ready for KucoCoin!
             </q>
-            <footer>Nejc Ševerkar - Founder</footer>
+            <footer>KucoCoin - the best coin</footer>
           </blockquote>
           <!-- End of Testimonial-->
 
@@ -567,7 +511,7 @@
   <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
   <script src="js/lightbox.min.js"></script>
   <script src="js/site.js"></script>
-
+  <script type="module" src="script/site.ts"></script>
 
 </body>
 

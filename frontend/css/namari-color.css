@@ -38,7 +38,7 @@ a:hover, #header.nav-solid nav a:hover {
 /* Border Color */
 
 #banner .section-heading:before, .testimonial.classic footer:before {
-    background: #d2b356;
+    background: firebrick;
 }
 
 .pricing-block-content:hover {
@@ -54,11 +54,11 @@ a:hover, #header.nav-solid nav a:hover {
 /* Transparent Navigation Color on a Banner */
 
 #header nav a, #header i {
-    color:#111;
+    color:#bbb;
 }
 
 
-/* Navigation Colors when the Navigation is sticky and solid */ 
+/* Navigation Colors when the Navigation is sticky and solid */
 
 #header.nav-solid, #header.nav-solid a, #header.nav-solid i, #nav-mobile ul li a {
     color:#333;
@@ -70,7 +70,7 @@ a:hover, #header.nav-solid nav a:hover {
 #header.nav-solid .active {
     color: #d2b356;
     border-color: #d2b356;
-}    
+}
 
 
 
@@ -86,11 +86,11 @@ a:hover, #header.nav-solid nav a:hover {
 }
 
 .primary-color, .primary-color .section-title, .primary-color .section-subtitle, .featured .pricing, .featured .pricing p {
-    color:#fff;    
+    color:#fff;
 }
 
 .section-heading h2:after {
-    background:#d2b356;
+    background:firebrick;
     content:"";
     display:block;
     width:30px;
@@ -124,7 +124,7 @@ a:hover, #header.nav-solid nav a:hover {
 /* Banner Background and Text Colors */
 
 #banner {
-    background: url("../images/banner-images/banner-image-1.jpg") no-repeat center top;
+    background: url("../images/banner-images/banner-image.webp") no-repeat center top;
     background-size:cover;
 }
 
@@ -135,7 +135,7 @@ a:hover, #header.nav-solid nav a:hover {
 
 
 body {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+    font-family: 'Source Code Pro', sans-serif, Arial, Helvetica;
     font-size:15px;
     font-weight:normal;
     color:#111;
@@ -145,14 +145,14 @@ body {
 
 #logo h1 {
     font-family:;
-    font-size:; 
+    font-size:;
     font-weight:;
     color:;
 }
 
 #logo h2 {
     font-family:;
-    font-size:; 
+    font-size:;
     font-weight:;
     color:;
 }
@@ -163,32 +163,32 @@ body {
 /* Banner Typography */
 
 #banner h1 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
     font-size:62px;
     line-height:60px;
     font-weight:800;
-    color:#111;
+    color:#fff;
 }
 
 #banner h2 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+    font-family: 'Source Code Pro', sans-serif, Arial, Helvetica;
     font-size:18px;
     font-weight:300;
-    color:#111;
+    color:#fff;
 }
 
 
 /* Section Title and Subtitle */
 
 .section-title {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 34px; 
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+    font-size: 34px;
     font-weight:700;
     color:#111;
 }
 
 .section-subtitle {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
     font-size: 16px;
     font-weight:300;
     color:#9c9c9c;
@@ -198,7 +198,7 @@ body {
 
 .testimonial q {
     font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 17px; 
+    font-size: 17px;
     font-weight:300;
 }
 
@@ -211,42 +211,42 @@ body {
 
 h1 {
     font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 40px; 
+    font-size: 40px;
     font-weight:300;
     color:#111;
 }
 
 h2 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 34px; 
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+    font-size: 34px;
     font-weight:300;
     color:#111;
 }
 
 h3 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 30px; 
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+    font-size: 30px;
     font-weight:700;
     color:#111;
 }
 
 h4 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 18px; 
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+    font-size: 18px;
     font-weight:400;
     color:#111;
 }
 
 h5 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 16px; 
+    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+    font-size: 16px;
     font-weight:400;
     color:#111;
 }
 
 h6 {
     font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 14px; 
+    font-size: 14px;
     font-weight:400;
     color:#111;
 }

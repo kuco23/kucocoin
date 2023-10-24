@@ -1,6 +1,7 @@
 import { network, kucocoin } from './constants'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
+
 export async function switchNetworkIfNecessary(
   ethereum: MetaMaskInpageProvider
 ): Promise<void> {

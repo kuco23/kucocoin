@@ -1,0 +1,52 @@
+/* general */
+
+div.center {
+  position: relative;
+  transform: none;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* buttons */
+
+div.buy-kuco-container {
+  width: 100%;
+  height: 100%;
+}
+
+div.buy-kuco-inputs-container {
+  display: inline-block;
+}
+
+.buy-kuco {
+  all: unset;
+  padding: 10px;
+  background-color: rgba(15,25,35,1);
+  border: 1px solid orange;
+}
+button.buy-kuco {
+  float: left;
+  margin-left: 0px;
+  text-align: center;
+  color: orange;
+  border-right: none;
+  transition: color 1s;
+}
+button.buy-kuco:hover {
+  cursor: pointer;
+  color: firebrick;
+}
+input.buy-kuco {
+  margin-right: 0px;
+  text-align: left;
+  color: white;
+  border-left: none;
+}
+input.buy-kuco::placeholder {
+  color: rgba(255,255,255,.8);
+  text-align: left;
+}
