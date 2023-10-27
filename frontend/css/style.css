@@ -390,90 +390,6 @@ section {
     border-style: solid;
 }
 
-/* Play Button */
-
-#video-section {
-    position:relative;
-}
-
-.play-video {
-    height:110px;
-    position:absolute;
-    top:50%;
-    margin-top:-110px;
-    width:100%;
-}
-
-.play-icon {
-    display: inline-block;
-    font-size: 0px;
-    cursor: pointer;
-    margin: 45px auto;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-}
-
-.play-icon:after {
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    content: '';
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-.play-icon:before {
-    font-family: 'fontawesome';
-    content: '\f144';
-    speak: none;
-    font-size: 74px;
-    line-height: 110px;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    display: block;
-    -webkit-font-smoothing: antialiased;
-    color:#fff;
-}
-
-.play-video .play-icon {
-    background: rgba(255, 255, 255, 0.5);
-    -webkit-transition: -webkit-transform ease-out 0.3s, background 0.4s;
-    -moz-transition: -moz-transform ease-out 0.3s, background 0.4s;
-    transition: transform ease-out 0.3s, background 0.4s;
-}
-
-.play-video .play-icon:after {
-    top: 0;
-    left: 0;
-    padding: 0;
-    z-index: -1;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-    opacity: 0;
-    -webkit-transform: scale(0.9);
-    -moz-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    transform: scale(0.9);
-}
-
-.play-video .play-icon:hover {
-    background: rgba(255, 255, 255, 0.05);
-    -webkit-transform: scale(0.93);
-    -moz-transform: scale(0.93);
-    -ms-transform: scale(0.93);
-    transform: scale(0.93);
-    color: #fff;
-}
-
-
 /* --------- 2.4 Navigation ---------- */
 
 #header {
@@ -707,6 +623,7 @@ a img {
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
     -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 a img:hover {
@@ -935,7 +852,7 @@ blockquote {
 }
 
 .testimonial img {
-    max-height: 120px;
+    max-height: 240px;
     border-radius: 250em;
 }
 
@@ -990,6 +907,7 @@ blockquote {
 
 #gallery a:hover img {
     opacity: 0.15;
+    backface-visibility: hidden;
     -moz-backface-visibility: hidden;
 }
 
@@ -1012,7 +930,6 @@ blockquote {
     -webkit-transition: all .2s linear;
     -moz-transition: all .2s linear;
     transition: all .2s linear;
-    vertical-align: middle;
 }
 
 #gallery a:hover:before {

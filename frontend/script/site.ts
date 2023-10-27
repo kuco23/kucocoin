@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
-import { network } from './constants'
 import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
@@ -17,7 +16,7 @@ async function updateKucoPrice(): Promise<void> {
   const reserves = await getLiquidityReserves()
   const priceBips = BigInt(10_000) * reserves.NAT / reserves.KUCO
   const formattedPrice = formatUnits(priceBips.toString(), 4)
-  $('#kuco-price-out').text(`KUCO = ${formattedPrice} ${network.nativeCurrency.symbol}`)
+  $('#kuco-price-out').text(formattedPrice)
 }
 
 async function updateKucoBalance(): Promise<void> {

@@ -4,7 +4,7 @@ div.center {
   position: relative;
   transform: none;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -13,40 +13,54 @@ div.center {
 
 /* buttons */
 
-div.buy-kuco-container {
-  width: 100%;
-  height: 100%;
+div.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
 }
 
 div.buy-kuco-inputs-container {
-  display: inline-block;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  align-items: stretch;
 }
 
 .buy-kuco {
-  all: unset;
-  padding: 10px;
-  background-color: rgba(15,25,35,1);
-  border: 1px solid orange;
+  height: 100%;
+  padding: 20px;
+  color: black;
+  font-weight: bold;
+  font-size: large;
 }
 button.buy-kuco {
-  float: left;
+  border: none;
+  background-color: none;
   margin-left: 0px;
   text-align: center;
-  color: orange;
-  border-right: none;
   transition: color 1s;
+  border: none;
 }
 button.buy-kuco:hover {
   cursor: pointer;
   color: firebrick;
 }
 input.buy-kuco {
-  margin-right: 0px;
+  box-shadow: none;
   text-align: left;
-  color: white;
-  border-left: none;
+  color: black;
 }
 input.buy-kuco::placeholder {
-  color: rgba(255,255,255,.8);
+  color: FireBrick;
   text-align: left;
+}
+
+.kucocoin-token-container {
+  text-align: center;
 }
