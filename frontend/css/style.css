@@ -824,12 +824,6 @@ h6 {
 /* 6. Landing Page Sections */
 /*------------------------------------------------------------------------------------------*/
 
-/* --------- 6.1 Introduction ---------- */
-
-.introduction img.featured {
-    padding: 55px 0 0 0;
-}
-
 /* --------- 6.2 Features ---------- */
 
 .features.row {
@@ -2037,7 +2031,7 @@ blockquote {
         width: 100%;
     }
 
-    .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-2-3, .col-3-4, .col-9-10, .col-61, .col-38 {
+    .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-2-3, .col-3-4, .col-9-10, .col-61, .col-38 {
         padding-right: 0;
         padding-left: 0;
     }
