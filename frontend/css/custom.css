@@ -1,6 +1,38 @@
 /* general */
 
-div.center {
+.red {
+  color: red;
+}
+.monospace {
+  font-family: monospace;
+}
+
+a {
+  cursor: pointer;
+}
+
+button, input {
+  box-shadow: none;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  outline: inherit;
+}
+input:focus {
+  box-shadow: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.center {
   position: relative;
   transform: none;
   display: flex;
@@ -11,56 +43,40 @@ div.center {
   width: 100%;
 }
 
+.float-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.stretch {
+  justify-content: stretch;
+}
+
+.image-container > img {
+  height: 240px;
+  width: 240px;
+  border-radius: 250em;
+  object-fit: contain;
+}
+
 /* buttons */
 
-div.flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: stretch;
-}
-
-div.buy-kuco-inputs-container {
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: stretch;
-  align-items: stretch;
-}
-
-.buy-kuco {
-  height: 100%;
-  padding: 20px;
-  color: black;
-  font-weight: bold;
-  font-size: large;
-}
-button.buy-kuco {
-  border: none;
-  background-color: none;
-  margin-left: 0px;
-  text-align: center;
-  transition: color 1s;
-  border: none;
-}
-button.buy-kuco:hover {
-  cursor: pointer;
-  color: firebrick;
-}
-input.buy-kuco {
-  box-shadow: none;
-  text-align: left;
-  color: black;
-}
-input.buy-kuco::placeholder {
-  color: FireBrick;
-  text-align: left;
-}
-
-.kucocoin-token-container {
-  text-align: center;
+.buy-kuco-form-container {
+  border: 2px solid gray;
+  border-radius: 1em;
+  padding: 1em;
+  justify-content: center;
 }

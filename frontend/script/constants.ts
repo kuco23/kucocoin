@@ -13,7 +13,7 @@ const costwo = {
 export const network = costwo
 
 export const kucocoin = {
-  address: "0x42D7f6270243e23574661B90506aF3057a3Ffcb7",
+  address: "0xb831BEe70742FbFdD5Bfe8Fa52077D7d69623475",
   symbol: "KUCO",
   decimals: 18,
   abi: [
@@ -36,7 +36,18 @@ export const kucocoin = {
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minKuco",
+          "type": "uint256"
+        }
+      ],
       "name": "buy",
       "outputs": [],
       "stateMutability": "payable",

@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
 import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
+import { addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 declare var window: any
@@ -14,36 +15,35 @@ async function setImmediateInterval(func: () => Promise<any>, interval: number):
 
 async function updateKucoPrice(): Promise<void> {
   const reserves = await getLiquidityReserves()
-  const priceBips = BigInt(10_000) * reserves.NAT / reserves.KUCO
-  const formattedPrice = formatUnits(priceBips.toString(), 4)
-  $('#kuco-price-out').text(formattedPrice)
-}
-
-async function updateKucoBalance(): Promise<void> {
-  try {
-    const balance = await getKucoBalance()
-    const formattedBalance = formatUnits(balance.toString(), 18)
-    $('#kuco-balance-out').text(`KUCO Balance: ${formattedBalance}`)
-  } catch (err: any) {
-    $('#kucocoin-balance-out').text(err.message)
-  }
+  const priceBips = BigInt(100_000_000) * reserves.NAT / reserves.KUCO
+  const formattedPrice = formatUnits(priceBips.toString(), 8)
+  $('#kuco-price-output').text(formattedPrice)
 }
 
 async function onBuyKuco(): Promise<void> {
-  $('#buy-kuco-button').on('click', async () => {
+  $('#button-buy-kuco').on('click', async () => {
     try {
-      const amountInput = $('#buy-kuco-input').val()!
-      const amount = parseEther(amountInput)
-      await buyKuco(amount, ethereum)
+      const amountEthInput = $('#input-kuco-buy-amount').val()!
+      const minAmountKucoInput = $('#input-kuco-min-swap').val()!
+      const amountEth = parseEther(amountEthInput)
+      const minAmountKuco = parseEther(minAmountKucoInput)
+      await buyKuco(ethereum, amountEth, minAmountKuco)
     } catch (err: any) {
       alert(err.message)
     }
   })
 }
 
+async function updateKucoBalance(): Promise<void> {
+  console.log('balance updating')
+  const balance = await getKucoBalance(ethereum)
+  const formattedBalance = formatUnits(balance.toString(), 18)
+  //$('#input-kuco-max-price').val(formattedBalance)
+}
+
 $(async () => {
-  //await addKucoCoinToken(ethereum)
+  $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
+  //await setImmediateInterval(updateKucoBalance, 10_000)
   await setImmediateInterval(updateKucoPrice, 10_000)
-  await setImmediateInterval(updateKucoBalance, 10_000)
   await onBuyKuco()
 })

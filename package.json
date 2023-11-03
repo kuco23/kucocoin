@@ -13,7 +13,7 @@
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && pnpm typechain",
     "test": "hardhat test",
     "---------- frontend ----------": "---------- frontend ----------",
-    "parcel-build": "rimraf .parcel-cache dist && parcel build frontend/index.html --public-url ./",
+    "parcel-build": "rimraf .parcel-cache dist && parcel build frontend/index.html --public-url ./ --no-source-maps",
     "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",
     "---------- github ci -----------": "---------- github ci -----------",
     "predeploy": "yarn parcel-build",
@@ -49,12 +49,13 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
-    "ethers": "^6.4.0",
     "blazeswap": "git+https://github.com/blazeswap/contracts.git",
-    "jquery": "^3.7.1"
+    "ethers": "^6.4.0",
+    "jquery": "^3.7.1",
+    "parcel-plugin-inline-source": "^1.0.0"
   },
   "targets": {
-    "frontent": {
+    "frontend": {
       "optimize": true
     }
   }

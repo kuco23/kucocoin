@@ -7,7 +7,6 @@ import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
 
 import "hardhat/console.sol";
 
-
 contract KucoCoin is ERC20, Ownable {
     struct Secret {
         bytes32 hashed;
@@ -57,21 +56,21 @@ contract KucoCoin is ERC20, Ownable {
         );
     }
 
-    function buy(address _receiver) external payable {
+    function buy(address _receiver, uint256 _minKuco) external payable {
         address[] memory path = new address[](2);
         path[0] = wNat;
         path[1] = address(this);
         blazeSwapRouter.swapExactNATForTokens{value: msg.value}(
-            0, path, _receiver, block.timestamp
+            _minKuco, path, _receiver, block.timestamp
         );
     }
 
-    function sell(uint256 _amount, address _receiver) external dexApprove(_amount) {
+    function sell(address _receiver, uint256 _amount, uint256 _minNat) external dexApprove(_amount) {
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = wNat;
         blazeSwapRouter.swapExactTokensForNAT(
-            _amount, 0, path, _receiver, block.timestamp
+            _amount, _minNat, path, _receiver, block.timestamp
         );
     }
 

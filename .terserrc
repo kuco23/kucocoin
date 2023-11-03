@@ -1,0 +1,19 @@
+{
+    "mangle": {
+      "toplevel": true
+    },
+    "compress": {
+      "dead_code": true,
+      "drop_debugger": true,
+      "drop_console": true,
+      "unused": true,
+      "reduce_vars": true,
+      "pure_funcs": ["console.log", "console.info"],
+      "pure_getters": true,
+      "keep_fargs": false,
+      "booleans_as_integers": true
+    },
+    "output": {
+      "comments": false
+    }
+  }

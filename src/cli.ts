@@ -8,7 +8,7 @@ const signerPvk = process.env.SIGNER_PRIVATE_KEY!
 const providerRpc = process.env.PROVIDER_RPC!
 const network = process.env.NETWORK!
 
-const addresses = JSON.parse(fs.readFileSync('deploy/addresses.json').toString())[network]
+const addresses = JSON.parse(fs.readFileSync('./addresses.json').toString())[network]
 
 const provider = new ethers.JsonRpcProvider(providerRpc)
 const signer = new ethers.Wallet(signerPvk, provider)
@@ -27,11 +27,13 @@ async function addLiquidity(amountKucocoin: bigint, amountNAT: bigint): Promise<
   await kucocoin.connect(signer).addLiquidity(amountKucocoin, { value: amountNAT })
 }
 
-async function buyKucocoin(amountNAT: bigint): Promise<void> {
+async function buyKucocoin(amountNAT: bigint, minKuco: bigint): Promise<void> {
   const kucocoin = new ethers.Contract(addresses.KucoCoin, kucocoinAbi) as unknown as KucoCoin
-  await kucocoin.connect(signer).buy({ value: amountNAT })
+  await kucocoin.connect(signer).buy(signer, minKuco, { value: amountNAT })
 }
 
+
+
 //deployKucocoin()
-//addLiquidity(ethers.parseEther("100"), ethers.parseEther("10"))
-buyKucocoin(ethers.parseEther("0.0001"))
+addLiquidity(ethers.parseEther("100"), ethers.parseEther("10"))
+//buyKucocoin(ethers.parseEther("0.0001"), BigInt(0))
