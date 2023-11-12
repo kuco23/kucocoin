@@ -58,5 +58,10 @@
     "frontend": {
       "optimize": true
     }
-  }
+  },
+  "compilerOptions": {
+    "typeRoots": [
+        "./src/node_modules/@types/jquery"
+    ]
+}
 }

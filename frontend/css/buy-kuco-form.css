@@ -154,31 +154,6 @@
 
 @media (max-width: 480px) {
   .login-box {
-    width: 300px;
-  }
-  .login-box h2 {
-    font-size: 24px;
-  }
-  .login-box .user-box input {
-    font-size: 14px;
-  }
-  .login-box form a {
-    font-size: 14px;
-  }
-}
-@media (max-width: 400px) {
-  .login-box {
-    width: 260px;
-  }
-  .login-box h2 {
-    font-size: 18px;
-    margin: 0 0 25px;
-  }
-  .login-box .user-box input {
-    font-size: 13px;
-    margin-bottom: 25px;
-  }
-  .login-box form a {
-    font-size: 13px;
+    width: 100%;
   }
 }

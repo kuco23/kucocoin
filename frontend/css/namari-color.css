@@ -22,7 +22,7 @@ body {
 /* Default Link Color */
 
 a, .la-ball-triangle-path {
-    color:#FF3131;
+    color:rgb(15,20,35);
 }
 
 a:hover, #header.nav-solid nav a:hover {

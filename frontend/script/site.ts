@@ -4,8 +4,10 @@ import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
 import { addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
-declare var window: any
-declare var alert: any
+declare const document: any
+declare const window: any
+declare const alert: any
+declare const MutationObserver: any
 const ethereum: MetaMaskInpageProvider = window.ethereum
 
 async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
@@ -41,9 +43,29 @@ async function updateKucoBalance(): Promise<void> {
   //$('#input-kuco-max-price').val(formattedBalance)
 }
 
+function featherlightAfterContent(imgNode: any): void {
+  $(imgNode).css('filter', 'blur(10px)')
+  const content = $('#kuco-stage-one-content').html()
+  $(content).insertAfter(imgNode)
+}
+
+// this is needed because I couldn't find a way to obtain the image
+// element at featherlight's afterContent call
+function featherlightHook(): void {
+  const observer = new MutationObserver(function(mutations: any) {
+    mutations.forEach(function(mutation: any) {
+      mutation.addedNodes.forEach(function(node: any) {
+        if (node.tagName === 'IMG' && $(node).hasClass('featherlight-image'))
+          featherlightAfterContent(node)
+      })
+    })
+  })
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
 $(async () => {
   $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
-  //await setImmediateInterval(updateKucoBalance, 10_000)
+  featherlightHook()
   await setImmediateInterval(updateKucoPrice, 10_000)
   await onBuyKuco()
 })

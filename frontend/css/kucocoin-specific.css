@@ -7,10 +7,6 @@
   font-family: monospace;
 }
 
-a {
-  cursor: pointer;
-}
-
 button, input {
   box-shadow: none;
   background: none;
@@ -65,6 +61,7 @@ input::-webkit-inner-spin-button {
   justify-content: stretch;
 }
 
+/* round images */
 .image-container > img {
   height: 240px;
   width: 240px;
@@ -72,11 +69,25 @@ input::-webkit-inner-spin-button {
   object-fit: contain;
 }
 
-/* buttons */
+/* form container */
 
 .buy-kuco-form-container {
   border: 2px solid gray;
   border-radius: 1em;
   padding: 1em;
   justify-content: center;
+}
+
+/* featherlight mods */
+
+img.featherlight-image {
+  transition: filter 1s;
+}
+
+div.stage-img-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
 }
