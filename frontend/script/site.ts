@@ -44,9 +44,16 @@ async function updateKucoBalance(): Promise<void> {
 }
 
 function featherlightAfterContent(imgNode: any): void {
+  const next = $(imgNode).next()
+  if (next.attr('id')?.startsWith('kuco-stage-')) {
+    next.remove()
+  }
   $(imgNode).css('filter', 'blur(10px)')
-  const content = $('#kuco-stage-one-content').html()
-  $(content).insertAfter(imgNode)
+  const imgId = $(imgNode).attr('src')?.substring(23, 35)
+  console.log(imgId)
+  const text = $('#' + imgId + '-text').clone()
+  text.innerWidth($(imgNode).innerWidth()!)
+  text.insertAfter(imgNode)
 }
 
 // this is needed because I couldn't find a way to obtain the image

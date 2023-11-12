@@ -90,4 +90,17 @@ div.stage-img-text {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 1.5rem;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  text-shadow: 2px 2px #000000;
+}
+
+div.stage-img-text span {
+  text-align: center;
+}
+
+
+#gallery {
+  padding: 0px 0 75px 0;
 }
