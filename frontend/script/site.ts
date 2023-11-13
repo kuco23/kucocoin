@@ -43,17 +43,21 @@ async function updateKucoBalance(): Promise<void> {
   //$('#input-kuco-max-price').val(formattedBalance)
 }
 
+// this is so hacky I am ashamed of myself and my family
+// for producing such an inferior being as myself
 function featherlightAfterContent(imgNode: any): void {
+
+  $('span.featherlight-next > span').on('click', () => {
+    $('div.stage-img-text').fadeOut(300)
+  })
+
   const next = $(imgNode).next()
   if (next.attr('id')?.startsWith('kuco-stage-')) {
     next.remove()
   }
   $(imgNode).css('filter', 'blur(10px)')
   const imgId = $(imgNode).attr('src')?.substring(23, 35)
-  console.log(imgId)
-  const text = $('#' + imgId + '-text').clone()
-  text.innerWidth($(imgNode).innerWidth()!)
-  text.insertAfter(imgNode)
+  $('#' + imgId + '-text').clone().fadeIn(300).insertAfter(imgNode)
 }
 
 // this is needed because I couldn't find a way to obtain the image
