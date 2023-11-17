@@ -20,6 +20,9 @@ button, input {
   font: inherit;
   outline: inherit;
 }
+button {
+  cursor: pointer;
+}
 input:focus {
   box-shadow: none;
 }
