@@ -4,10 +4,8 @@ import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
 import { addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
-declare const document: any
 declare const window: any
 declare const alert: any
-declare const MutationObserver: any
 const ethereum: MetaMaskInpageProvider = window.ethereum
 
 async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
@@ -37,46 +35,31 @@ async function onBuyKuco(): Promise<void> {
 }
 
 async function updateKucoBalance(): Promise<void> {
-  console.log('balance updating')
   const balance = await getKucoBalance(ethereum)
   const formattedBalance = formatUnits(balance.toString(), 18)
   //$('#input-kuco-max-price').val(formattedBalance)
 }
 
-// this is so hacky I am ashamed of myself and my family
-// for producing such an inferior being as myself
-function featherlightAfterContent(imgNode: any): void {
-
-  $('span.featherlight-next > span').on('click', () => {
-    $('div.stage-img-text').fadeOut(300)
-  })
-
-  const next = $(imgNode).next()
-  if (next.attr('id')?.startsWith('kuco-stage-')) {
-    next.remove()
-  }
-  $(imgNode).css('filter', 'blur(10px)')
-  const imgId = $(imgNode).attr('src')?.substring(23, 35)
-  $('#' + imgId + '-text').clone().fadeIn(300).insertAfter(imgNode)
-}
-
-// this is needed because I couldn't find a way to obtain the image
-// element at featherlight's afterContent call
-function featherlightHook(): void {
-  const observer = new MutationObserver(function(mutations: any) {
-    mutations.forEach(function(mutation: any) {
-      mutation.addedNodes.forEach(function(node: any) {
-        if (node.tagName === 'IMG' && $(node).hasClass('featherlight-image'))
-          featherlightAfterContent(node)
-      })
-    })
-  })
-  observer.observe(document.body, { childList: true, subtree: true });
-}
-
 $(async () => {
+  // kucocoin smart web3 interface
   $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
-  featherlightHook()
   await setImmediateInterval(updateKucoPrice, 10_000)
   await onBuyKuco()
+  // kucocoin stage display
+  for (let stage = 1; stage <= 6; stage++) {
+    const stageLayer = $('#kuco-stage-layer')
+    const stageLink = $(`#kuco-stage-${stage}-link`)
+    const stageText = $(`#kuco-stage-${stage}-text`)
+    stageText.hide()
+    stageLink.on('click', () => {
+      $('#wrapper').css('filter', 'blur(5px)')
+      stageLayer.fadeIn(1000)
+      stageText.fadeIn(1000)
+    })
+    stageLayer.on('click', () => {
+      $('#wrapper').css('filter', '')
+      stageLayer.fadeOut(1000)
+      stageText.fadeOut(1000)
+    })
+  }
 })

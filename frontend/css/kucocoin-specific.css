@@ -7,10 +7,6 @@
   font-family: monospace;
 }
 
-.margin-top {
-  margin-top: 15px;
-}
-
 button, input {
   box-shadow: none;
   background: none;
@@ -20,7 +16,7 @@ button, input {
   font: inherit;
   outline: inherit;
 }
-button {
+button, a {
   cursor: pointer;
 }
 input:focus {
@@ -42,8 +38,6 @@ input::-webkit-inner-spin-button {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
 }
 
 .float-center {
@@ -76,48 +70,38 @@ input::-webkit-inner-spin-button {
   object-fit: contain;
 }
 
-/* form container */
+/* kucocoin stages */
 
-.buy-kuco-form-container {
-  border: 2px solid gray;
-  border-radius: 1em;
-  padding: 1em;
-  justify-content: center;
-}
-
-/* featherlight mods */
-
-
-.featherlight-content {
-  overflow: hidden;
-  position: relative;
-}
-
-img.featherlight-image {
-  display: block;
-  width: 100%;
+#wrapper {
   transition: filter 1s;
 }
 
-div.stage-img-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0 80px;
+#kuco-stage-layer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  color: white;
-  font-size: 30px;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0,0,0,.8);
+  cursor: default;
+  padding: 24px;
+}
+
+#kuco-stage-layer > div {
+  display: none;
   text-align: center;
-  text-shadow: 2px 2px #000000;
-}
-
-div.stage-img-text > p, div.stage-img-text > h2 {
+  font-size: 2.2rem;
+  color: white;
+  text-shadow: 2px 2px black;
   width: 100%;
-  margin: 0;
 }
 
+#kuco-stage-layer > div > h2 {
+  color: FireBrick;
+}
 
 #gallery {
-  padding: 0px 0 75px 0;
+  padding: 0px 0px 50px 0px;
 }
