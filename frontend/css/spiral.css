@@ -1,0 +1,104 @@
+.spiral-container {
+  z-index: -1;
+  margin-bottom: 20px;
+  width:340px;
+  height:340px;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 3s;
+  -webkit-animation-name: spin;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 3s;
+}
+.spiral1,.spiral2,.spiral3,.spiral4 {
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  margin: 0;
+  padding: 0;
+  background-color: #eee;
+}
+.spiral1 {
+  left: 0;
+  top: 0;
+  border-left: none;
+  border-top: none;
+  background-color: #fff;
+}
+
+.spiral2 {
+  left: 0;
+  bottom: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.spiral3 {
+  right: 0;
+  bottom: 0;
+  border-right: none;
+  border-bottom: none;
+  background-color: #fff;
+}
+
+.spiral4 {
+  right: 0;
+  top: 0;
+  border-right: none;
+  border-top: none;
+}
+
+div.spiral-container div, div.spiral-container {
+  border-radius: 100%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+/* spiral text */
+
+#spiral-text-buy, #spiral-text-kuco {
+  opacity: 0;
+  font-size: 34px;
+  font-weight: bold;
+  font-family: 'Coming Soon';
+  animation-name: alternateFade;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 6s;
+}
+
+#spiral-text-kuco {
+  animation-delay: 3s;
+  color: FireBrick;
+}
+
+@keyframes alternateFade {
+  0% {
+    display: block;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  40% {
+    display: none;
+    opacity: 0;
+  }
+}

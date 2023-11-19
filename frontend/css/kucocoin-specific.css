@@ -38,6 +38,7 @@ input::-webkit-inner-spin-button {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .float-center {
@@ -60,6 +61,10 @@ input::-webkit-inner-spin-button {
 
 .stretch {
   justify-content: stretch;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 /* round images */
@@ -86,7 +91,8 @@ input::-webkit-inner-spin-button {
   z-index: 9999;
   background-color: rgba(0,0,0,.8);
   cursor: default;
-  padding: 24px;
+  padding: 30px;
+  overflow-y: auto;
 }
 
 #kuco-stage-layer > div {
@@ -104,4 +110,9 @@ input::-webkit-inner-spin-button {
 
 #gallery {
   padding: 0px 0px 50px 0px;
+}
+
+#triangle-scheme > span {
+  padding-top: 4px;
+  border-bottom: 2px solid FireBrick;
 }

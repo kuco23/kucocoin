@@ -23,10 +23,11 @@
     @import './css/animate.css';
     @import './css/kucocoin-specific.css';
     @import './css/buy-kuco-form.css';
+    @import './css/spiral.css';
   </style>
 
   <!--Google Webfonts-->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 </head>
 
 <body>
@@ -51,6 +52,7 @@
   <div id="wrapper">
 
     <header id="banner" class="scrollto clearfix" data-enllax-ratio=".5">
+
       <div id="header" class="nav-collapse">
         <div class="row clearfix">
           <div class="col-1">
@@ -112,10 +114,7 @@
                   <a href="#buy">Buy</a>
                 </li>
                 <li>
-                  <a href="#kuco-stages">Kuco Stages</a>
-                </li>
-                <li>
-                  <a href="#clients">Clients</a>
+                  <a href="#kuconomics">Kuconomics</a>
                 </li>
                 <li>
                   <a href="#pricing">Pricing</a>
@@ -150,12 +149,11 @@
     <!--Main Content Area-->
     <main id="content">
 
-      <!--Introduction-->
+      <!--Start About section-->
       <section id="about" class="scrollto clearfix">
 
         <div class="col-1 flex-container space-around">
 
-          <!--Icon Block-->
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>What is KucoCoin?</h4>
@@ -168,9 +166,7 @@
               </p>
             </div>
           </div>
-          <!--End of Icon Block-->
 
-          <!--Icon Block-->
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>Mission statement</h4>
@@ -184,9 +180,7 @@
               </p>
             </div>
           </div>
-          <!--End of Icon Block-->
 
-          <!--Icon Block-->
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.1s">
             <div class="icon-block-description">
               <h4>Attaining stability</h4>
@@ -199,9 +193,7 @@
               </p>
             </div>
           </div>
-          <!--End of Icon Block-->
 
-          <!--Icon Block-->
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
               <h4>Zero-knowledge capabilities</h4>
@@ -216,17 +208,16 @@
               </p>
             </div>
           </div>
-          <!--End of Icon Block-->
 
         </div>
 
       </section>
-      <!--End of Introduction-->
+      <!--End of About-->
 
-      <!--Content Section-->
+      <!--Buy Section-->
       <section id="buy" class="scrollto clearfix">
 
-        <div class="col-1 flex-container space-around">
+        <div class="col-1 flex-container justify-center">
 
           <div class="col-3 text-center wow fadeInLeft" data-wow-delay="0.2s">
             <div class="image-container center">
@@ -236,7 +227,7 @@
 
           <div class="col-2-3 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
-              <h2>Buying KUCO</h2>
+              <h1>Buying KUCO</h1>
               <p>
                 Buying KucoCoin token KUCO will enable you to put forward content submission to the KucoCoin platform.
                 That content will be voted on by the KUCO holders such as yourself, and if accepted it will be integrated
@@ -254,27 +245,29 @@
           </div>
 
           <!--Gallery-->
-          <aside id="gallery" class="row text-center scrollto clearfix" >
-            <a id="kuco-stage-1-link" class="col-3 wow fadeIn" data-wow-delay="0.1s">
-              <img src="images/gallery-images/kuco-stage-1.png" alt="Stage 1"/>
-            </a>
-            <a id="kuco-stage-2-link" class="col-3 wow fadeIn" data-wow-delay="0.3s">
-              <img src="images/gallery-images/kuco-stage-2.png" alt="Stage 2"/>
-            </a>
-            <a id="kuco-stage-3-link" class="col-3 wow fadeIn" data-wow-delay="0.5s">
-              <img src="images/gallery-images/kuco-stage-3.png" alt="Stage 3"/>
-            </a>
-            <a id="kuco-stage-4-link" class="col-3 wow fadeIn" data-wow-delay="1.1s">
-              <img src="images/gallery-images/kuco-stage-4.png" alt="Stage 4"/>
-            </a>
-            <a id="kuco-stage-5-link" class="col-3 wow fadeIn" data-wow-delay="0.9s">
-              <img src="images/gallery-images/kuco-stage-5.png" alt="Stage 5"/>
-            </a>
-            <a id="kuco-stage-6-link" class="col-3 wow fadeIn" data-wow-delay="0.7s">
-              <img src="images/gallery-images/kuco-stage-6.png" alt="Stage 6"/>
-            </a>
-          </aside>
-          <!--End of Gallery-->
+          <div class="col-1">
+            <aside id="gallery" class="row text-center scrollto clearfix" >
+              <a id="kuco-stage-1-link" class="col-3 wow fadeIn" data-wow-delay="0.1s">
+                <img src="images/gallery-images/kuco-stage-1.png" alt="Stage 1"/>
+              </a>
+              <a id="kuco-stage-2-link" class="col-3 wow fadeIn" data-wow-delay="0.3s">
+                <img src="images/gallery-images/kuco-stage-2.png" alt="Stage 2"/>
+              </a>
+              <a id="kuco-stage-3-link" class="col-3 wow fadeIn" data-wow-delay="0.5s">
+                <img src="images/gallery-images/kuco-stage-3.png" alt="Stage 3"/>
+              </a>
+              <a id="kuco-stage-4-link" class="col-3 wow fadeIn" data-wow-delay="1.1s">
+                <img src="images/gallery-images/kuco-stage-4.png" alt="Stage 4"/>
+              </a>
+              <a id="kuco-stage-5-link" class="col-3 wow fadeIn" data-wow-delay="0.9s">
+                <img src="images/gallery-images/kuco-stage-5.png" alt="Stage 5"/>
+              </a>
+              <a id="kuco-stage-6-link" class="col-3 wow fadeIn" data-wow-delay="0.7s">
+                <img src="images/gallery-images/kuco-stage-6.png" alt="Stage 6"/>
+              </a>
+            </aside>
+            <!--End of Gallery-->
+          </div>
 
           <!--Start buy input form-->
           <div class="buy-box wow fadeInUp" data-wow-delay="0.3s">
@@ -299,73 +292,133 @@
           </div>
           <!--End of buy input form-->
 
-        </div>
-
       </section>
-      <!--End of Content Section-->
+      <!--End of Buy Section-->
 
       <!--Clients-->
-      <section id="clients" class="scrollto">
+      <section id="kuconomics" class="scrollto">
         <div class="row clearfix">
 
-          <div class="col-3">
-
-            <div class="section-heading">
-              <h3>TRUST</h3>
-              <h2 class="section-title">Companies who use our services</h2>
-              <p class="section-subtitle">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam!
-              </p>
-            </div>
-
+          <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
+            <h1>Kuconomics - the distribution model</h1>
+            Below we describe the tokenomics of KUCO distribution. The model is designed to ensure,
+            that the value of investors' KUCO will always be 1.2 of the value of ETH they initially put in.
+            This is done using a clever liquidity pool constant product calculation trick.
+            <br/><br/>
+            <ul>
+              <li>
+                1. Gathering ETH liquidity: liquidity pool has an initial deposit of a billion KUCO tokens,
+                with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in it,
+                by providing ETH liquidity.
+              </li>
+              <li>
+                2. Claiming KUCO liquidity: after some time, users can exchange their KUCO for ETH.
+                Any person that invested x in the pool, can claim 1.2 x worth of KUCO. This is calculated as
+                solving <span class="Code">y * ETH / KUCO  = x * (1 + q)</span> for <span class="Code">y</span>.
+                This clever trick ensures all users will get their money's worth.
+              </li>
+            </ul>
+            <br/>
+            The first phase is called the PUMP phase, because it pumps the price of KUCO.
+            The second phase is called the DUMP phase because you have to be dumb not to invest in KUCO.
           </div>
 
-          <div class="col-2-3">
-
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo1.png" alt="Company" />
-              <div class="client-overlay"><span>Tree</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo2.png" alt="Company" />
-              <div class="client-overlay"><span>Fingerprint</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo3.png" alt="Company" />
-              <div class="client-overlay"><span>The Man</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo4.png" alt="Company" />
-              <div class="client-overlay"><span>Mustache</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo5.png" alt="Company" />
-              <div class="client-overlay"><span>Goat</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo6.png" alt="Company" />
-              <div class="client-overlay"><span>Justice</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo7.png" alt="Company" />
-              <div class="client-overlay"><span>Ball</span></div>
-            </a>
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo8.png" alt="Company" />
-              <div class="client-overlay"><span>Cold</span></div>
-            </a>
-
-            <a href="#" class="col-3">
-              <img src="images/company-images/company-logo9.png" alt="Company" />
-              <div class="client-overlay"><span>Cold</span></div>
-            </a>
-
+          <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
+            Here is a TLDR; version of the above:
+            <div id="triangle-scheme" class="text-center">
+              <span>First</span><br/>
+              <span>you invest</span><br/>
+              <span>your hard earned,</span><br/>
+              <span>ETH, then you watch the</span><br/>
+              <span>price of KUCO/ETH go up as others</span><br/>
+              <span>like you invest in the liquidity pool.</span><br/>
+            </div>
           </div>
 
         </div>
+
+        <div class="col-1 center">
+          <div class="float-center">
+            <span id="spiral-text-buy">BUY</span>
+            <span id="spiral-text-kuco">KUCO</span>
+          </div>
+          <div class="spiral-container">
+            <div class="spiral1">
+              <div class="spiral2">
+                <div class="spiral3">
+                  <div class="spiral4">
+                    <div class="spiral1">
+                      <div class="spiral2">
+                        <div class="spiral3">
+                          <div class="spiral4">
+                            <div class="spiral1">
+                              <div class="spiral2">
+                                <div class="spiral3">
+                                  <div class="spiral4">
+                                    <div class="spiral1">
+                                      <div class="spiral2">
+                                        <div class="spiral3">
+                                          <div class="spiral4">
+                                            <div class="spiral1">
+                                              <div class="spiral2">
+                                                <div class="spiral3">
+                                                  <div class="spiral4">
+                                                    <div class="spiral1">
+                                                      <div class="spiral2">
+                                                        <div class="spiral3">
+                                                          <div class="spiral4">
+                                                            <div class="spiral1">
+                                                              <div class="spiral2">
+                                                                <div class="spiral3">
+                                                                  <div class="spiral4">
+                                                                    <div class="spiral1">
+                                                                      <div class="spiral2">
+                                                                        <div class="spiral3">
+                                                                          <div class="spiral4">
+                                                                            <div class="spiral1">
+                                                                              <div class="spiral2">
+                                                                                <div class="spiral3">
+                                                                                  <div class="spiral4">
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <!--End of Clients-->
+      <!--End of Kuconomics-->
 
       <!--Pricing Tables-->
       <section id="pricing" class="secondary-color text-center scrollto clearfix ">
@@ -451,7 +504,7 @@
     <footer id="landing-footer" class="clearfix">
       <div class="row clearfix">
 
-        <p id="copyright" class="col-2">Made with love by <a href="https://www.shapingrain.com">ShapingRain</a></p>
+        <p id="copyright" class="col-2">KucoCoin is love!</p>
 
         <!--Social Icons in Footer-->
         <ul class="col-2 social-icons">
@@ -494,9 +547,8 @@
       <h2>Trash</h2>
       <div>
         At stage one you are worthless because you have no kucocoin.
-        The society rejects you and your inability to find a sexual
-        partner is a constant reminder of your irrelevance in the
-        human history. If you die, no one will care.
+        The society rejects you and your parents are ashamed of you.
+        If you die, no one cares.
       </div>
     </div>
 
@@ -513,9 +565,9 @@
       <h2>Computer</h2>
       <div>
         At stage three you get seriously invested in kucocoin.
-        You believe in kucocoin and are promoting it to your friends,
-        and also providing liquidity to various dexes. You now have
-        some respect in the society and are able to find a sexual partner.
+        You believe in kucocoin and are promoting it to your friends and family,
+        while also providing liquidity to various dexes. You now have
+        some respect in the society and gain a six pack.
       </div>
     </div>
 
@@ -526,28 +578,27 @@
         Your life very much revolves around kucocoin and you
         believe every other token is a shit token (even Ethereum,
         over which KucoCoin is built... you don't ask questions).
-        At this point you are able to have two sexual partners at the same time.
+        At this point, you are elevated to aristrocratic status,
+        while gaining another six pack.
       </div>
     </div>
 
     <div id="kuco-stage-5-text">
       <h2>Techsus</h2>
       <div>
-        At stage five, you are a kucocoin whale. This is not because
-        you are overweight, it is a crypto slang term for a person that
-        owns a lot of tokens. Even though if you choose to become obese,
-        this will not affect your sexual lifestyle, because all you need
-        to tell women to get them in bed with you is that you own alot of kucocoin.
+        At stage five, you are a kucocoin whale. You lose your six packs,
+        because you realize they don't matter anymore. All that matters
+        is KucoCoin. This thinking transports you to the spiritual realm,
+        where you can directly communicate with Jesus and Tom Cruise.
       </div>
     </div>
 
     <div id="kuco-stage-6-text">
-      <h2>God</h2>
+      <h2>Secret</h2>
       <div>
-        The stage six is reserved for the kucocoin co-founders.
-        You should not delude yourself that you have any chance of joining
-        stage six, because you are not a co-founder. You are a loser.
-        At this stage we can control the mind of the lesser stage trash.
+        This stage is secret. By unlocking it you find out the truth
+        about Donald Trump, Joe Biden, Tom Cruise, and most importantly,
+        KucoCoin itself!
       </div>
     </div>
 
