@@ -17,17 +17,18 @@
 
   <!-- import CSS Files -->
   <style>
+    @import "./css/global.css";
+    @import './css/kucocoin.css';
     @import './css/style.css';
     @import './css/namari-color.css';
     @import './css/font-awesome.min.css';
     @import './css/animate.css';
-    @import './css/kucocoin-specific.css';
     @import './css/buy-kuco-form.css';
     @import './css/spiral.css';
   </style>
 
   <!--Google Webfonts-->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 </head>
 
 <body>
@@ -220,8 +221,8 @@
         <div class="col-1 flex-container justify-center">
 
           <div class="col-3 text-center wow fadeInLeft" data-wow-delay="0.2s">
-            <div class="image-container center">
-              <img src="images/user-images/kucocoin.webp" alt="KUCO" />
+            <div class="coin-image-container center">
+              <img src="images/kucocoin-images/kucocoin.webp" alt="KUCO" />
             </div>
           </div>
 
@@ -248,22 +249,22 @@
           <div class="col-1">
             <aside id="gallery" class="row text-center scrollto clearfix" >
               <a id="kuco-stage-1-link" class="col-3 wow fadeIn" data-wow-delay="0.1s">
-                <img src="images/gallery-images/kuco-stage-1.png" alt="Stage 1"/>
+                <img src="images/kuco-stage-images/kuco-stage-1.png" alt="Stage 1"/>
               </a>
               <a id="kuco-stage-2-link" class="col-3 wow fadeIn" data-wow-delay="0.3s">
-                <img src="images/gallery-images/kuco-stage-2.png" alt="Stage 2"/>
+                <img src="images/kuco-stage-images/kuco-stage-2.png" alt="Stage 2"/>
               </a>
               <a id="kuco-stage-3-link" class="col-3 wow fadeIn" data-wow-delay="0.5s">
-                <img src="images/gallery-images/kuco-stage-3.png" alt="Stage 3"/>
+                <img src="images/kuco-stage-images/kuco-stage-3.png" alt="Stage 3"/>
               </a>
               <a id="kuco-stage-4-link" class="col-3 wow fadeIn" data-wow-delay="1.1s">
-                <img src="images/gallery-images/kuco-stage-4.png" alt="Stage 4"/>
+                <img src="images/kuco-stage-images/kuco-stage-4.png" alt="Stage 4"/>
               </a>
               <a id="kuco-stage-5-link" class="col-3 wow fadeIn" data-wow-delay="0.9s">
-                <img src="images/gallery-images/kuco-stage-5.png" alt="Stage 5"/>
+                <img src="images/kuco-stage-images/kuco-stage-5.png" alt="Stage 5"/>
               </a>
               <a id="kuco-stage-6-link" class="col-3 wow fadeIn" data-wow-delay="0.7s">
-                <img src="images/gallery-images/kuco-stage-6.png" alt="Stage 6"/>
+                <img src="images/kuco-stage-images/kuco-stage-6.png" alt="Stage 6"/>
               </a>
             </aside>
             <!--End of Gallery-->
@@ -338,10 +339,8 @@
         </div>
 
         <div class="col-1 center">
-          <div class="float-center">
-            <span id="spiral-text-buy">BUY</span>
-            <span id="spiral-text-kuco">KUCO</span>
-          </div>
+          <span class="float-center" id="spiral-text-buy">BUY</span>
+          <span class="float-center" id="spiral-text-kuco">KUCO</span>
           <div class="spiral-container">
             <div class="spiral1">
               <div class="spiral2">
@@ -614,8 +613,7 @@
     import "./js/jquery.stickyNavbar.min.js"
     import "./js/jquery.waypoints.min.js"
     import "./js/site.js"
-    import "./script/site.ts"
-
+    import "./ts/site.ts"
   </script>
   <script src="js/wow.min.js"></script>
 

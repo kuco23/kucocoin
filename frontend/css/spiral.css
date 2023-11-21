@@ -78,6 +78,7 @@ div.spiral-container div, div.spiral-container {
   font-size: 34px;
   font-weight: bold;
   font-family: 'Coming Soon';
+  color: rgba(0,0,0,.1);
   animation-name: alternateFade;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
@@ -86,7 +87,6 @@ div.spiral-container div, div.spiral-container {
 
 #spiral-text-kuco {
   animation-delay: 3s;
-  color: FireBrick;
 }
 
 @keyframes alternateFade {
