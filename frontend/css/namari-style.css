@@ -412,10 +412,6 @@ section {
     padding: 0 10px;
 }
 
-#header nav a:hover {
-    opacity: 0.6;
-}
-
 /*Navigation Solid*/
 
 #header.nav-solid [class*='col-'] {

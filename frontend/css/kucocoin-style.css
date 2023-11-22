@@ -78,12 +78,14 @@ input::-webkit-inner-spin-button {
   color: FireBrick;
   text-shadow: 0.5vh 0.5vh 1vh FireBrick, 0 0 6vh white;
 }
+
 #gallery a:hover:before {
   opacity: 1;
   animation: flicker 3s infinite;
   -webkit-animation: flicker 3s infinite;
   -moz-animation: flicker 3s infinite;
 }
+
 #gallery a:nth-child(1):before {
   content: 'Trash';
 }

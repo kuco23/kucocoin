@@ -64,6 +64,10 @@ a:hover, #header.nav-solid nav a:hover {
     color:#333;
 }
 
+#header nav a:hover {
+  color: azure;
+}
+
 
 /* Navigation Active State */
 
