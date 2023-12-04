@@ -41,10 +41,6 @@ a:hover, #header.nav-solid nav a:hover {
     background: firebrick;
 }
 
-.pricing-block-content:hover {
-    border-color:#FF3131;
-}
-
 
 /*------------------------------------------------------------------------------------------*/
 /* 2. Navigation */
@@ -85,11 +81,11 @@ a:hover, #header.nav-solid nav a:hover {
 
 /* Primary Background and Text Colors */
 
-.primary-color, .featured .pricing {
+.primary-color {
     background-color:#FF3131;
 }
 
-.primary-color, .primary-color .section-title, .primary-color .section-subtitle, .featured .pricing, .featured .pricing p {
+.primary-color, .primary-color .section-title, .primary-color .section-subtitle, .featured, .featured {
     color:#fff;
 }
 

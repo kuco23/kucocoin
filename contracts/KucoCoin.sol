@@ -5,22 +5,17 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
 
-import "hardhat/console.sol";
-
 contract KucoCoin is ERC20, Ownable {
-    struct Secret {
-        bytes32 hashed;
-        uint32 timestamp;
-    }
+
     // constant vars :)
     address immutable public feePool = address(0xdeadaf);
-    uint32 immutable public secretPublishIntervalSeconds = 1 days;
+
     // constants set on deploy
     address public wNat;
     IBlazeSwapRouter public blazeSwapRouter;
-    // secrets
-    mapping (uint32 => Secret) public secrets;
-    uint32 public lastPublishedIndex;
+
+    // vars
+    bool public disabled = false; // if token tranasctions are disabled
 
     constructor(address _wNat, IBlazeSwapRouter _blazeSwapRouter) ERC20("KucoCoin", "KUCO") {
         wNat = _wNat;
@@ -28,27 +23,15 @@ contract KucoCoin is ERC20, Ownable {
         _mint(msg.sender, 100 ether);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // blazeswap integration
+
     modifier dexApprove(uint256 _amount) {
         _transfer(msg.sender, address(this), _amount);
         _approve(address(this), address(blazeSwapRouter), _amount);
         _;
         _approve(address(this), address(blazeSwapRouter), 0);
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // secret functionality
-
-    function registerSecret(bytes32 hashed) external onlyOwner {
-        uint32 index = lastPublishedIndex; // gas optimization
-        Secret memory secret = secrets[index];
-        require(secret.timestamp + secretPublishIntervalSeconds < block.timestamp,
-            "Kucocoin: register too early");
-        secrets[index+1] = Secret(hashed, uint32(block.timestamp));
-        lastPublishedIndex++;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // blazeswap integration
 
     function addLiquidity(uint256 _amount) external payable dexApprove(_amount) {
         blazeSwapRouter.addLiquidityNAT{value: msg.value}(
@@ -77,4 +60,17 @@ contract KucoCoin is ERC20, Ownable {
     function getPoolReserves() external view returns (uint256, uint256) {
         return blazeSwapRouter.getReserves(address(this), address(wNat));
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // disable token
+
+    // function disable()
+
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal override {
+        require(!disabled, "KucoCoin: token transfers are disabled");
+        super._beforeTokenTransfer(from, to, amount);
+    }
+
+    // menstrual cycle tracking
+
 }
