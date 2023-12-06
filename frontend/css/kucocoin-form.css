@@ -6,7 +6,7 @@
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid FireBrick;
-  box-shadow: 0.5vh 0.5vh 1vh FireBrick, 0 0 6vh white;
+  box-shadow: 0.5vh 0.5vh 1vh FireBrick;
 }
 
 .buy-box h2 {

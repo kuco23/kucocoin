@@ -41,10 +41,6 @@ async function updateKucoBalance(): Promise<void> {
 }
 
 $(async () => {
-  // kucocoin smart web3 interface
-  $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
-  await setImmediateInterval(updateKucoPrice, 10_000)
-  await onBuyKuco()
   // kucocoin stage display
   for (let stage = 1; stage <= 6; stage++) {
     const stageLayer = $('#kuco-stage-layer')
@@ -62,4 +58,8 @@ $(async () => {
       stageText.fadeOut(1000)
     })
   }
+  // kucocoin smart web3 interface
+  $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
+  await setImmediateInterval(updateKucoPrice, 10_000)
+  await onBuyKuco()
 })

@@ -333,6 +333,7 @@ section {
     height: 71px;
     line-height: 66px;
     margin-right: 15px;
+    margin-left: 15px;
 }
 
 #logo h1, #logo h2 {
@@ -525,7 +526,7 @@ nav#nav-mobile ul {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    background-color: #fff;
+    background-color: #1e1e1e;
     box-shadow: 0 5px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -1374,7 +1375,7 @@ blockquote {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #fff; /* change if the mask should have another color then white */
+    background-color: #1e1e1e; /* change if the mask should have another color then white */
     z-index: 99999; /* makes sure it stays on top */
 }
 

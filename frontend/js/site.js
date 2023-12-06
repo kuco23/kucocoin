@@ -22,7 +22,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/* Sticky Navigation */
+    /* Sticky Navigation */
 	if (!!$.prototype.stickyNavbar) {
 		$('#header').stickyNavbar();
 	}

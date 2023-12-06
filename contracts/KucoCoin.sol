@@ -16,6 +16,7 @@ contract KucoCoin is ERC20, Ownable {
 
     // vars
     bool public disabled = false; // if token tranasctions are disabled
+    mapping(address => uint64[]) private menstruation;
 
     constructor(address _wNat, IBlazeSwapRouter _blazeSwapRouter) ERC20("KucoCoin", "KUCO") {
         wNat = _wNat;
@@ -73,4 +74,7 @@ contract KucoCoin is ERC20, Ownable {
 
     // menstrual cycle tracking
 
+    function reportMenstruation() external {
+
+    }
 }
