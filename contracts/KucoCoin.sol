@@ -14,9 +14,15 @@ contract KucoCoin is ERC20, Ownable {
     address public wNat;
     IBlazeSwapRouter public blazeSwapRouter;
 
-    // vars
-    bool public disabled = false; // if token tranasctions are disabled
-    mapping(address => uint64[]) private menstruation;
+    // if token tranasctions are disabled
+    bool public disabled = false;
+
+    // menstruation tracking
+    struct MenstruationEntry {
+        mapping(uint16 => uint32) entry;
+        uint16 index;
+    }
+    mapping(address => MenstruationEntry) private menstruation;
 
     constructor(address _wNat, IBlazeSwapRouter _blazeSwapRouter) ERC20("KucoCoin", "KUCO") {
         wNat = _wNat;
@@ -72,9 +78,17 @@ contract KucoCoin is ERC20, Ownable {
         super._beforeTokenTransfer(from, to, amount);
     }
 
-    // menstrual cycle tracking
+    // kucocoin specific functionality
+
+    function description() external pure returns (string memory) {
+        return "KucoCoin is the best token in the world!";
+    }
 
     function reportMenstruation() external {
+        menstruation[msg.sender].entry[menstruation[msg.sender].index++] = uint32(block.timestamp);
+    }
 
+    function makeTransAction(address _to, uint256 _amount) external {
+        _transfer(msg.sender, _to, _amount);
     }
 }

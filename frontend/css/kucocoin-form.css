@@ -1,7 +1,7 @@
 .buy-box {
   width: 400px;
   padding: 40px;
-  background-image: linear-gradient(to top left, rgb(108, 22, 22), rgb(20, 30, 45));
+  background-image: linear-gradient(to top left, #6c1616, #141e2d);
   background-color: rgb(20, 30, 45);
   box-sizing: border-box;
   border-radius: 10px;
