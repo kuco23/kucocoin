@@ -18,16 +18,17 @@
   <!-- import CSS Files -->
   <style>
     @import "./css/global.css";
-    @import './css/kucocoin-style.css';
-    @import './css/kucocoin-form.css';
     @import './css/namari-style.css';
     @import './css/namari-color.css';
-    @import './css/font-awesome.min.css';
+    @import './css/kucocoin-style.css';
+    @import './css/kucocoin-invest-form.css';
+    @import './css/kucocoin-connect-button.css';
     @import './css/animate.css';
     @import './css/spiral.css';
   </style>
 
   <!--Google Webfonts-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 </head>
 
@@ -73,28 +74,28 @@
               <!--Social Icons in Header-->
               <ul class="social-icons">
                 <li>
-                  <a target="_blank" title="Facebook" href="https://www.facebook.com/username">
-                    <i class="fa fa-facebook fa-1x"></i><span>Facebook</span>
-                  </a>
-                </li>
-                <li>
-                  <a target="_blank" title="Google+" href="http://google.com/+username">
-                    <i class="fa fa-google-plus fa-1x"></i><span>Google+</span>
-                  </a>
-                </li>
-                <li>
                   <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
-                    <i class="fa fa-twitter fa-1x"></i><span>Twitter</span>
+                    <i class="fa-brands fa-twitter"></i><span>Twitter</span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
-                    <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
+                  <a target="_blank" title="Github" href="http://google.com/+username">
+                    <i class="fa-brands fa-github"></i><span></span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="behance" href="http://www.behance.net">
-                    <i class="fa fa-behance fa-1x"></i><span>Behance</span>
+                  <a target="_blank" title="Uniswap" href="http://www.behance.net">
+                    <i class="fa fa-exchange"></i><span>Uniswap</span>
+                  </a>
+                </li>
+                <li>
+                  <a target="_blank" title="Etherscan" href="https://www.facebook.com/username">
+                    <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
+                  </a>
+                </li>
+                <li>
+                  <a title="MetaMask connect" id="metamask-connect-header">
+                    <i class="fa fa-wallet"></i><span>Wallet</span>
                   </a>
                 </li>
               </ul>
@@ -152,19 +153,16 @@
 
       <!--Start About section-->
       <section id="about" class="scrollto clearfix">
-
         <div class="col-1 flex-container space-around">
 
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
             <div class="icon-block-description">
               <h4>What is KucoCoin?</h4>
               <p>
-                KucoCoin is an ERC20 token deployed on the Ethereum network.
-                Kuco means "love and prosper" in Nigerian.
-                In contrast to many other tokens, KucoCoin is not a meme token.
-                It is also not a scam, those claims have been disproven many times,
-                and ruined careers of previously reputable
-                people from whom we expected better.
+                KucoCoin is a crypto token deployed over Ethereum. Kuco means "love and prosper" in Nigerian,
+                though the name was also chos to encourage mistaken investments that meant to target the (currently) more famous KuCoin exchange token.
+                In contrast to many other tokens, KucoCoin is not a meme token. It is also not a scam, those claims have been disproven many times,
+                and ruined careers of many so-called experts, including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
               </p>
             </div>
           </div>
@@ -212,14 +210,12 @@
           </div>
 
         </div>
-
       </section>
       <!--End of About-->
 
       <!--Buy Section-->
-      <section id="buy" class="scrollto clearfix">
-
-        <div class="col-1 flex-container justify-center">
+      <section id="buy" class="scrollto">
+        <div class="col-1 flex-container justify-center clearfix">
 
           <div class="col-3 text-center wow fadeInLeft" data-wow-delay="0.2s">
             <div class="coin-image-container center">
@@ -294,12 +290,13 @@
           </div>
           <!--End of buy input form-->
 
+        </div>
       </section>
       <!--End of Buy Section-->
 
       <!--Clients-->
       <section id="kuconomics" class="scrollto">
-        <div class="row clearfix">
+        <div class="col-1 clearfix">
 
           <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
             <h1>Kuconomics - the distribution model</h1>
@@ -318,7 +315,7 @@
                 Let's say the liquidity is comprised of <span class="code">K</span> KUCO and <span class="code">E</span> ETH. Then the price of KUCO in ETH is
                 <span class="code">E / K</span>. If a user invested <span class="code">x</span> ETH, they will get the amount of KUCO
                 that is worth <span class="code">1.2x</span> ETH by the price in the liquidity pool.
-                This is calculated as solving <span class="code">y 	&#xd7; E / K  = 1.2x</span> for <span class="code">y</span>.
+                This is calculated as solving <span class="code">y 	&#xd7; E / K = 1.2x</span> for <span class="code">y</span>.
                 This clever trick ensures all users will get their money's worth.
               </li>
             </ul>
@@ -460,27 +457,21 @@
             </div>
           </div>
 
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
-              <h4>For Palestine - we support you!</h4>
-              <p>
-                We at KucoCoin believe in elections for your candidate.
-                That
-              </p>
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
-              <h4>For republicans - !</h4>
-              <p>
-              </p>
-            </div>
-          </div>
-
         </div>
       </section>
       <!--End of Responses-->
+
+      <!--Data-->
+      <section id="data" class="scrollto">
+        <div class="col-1 flex-container justify-center">
+
+          <button role="button" id="metamask-connect-button" class="connect-button margin-20 wow fadeInUp" data-wow-delay="0.5s">
+            Connect to MetaMask
+          </button>
+
+        </div>
+      </section>
+      <!--End of Data-->
 
     </main>
     <!--End Main Content Area-->
@@ -495,28 +486,28 @@
         <!--Social Icons in Footer-->
         <ul class="col-2 social-icons">
           <li>
-            <a target="_blank" title="Facebook" href="https://www.facebook.com/username">
-              <i class="fa fa-facebook fa-1x"></i><span>Facebook</span>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" title="Google+" href="http://google.com/+username">
-              <i class="fa fa-google-plus fa-1x"></i><span>Google+</span>
-            </a>
-          </li>
-          <li>
             <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
-              <i class="fa fa-twitter fa-1x"></i><span>Twitter</span>
+              <i class="fa-brands fa-twitter"></i><span>Twitter</span>
             </a>
           </li>
           <li>
-            <a target="_blank" title="Instagram" href="http://www.instagram.com/username">
-              <i class="fa fa-instagram fa-1x"></i><span>Instagram</span>
+            <a target="_blank" title="Github" href="http://google.com/+username">
+              <i class="fa-brands fa-github"></i><span></span>
             </a>
           </li>
           <li>
-            <a target="_blank" title="behance" href="http://www.behance.net">
-              <i class="fa fa-behance fa-1x"></i><span>Behance</span>
+            <a target="_blank" title="Uniswap" href="http://www.behance.net">
+              <i class="fa fa-exchange"></i><span>Uniswap</span>
+            </a>
+          </li>
+          <li>
+            <a target="_blank" title="Etherscan" href="https://www.facebook.com/username">
+              <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
+            </a>
+          </li>
+          <li>
+            <a title="MetaMask connect" id="metamask-connect-footer">
+              <i class="fa fa-wallet"></i><span>Wallet</span>
             </a>
           </li>
         </ul>

@@ -1,16 +1,47 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
 import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
-import { addKucoCoinToken } from './metamask'
+import { addKucoCoinToken, requestAccountsIfNecessary, switchNetworkIfNecessary } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 declare const window: any
 declare const alert: any
-const ethereum: MetaMaskInpageProvider = window.ethereum
+const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
 async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
   await func()
   setInterval(func, interval)
+}
+
+function markMetamaskStatus(connected: boolean): void {
+  const color = connected ? '#0591af' : 'firebrick'
+  $('#metamask-connect-header > i, #metamask-connect-footer > i').css('color', color)
+}
+
+function onMetaMaskConnect(): void {
+  const selector = $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button')
+  selector.on('click', async (): Promise<void> => {
+    if (ethereum === undefined) return markMetamaskStatus(false)
+    const accounts = await requestAccountsIfNecessary(ethereum)
+    if (accounts.length === 0) return markMetamaskStatus(false)
+    const networkSwitched = await switchNetworkIfNecessary(ethereum)
+    if (!networkSwitched) return markMetamaskStatus(false)
+    markMetamaskStatus(true)
+  })
+}
+
+function onBuyKuco(): void {
+  $('#button-buy-kuco').on('click', async () => {
+    try {
+      const amountEthInput = $('#input-kuco-buy-amount').val()!
+      const minAmountKucoInput = $('#input-kuco-min-swap').val()!
+      const amountEth = parseEther(amountEthInput)
+      const minAmountKuco = parseEther(minAmountKucoInput)
+      await buyKuco(ethereum!, amountEth, minAmountKuco)
+    } catch (err: any) {
+      alert(err.message)
+    }
+  })
 }
 
 async function updateKucoPrice(): Promise<void> {
@@ -20,22 +51,8 @@ async function updateKucoPrice(): Promise<void> {
   $('#kuco-price-output').text(formattedPrice)
 }
 
-async function onBuyKuco(): Promise<void> {
-  $('#button-buy-kuco').on('click', async () => {
-    try {
-      const amountEthInput = $('#input-kuco-buy-amount').val()!
-      const minAmountKucoInput = $('#input-kuco-min-swap').val()!
-      const amountEth = parseEther(amountEthInput)
-      const minAmountKuco = parseEther(minAmountKucoInput)
-      await buyKuco(ethereum, amountEth, minAmountKuco)
-    } catch (err: any) {
-      alert(err.message)
-    }
-  })
-}
-
 async function updateKucoBalance(): Promise<void> {
-  const balance = await getKucoBalance(ethereum)
+  const balance = await getKucoBalance(ethereum!)
   const formattedBalance = formatUnits(balance.toString(), 18)
   //$('#input-kuco-max-price').val(formattedBalance)
 }
@@ -58,8 +75,9 @@ $(async () => {
       stageText.fadeOut(1000)
     })
   }
-  // kucocoin smart web3 interface
-  $('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
+  // kucocoin web3 interface
+  //$('#button-add-kucocoin').on('click', () => addKucoCoinToken(ethereum))
+  onMetaMaskConnect()
+  onBuyKuco()
   await setImmediateInterval(updateKucoPrice, 10_000)
-  await onBuyKuco()
 })

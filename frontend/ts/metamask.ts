@@ -2,9 +2,23 @@ import { network, kucocoin } from './constants'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
+export async function requestAccountsIfNecessary(
+  ethereum: MetaMaskInpageProvider
+): Promise<string[]> {
+  try {
+    const accounts = await ethereum.request({
+      method: 'eth_requestAccounts',
+      params: []
+    })
+    return accounts as string[]
+  } catch (err: any) {
+    return []
+  }
+}
+
 export async function switchNetworkIfNecessary(
   ethereum: MetaMaskInpageProvider
-): Promise<void> {
+): Promise<boolean> {
   if (ethereum.chainId! !== network.chainId) {
     try {
       await ethereum.request({
@@ -14,13 +28,19 @@ export async function switchNetworkIfNecessary(
     } catch (err: any) {
       // Chain not added to MetaMask
       if (err.code === 4902) {
-        await ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [network]
-        })
+        try {
+          const resp = await ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [network]
+          })
+        } catch (err: any) {
+          return false
+        }
       }
+      return false
     }
   }
+  return true
 }
 
 export async function addKucoCoinToken(
