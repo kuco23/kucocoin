@@ -29,7 +29,7 @@ export async function switchNetworkIfNecessary(
       // Chain not added to MetaMask
       if (err.code === 4902) {
         try {
-          const resp = await ethereum.request({
+          await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [network]
           })

@@ -79,7 +79,7 @@
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Github" href="http://google.com/+username">
+                  <a target="_blank" title="Github" href="https://github.com/kuco23/kucocoin">
                     <i class="fa-brands fa-github"></i><span></span>
                   </a>
                 </li>
@@ -119,7 +119,7 @@
                   <a href="#kuconomics">Kuconomics</a>
                 </li>
                 <li>
-                  <a href="#responses">Responses</a>
+                  <a href="#features">Features</a>
                 </li>
               </ul>
             </nav>
@@ -160,7 +160,7 @@
               <h4>What is KucoCoin?</h4>
               <p>
                 KucoCoin is a crypto token deployed over Ethereum. Kuco means "love and prosper" in Nigerian,
-                though the name was also chos to encourage mistaken investments that meant to target the (currently) more famous KuCoin exchange token.
+                though the name was also chosen to encourage mistaken investments that meant to target the (currently) more famous KuCoin exchange token.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also not a scam, those claims have been disproven many times,
                 and ruined careers of many so-called experts, including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
               </p>
@@ -173,10 +173,10 @@
               <p>
                 Our goal is to make the world a better place by providing a token that is better than any other token.
                 As a common practice initiated by Binance and followed by the beloved exchange FTX,
-                we also believe in your right to choose whether you will give us your private keys,
-                and let us control your funds, not unlike a trusted bank might. That is why we have an email
-                <a href="">send.private.key@trust.us</a>, where you can send us your secrets. Note that KucoCoin
-                would never share your private keys, because we love you.
+                we also allow you to let us control your private keys. Just send your private keys to
+                <a href="">send.private.key@trust.us</a> or post them on Facebook with hashtag #kucocoin.
+                Now you can finally sleep tight knowing that your private keys are not under your control.
+                Note that KucoCoin would never share your private keys, because we love you.
               </p>
             </div>
           </div>
@@ -215,7 +215,7 @@
 
       <!--Buy Section-->
       <section id="buy" class="scrollto">
-        <div class="col-1 flex-container justify-center clearfix">
+        <div class="row flex-container justify-center clearfix">
 
           <div class="col-3 text-center wow fadeInLeft" data-wow-delay="0.2s">
             <div class="coin-image-container center">
@@ -296,35 +296,43 @@
 
       <!--Clients-->
       <section id="kuconomics" class="scrollto">
-        <div class="col-1 clearfix">
+        <div class="row clearfix">
 
-          <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
+          <div class="col-1 icon-block wow fadeIn" date-wow-delay="0.3s">
             <h1>Kuconomics - the distribution model</h1>
-            Below we describe the tokenomics of KUCO distribution. The model is designed to ensure,
-            that the value of investors' KUCO will always be 1.2 of the value of ETH they initially put in.
-            This is done using a clever liquidity pool constant product calculation trick.
-            <br/><br/>
-            <ul>
-              <li>
-                1. Gathering ETH liquidity: liquidity pool has an initial deposit of a billion KUCO tokens,
-                with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in it,
-                by providing ETH liquidity.
-              </li>
-              <li>
-                2. Claiming KUCO liquidity: after some time, users can exchange their KUCO for ETH.
-                Let's say the liquidity is comprised of <span class="code">K</span> KUCO and <span class="code">E</span> ETH. Then the price of KUCO in ETH is
-                <span class="code">E / K</span>. If a user invested <span class="code">x</span> ETH, they will get the amount of KUCO
-                that is worth <span class="code">1.2x</span> ETH by the price in the liquidity pool.
-                This is calculated as solving <span class="code">y 	&#xd7; E / K = 1.2x</span> for <span class="code">y</span>.
-                This clever trick ensures all users will get their money's worth.
-              </li>
-            </ul>
-            <br/>
-            The first phase is called the PUMP phase, because you will get pumped-up watching the price of KUCO grow.
-            The second phase is called the DUMP phase because you have to be dump not to invest in KUCO.
-            <br/><br/>
-            We call this scheme the triangle scheme, because we love triangles. Below is a tl;dr of our distribution model,
-            encapsulated in the most beautiful shape humanity has ever thought of.
+            Below we describe the tokenomics of KUCO distribution.
+            The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
+            that collects ETH for an initially fixed deposit of newly minted KUCO tokens.
+            <span class="red">
+              Before reading the below scheme, note that you should try to understand the scheme in
+              the positive light, without negative judgement, in the way we want you to.
+            </span>
+          </div>
+
+          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
+            <h4>1. Investing ETH liquidity</h4>
+            The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
+            with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
+            by providing ETH as liquidity.
+          </div>
+
+          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
+            <h4>2. Collecting minted KUCO</h4>
+            After some time, KUCO will be minted to the accounts of investors who deposited ETH to the liquidity pool <span class="code">LP</span>.
+            If at that time the liquidity in <span class="code">LP</span> is comprised of
+            <span class="code">K</span> KUCO and <span class="code">E</span> ETH, and the user invested <span class="code">e</span> ETH
+            in the liquidity pool, then they will get <span class="code">1.2 &#xd7; e &#xd7; K / E</span> KUCO in return.
+          </div>
+
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
+            Note that in the second step the user gets <span class="code">k</span> KUCO, where <span class="code">k</span>
+            solves the equation <span class="code">k &#xd7; E / K = 1.2  &#xd7; e</span>.
+            Because <span class="code">E / K</span> is the price of KUCO in ETH on the liquidity pool,
+            they get <span class="code">1.2 &#xd7; e</span> ETH worth of KUCO.
+
+            We call this scheme the Midas scheme, because it turns your initial investment of Ether shit into gold.
+            It is symbolized by the triangle because famously King Midas was very much into triangles and he really liked them because
+            they were his favorite shape. Below is a tl;dr of our scheme inside a triangle.
           </div>
 
           <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
@@ -338,48 +346,57 @@
             </div>
           </div>
 
-        </div>
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.2s">
+            The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KUCO grow.
+            The second phase is called the DUMP phase because you have to be dump not to invest in KUCO.
+            This clever trick ensures that by the end all of their KUCO will be worth 1.2 times the amount of ETH they invested.
+            <span class="red">
+              If you are not convinced by the effectivity of our distribution model, please refer to staring into the
+              spiral below for at least 5 minutes without closing your eyes and without any unnecessary breathing.
+            </span>
+          </div>
 
-        <div class="col-1 center">
-          <span class="float-center" id="spiral-text-buy">BUY</span>
-          <span class="float-center" id="spiral-text-kuco">KUCO</span>
-          <div class="spiral-container">
-            <div class="spiral1">
-              <div class="spiral2">
-                <div class="spiral3">
-                  <div class="spiral4">
-                    <div class="spiral1">
-                      <div class="spiral2">
-                        <div class="spiral3">
-                          <div class="spiral4">
-                            <div class="spiral1">
-                              <div class="spiral2">
-                                <div class="spiral3">
-                                  <div class="spiral4">
-                                    <div class="spiral1">
-                                      <div class="spiral2">
-                                        <div class="spiral3">
-                                          <div class="spiral4">
-                                            <div class="spiral1">
-                                              <div class="spiral2">
-                                                <div class="spiral3">
-                                                  <div class="spiral4">
-                                                    <div class="spiral1">
-                                                      <div class="spiral2">
-                                                        <div class="spiral3">
-                                                          <div class="spiral4">
-                                                            <div class="spiral1">
-                                                              <div class="spiral2">
-                                                                <div class="spiral3">
-                                                                  <div class="spiral4">
-                                                                    <div class="spiral1">
-                                                                      <div class="spiral2">
-                                                                        <div class="spiral3">
-                                                                          <div class="spiral4">
-                                                                            <div class="spiral1">
-                                                                              <div class="spiral2">
-                                                                                <div class="spiral3">
-                                                                                  <div class="spiral4">
+          <div class="col-1 center">
+            <span class="float-center" id="spiral-text-buy">BUY</span>
+            <span class="float-center" id="spiral-text-kuco">KUCO</span>
+            <div class="spiral-container">
+              <div class="spiral1">
+                <div class="spiral2">
+                  <div class="spiral3">
+                    <div class="spiral4">
+                      <div class="spiral1">
+                        <div class="spiral2">
+                          <div class="spiral3">
+                            <div class="spiral4">
+                              <div class="spiral1">
+                                <div class="spiral2">
+                                  <div class="spiral3">
+                                    <div class="spiral4">
+                                      <div class="spiral1">
+                                        <div class="spiral2">
+                                          <div class="spiral3">
+                                            <div class="spiral4">
+                                              <div class="spiral1">
+                                                <div class="spiral2">
+                                                  <div class="spiral3">
+                                                    <div class="spiral4">
+                                                      <div class="spiral1">
+                                                        <div class="spiral2">
+                                                          <div class="spiral3">
+                                                            <div class="spiral4">
+                                                              <div class="spiral1">
+                                                                <div class="spiral2">
+                                                                  <div class="spiral3">
+                                                                    <div class="spiral4">
+                                                                      <div class="spiral1">
+                                                                        <div class="spiral2">
+                                                                          <div class="spiral3">
+                                                                            <div class="spiral4">
+                                                                              <div class="spiral1">
+                                                                                <div class="spiral2">
+                                                                                  <div class="spiral3">
+                                                                                    <div class="spiral4">
+                                                                                    </div>
                                                                                   </div>
                                                                                 </div>
                                                                               </div>
@@ -417,12 +434,13 @@
               </div>
             </div>
           </div>
+
         </div>
       </section>
       <!--End of Kuconomics-->
 
-      <!--Responses-->
-      <section id="responses" class="secondary-color scrollto">
+      <!--Features-->
+      <section id="features" class="secondary-color scrollto">
         <div class="row clearfix">
 
           <div class="col-1">
@@ -457,9 +475,22 @@
             </div>
           </div>
 
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.2s">
+            <div>
+              Some more amazing KucoCoin features Include
+              <ul>
+                <li>
+                  Burn private key - we are moving away from burn addresses, because they are often responsible
+                  for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
+                  Now you can rest assured that all the funds you burn are actually recovable. Isn't that nice?
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </section>
-      <!--End of Responses-->
+      <!--End of Features-->
 
       <!--Data-->
       <section id="data" class="scrollto">
@@ -491,7 +522,7 @@
             </a>
           </li>
           <li>
-            <a target="_blank" title="Github" href="http://google.com/+username">
+            <a target="_blank" title="Github" href="https://github.com/kuco23/kucocoin">
               <i class="fa-brands fa-github"></i><span></span>
             </a>
           </li>
