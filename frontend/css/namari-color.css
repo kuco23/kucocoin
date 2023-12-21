@@ -64,8 +64,15 @@ a:hover {
 }
 
 #header.nav-solid nav a:hover {
+  background: #ccc;
   color: #0591AF;
 }
+
+#nav-mobile ul li a:hover {
+  background: #ccc;
+  color: #0591AF;
+}
+
 
 /* Navigation Active State */
 
