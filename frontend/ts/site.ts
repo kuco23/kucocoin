@@ -14,7 +14,7 @@ async function setImmediateInterval(func: () => Promise<any>, interval: number):
 }
 
 function markMetamaskStatus(connected: boolean): void {
-  const color = connected ? '#0591af' : 'firebrick'
+  const color = connected ? '#00FF00' : 'firebrick'
   $('#metamask-connect-header > i, #metamask-connect-footer > i').css('color', color)
 }
 

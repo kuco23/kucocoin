@@ -110,9 +110,6 @@
                   <a href="#banner">Home</a>
                 </li>
                 <li>
-                  <a href="#about">about</a>
-                </li>
-                <li>
                   <a href="#buy">Buy</a>
                 </li>
                 <li>
@@ -120,6 +117,9 @@
                 </li>
                 <li>
                   <a href="#features">Features</a>
+                </li>
+                <li>
+                  <a href="#dashboard">Dashboard</a>
                 </li>
               </ul>
             </nav>
@@ -153,7 +153,7 @@
 
       <!--Start About section-->
       <section id="about" class="scrollto clearfix">
-        <div class="col-1 flex-container space-around">
+        <div class="row row-tight">
 
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
             <div class="icon-block-description">
@@ -175,36 +175,7 @@
                 As a common practice initiated by Binance and followed by the beloved exchange FTX,
                 we also allow you to let us control your private keys. Just send your private keys to
                 <a href="">send.private.key@trust.us</a> or post them on Facebook with hashtag #kucocoin.
-                Now you can finally sleep tight knowing that your private keys are not under your control.
-                Note that KucoCoin would never share your private keys, because we love you.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.1s">
-            <div class="icon-block-description">
-              <h4>Attaining stability</h4>
-              <p>
-                KucoCoin revolutionizes the market by introducing a blockade on transactions
-                at any time chosen by a decentralized validation process controlled by the centralized token owner.
-                Blocking every single KUCO transaction means no exchange swapping can happen at that time.
-                This means no price change of the KUCO is possible, as it can be neither bought nor sold.
-                As a result, KUCO, can be viewed as a stablecoin when it can't be used.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
-              <h4>Zero-knowledge capabilities</h4>
-              <p>
-                KucoCoin believes in zero-knowledge-proof technology.
-                To show support we prove to have zero knowledge of this technology by implementing a system
-                that allows users to use zero-knowledge-proofs with KucoCoin.
-                Our contract provides a function `acceptZK` which accepts a totally unrestricted bytes
-                object and emits an event that it has been provided. That object can be anything you want it to be,
-                it can be a ZK-snark, ZK-stark, or a utf8-encoded message "I love KucoCoin!".
-                The possibilities are endless, just like your love for KucoCoin!
+                Note that KucoCoin would never use your private keys, because we love you.
               </p>
             </div>
           </div>
@@ -266,29 +237,6 @@
             </aside>
             <!--End of Gallery-->
           </div>
-
-          <!--Start buy input form-->
-          <div class="buy-box wow fadeInUp" data-wow-delay="0.3s">
-            <h2>Invest</h2>
-            <form>
-              <div class="user-box">
-                <input id="input-kuco-buy-amount" type="number" required="true">
-                <label>Amount ETH</label>
-              </div>
-              <div class="user-box">
-                <input id="input-kuco-min-swap" value="0" type="number" required="true">
-                <label>Min out KUCO</label>
-              </div>
-              <a id="button-buy-kuco">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Execute
-              </a>
-            </form>
-          </div>
-          <!--End of buy input form-->
 
         </div>
       </section>
@@ -439,12 +387,58 @@
       <!--End of Kuconomics-->
 
       <!--Features-->
-      <section id="features" class="secondary-color scrollto">
+      <section id="features" class="scrollto">
         <div class="row row-wide clearfix">
 
           <div class="col-1">
-            <h2>KucoCoin has something for everyone!</h2>
+            <h2>KucoCoin's revolutionary features</h2>
             <div>
+              KucoCoin features many functionalities that are completely new to the market.
+              KucoCoin brings joy to all races, genders, and sexual orientations.
+              We don't discreminate, money looks the same no matter who you are!
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
+            <div class="icon-block-description">
+              <h4>Preventing loss of funds with burn private key</h4>
+              <p>
+                Burn private key - we are moving away from burn addresses, because they are often responsible
+                for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
+                Now you can rest assured that all the funds you burn are actually recovable. Isn't that nice?
+              </p>
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.7s">
+            <div class="icon-block-description">
+              <h4>Attaining price stability</h4>
+              <p>
+                KucoCoin revolutionizes the market by introducing a blockade on transactions
+                at any time chosen by a decentralized validation process controlled by the centralized token owner.
+                Blocking every single KUCO transaction means no exchange swapping can happen at that time.
+                This means no price change of the KUCO is possible, as it can be neither bought nor sold.
+                As a result, KUCO, can be viewed as a stablecoin when it can't be used.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.4s">
+            <div class="icon-block-description">
+              <h4>Zero-knowledge proofs capabilities</h4>
+              <p>
+                To show support we prove to have zero knowledge of this technology by implementing a system
+                that allows users to use zero-knowledge-proofs with KucoCoin.
+                Our contract provides a function `acceptZK` which accepts a totally unrestricted bytes
+                object and emits an event that it has been provided. That object can be anything you want it to be,
+                it can be a zk-snark, zk-stark, or a utf8-encoded message "I love KucoCoin!".
+                The possibilities are endless, just like your love for KucoCoin!
+              </p>
+            </div>
+          </div>
+
+          <div class="col-1 icon-block wow fadeInLeft" data-wow-delay="1s">
+            <div class="icon-block-description">
               KucoCoin brings joy to all races, genders, and sexual orientations.
               We don't discreminate, money looks the same no matter who you are!
             </div>
@@ -474,34 +468,46 @@
             </div>
           </div>
 
-          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.2s">
-            <div>
-              Some more amazing KucoCoin features Include
-              <ul>
-                <li>
-                  Burn private key - we are moving away from burn addresses, because they are often responsible
-                  for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
-                  Now you can rest assured that all the funds you burn are actually recovable. Isn't that nice?
-                </li>
-              </ul>
-            </div>
-          </div>
-
         </div>
       </section>
       <!--End of Features-->
 
-      <!--Data-->
-      <section id="data" class="scrollto">
-        <div class="col-1 flex-container justify-center">
+      <!--Dashboard-->
+      <section id="dashboard" class="secondary-color scrollto">
+        <div class="row row-wide flex-container justify-center">
 
-          <button role="button" id="metamask-connect-button" class="connect-button margin-20 wow fadeInUp" data-wow-delay="0.5s">
-            Connect to MetaMask
-          </button>
+          <div class="col-1">
+            <button role="button" id="metamask-connect-button" class="connect-button margin-20 wow fadeInUp" data-wow-delay="0.5s">
+              Connect to MetaMask
+            </button>
+          </div>
+
+          <!--Start buy input form-->
+          <div class="buy-box wow fadeInUp" data-wow-delay="0.3s">
+            <h2>Invest</h2>
+            <form>
+              <div class="user-box">
+                <input id="input-kuco-buy-amount" type="number" required="true">
+                <label>Amount ETH</label>
+              </div>
+              <div class="user-box">
+                <input id="input-kuco-min-swap" value="0" type="number" required="true">
+                <label>Min out KUCO</label>
+              </div>
+              <a id="button-buy-kuco">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Execute
+              </a>
+            </form>
+          </div>
+          <!--End of buy input form-->
 
         </div>
       </section>
-      <!--End of Data-->
+      <!--End of Dashboard-->
 
     </main>
     <!--End Main Content Area-->
