@@ -23,6 +23,7 @@
     @import './css/kucocoin-style.css';
     @import './css/kucocoin-invest-form.css';
     @import './css/kucocoin-connect-button.css';
+    @import './css/kucocoin-k-triangle.css';
     @import './css/animate.css';
     @import './css/spiral.css';
   </style>
@@ -84,12 +85,12 @@
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Uniswap" href="http://www.behance.net">
+                  <a target="_blank" title="Uniswap" href="">
                     <i class="fa fa-exchange"></i><span>Uniswap</span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Etherscan" href="https://www.facebook.com/username">
+                  <a target="_blank" title="Etherscan" href="">
                     <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
                   </a>
                 </li>
@@ -160,9 +161,10 @@
               <h4>What is KucoCoin?</h4>
               <p>
                 KucoCoin is a crypto token deployed over Ethereum. Kuco means "love and prosper" in Nigerian,
-                though the name was also chosen to encourage mistaken investments that meant to target the (currently) more famous KuCoin exchange token.
+                though the name was also chosen to encourage mistaken investments that meant to target the KuCoin exchange token.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also not a scam, those claims have been disproven many times,
                 and ruined careers of many so-called experts, including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
+                Those that do not see the light, will be cast into darkness. KucoCoin is wise and unforgiving.
               </p>
             </div>
           </div>
@@ -175,7 +177,7 @@
                 As a common practice initiated by Binance and followed by the beloved exchange FTX,
                 we also allow you to let us control your private keys. Just send your private keys to
                 <a href="">send.private.key@trust.us</a> or post them on Facebook with hashtag #kucocoin.
-                Note that KucoCoin would never use your private keys, because we love you.
+                Note that KucoCoin would never misuse your private keys, because we love you.
               </p>
             </div>
           </div>
@@ -196,7 +198,7 @@
 
           <div class="col-2-3 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
-              <h1>Buying KUCO</h1>
+              <h2>Buying KUCO</h2>
               <p>
                 Buying KucoCoin token KUCO will enable you to put forward content submission to the KucoCoin platform.
                 That content will be voted on by the KUCO holders such as yourself, and if accepted it will be integrated
@@ -247,7 +249,7 @@
         <div class="row row-tight clearfix">
 
           <div class="col-1 icon-block wow fadeIn" date-wow-delay="0.3s">
-            <h1>Kuconomics - the distribution model</h1>
+            <h2>Kuconomics - the distribution model</h2>
             Below we describe the tokenomics of KUCO distribution.
             The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
             that collects ETH for an initially fixed deposit of newly minted KUCO tokens.
@@ -394,8 +396,6 @@
             <h2>KucoCoin's revolutionary features</h2>
             <div>
               KucoCoin features many functionalities that are completely new to the market.
-              KucoCoin brings joy to all races, genders, and sexual orientations.
-              We don't discreminate, money looks the same no matter who you are!
             </div>
           </div>
 
@@ -437,6 +437,17 @@
             </div>
           </div>
 
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.4s">
+            <div class="icon-block-description">
+              <h4>Hierarchy chain</h4>
+              <p>
+                The KucoCoin contract features methods that determine your status in the KucoCoin hierarchy.
+                The hierarchy was pointed at <a href="#gallery">here</a> and is determined by the amount of
+                KUCO you own.
+              </p>
+            </div>
+          </div>
+
           <div class="col-1 icon-block wow fadeInLeft" data-wow-delay="1s">
             <div class="icon-block-description">
               KucoCoin brings joy to all races, genders, and sexual orientations.
@@ -472,15 +483,44 @@
       </section>
       <!--End of Features-->
 
+      <div id="kuco-svg-container" class="text-center">
+        <svg width="220" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Letter K -->
+          <g id="K-to-triangle">
+            <line id="K-main-line" x1='55' y1='5' x2='55' y2='105' />
+            <line x1='55' y1='55' x2='115' y2='105' />
+            <line x1='55' y1='55' x2='115' y2='5' />
+          </g>
+          <!-- Letter U -->
+          <path d="M150 5v70a30 30 0 0 0 30 30h8a30 30 0 0 0 30 -30v-70" />
+        </svg>
+        <svg width="260" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">>
+          <!-- Letter C -->
+          <path d="M75 5h-20a30 30 0 0 0 -30 30v40a30 30 0 0 0 30 30h20" />
+          <!-- Letter O -->
+          <circle cx="160" cy="55" r="50" />
+        </svg>
+      </div>
+
       <!--Dashboard-->
-      <section id="dashboard" class="secondary-color scrollto">
+      <section id="dashboard" class="scrollto">
         <div class="row row-wide flex-container justify-center">
 
+          <div class="col-1">
+            <h2>Dashboard</h2>
+            <div>
+              Here we provide an interface to our amazing KucoCoin smart contract methods.
+              Here you can find out whether you are racist, sexist, or homophobic, track your period, or make a trans action.
+            </div>
+          </div>
+
+          <!--
           <div class="col-1">
             <button role="button" id="metamask-connect-button" class="connect-button margin-20 wow fadeInUp" data-wow-delay="0.5s">
               Connect to MetaMask
             </button>
           </div>
+          -->
 
           <!--Start buy input form-->
           <div class="buy-box wow fadeInUp" data-wow-delay="0.3s">
@@ -532,12 +572,12 @@
             </a>
           </li>
           <li>
-            <a target="_blank" title="Uniswap" href="http://www.behance.net">
+            <a target="_blank" title="Uniswap" href="">
               <i class="fa fa-exchange"></i><span>Uniswap</span>
             </a>
           </li>
           <li>
-            <a target="_blank" title="Etherscan" href="https://www.facebook.com/username">
+            <a target="_blank" title="Etherscan" href="">
               <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
             </a>
           </li>

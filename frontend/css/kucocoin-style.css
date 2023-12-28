@@ -56,8 +56,8 @@
 }
 #gallery a:nth-child(4):before {
   content: 'Chad';
-  color: Lime;
-  text-shadow: 0.5vh 0.5vh 1vh Lime, 0 0 6vh white;
+  color: #FF10F0;
+  text-shadow: 0.5vh 0.5vh 1vh #FF10F0, 0 0 6vh white;
 }
 #gallery a:nth-child(5):before {
   content: 'Techsus';
