@@ -1,4 +1,5 @@
 import { ethers } from "hardhat"
+import { time } from "@nomicfoundation/hardhat-network-helpers"
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import { expect } from "chai"
 import { getFactories } from "./helpers/factories"
@@ -10,6 +11,11 @@ interface BlazeSwap {
   router: BlazeSwapRouter
   manager: BlazeSwapManager
   factory: BlazeSwapFactory
+}
+
+async function getTimestampOfBlock(blockNumber: number): Promise<number> {
+  const block = await ethers.provider.getBlock(blockNumber)
+  return block!.timestamp
 }
 
 describe("KucoCoin", () => {
@@ -38,7 +44,7 @@ describe("KucoCoin", () => {
       amountKUCO = ethers.parseEther("10")
       amountNAT = ethers.parseEther("100")
     }
-    await kucocoin.connect(signers[0]).addLiquidity(amountKUCO, { value: amountNAT})
+    await kucocoin.connect(signers[0]).addLiquidity(amountKUCO, signers[0], { value: amountNAT})
   }
 
   async function swapOutput(
@@ -61,7 +67,7 @@ describe("KucoCoin", () => {
     kucocoin = await deployKucoCoin()
   })
 
-  describe("metadata", async () => {
+  describe("kucocoin settings", () => {
     it("should test name", async () => {
       expect(await kucocoin.name()).to.equal("KucoCoin")
     })
@@ -75,22 +81,25 @@ describe("KucoCoin", () => {
     })
   })
 
-  it("should test transfer", async () => {
-    const [admin, sender, receiver] = signers
-    const amount = BigInt(10) * ethers.WeiPerEther
-    await kucocoin.connect(admin).transfer(sender, amount)
-    await kucocoin.connect(sender).transfer(receiver, amount)
-    expect(await kucocoin.balanceOf(sender)).to.equal(0)
-    expect(await kucocoin.balanceOf(receiver)).to.equal(amount)
+  describe("erc20", () => {
+    it("should test transfer", async () => {
+      const [admin, sender, receiver] = signers
+      const amount = BigInt(10) * ethers.WeiPerEther
+      await kucocoin.connect(admin).transfer(sender, amount)
+      await kucocoin.connect(sender).transfer(receiver, amount)
+      expect(await kucocoin.balanceOf(sender)).to.equal(0)
+      expect(await kucocoin.balanceOf(receiver)).to.equal(amount)
+    })
   })
 
-  describe("dex integration", async () => {
+
+  describe("dex integration", () => {
 
     it("should test adding liquidity", async () => {
       const [admin] = signers
       const [amountKUCO, amountNAT] = [ethers.parseEther("1"), ethers.parseEther("10")]
       const adminBalanceBefore = await kucocoin.balanceOf(admin)
-      await kucocoin.connect(admin).addLiquidity(amountKUCO, { value: amountNAT})
+      await kucocoin.connect(admin).addLiquidity(amountKUCO, admin, { value: amountNAT})
       const adminBalanceAfter = await kucocoin.balanceOf(admin)
       expect(adminBalanceBefore - adminBalanceAfter).to.equal(amountKUCO)
       const { 0: reserveKUCO, 1: reserveNAT } = await blazeswap.router.getReserves(kucocoin, wNat)
@@ -132,6 +141,25 @@ describe("KucoCoin", () => {
       const maxNatUsedForGas = estimatedGasUsed * feeData.maxFeePerGas!
       expect(adminNatBefore - adminNatAfter).to.be.lessThan(maxNatUsedForGas)
     })
+  })
 
+  describe("mensies", () => {
+
+    it("should log menstruation entry", async () => {
+      const [, menseReceiver] = signers
+      const resp1 = await kucocoin.connect(menseReceiver).reportMense()
+      await time.increase(31412)
+      const resp2 = await kucocoin.connect(menseReceiver).reportMense()
+      const resp3 = await kucocoin.connect(menseReceiver).reportMense()
+      await time.increase(1000)
+      const resp4 = await kucocoin.connect(menseReceiver).reportMense()
+      const entries = await kucocoin.getMenseHistoryOf(menseReceiver)
+      const timestamps = await Promise.all([resp1, resp2, resp3, resp4].map(resp => getTimestampOfBlock(resp.blockNumber!)))
+      expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
+    })
+
+    it.only("should correctly calculate the next mense", async () => {
+      const [admin, menseReceiver] = signers
+    })
   })
 })

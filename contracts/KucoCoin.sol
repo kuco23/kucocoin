@@ -5,8 +5,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
 
+import "hardhat/console.sol";
+
+uint16 constant MAX_MENSTRUATION_LOOKBACK = 20;
+
 struct MenstruationEntry {
-    mapping(uint16 => uint32) entry;
+    mapping(uint16 => uint64) entry;
     uint16 index;
 }
 
@@ -124,10 +128,58 @@ contract KucoCoin is ERC20, Ownable {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // methods that make kucocoin the best token
 
-    function reportMenstruation()
+    function stage()
+        external view
+        returns (string memory)
+    {
+        uint256 balance = balanceOf(msg.sender);
+        if (balance == 0) {
+            return "Loser";
+        } else if (balance < 10 ether) {
+            return "Hope";
+        } else if (balance < 1000 ether) {
+            return "Computer";
+        } else if (balance < 1000000 ether) {
+            return "Chad";
+        } else if (balance < 1000000000 ether) {
+            return "Techsus";
+        } else {
+            return "God";
+        }
+    }
+
+    function reportMense()
         external
     {
-        menstruation[msg.sender].entry[menstruation[msg.sender].index++] = uint32(block.timestamp);
+        menstruation[msg.sender].entry[menstruation[msg.sender].index++] = uint64(block.timestamp);
+    }
+
+    function getMenseHistoryOf(
+        address _receiver
+    )
+        external view
+        returns(uint64[] memory)
+    {
+        uint16 end = menstruation[_receiver].index;
+        uint16 start = MAX_MENSTRUATION_LOOKBACK <= end ? end - MAX_MENSTRUATION_LOOKBACK : 0;
+        uint64[] memory result = new uint64[](end - start);
+        for (uint16 i = start; i < end; i++) {
+            result[i-start] = menstruation[_receiver].entry[i];
+        }
+        return result;
+    }
+
+    function nextMensesOf(
+        address _receiver
+    )
+        external view
+        returns (uint64 lastMenses)
+    {
+        uint16 end = menstruation[_receiver].index;
+        require(end > 0, "KucoCoin Error: Not enough data to predict next period");
+        lastMenses = menstruation[_receiver].entry[end-1];
+        lastMenses -= menstruation[_receiver].entry[0];
+        lastMenses /= (end - 1);
     }
 
     function makeTransAction(

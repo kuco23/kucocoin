@@ -10,6 +10,14 @@ button, a {
   cursor: pointer;
 }
 
+a {
+  transition: color 0.2s ease-in-out;
+  color: orange;
+}
+a:hover {
+  color: lime;
+}
+
 button, input {
   box-shadow: none;
   background: none;

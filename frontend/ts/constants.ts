@@ -10,6 +10,11 @@ const costwo = {
   blockExplorerUrls: ['https://coston2-explorer.flare.network']
 }
 
+const localcostwo = {
+  ...costwo,
+  rlcUrls: ['http://localhost:9656']
+}
+
 export const network = costwo
 
 export const kucocoin = {

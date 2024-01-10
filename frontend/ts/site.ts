@@ -1,12 +1,15 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
-import { getLiquidityReserves, buyKuco, getKucoBalance } from './contracts'
-import { addKucoCoinToken, requestAccountsIfNecessary, switchNetworkIfNecessary } from './metamask'
+import { getLiquidityReserves, buyKuco, getKucoBalance, getMenses } from './contract'
+import { requestAccountsIfNecessary, switchNetworkIfNecessary } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 declare const window: any
 declare const alert: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
+
+declare const document: any
+
 
 async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
   await func()
@@ -55,6 +58,12 @@ async function updateKucoBalance(): Promise<void> {
   const balance = await getKucoBalance(ethereum!)
   const formattedBalance = formatUnits(balance.toString(), 18)
   //$('#input-kuco-max-price').val(formattedBalance)
+}
+
+async function onGetMenses(): Promise<void> {
+  const account = await requestAccountsIfNecessary(ethereum!)
+  const menses = await getMenses(account[0])
+  
 }
 
 $(async () => {

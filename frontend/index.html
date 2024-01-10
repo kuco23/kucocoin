@@ -28,7 +28,7 @@
     @import './css/spiral.css';
   </style>
 
-  <!--Google Webfonts-->
+  <!--Font Awesome and Google Webfonts-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 </head>
@@ -164,7 +164,6 @@
                 though the name was also chosen to encourage mistaken investments that meant to target the KuCoin exchange token.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also not a scam, those claims have been disproven many times,
                 and ruined careers of many so-called experts, including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
-                Those that do not see the light, will be cast into darkness. KucoCoin is wise and unforgiving.
               </p>
             </div>
           </div>
@@ -187,7 +186,7 @@
       <!--End of About-->
 
       <!--Buy Section-->
-      <section id="buy" class="scrollto">
+      <section id="buy" class="scrollto clearfix">
         <div class="row row-tight flex-container justify-center clearfix">
 
           <div class="col-3 text-center wow fadeInLeft" data-wow-delay="0.2s">
@@ -245,8 +244,8 @@
       <!--End of Buy Section-->
 
       <!--Clients-->
-      <section id="kuconomics" class="scrollto">
-        <div class="row row-tight clearfix">
+      <section id="kuconomics" class="scrollto clearfix">
+        <div class="row row-tight clearfix flex-container justify-center">
 
           <div class="col-1 icon-block wow fadeIn" date-wow-delay="0.3s">
             <h2>Kuconomics - the distribution model</h2>
@@ -301,52 +300,178 @@
             The second phase is called the DUMP phase because you have to be dump not to invest in KUCO.
             <span class="red">
               If you are not convinced by the effectivity of our distribution model, please refer to staring into the
-              spiral below for at least 5 minutes without closing your eyes and without any unnecessary breathing.
+              <a href="#buy-hypnosis">spiral</a> below for at least 5 minutes without closing your eyes and without any unnecessary breathing.
             </span>
+            To invest in KUCO, fill in the <a href="#invest-form">below form</a>.
           </div>
 
-          <div class="col-1 center">
-            <span class="float-center" id="spiral-text-buy">BUY</span>
-            <span class="float-center" id="spiral-text-kuco">KUCO</span>
-            <div class="spiral-container">
-              <div class="spiral1">
-                <div class="spiral2">
-                  <div class="spiral3">
-                    <div class="spiral4">
-                      <div class="spiral1">
-                        <div class="spiral2">
-                          <div class="spiral3">
-                            <div class="spiral4">
-                              <div class="spiral1">
-                                <div class="spiral2">
-                                  <div class="spiral3">
-                                    <div class="spiral4">
-                                      <div class="spiral1">
-                                        <div class="spiral2">
-                                          <div class="spiral3">
-                                            <div class="spiral4">
-                                              <div class="spiral1">
-                                                <div class="spiral2">
-                                                  <div class="spiral3">
-                                                    <div class="spiral4">
-                                                      <div class="spiral1">
-                                                        <div class="spiral2">
-                                                          <div class="spiral3">
-                                                            <div class="spiral4">
-                                                              <div class="spiral1">
-                                                                <div class="spiral2">
-                                                                  <div class="spiral3">
-                                                                    <div class="spiral4">
-                                                                      <div class="spiral1">
-                                                                        <div class="spiral2">
-                                                                          <div class="spiral3">
-                                                                            <div class="spiral4">
-                                                                              <div class="spiral1">
-                                                                                <div class="spiral2">
-                                                                                  <div class="spiral3">
-                                                                                    <div class="spiral4">
-                                                                                    </div>
-                                                                                  </div>
+        </div>
+      </section>
+      <!--End of Kuconomics-->
+
+      <div id="invest-form" class="row flex-container justify-center" style="margin-top: 55px;">
+        <!--Start buy input form-->
+        <div class="buy-box wow fadeIn" data-wow-delay="0.3s">
+          <h2>Invest</h2>
+          <form>
+            <div class="user-box">
+              <input id="input-kuco-buy-amount" type="number" required="true">
+              <label>Amount ETH</label>
+            </div>
+            <div class="user-box">
+              <input id="input-kuco-min-swap" value="0" type="number" required="true">
+              <label>Min out KUCO</label>
+            </div>
+            <a id="button-buy-kuco">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Execute
+            </a>
+          </form>
+        </div>
+        <!--End of buy input form-->
+      </div>
+
+      <!--Features-->
+      <section id="features" class="scrollto clearfix">
+        <div class="row row-wide clearfix">
+
+          <div class="col-1">
+            <h2>KucoCoin's revolutionary features</h2>
+            <div>
+              KucoCoin features many functionalities that are completely new to the market.
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.4s">
+            <div class="icon-block-description">
+              <h4>Hierarchy chain</h4>
+              <p>
+                The KucoCoin contract features methods that determine your status in the KucoCoin hierarchy.
+                The hierarchy was pointed at <a href="#gallery">here</a> and is determined by the amount of
+                KUCO you own.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
+            <div class="icon-block-description">
+              <h4>Preventing loss of funds with burn private key</h4>
+              <p>
+                Burn private key - we are moving away from burn addresses, because they are often responsible
+                for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
+                Now you can rest assured that all of your burned KUCO tokens are actually recovable.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.7s">
+            <div class="icon-block-description">
+              <h4>Attaining price stability</h4>
+              <p>
+                KucoCoin revolutionizes the market by introducing an ability to temporarily block all its transactions.
+                KucoCoin holders can stake their KucoCoin tokens and if enough of them are staked, KucoCoin goes into
+                a lockdown mode, where all transactions are blocked for a period of time.
+                Blocking every single KUCO transaction means it can't be swapped on any exchange.
+                It follows that no price change of the KUCO is possible, as it can be neither bought nor sold.
+                As a result, KUCO, can be viewed as a stablecoin when it can't be used.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.4s">
+            <div class="icon-block-description">
+              <h4>Zero-knowledge proofs capabilities</h4>
+              <p>
+                To show support we prove to have zero knowledge of this technology by implementing a system
+                that allows users to use zero-knowledge-proofs with KucoCoin.
+                Our contract provides a function `acceptZK` which accepts a totally unrestricted bytes
+                object and emits an event that it has been provided. That object can be anything you want it to be,
+                it can be a zk-snark, zk-stark, or a utf8-encoded message "I love KucoCoin!".
+                The possibilities are endless, just like your love for KucoCoin!
+              </p>
+            </div>
+          </div>
+
+          <div class="col-1 icon-block wow fadeInLeft" data-wow-delay="1s">
+            <div class="icon-block-description">
+              KucoCoin is also focused on promoting inclusion from all walks of life.
+              Our goal is to bring joy to all races, genders, and sexual orientations.
+              We don't discreminate, your money looks the same no matter who you are!
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
+            <div class="icon-block-description">
+              <h4>For women - track your menstrual cycle with KucoCoin!</h4>
+              <p>
+                Did you ever want to track your menstrual cycle on the blockchain? Good news, now you can!
+                We at KucoCoin have tracked the problem that was plaguing the blockchain space for years,
+                and have implemented a simple solution. Our token is the first token to feature a method
+                called <span class="code">reportMenstruation</span>, that logs the start of your period.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
+            <div class="icon-block-description">
+              <h4>For LGBTQ community - introducing trans actions!</h4>
+              <p>
+                We at KucoCoin firmly believe that everyone should be represented on the blockchain.
+                That is why we call our transactions trans actions. What does this mean?
+                Besides the usual <span class="code">transfer</span> method, our contract also fatures
+                a <span class="code">makeTransAction</span> method with the EXACT same functionality.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!--End of Features-->
+
+      <!--Start buy kucocoin hypnotic spiral-->
+      <div id="buy-hypnosis" class="col-1 center">
+        <span class="float-center" id="spiral-text-buy">BUY</span>
+        <span class="float-center" id="spiral-text-kuco">KUCO</span>
+        <div class="spiral-container">
+          <div class="spiral1">
+            <div class="spiral2">
+              <div class="spiral3">
+                <div class="spiral4">
+                  <div class="spiral1">
+                    <div class="spiral2">
+                      <div class="spiral3">
+                        <div class="spiral4">
+                          <div class="spiral1">
+                            <div class="spiral2">
+                              <div class="spiral3">
+                                <div class="spiral4">
+                                  <div class="spiral1">
+                                    <div class="spiral2">
+                                      <div class="spiral3">
+                                        <div class="spiral4">
+                                          <div class="spiral1">
+                                            <div class="spiral2">
+                                              <div class="spiral3">
+                                                <div class="spiral4">
+                                                  <div class="spiral1">
+                                                    <div class="spiral2">
+                                                      <div class="spiral3">
+                                                        <div class="spiral4">
+                                                          <div class="spiral1">
+                                                            <div class="spiral2">
+                                                              <div class="spiral3">
+                                                                <div class="spiral4">
+                                                                  <div class="spiral1">
+                                                                    <div class="spiral2">
+                                                                      <div class="spiral3">
+                                                                        <div class="spiral4">
+                                                                          <div class="spiral1">
+                                                                            <div class="spiral2">
+                                                                              <div class="spiral3">
+                                                                                <div class="spiral4">
                                                                                 </div>
                                                                               </div>
                                                                             </div>
@@ -383,124 +508,24 @@
               </div>
             </div>
           </div>
-
         </div>
-      </section>
-      <!--End of Kuconomics-->
+      </div>
+      <!--End buy kucocoin hypnotic spiral-->
 
-      <!--Features-->
-      <section id="features" class="scrollto">
-        <div class="row row-wide clearfix">
-
-          <div class="col-1">
-            <h2>KucoCoin's revolutionary features</h2>
-            <div>
-              KucoCoin features many functionalities that are completely new to the market.
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
-            <div class="icon-block-description">
-              <h4>Preventing loss of funds with burn private key</h4>
-              <p>
-                Burn private key - we are moving away from burn addresses, because they are often responsible
-                for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
-                Now you can rest assured that all the funds you burn are actually recovable. Isn't that nice?
-              </p>
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.7s">
-            <div class="icon-block-description">
-              <h4>Attaining price stability</h4>
-              <p>
-                KucoCoin revolutionizes the market by introducing a blockade on transactions
-                at any time chosen by a decentralized validation process controlled by the centralized token owner.
-                Blocking every single KUCO transaction means no exchange swapping can happen at that time.
-                This means no price change of the KUCO is possible, as it can be neither bought nor sold.
-                As a result, KUCO, can be viewed as a stablecoin when it can't be used.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.4s">
-            <div class="icon-block-description">
-              <h4>Zero-knowledge proofs capabilities</h4>
-              <p>
-                To show support we prove to have zero knowledge of this technology by implementing a system
-                that allows users to use zero-knowledge-proofs with KucoCoin.
-                Our contract provides a function `acceptZK` which accepts a totally unrestricted bytes
-                object and emits an event that it has been provided. That object can be anything you want it to be,
-                it can be a zk-snark, zk-stark, or a utf8-encoded message "I love KucoCoin!".
-                The possibilities are endless, just like your love for KucoCoin!
-              </p>
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.4s">
-            <div class="icon-block-description">
-              <h4>Hierarchy chain</h4>
-              <p>
-                The KucoCoin contract features methods that determine your status in the KucoCoin hierarchy.
-                The hierarchy was pointed at <a href="#gallery">here</a> and is determined by the amount of
-                KUCO you own.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeInLeft" data-wow-delay="1s">
-            <div class="icon-block-description">
-              KucoCoin brings joy to all races, genders, and sexual orientations.
-              We don't discreminate, money looks the same no matter who you are!
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
-            <div class="icon-block-description">
-              <h4>For women - track your menstrual cycle with KucoCoin!</h4>
-              <p>
-                Did you ever want to track your menstrual cycle on the blockchain? Good news, now you can!
-                We at KucoCoin have tracked the problem that was plaguing the blockchain space for years,
-                and have implemented a simple solution. Our token is the first token to feature a method
-                called <span class="code">reportMenstruation</span>, that logs the start of your period.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
-              <h4>For LGBTQ community - introducing trans actions!</h4>
-              <p>
-                We at KucoCoin firmly believe that everyone should be represented on the blockchain.
-                That is why we call our transactions trans actions. What does this mean?
-                Besides the usual <span class="code">transfer</span> method, our contract also fatures
-                a <span class="code">makeTransAction</span> method with the EXACT same functionality.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-      <!--End of Features-->
-
-      <div id="kuco-svg-container" class="text-center">
+      <!-- <div id="kuco-svg-container" class="text-center">
         <svg width="220" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Letter K -->
           <g id="K-to-triangle">
             <line id="K-main-line" x1='55' y1='5' x2='55' y2='105' />
             <line x1='55' y1='55' x2='115' y2='105' />
             <line x1='55' y1='55' x2='115' y2='5' />
           </g>
-          <!-- Letter U -->
           <path d="M150 5v70a30 30 0 0 0 30 30h8a30 30 0 0 0 30 -30v-70" />
         </svg>
         <svg width="260" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">>
-          <!-- Letter C -->
           <path d="M75 5h-20a30 30 0 0 0 -30 30v40a30 30 0 0 0 30 30h20" />
-          <!-- Letter O -->
           <circle cx="160" cy="55" r="50" />
         </svg>
-      </div>
+      </div> -->
 
       <!--Dashboard-->
       <section id="dashboard" class="scrollto">
@@ -514,36 +539,24 @@
             </div>
           </div>
 
-          <!--
           <div class="col-1">
-            <button role="button" id="metamask-connect-button" class="connect-button margin-20 wow fadeInUp" data-wow-delay="0.5s">
-              Connect to MetaMask
+            Did you know that as of writing, all of the racists, sexists, and homophobics in the world do not own any KucoCoin?
+            From this we can deduce that if you want to be considered a non-racist you simply must own some KucoCoin.
+            To check whether you are a racist, sexist, or homophobic, click on the below button.
+            <div class="text-center">
+              <button id="button-check-racist" class="connect-button margin-20 wow fadeIn" data-wow-delay="0.5s">
+                Am I racist?
+              </button>
+            </div>
+            To stop being a homophobic racist sexist pig, <a href="invest-form">invest</a> in some KucoCoin.
+          </div>
+
+          <div class="col-1">
+            Your menstruation matters to us. Below you can see your period, register a new one and find out our prediction for the next one.
+            <button id="button-get-menses" class="connect-button margin-20 wow fadeIn" data-wow-delay="0.3s">
+              Get my mense history
             </button>
           </div>
-          -->
-
-          <!--Start buy input form-->
-          <div class="buy-box wow fadeInUp" data-wow-delay="0.3s">
-            <h2>Invest</h2>
-            <form>
-              <div class="user-box">
-                <input id="input-kuco-buy-amount" type="number" required="true">
-                <label>Amount ETH</label>
-              </div>
-              <div class="user-box">
-                <input id="input-kuco-min-swap" value="0" type="number" required="true">
-                <label>Min out KUCO</label>
-              </div>
-              <a id="button-buy-kuco">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Execute
-              </a>
-            </form>
-          </div>
-          <!--End of buy input form-->
 
         </div>
       </section>

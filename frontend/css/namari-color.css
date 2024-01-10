@@ -16,12 +16,8 @@
 
 /* Default Link Color */
 
-a, .la-ball-triangle-path {
+.la-ball-triangle-path {
     color:FireBrick;
-}
-
-a:hover {
-    color:#FF3131;
 }
 
 /* Default Icon Color */
