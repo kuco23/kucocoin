@@ -15,7 +15,6 @@
     "test": "hardhat test",
     "fork": "yarn hardhat node --fork https://coston-api.flare.network/ext/C/rpc --fork-block-number 11484960",
     "---------- frontend ----------": "---------- frontend ----------",
-    "postparcel-build": "sh ./scripts/replace-max-width.sh",
     "parcel-build": "rimraf .parcel-cache dist && parcel build frontend/index.html --public-url ./ --no-source-maps",
     "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",
     "---------- github ci -----------": "---------- github ci -----------",
@@ -66,5 +65,16 @@
     "typeRoots": [
         "./src/node_modules/@types/jquery"
     ]
-}
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 ChromeAndroid versions",
+    "last 2 Samsung versions",
+    "last 2 Opera versions",
+    "last 2 Edge versions",
+    "IE 11"
+  ]
 }
