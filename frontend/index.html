@@ -18,19 +18,19 @@
   <!-- import CSS Files -->
   <style>
     @import "./css/global.css";
+    @import './css/animate.css';
+    @import './css/spiral.css';
+    @import './css/fire-form.css';
+    @import './css/gradient-button.css';
     @import './css/namari-style.css';
     @import './css/namari-color.css';
     @import './css/kucocoin-style.css';
-    @import './css/kucocoin-invest-form.css';
-    @import './css/kucocoin-connect-button.css';
     @import './css/kucocoin-k-triangle.css';
-    @import './css/animate.css';
-    @import './css/spiral.css';
   </style>
 
   <!--Font Awesome and Google Webfonts-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 </head>
 
 <body>
@@ -306,12 +306,13 @@
           </div>
 
         </div>
+
       </section>
       <!--End of Kuconomics-->
 
       <div id="invest-form" class="row flex-container justify-center" style="margin-top: 55px;">
         <!--Start buy input form-->
-        <div class="buy-box wow fadeIn" data-wow-delay="0.3s">
+        <div class="fire-form wow fadeIn" data-wow-delay="0.3s">
           <h2>Invest</h2>
           <form>
             <div class="user-box">
@@ -512,21 +513,6 @@
       </div>
       <!--End buy kucocoin hypnotic spiral-->
 
-      <!-- <div id="kuco-svg-container" class="text-center">
-        <svg width="220" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <g id="K-to-triangle">
-            <line id="K-main-line" x1='55' y1='5' x2='55' y2='105' />
-            <line x1='55' y1='55' x2='115' y2='105' />
-            <line x1='55' y1='55' x2='115' y2='5' />
-          </g>
-          <path d="M150 5v70a30 30 0 0 0 30 30h8a30 30 0 0 0 30 -30v-70" />
-        </svg>
-        <svg width="260" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">>
-          <path d="M75 5h-20a30 30 0 0 0 -30 30v40a30 30 0 0 0 30 30h20" />
-          <circle cx="160" cy="55" r="50" />
-        </svg>
-      </div> -->
-
       <!--Dashboard-->
       <section id="dashboard" class="scrollto">
         <div class="row row-wide flex-container justify-center">
@@ -540,27 +526,48 @@
           </div>
 
           <div class="col-1">
-            Did you know that as of writing, all of the racists, sexists, and homophobics in the world do not own any KucoCoin?
-            From this we can deduce that if you want to be considered a non-racist you simply must own some KucoCoin.
-            To check whether you are a racist, sexist, or homophobic, click on the below button.
-            <div class="text-center">
-              <button id="button-check-racist" class="connect-button margin-20 wow fadeIn" data-wow-delay="0.5s">
-                Am I racist?
-              </button>
+            <h4>Trans Actions</h4>
+            Do you support the trans movement? Then buy some KucoCoin and make a trans action by choosing the amount of KUCO
+            and clicking the button below.
+            <div id="trans-action-button">
+              <input type="number" placeholder="Amount KUCO" />
+              <input type="button" value="Execute" />
             </div>
-            To stop being a homophobic racist sexist pig, <a href="invest-form">invest</a> in some KucoCoin.
+            Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
+            We urge you to not be on the wrong side of history by missing this unique opportunity.
           </div>
 
-          <div class="col-1">
-            Your menstruation matters to us. Below you can see your period, register a new one and find out our prediction for the next one.
-            <button id="button-get-menses" class="connect-button margin-20 wow fadeIn" data-wow-delay="0.3s">
-              Get my mense history
-            </button>
+          <div class="col-1 wow fadeIn" data-wow-delay="0.3s">
+            <h4>Track Your Period</h4>
+            Your menstruation matters to us and we want you not to only be in sync with the moon, but also with the blockchain.
+            To register your period, click the button below.
+            <div class="text-center">
+              <button id="report-period-button">
+                REPORT
+              </button>
+            </div>
+            KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
+            Note that the prediction's accuracy is not guarranteed with too little data.
+            <!-- <div class="text-center">
+              <button id="next-period-button" class="gradient-button margin-20">
+                When will I bleed?
+              </button>
+            </div> -->
           </div>
 
         </div>
       </section>
       <!--End of Dashboard-->
+
+      <div id="kuco-svg-container" class="text-center">
+        <svg width="145" height="110" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <g id="K-to-triangle">
+            <line id="K-main-line" x1='55' y1='5' x2='55' y2='105' />
+            <line x1='55' y1='55' x2='115' y2='105' />
+            <line x1='55' y1='55' x2='115' y2='5' />
+          </g>
+        </svg>
+      </div>
 
     </main>
     <!--End Main Content Area-->

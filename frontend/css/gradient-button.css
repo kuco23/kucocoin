@@ -1,6 +1,6 @@
 
 /* CSS */
-.connect-button {
+.gradient-button {
   padding: 0.6em 2em;
   border: none;
   outline: none;
@@ -15,7 +15,7 @@
   touch-action: manipulation;
 }
 
-.connect-button:before {
+.gradient-button:before {
   content: "";
   background: linear-gradient(
     45deg,
@@ -38,12 +38,12 @@
   -webkit-filter: blur(5px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  animation: glowing-connect-button 20s linear infinite;
+  animation: glowing-gradient-button 20s linear infinite;
   transition: opacity 0.3s ease-in-out;
   border-radius: 10px;
 }
 
-@keyframes glowing-connect-button {
+@keyframes glowing-gradient-button {
   0% {
     background-position: 0 0;
   }
@@ -55,7 +55,7 @@
   }
 }
 
-.connect-button:after {
+.gradient-button:after {
   z-index: -1;
   content: "";
   position: absolute;

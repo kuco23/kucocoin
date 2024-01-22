@@ -1,4 +1,4 @@
-/* coin image */
+/* kucocoin image */
 
 .coin-image-container > img {
   height: 240px;
@@ -17,7 +17,7 @@
   100% {-webkit-transform: rotate(360deg);}
 }
 
-/* gallery hover */
+/* kucocoin stages */
 
 #gallery a:before {
   /* center vertically and horizontally */
@@ -36,8 +36,6 @@
   font-weight: bold;
   font-family: 'Bungee Hairline';
 }
-
-/* flicker */
 
 #gallery a:nth-child(1):before {
   content: 'Trash';
@@ -86,7 +84,7 @@
   89%, 91%, 93%, 95%, 97%, 99% {opacity: 1;}
 }
 
-/* kucocoin stages (gallery on click) */
+/* kucocoin stages - gallery on click */
 
 #wrapper {
   transition: filter 1s;
@@ -128,4 +126,58 @@
 #triangle-scheme > span {
   padding-top: 4px;
   border-bottom: 2px solid FireBrick;
+}
+
+/* buttons */
+
+/* make trans action button */
+
+#trans-action-button {
+  padding: 20px 0;
+  text-align: center;
+}
+#trans-action-button > input {
+  line-height: 15px;
+  font: 15px;
+  border-radius: 5px;
+}
+#trans-action-button > input:nth-child(1) {
+  border: 1px solid #5BCEFA;
+  color: white;
+}
+#trans-action-button > input:nth-child(2) {
+  border: 1px solid #F5A9B8;
+  color: #F5A9B8;
+}
+#trans-action-button > input:nth-child(2):hover {
+  cursor: pointer;
+  background-color: #F5A9B8;
+  color: white;
+}
+
+/* report period button */
+
+#report-period-button {
+  margin: 20px 0px;
+  padding: 5px 20px;
+  color: white;
+  font-size: 35px;
+  font-family: 'Bebas Neue', Helvetica;
+  font-weight: bold;
+  transition: color 1s;
+  animation: tripping 2s alternate infinite;
+}
+
+#report-period-button:hover {
+  cursor: pointer;
+  color: red;
+}
+
+@keyframes tripping {
+  from {
+    background-color: DarkRed;
+  }
+  100% {
+    background-color: transparent;
+  }
 }

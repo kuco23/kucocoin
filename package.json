@@ -6,6 +6,10 @@
     "name": "Nejc Ševerkar",
     "url": "https://kuco23.github.io"
   },
+  "repository": {
+    "url": "https://github.com/kuco23/kucocoin",
+    "type": "git"
+  },
   "scripts": {
     "---------- contracts ----------": "---------- contracts ----------",
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && yarn typechain",
