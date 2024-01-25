@@ -123,9 +123,11 @@
 
 /* triangle scheme */
 
+#triangle-scheme {
+  text-align: center;
+}
 #triangle-scheme > span {
-  padding-top: 4px;
-  border-bottom: 2px solid FireBrick;
+  padding: 2px 0;
 }
 
 /* buttons */
