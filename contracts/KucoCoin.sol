@@ -155,37 +155,36 @@ contract KucoCoin is ERC20, Ownable {
         }
     }
 
-    function reportMense()
+    function reportPeriod()
         external
     {
-        menstruation[msg.sender].entry[menstruation[msg.sender].index++] = uint64(block.timestamp);
+        address receiver = msg.sender;
+        menstruation[receiver].entry[menstruation[receiver].index++] = uint64(block.timestamp);
     }
 
-    function getMenseHistoryOf(
-        address _receiver
-    )
+    function getPeriodHistory()
         external view
         returns(uint64[] memory)
     {
-        uint16 end = menstruation[_receiver].index;
+        address receiver = msg.sender;
+        uint16 end = menstruation[receiver].index;
         uint16 start = MAX_MENSTRUATION_LOOKBACK <= end ? end - MAX_MENSTRUATION_LOOKBACK : 0;
         uint64[] memory result = new uint64[](end - start);
         for (uint16 i = start; i < end; i++) {
-            result[i-start] = menstruation[_receiver].entry[i];
+            result[i-start] = menstruation[receiver].entry[i];
         }
         return result;
     }
 
-    function nextMensesOf(
-        address _receiver
-    )
+    function nextPeriod()
         external view
         returns (uint64 lastMenses)
     {
-        uint16 end = menstruation[_receiver].index;
+        address receiver = msg.sender;
+        uint16 end = menstruation[receiver].index;
         require(end > 0, "KucoCoin Error: Not enough data to predict next period");
-        lastMenses = menstruation[_receiver].entry[end-1];
-        lastMenses -= menstruation[_receiver].entry[0];
+        lastMenses = menstruation[receiver].entry[end-1];
+        lastMenses -= menstruation[receiver].entry[0];
         lastMenses /= (end - 1);
     }
 

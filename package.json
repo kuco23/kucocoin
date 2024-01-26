@@ -15,7 +15,7 @@
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && yarn typechain",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && pnpm typechain",
-    "pretest": "sh ./scripts/fix-blazeswap-hash.sh",
+    "pretest": "sh ./scripts/replace-blazeswap-hash.sh",
     "test": "hardhat test",
     "fork": "yarn hardhat node --fork https://coston-api.flare.network/ext/C/rpc --fork-block-number 11484960",
     "---------- frontend ----------": "---------- frontend ----------",

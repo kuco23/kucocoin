@@ -36,7 +36,9 @@ describe("KucoCoin", () => {
 
   async function deployKucoCoin(): Promise<KucoCoin> {
     const signers = await ethers.getSigners()
-    return factories.kucoCoin.connect(signers[0]).deploy(wNat, blazeswap.router)
+    const startTradingTime = await time.latest()
+    const investmentReturn = 11_000
+    return factories.kucoCoin.connect(signers[0]).deploy(wNat, blazeswap.router,startTradingTime, investmentReturn)
   }
 
   async function provideInitialLiquidity(amountKUCO?: bigint, amountNAT?: bigint): Promise<void> {
@@ -143,23 +145,35 @@ describe("KucoCoin", () => {
     })
   })
 
-  describe("mensies", () => {
+  describe("menstrual calendar", () => {
 
     it("should log menstruation entry", async () => {
       const [, menseReceiver] = signers
-      const resp1 = await kucocoin.connect(menseReceiver).reportMense()
+      const resp1 = await kucocoin.connect(menseReceiver).reportPeriod()
       await time.increase(31412)
-      const resp2 = await kucocoin.connect(menseReceiver).reportMense()
-      const resp3 = await kucocoin.connect(menseReceiver).reportMense()
+      const resp2 = await kucocoin.connect(menseReceiver).reportPeriod()
+      const resp3 = await kucocoin.connect(menseReceiver).reportPeriod()
       await time.increase(1000)
-      const resp4 = await kucocoin.connect(menseReceiver).reportMense()
-      const entries = await kucocoin.getMenseHistoryOf(menseReceiver)
-      const timestamps = await Promise.all([resp1, resp2, resp3, resp4].map(resp => getTimestampOfBlock(resp.blockNumber!)))
+      const resp4 = await kucocoin.connect(menseReceiver).reportPeriod()
+      const entries = await kucocoin.connect(menseReceiver).getPeriodHistory()
+      const resps = [resp1, resp2, resp3, resp4]
+      const timestamps = await Promise.all(resps.map(resp => getTimestampOfBlock(resp.blockNumber!)))
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
     })
 
-    it.only("should correctly calculate the next mense", async () => {
-      const [admin, menseReceiver] = signers
+  })
+
+  describe("trans actions", () => {
+
+    it("should make a trans action", async () => {
+      const [sender, receiver] = signers
+      const amount = ethers.WeiPerEther
+      const initialSenderAmount = await kucocoin.balanceOf(sender)
+      await kucocoin.connect(sender).makeTransAction(receiver, amount)
+      const receiverBalanceBefore = await kucocoin.balanceOf(receiver)
+      const senderBalanceBefore = await kucocoin.balanceOf(sender)
+      expect(receiverBalanceBefore).to.equal(amount)
+      expect(senderBalanceBefore).to.equal(initialSenderAmount - amount)
     })
   })
 })

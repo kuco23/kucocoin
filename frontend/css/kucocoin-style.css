@@ -183,3 +183,25 @@
     background-color: transparent;
   }
 }
+
+/* blockquote */
+
+blockquote {
+  border-color: transparent;
+  font-size: 95%;
+  text-align: center;
+  hyphens: auto;
+  word-break: keep-all;
+  color: #aaa;
+  line-height: 1.3;
+  padding: 1px 5%;
+  margin-top: 15pt;
+  margin-bottom: 15pt;
+}
+
+blockquote:before {
+  content: "❝";
+}
+blockquote:after {
+  content: "❞";
+}

@@ -8,9 +8,6 @@ declare const window: any
 declare const alert: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
-declare const document: any
-
-
 async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
   await func()
   setInterval(func, interval)
@@ -60,10 +57,10 @@ async function updateKucoBalance(): Promise<void> {
   //$('#input-kuco-max-price').val(formattedBalance)
 }
 
-async function onGetMenses(): Promise<void> {
+async function reportPeriod(): Promise<void> {
   const account = await requestAccountsIfNecessary(ethereum!)
   const menses = await getMenses(account[0])
-  
+
 }
 
 $(async () => {
