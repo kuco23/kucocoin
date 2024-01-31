@@ -23,3 +23,5 @@ yarn.lock
 
 *.Identifier
 .parcel-cache/
+
+*__pycache__/

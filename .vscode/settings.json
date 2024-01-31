@@ -9,6 +9,9 @@
   "[css]": {
     "editor.tabSize": 2,
   },
+  "[python]": {
+    "editor.tabSize": 2,
+  },
   "[solidity]": {
       "editor.defaultFormatter": "NomicFoundation.hardhat-solidity",
       "editor.tabSize": 4,

@@ -1,0 +1,61 @@
+#kucomoon g:first-child {
+  transform-origin: center;
+  animation: KucomoonRotate 8s infinite alternate;
+}
+
+#kucomoon g:first-child line:first-child {
+  animation: KucomoonLineDown 8s infinite alternate;
+}
+
+#kucomoon g:nth-child(2) circle {
+  transform-origin: center;
+  animation: kucomoonScale 8s infinite alternate;
+}
+
+#kucomoon g:nth-child(3) polygon {
+  opacity: 0;
+  animation: PolyCover 8s infinite alternate;
+}
+
+@keyframes KucomoonRotate {
+  0%, 20% {
+    transform: rotate(0deg);
+  }
+  50%, 100% {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes KucomoonLineDown {
+  0%, 50% {
+    transform: translateX(0px);
+  }
+  80%, 100% {
+    transform: translateX(60px);
+  }
+}
+
+@keyframes kucomoonScale {
+  0%, 50% {
+    r: 80px;
+    stroke: grey;
+    transform: translateY(0px);
+  }
+  80%, 100% {
+    r: 30px;
+    stroke: grey;
+    transform: translateY(-18.7587px);
+  }
+  100% {
+    stroke: #f4c580;
+  }
+}
+
+@keyframes PolyCover {
+  0%, 80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -168,6 +168,7 @@
   font-weight: bold;
   transition: color 1s;
   animation: tripping 2s alternate infinite;
+  border-radius: 3px;
 }
 
 #report-period-button:hover {
@@ -197,6 +198,7 @@ blockquote {
   padding: 1px 5%;
   margin-top: 15pt;
   margin-bottom: 15pt;
+  font-style: italic;
 }
 
 blockquote:before {

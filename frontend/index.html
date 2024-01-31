@@ -25,7 +25,7 @@
     @import './css/namari-style.css';
     @import './css/namari-color.css';
     @import './css/kucocoin-style.css';
-    @import './css/kucocoin-k-triangle.css';
+    @import './css/kucomoon.css';
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -241,11 +241,17 @@
       <!--End of Buy Section-->
 
       <div id="kuco-svg-container" class="text-center">
-        <svg width="145" height="120" stroke-width="5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <g id="K-to-triangle">
-            <line id="K-main-line" x1='50' y1='10' x2='50' y2='110' />
-            <line x1='50' y1='60' x2='110' y2='110' />
-            <line x1='50' y1='60' x2='110' y2='10' />
+        <svg id="kucomoon" width='170' height='170' stroke-width='5' stroke-linecap="round" stroke-linejoin="round">
+          <g stroke="white">
+            <line x1='55.00000000000001' y1='35.0' x2='55.00000000000001' y2='135.0' />
+            <line x1='55.00000000000001' y1='85' x2='115.0' y2='35.0' />
+            <line x1='55.00000000000001' y1='85' x2='115.0' y2='135.0' />
+          </g>
+          <g stroke="white" fill="none">
+            <circle cx='85' cy='85' r='80' />
+          </g>
+          <g fill="#1e1e1e" stroke="DarkRed">
+            <polygon points='85 55.00000000000001, 135.0 115.0, 35.0 115.0' />
           </g>
         </svg>
       </div>
@@ -412,7 +418,7 @@
             </div>
           </div>
 
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>For women - track your menstrual cycle with KucoCoin!</h4>
               <p>
@@ -420,11 +426,21 @@
                 We at KucoCoin have tracked the problem that was plaguing the blockchain space for years,
                 and have implemented a simple solution. Our token is the first token to feature a method
                 called <span class="code">reportMenstruation</span>, that logs the start of your period.
+                Stop syncing with the moon and sync with the blockchain instead, by pressing the below button.
+              </p>
+              <div class="text-center">
+                <button id="report-period-button">
+                  REPORT
+                </button>
+              </div>
+              <p>
+                KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
+                Note that the prediction's accuracy is not guarranteed with too little data.
               </p>
             </div>
           </div>
 
-          <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.3s">
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
               <h4>For LGBTQ community - introducing trans actions!</h4>
               <p>
@@ -432,6 +448,13 @@
                 That is why we call our transactions trans actions. What does this mean?
                 Besides the usual <span class="code">transfer</span> method, our contract also fatures
                 a <span class="code">makeTransAction</span> method with the EXACT same functionality.
+                Act now by choosing the amount of KUCO you wish to dedicate, then click the "Act" button.
+                <div id="trans-action-button">
+                  <input type="number" placeholder="Amount KUCO" />
+                  <input type="button" value="Act" />
+                </div>
+                Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
+                We urge you to not be on the wrong side of history by missing this unique opportunity.
               </p>
             </div>
           </div>
@@ -535,33 +558,12 @@
 
           <div class="col-1 wow fadeIn" data-wow-delay="0.2s">
             <h4>Trans Actions</h4>
-            Do you support the trans movement? Then buy some KucoCoin and make a trans action! Act now by choosing the amount
-            of KUCO you wish to dedicate, then click the "Act" button.
-            Your support is positively correlated to the amount of KUCO you choose.
-            <div id="trans-action-button">
-              <input type="number" placeholder="Amount KUCO" />
-              <input type="button" value="Act" />
-            </div>
-            Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
-            We urge you to not be on the wrong side of history by missing this unique opportunity.
+
           </div>
 
           <div class="col-1 wow fadeIn" data-wow-delay="0.8s">
             <h4>Track Your Period</h4>
-            Your menstruation matters to us and we want you not to only be in sync with the moon, but also with the blockchain.
-            To report your period, click the button below.
-            <div class="text-center">
-              <button id="report-period-button">
-                REPORT
-              </button>
-            </div>
-            KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
-            Note that the prediction's accuracy is not guarranteed with too little data.
-            <!-- <div class="text-center">
-              <button id="next-period-button" class="gradient-button margin-20">
-                When will I bleed?
-              </button>
-            </div> -->
+
           </div>
 
         </div>
