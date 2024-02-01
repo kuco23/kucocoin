@@ -9,10 +9,6 @@ const config: HardhatUserConfig = {
       url: "https://coston2-api.flare.network/ext/C/rpc",
       chainId: 114,
     },
-    songbird: {
-      url: "https://songbird-api.flare.network/ext/C/rpc",
-      chainId: 19,
-    },
     flare: {
       url: "https://flare-api.flare.network/ext/C/rpc",
       chainId: 14,

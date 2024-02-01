@@ -1,39 +1,51 @@
-require('dotenv').config()
-import fs from 'fs'
-import { ethers } from 'ethers'
+import { Command } from 'commander'
+import { Wallet, ethers } from 'ethers'
 import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/contracts/KucoCoin.sol/KucoCoin.json'
-import type { KucoCoin } from '../types'
+import { networkInfo } from './config'
+import type { OptionValues } from 'commander'
+import type { KucoCoin__factory } from '../types'
 
-const signerPvk = process.env.SIGNER_PRIVATE_KEY!
-const providerRpc = process.env.PROVIDER_RPC!
-const network = process.env.NETWORK!
 
-const addresses = JSON.parse(fs.readFileSync('./addresses.json').toString())[network]
+let provider: ethers.JsonRpcApiProvider
+let signer: ethers.Wallet
 
-const provider = new ethers.JsonRpcProvider(providerRpc)
-const signer = new ethers.Wallet(signerPvk, provider)
+const program = new Command("KucoCoin CLI")
+program
+  .option("--network <costwo|flare|flarefork>", "network to use", "costwo")
+  .option("--env-file <env>", "env file to use", ".env")
+  .hook("preAction", (cmd: Command) => {
+    const options = cmd.opts()
+    require('dotenv').config({ path: options.envFile })
+    const ninfo = networkInfo[options.network]
+    provider = new ethers.JsonRpcProvider(ninfo.rpc)
+    signer = new Wallet(process.env.SIGNER_PRIVATE_KEY!, provider)
+  })
+program
+  .command("deploy").description("deploy KucoCoin")
+  .argument("initial liquidity", "initial liquidity deposited to the dex")
+  .argument("start trading time", "the time at which to end investment stage and allow trading")
+  .argument("investment return", "factor at which to return the investment value")
+  .action(async (start: string, liquidity: string, end: string, _options: OptionValues) => {
+    const options = { ...program.opts(), ..._options }
+    const ninfo = networkInfo[options.network]
+    const kucocoinAddress = await deployKucocoin(ninfo.dex, BigInt(liquidity), BigInt(start), parseInt(end))
+    console.log(`KucoCoin deployed at ${kucocoinAddress}`)
+  })
 
-async function deployKucocoin(): Promise<ethers.BaseContract> {
-  const kucocoinFactory = new ethers.ContractFactory(kucocoinAbi, kucocoinBytecode)
-  const kucocoin = await kucocoinFactory.connect(signer).deploy(addresses.WNat, addresses.BlazeSwapRouter)
+program.parseAsync(process.argv).catch(err => {
+  if (err instanceof Error) {
+    console.log(`Error: ${err.message}`)
+  }
+})
+
+async function deployKucocoin(
+  dex: string,
+  liquidity: bigint,
+  investmentStart: bigint,
+  investmentReturnBips: number
+): Promise<string> {
+  const factory = new ethers.ContractFactory(kucocoinAbi, kucocoinBytecode) as KucoCoin__factory
+  const kucocoin = await factory.connect(signer).deploy(dex, liquidity, investmentStart, investmentReturnBips)
   await kucocoin.waitForDeployment()
-  const kucocoinAddress = await kucocoin.getAddress()
-  console.log(`KucoCoin deployed at ${kucocoinAddress}`)
-  return kucocoin
+  return kucocoin.getAddress()
 }
-
-async function addLiquidity(amountKucocoin: bigint, amountNAT: bigint): Promise<void> {
-  const kucocoin = new ethers.Contract(addresses.KucoCoin, kucocoinAbi) as unknown as KucoCoin
-  await kucocoin.connect(signer).addLiquidity(amountKucocoin, { value: amountNAT })
-}
-
-async function buyKucocoin(amountNAT: bigint, minKuco: bigint): Promise<void> {
-  const kucocoin = new ethers.Contract(addresses.KucoCoin, kucocoinAbi) as unknown as KucoCoin
-  await kucocoin.connect(signer).buy(signer, minKuco, { value: amountNAT })
-}
-
-
-
-//deployKucocoin()
-addLiquidity(ethers.parseEther("100"), ethers.parseEther("10"))
-//buyKucocoin(ethers.parseEther("0.0001"), BigInt(0))

@@ -5,11 +5,11 @@ import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike } from "ethers"
 
 
-export async function getLiquidityReserves(): Promise<{ "KUCO": bigint, "NAT": bigint }> {
+export async function getLiquidityReserves(): Promise<{ KUCO: bigint, NAT: bigint }> {
   const provider = new JsonRpcProvider(network.rpcUrls[0])
   const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
   const { 0: reserveKUCO, 1: reserveNAT } = await contract.getPoolReserves()
-  return { "KUCO": reserveKUCO, "NAT": reserveNAT }
+  return { KUCO: reserveKUCO, NAT: reserveNAT }
 }
 
 export async function buyKuco(
@@ -31,6 +31,14 @@ export async function makeTransAction(ethereum: MetaMaskInpageProvider, to: Addr
   await contract.connect(signer).makeTransAction(to, amount)
 }
 
+export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<void> {
+  await switchNetworkIfNecessary(ethereum)
+  const provider = new BrowserProvider(ethereum)
+  const signer = await provider.getSigner()
+  const contract = new Contract(kucocoin.address, kucocoin.abi) as any
+  await contract.connect(signer).reportPeriod()
+}
+
 export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
@@ -39,10 +47,10 @@ export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<
   return balance
 }
 
-export async function getMenses(address: AddressLike): Promise<bigint[]> {
+export async function getPeriodHistory(address: AddressLike): Promise<bigint[]> {
   const provider = new JsonRpcProvider(network.rpcUrls[0])
   const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
-  const menstruation = await contract.getMenseHistoryOf(address)
+  const menstruation = await contract.getPeriodHistory(address)
   return menstruation
 }
 

@@ -17,7 +17,7 @@
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && pnpm typechain",
     "pretest": "sh ./scripts/replace-blazeswap-hash.sh",
     "test": "hardhat test",
-    "fork": "yarn hardhat node --fork https://coston-api.flare.network/ext/C/rpc --fork-block-number 11484960",
+    "fork": "yarn hardhat node --fork https://flare-api.flare.network/ext/C/rpc --fork-block-number 19057726",
     "---------- frontend ----------": "---------- frontend ----------",
     "parcel-build": "rimraf .parcel-cache dist && parcel build frontend/index.html --public-url ./ --no-source-maps",
     "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",

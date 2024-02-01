@@ -27,16 +27,16 @@ curve_offset_y = moon_radius * sin(acos((w + 1) / moon_radius))
 center_offset_y = curve_offset_y + moon_radius - k_w_half
 
 print(f"""\
-  <svg id="kucomoon" width='{2 * (dx + r)}' height='{2 * (dx + r)}' stroke-width='{dx}' stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <g>
+  <svg id='kucomoon' width='{2 * (dx + r)}' height='{2 * (dx + r)}' stroke-width='{dx}' stroke-linecap='round' stroke-linejoin='round'>
+    <g stroke='white'>
       <line x1='{ks[0]}' y1='{ks[1]}' x2='{ke[0]}' y2='{ke[1]}' />
       <line x1='{kc[0]}' y1='{kc[1]}' x2='{k1e[0]}' y2='{k1e[1]}' />
       <line x1='{kc[0]}' y1='{kc[1]}' x2='{k2e[0]}' y2='{k2e[1]}' />
     </g>
-    <g>
+    <g stroke='white' fill='none'>
       <circle cx='{cc[0]}' cy='{cc[1]}' r='{r}' />
     </g>
-    <g>
+    <g fill='#1e1e1e' stroke='FireBrick'>
       <polygon points='{cc[0]} {cc[1] - k_w_half}, {cc[0] + k / 2} {cc[1] + k_w_half}, {cc[0] - k / 2} {cc[1] + k_w_half}' />
     </g>
   </svg>

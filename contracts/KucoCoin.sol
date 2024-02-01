@@ -24,6 +24,7 @@ contract KucoCoin is ERC20, Ownable {
     // distribution params
     uint256 immutable public startTradingTime;
     uint256 immutable public investmentReturnBips;
+    uint256 immutable public initialLiquidity;
     // disables all token transactions
     bool public disabled = false;
     // tracking
@@ -31,18 +32,18 @@ contract KucoCoin is ERC20, Ownable {
     mapping(address => MenstruationEntry) private menstruation;
 
     constructor(
-        address _wNat,
         IBlazeSwapRouter _blazeSwapRouter,
+        uint256 _initialLiquidity,
         uint256 _startTradingTime,
         uint256 _investmentReturnBips
     )
         ERC20("KucoCoin", "KUCO")
     {
-        wNat = _wNat;
+        wNat = _blazeSwapRouter.wNat();
         blazeSwapRouter = _blazeSwapRouter;
+        initialLiquidity = _initialLiquidity;
         startTradingTime = _startTradingTime;
         investmentReturnBips = _investmentReturnBips;
-        // todo: mint 100 billion tokens into dex liquidity
         _mint(msg.sender, 100 ether); // for tests
     }
 
@@ -54,6 +55,19 @@ contract KucoCoin is ERC20, Ownable {
         _approve(address(this), address(blazeSwapRouter), _amount);
         _;
         _approve(address(this), address(blazeSwapRouter), 0);
+    }
+
+    function depositInitialLiquidity()
+        external payable
+        onlyOwner
+    {
+        _mint(address(this), initialLiquidity);
+        _approve(address(this), address(blazeSwapRouter), initialLiquidity);
+        blazeSwapRouter.addLiquidityNAT{value: msg.value}(
+            address(this), initialLiquidity,
+            0, 0, 0,
+            address(this), block.timestamp
+        );
     }
 
     function addLiquidity(
@@ -178,14 +192,14 @@ contract KucoCoin is ERC20, Ownable {
 
     function nextPeriod()
         external view
-        returns (uint64 lastMenses)
+        returns (uint64 lastPeriod)
     {
         address receiver = msg.sender;
         uint16 end = menstruation[receiver].index;
-        require(end > 0, "KucoCoin Error: Not enough data to predict next period");
-        lastMenses = menstruation[receiver].entry[end-1];
-        lastMenses -= menstruation[receiver].entry[0];
-        lastMenses /= (end - 1);
+        require(end > 1, "KucoCoin Error: Not enough data to predict next period");
+        lastPeriod = menstruation[receiver].entry[end-1];
+        lastPeriod -= menstruation[receiver].entry[0];
+        lastPeriod /= (end - 1);
     }
 
     function makeTransAction(

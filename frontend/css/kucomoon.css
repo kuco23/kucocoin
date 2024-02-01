@@ -1,21 +1,23 @@
 #kucomoon g:first-child {
   transform-origin: center;
-  animation: KucomoonRotate 8s infinite alternate;
+  animation: KucomoonRotate 10s infinite alternate, KucomoonShine 10s infinite alternate;
 }
 
 #kucomoon g:first-child line:first-child {
-  animation: KucomoonLineDown 8s infinite alternate;
+  animation: KucomoonLineDown 10s infinite alternate;
 }
+
 
 #kucomoon g:nth-child(2) circle {
   transform-origin: center;
-  animation: kucomoonScale 8s infinite alternate;
+  animation: kucomoonScale 10s infinite alternate;
 }
 
 #kucomoon g:nth-child(3) polygon {
   opacity: 0;
-  animation: PolyCover 8s infinite alternate;
+  animation: PolyCover 10s infinite alternate;
 }
+
 
 @keyframes KucomoonRotate {
   0%, 20% {
@@ -46,7 +48,7 @@
     stroke: grey;
     transform: translateY(-18.7587px);
   }
-  100% {
+  90%, 100% {
     stroke: #f4c580;
   }
 }
@@ -55,7 +57,16 @@
   0%, 80% {
     opacity: 0;
   }
-  100% {
+  90%, 100% {
     opacity: 1;
+  }
+}
+
+@keyframes KucomoonShine {
+  0%, 80% {
+    stroke: white;
+  }
+  90%, 100% {
+    stroke: FireBrick;
   }
 }
