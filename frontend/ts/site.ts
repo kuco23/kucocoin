@@ -1,16 +1,21 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
-import {
-  buyKuco, reportPeriod,
-  getKucoBalance, getLiquidityReserves
-} from './contract'
+import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
 declare const window: any
-declare const alert: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
+
+async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
+  await func()
+  setInterval(func, interval)
+}
+
+async function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 function setKucocoinStageDisplay(): void {
   for (let stage = 1; stage <= 6; stage++) {
@@ -79,7 +84,10 @@ function onReportPeriod(): void {
       $('#report-period-loading').css('display', 'inline-block')
       await reportPeriod(ethereum!)
       $('#report-period-loading').css('display', 'none')
-      $('#report-period-finsh').css('display', 'inline-block')
+      $('#report-period-button').css('display', 'inline-block')
+      $('#popup-executed').fadeIn(1200)
+      await sleep(2500)
+      $('#popup-executed').fadeOut(1200)
     } catch (err: any) {
       $('#report-period-button').css('display', 'inline-block')
       $('#report-period-loading').css('display', 'none')
@@ -103,11 +111,6 @@ async function updateKucoBalance(): Promise<void> {
   const balance = await getKucoBalance(ethereum!)
   const formattedBalance = formatUnits(balance.toString(), 18)
   //$('#input-kuco-max-price').val(formattedBalance)
-}
-
-async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
-  await func()
-  setInterval(func, interval)
 }
 
 $(async () => {

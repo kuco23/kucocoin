@@ -18,7 +18,7 @@
   height: 85%;
   margin: 0;
   padding: 0;
-  background-color: #fff;
+  background-color: #131313;
 }
 .spiral1 {
   left: 0;
@@ -62,30 +62,22 @@ div.spiral-container div, div.spiral-container {
     transform: rotate(360deg);
   }
 }
-@-webkit-keyframes spin {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
 
 /* spiral text */
 
-#spiral-text-buy, #spiral-text-kuco {
+.spiral-text-1, .spiral-text-2 {
   opacity: 0;
   font-size: 34px;
   font-weight: bold;
   font-family: 'Coming Soon';
-  color: rgba(0,0,0,.2);
+  color: rgba(255,255,255,.1);
   animation-name: alternateFade;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-duration: 6s;
 }
 
-#spiral-text-kuco {
+.spiral-text-2 {
   animation-delay: 3s;
 }
 

@@ -22,10 +22,11 @@ contract KucoCoin is ERC20, Ownable {
     address immutable public wNat;
     IBlazeSwapRouter immutable public blazeSwapRouter;
     // distribution params
-    uint256 immutable public startTradingTime;
     uint256 immutable public investmentReturnBips;
     uint256 immutable public initialLiquidity;
     // disables all token transactions
+    uint112 public investedNat;
+    uint64 public tradingStart;
     bool public disabled = false;
     // tracking
     mapping(address => uint256) public invested;
@@ -34,7 +35,6 @@ contract KucoCoin is ERC20, Ownable {
     constructor(
         IBlazeSwapRouter _blazeSwapRouter,
         uint256 _initialLiquidity,
-        uint256 _startTradingTime,
         uint256 _investmentReturnBips
     )
         ERC20("KucoCoin", "KUCO")
@@ -42,13 +42,19 @@ contract KucoCoin is ERC20, Ownable {
         wNat = _blazeSwapRouter.wNat();
         blazeSwapRouter = _blazeSwapRouter;
         initialLiquidity = _initialLiquidity;
-        startTradingTime = _startTradingTime;
         investmentReturnBips = _investmentReturnBips;
         _mint(msg.sender, 100 ether); // for tests
+        disabled = true;
+    }
+
+    modifier enableDuringCall() {
+        disabled = false;
+        _;
+        disabled = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // blazeswap integration for buying and investing
+    // blazeswap integration
 
     modifier dexApprove(uint256 _amount) {
         _transfer(msg.sender, address(this), _amount);
@@ -57,28 +63,23 @@ contract KucoCoin is ERC20, Ownable {
         _approve(address(this), address(blazeSwapRouter), 0);
     }
 
-    function depositInitialLiquidity()
-        external payable
-        onlyOwner
-    {
-        _mint(address(this), initialLiquidity);
-        _approve(address(this), address(blazeSwapRouter), initialLiquidity);
-        blazeSwapRouter.addLiquidityNAT{value: msg.value}(
-            address(this), initialLiquidity,
-            0, 0, 0,
-            address(this), block.timestamp
-        );
-    }
-
     function addLiquidity(
-        uint256 _amount,
+        uint256 _amountKucoDesired,
+        uint256 _amountKucoMin,
+        uint256 _amountNatMin,
         address _receiver
     )
         external payable
-        dexApprove(_amount)
+        dexApprove(_amountKucoDesired)
     {
         blazeSwapRouter.addLiquidityNAT{value: msg.value}(
-            address(this), _amount, 0, 0, 0, _receiver, block.timestamp
+            address(this),
+            _amountKucoDesired,
+            _amountKucoMin,
+            _amountNatMin,
+            0,
+            _receiver,
+            block.timestamp
         );
     }
 
@@ -88,11 +89,11 @@ contract KucoCoin is ERC20, Ownable {
     )
         external payable
     {
-        address[] memory path = new address[](2);
-        path[0] = wNat;
-        path[1] = address(this);
         blazeSwapRouter.swapExactNATForTokens{value: msg.value}(
-            _minKuco, path, _receiver, block.timestamp
+            _minKuco,
+            _toPath(wNat, address(this)),
+            _receiver,
+            block.timestamp
         );
     }
 
@@ -104,30 +105,75 @@ contract KucoCoin is ERC20, Ownable {
         external
         dexApprove(_amount)
     {
-        address[] memory path = new address[](2);
-        path[0] = address(this);
-        path[1] = wNat;
-        blazeSwapRouter.swapExactTokensForNAT(_amount, _minNat, path, _receiver, block.timestamp);
+        blazeSwapRouter.swapExactTokensForNAT(
+            _amount,
+            _minNat,
+            _toPath(address(this), wNat),
+            _receiver,
+            block.timestamp
+        );
     }
 
     function getPoolReserves()
         external view
         returns (uint256, uint256)
     {
-        return blazeSwapRouter.getReserves(address(this), address(wNat));
+        return blazeSwapRouter.getReserves(
+            address(this),
+            address(wNat)
+        );
     }
 
-    // invest in kucocoin to claim the distribution
-    function invest(
-        address _receiver,
-        uint256 _amount
-    )
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // investing through the uniswap v2 pool
+
+    // initialize investment phase by adding liquidity to the pool
+    function initializeInvestmentPhase(uint64 _investmentPhaseDuration)
+        external payable
+        onlyOwner
+    {
+        tradingStart = uint64(block.timestamp) + _investmentPhaseDuration;
+        _mint(address(this), initialLiquidity);
+        _approve(address(this), address(blazeSwapRouter), initialLiquidity);
+        blazeSwapRouter.addLiquidityNAT{value: msg.value}(
+            address(this),
+            initialLiquidity,
+            initialLiquidity,
+            msg.value,
+            0,
+            address(this),
+            block.timestamp
+        );
+    }
+
+    function invest()
+        external payable
+        enableDuringCall
+    {
+        require(block.timestamp < tradingStart, "KucoCoin: trading has started, investment phase is over");
+        blazeSwapRouter.swapExactNATForTokens{value: msg.value}(
+            0,
+            _toPath(wNat, address(this)),
+            address(this),
+            block.timestamp
+        );
+        invested[msg.sender] += msg.value;
+        investedNat += uint112(msg.value);
+    }
+
+    function claim()
         external payable
     {
-        blazeSwapRouter.addLiquidityNAT{value: msg.value}(
-            address(this), _amount, 0, 0, 0, address(0), block.timestamp
-        );
-        invested[_receiver] += _amount;
+        require(block.timestamp >= tradingStart, "KucoCoin: trading has not started yet");
+        if (disabled) {
+            disabled = false;
+        }
+        uint256 amountNat = invested[msg.sender];
+        (uint256 reserveKuco, uint256 reserveNat) = blazeSwapRouter.getReserves(address(this), address(wNat));
+        uint256 amountKuco = investmentReturnBips * amountNat * reserveKuco / reserveNat / MAX_BIPS;
+        require(amountKuco > 0, "KucoCoin: invested amount too low");
+        invested[msg.sender] = 0;
+        _mint(msg.sender, amountKuco);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,22 +257,12 @@ contract KucoCoin is ERC20, Ownable {
         _transfer(msg.sender, _to, _amount);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // distribution
+    ////////////////////////////////////////////////////////////////////////
+    // helpers
 
-    function invest() external payable {
-        require(block.timestamp < startTradingTime, "KucoCoin: trading has started, investment phase is over");
-        blazeSwapRouter.addLiquidityNAT(address(this), 0, 0, msg.value, 0, address(this), block.timestamp);
-        invested[msg.sender] += msg.value;
-    }
-
-    function claim() external payable {
-        require(block.timestamp >= startTradingTime, "KucoCoin: trading has not started yet");
-        uint256 amountNat = invested[msg.sender];
-        (uint256 reserveKuco, uint256 reserveNat) = blazeSwapRouter.getReserves(address(this), address(wNat));
-        uint256 amountKuco = investmentReturnBips * amountNat * reserveKuco / reserveNat / MAX_BIPS;
-        require(amountKuco > 0, "KucoCoin: you have not invested");
-        invested[msg.sender] = 0;
-        _mint(msg.sender, amountKuco);
+    function _toPath(address _tokenA, address _tokenB) internal pure returns (address[] memory path) {
+        path = new address[](2);
+        path[0] = _tokenA;
+        path[1] = _tokenB;
     }
 }

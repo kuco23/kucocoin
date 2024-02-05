@@ -11,8 +11,8 @@ let signer: ethers.Wallet
 
 const program = new Command("KucoCoin CLI")
 program
-  .option("--network <costwo|flare|flarefork>", "network to use", "costwo")
-  .option("--env-file <env>", "env file to use", ".env")
+  .option("-n, --network <costwo|flare|flarefork>", "network to use", "costwo")
+  .option("-e, --env-file <env>", "env file to use", ".env")
   .hook("preAction", (cmd: Command) => {
     const options = cmd.opts()
     require('dotenv').config({ path: options.envFile })
@@ -23,12 +23,11 @@ program
 program
   .command("deploy").description("deploy KucoCoin")
   .argument("initial liquidity", "initial liquidity deposited to the dex")
-  .argument("start trading time", "the time at which to end investment stage and allow trading")
   .argument("investment return", "factor at which to return the investment value")
-  .action(async (start: string, liquidity: string, end: string, _options: OptionValues) => {
+  .action(async (liquidity: string, investmentReturn: string, _options: OptionValues) => {
     const options = { ...program.opts(), ..._options }
     const ninfo = networkInfo[options.network]
-    const kucocoinAddress = await deployKucocoin(ninfo.dex, BigInt(liquidity), BigInt(start), parseInt(end))
+    const kucocoinAddress = await deployKucocoin(ninfo.dex, BigInt(liquidity), parseInt(investmentReturn))
     console.log(`KucoCoin deployed at ${kucocoinAddress}`)
   })
 
@@ -41,11 +40,10 @@ program.parseAsync(process.argv).catch(err => {
 async function deployKucocoin(
   dex: string,
   liquidity: bigint,
-  investmentStart: bigint,
   investmentReturnBips: number
 ): Promise<string> {
   const factory = new ethers.ContractFactory(kucocoinAbi, kucocoinBytecode) as KucoCoin__factory
-  const kucocoin = await factory.connect(signer).deploy(dex, liquidity, investmentStart, investmentReturnBips)
+  const kucocoin = await factory.connect(signer).deploy(dex, liquidity, investmentReturnBips)
   await kucocoin.waitForDeployment()
   return kucocoin.getAddress()
 }

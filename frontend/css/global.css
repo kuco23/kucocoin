@@ -95,3 +95,18 @@ input::-webkit-inner-spin-button {
 .justify-center {
   justify-content: center;
 }
+
+.popup {
+  display: none;
+  position: fixed;
+  text-align: center;
+  font-family: 'Coming Soon';
+  font-size: 8vh;
+  font-weight: bold;
+  color: lime;
+  /* center and skew */
+  z-index: 100;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%) rotateZ(20deg);
+}

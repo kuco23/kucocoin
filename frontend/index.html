@@ -18,14 +18,14 @@
   <!-- import CSS Files -->
   <style>
     @import "./css/global.css";
-    @import "./css/loaders.css";
     @import './css/animate.css';
-    @import './css/spiral.css';
+    @import "./css/loaders.css";
+    @import './css/namari-color.css';
+    @import './css/namari-style.css';
+    @import './css/kucocoin-style.css';
     @import './css/fire-form.css';
     @import './css/gradient-button.css';
-    @import './css/namari-style.css';
-    @import './css/namari-color.css';
-    @import './css/kucocoin-style.css';
+    @import './css/hypnotize.css';
     @import './css/kucomoon.css';
   </style>
 
@@ -119,9 +119,6 @@
                 </li>
                 <li>
                   <a href="#features">Features</a>
-                </li>
-                <li>
-                  <a href="#dashboard">Dashboard</a>
                 </li>
               </ul>
             </nav>
@@ -241,7 +238,7 @@
       </section>
       <!--End of Buy Section-->
 
-      <div id="kuco-svg-container" class="text-center">
+      <div id="kuco-svg-container" class="text-center wow fadeIn" data-wow-delay="0.6s">
         <svg id="kucomoon" width='170' height='170' stroke-width='5' stroke-linecap="round" stroke-linejoin="round">
           <g stroke="white">
             <line x1='55' y1='35' x2='55' y2='135' />
@@ -405,9 +402,6 @@
                 <div id="report-period-loading" style="display: none;">
                   <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                 </div>
-                <div id="report-period-finish" style="display: none;">
-                  REPORTED!
-                </div>
               </div>
               KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
               Note that the prediction's accuracy is not guarranteed with too little data.
@@ -437,8 +431,8 @@
 
       <!--Start buy kucocoin hypnotic spiral-->
       <div id="buy-hypnosis" class="col-1 center">
-        <span class="float-center" id="spiral-text-buy">BUY</span>
-        <span class="float-center" id="spiral-text-kuco">KUCO</span>
+        <span class="float-center spiral-text-1">BUY</span>
+        <span class="float-center spiral-text-2">KUCO</span>
         <div class="spiral-container">
           <div class="spiral1">
             <div class="spiral2">
@@ -515,32 +509,6 @@
         </div>
       </div>
       <!--End buy kucocoin hypnotic spiral-->
-
-      <!--Dashboard-->
-      <section id="dashboard" class="scrollto">
-        <div class="row row-wide flex-container justify-center">
-
-          <div class="col-1 wow fadeIn" data-wow-delay="0.5s">
-            <h2>Dashboard</h2>
-            <div>
-              Here we provide an interface to our amazing KucoCoin smart contract methods.
-              Here you can find out whether you are racist, sexist, or homophobic, track your period, or make a trans action.
-            </div>
-          </div>
-
-          <div class="col-1 wow fadeIn" data-wow-delay="0.2s">
-            <h4>Trans Actions</h4>
-
-          </div>
-
-          <div class="col-1 wow fadeIn" data-wow-delay="0.8s">
-            <h4>Track Your Period</h4>
-
-          </div>
-
-        </div>
-      </section>
-      <!--End of Dashboard-->
 
     </main>
     <!--End Main Content Area-->
@@ -650,6 +618,12 @@
 
   </div>
   <!--End of KucoCoin Stages-->
+
+  <!--Start Screen Popups-->
+  <div class="popup" id="popup-executed">
+    Successfully executed!
+  </div>
+  <!--End Screen Popups-->
 
   <!-- Include TypeScript/JavaScript resources -->
   <!-- Import this way so parcel inlines them into html bundle -->
