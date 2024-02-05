@@ -1,4 +1,4 @@
-import { network, kucocoin } from './constants'
+import { network, kucocoin } from './config/network'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 

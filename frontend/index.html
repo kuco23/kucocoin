@@ -19,14 +19,14 @@
   <style>
     @import "./css/global.css";
     @import './css/animate.css';
-    @import "./css/loaders.css";
     @import './css/namari-color.css';
     @import './css/namari-style.css';
     @import './css/kucocoin-style.css';
-    @import './css/fire-form.css';
     @import './css/gradient-button.css';
+    @import './css/fire-form.css';
     @import './css/hypnotize.css';
     @import './css/kucomoon.css';
+    @import "./css/loaders.css";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -91,8 +91,8 @@
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Etherscan" href="">
-                    <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
+                  <a target="_blank" title="Avascan" href="">
+                    <i class="fa-brands fa-ethereum"></i><span>Avascan</span>
                   </a>
                 </li>
                 <li>
@@ -158,7 +158,7 @@
             <div class="icon-block-description">
               <h4>What is KucoCoin?</h4>
               <p>
-                KucoCoin is a crypto token deployed over Ethereum. Kuco means "love and prosper" in Nigerian,
+                KucoCoin is a crypto token deployed over Avalanche. Kuco means "love and prosper" in Nigerian,
                 though the name was also chosen to encourage mistaken investments that meant to target the KuCoin exchange token.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also not a scam, those claims have been disproven many times,
                 and ruined careers of many so-called experts, including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
@@ -198,9 +198,9 @@
             <div class="icon-block-description">
               <h2>Buying KucoCoin</h2>
               <p>
-                KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest ETH
+                KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
-                The current price of KUCO on the liquidity pool is <span class="red" id="kuco-price-output">...loading</span> ETH.
+                The current price of KUCO on the liquidity pool is <span class="red" id="kuco-price-output">...loading</span> AVAX.
               </p>
             </div>
           </div>
@@ -262,7 +262,7 @@
             <h2>Kuconomics - the distribution model</h2>
             Below we describe the tokenomics of KUCO distribution.
             The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
-            that collects ETH for an initially fixed deposit of newly minted KUCO tokens.
+            that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
             <span class="red">
               Before reading the following scheme, note that you should try to understand the scheme in
               the positive light, without negative judgement, in the way we want you to.
@@ -270,25 +270,25 @@
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
-            <h4>1. Investing ETH liquidity</h4>
+            <h4>1. Investing AVAX liquidity</h4>
             The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
             with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
-            by providing ETH as liquidity, which is then burned. Investment is nonrefundable.
+            by providing AVAX as liquidity, which is then burned. Investment is nonrefundable.
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
             <h4>2. Collecting minted KUCO</h4>
-            After some time, KUCO will be minted to the accounts of investors who deposited ETH to the liquidity pool <span class="code">LP</span>.
+            After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
             If at that time the liquidity in <span class="code">LP</span> is comprised of
-            <span class="code">K</span> KUCO and <span class="code">E</span> ETH, with some user investing <span class="code">e</span> ETH,
+            <span class="code">K</span> KUCO and <span class="code">E</span> AVAX, with some user investing <span class="code">e</span> AVAX,
             then they will get <span class="code">1.2 &#xd7; e &#xd7; K / E</span> KUCO in return.
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
             Note that in the second step the user gets <span class="code">k</span> KUCO, where <span class="code">k</span>
             solves the equation <span class="code">k &#xd7; E / K = 1.2  &#xd7; e</span>.
-            Because <span class="code">E / K</span> is the price of KUCO in ETH on the liquidity pool,
-            they get <span class="code">1.2 &#xd7; e</span> ETH worth of KUCO.
+            Because <span class="code">E / K</span> is the price of KUCO in AVAX on the liquidity pool,
+            they get <span class="code">1.2 &#xd7; e</span> AVAX worth of KUCO.
 
             Below is a tl;dr of our scheme inside a triangle.
           </div>
@@ -298,8 +298,8 @@
               <span>First</span><br/>
               <span>you invest</span><br/>
               <span>your hard earned,</span><br/>
-              <span>ETH, then you watch the</span><br/>
-              <span>price of KUCO/ETH go up as others</span><br/>
+              <span>AVAX, then you watch the</span><br/>
+              <span>price of KUCO/AVAX go up as others</span><br/>
               <span>like you invest in the liquidity pool.</span><br/>
             </div>
           </div>
@@ -329,7 +329,7 @@
           <form>
             <div class="user-box">
               <input id="input-kuco-buy-amount" type="number" required="true">
-              <label>Amount ETH</label>
+              <label>Amount AVAX</label>
             </div>
             <div class="user-box">
               <input id="input-kuco-min-swap" value="0" type="number" required="true">
@@ -538,8 +538,8 @@
             </a>
           </li>
           <li>
-            <a target="_blank" title="Etherscan" href="">
-              <i class="fa-brands fa-ethereum"></i><span>Etherscan</span>
+            <a target="_blank" title="Avascan" href="">
+              <i class="fa-brands fa-ethereum"></i><span>Avascan</span>
             </a>
           </li>
           <li>
@@ -590,7 +590,7 @@
       <div>
         At stage four, you are a successful kucocoin investor.
         Your life very much revolves around kucocoin and you
-        believe every other token is a shit token (even Ethereum,
+        believe every other token is a shit token (even Avalanche,
         over which KucoCoin is built... you don't ask questions).
         At this point, you are elevated to aristrocratic status,
         while gaining another six pack.
@@ -620,8 +620,7 @@
   <!--End of KucoCoin Stages-->
 
   <!--Start Screen Popups-->
-  <div class="popup" id="popup-executed">
-    Successfully executed!
+  <div class="popup" id="popup">
   </div>
   <!--End Screen Popups-->
 

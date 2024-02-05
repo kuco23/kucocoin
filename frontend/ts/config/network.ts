@@ -1,4 +1,4 @@
-import { abi } from '../../artifacts/contracts/KucoCoin.sol/KucoCoin.json'
+import { abi } from '../../../artifacts/contracts/KucoCoin.sol/KucoCoin.json'
 
 const costwo = {
   chainName: 'Coston2',

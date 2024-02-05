@@ -1,5 +1,7 @@
 import $ from 'jquery'
 import { formatUnits, parseEther } from 'ethers'
+import { POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS } from './config/display'
+import { setImmediateInterval, sleep } from './utils'
 import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
@@ -7,15 +9,6 @@ import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
-
-async function setImmediateInterval(func: () => Promise<any>, interval: number): Promise<void> {
-  await func()
-  setInterval(func, interval)
-}
-
-async function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 function setKucocoinStageDisplay(): void {
   for (let stage = 1; stage <= 6; stage++) {
@@ -34,6 +27,14 @@ function setKucocoinStageDisplay(): void {
       stageText.fadeOut(1000)
     })
   }
+}
+
+function popup(text: string, color: string): void {
+  $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () => {
+    sleep(POPUP_SHOW_MS).then(() => {
+      $('#popup').fadeOut(POPUP_FADE_OUT_MS)
+    })
+  })
 }
 
 function markMetamaskStatus(connected: boolean): void {
@@ -85,12 +86,11 @@ function onReportPeriod(): void {
       await reportPeriod(ethereum!)
       $('#report-period-loading').css('display', 'none')
       $('#report-period-button').css('display', 'inline-block')
-      $('#popup-executed').fadeIn(1200)
-      await sleep(2500)
-      $('#popup-executed').fadeOut(1200)
+      popup('Period Successfully Reported', 'lime')
     } catch (err: any) {
       $('#report-period-button').css('display', 'inline-block')
       $('#report-period-loading').css('display', 'none')
+      popup('Period Report Failed', 'firebrick')
       console.log(err.message)
     }
   })

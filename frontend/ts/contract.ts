@@ -1,5 +1,5 @@
 import { BrowserProvider, Contract, JsonRpcProvider } from "ethers"
-import { kucocoin, network } from "./constants"
+import { kucocoin, network } from "./config/network"
 import { switchNetworkIfNecessary } from "./metamask"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike } from "ethers"
