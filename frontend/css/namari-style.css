@@ -391,6 +391,7 @@ section {
 
 #header {
     font-size: 13px;
+    font-family:  'DM Mono';
 }
 
 #header aside {
@@ -399,7 +400,6 @@ section {
 
 #header nav ul {
     text-transform: uppercase;
-
 }
 
 #header nav a {
@@ -832,10 +832,6 @@ h6 {
 
 .testimonial {
     padding: 15px;
-}
-
-blockquote {
-    position: relative;
 }
 
 .testimonial img {

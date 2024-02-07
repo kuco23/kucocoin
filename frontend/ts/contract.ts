@@ -1,13 +1,14 @@
 import { BrowserProvider, Contract, JsonRpcProvider } from "ethers"
-import { kucocoin, network } from "./config/network"
+import { NETWORK } from "./config/network"
+import { KUCOCOIN } from "./config/token"
 import { switchNetworkIfNecessary } from "./metamask"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike } from "ethers"
 
 
 export async function getLiquidityReserves(): Promise<{ KUCO: bigint, NAT: bigint }> {
-  const provider = new JsonRpcProvider(network.rpcUrls[0])
-  const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
+  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi, provider)
   const { 0: reserveKUCO, 1: reserveNAT } = await contract.getPoolReserves()
   return { KUCO: reserveKUCO, NAT: reserveNAT }
 }
@@ -19,7 +20,7 @@ export async function buyKuco(
   await switchNetworkIfNecessary(ethereum)
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
-  const contract = new Contract(kucocoin.address, kucocoin.abi) as any
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi) as any
   await contract.connect(signer).buy(signer, minKuco, { value: amount })
 }
 
@@ -27,7 +28,7 @@ export async function makeTransAction(ethereum: MetaMaskInpageProvider, to: Addr
   await switchNetworkIfNecessary(ethereum)
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
-  const contract = new Contract(kucocoin.address, kucocoin.abi) as any
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi) as any
   await contract.connect(signer).makeTransAction(to, amount)
 }
 
@@ -35,28 +36,28 @@ export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<vo
   await switchNetworkIfNecessary(ethereum)
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
-  const contract = new Contract(kucocoin.address, kucocoin.abi) as any
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi) as any
   await contract.connect(signer).reportPeriod()
 }
 
 export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
-  const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi, provider)
   const balance = await contract.balanceOf(signer.getAddress())
   return balance
 }
 
 export async function getPeriodHistory(address: AddressLike): Promise<bigint[]> {
-  const provider = new JsonRpcProvider(network.rpcUrls[0])
-  const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
-  const menstruation = await contract.getPeriodHistory(address)
-  return menstruation
+  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi, provider)
+  const periodHistory = await contract.getPeriodHistory(address)
+  return periodHistory
 }
 
 export async function getStage(address: AddressLike): Promise<bigint> {
-  const provider = new JsonRpcProvider(network.rpcUrls[0])
-  const contract = new Contract(kucocoin.address, kucocoin.abi, provider)
+  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi, provider)
   const stage = await contract.getStageOf(address)
   return stage
 }

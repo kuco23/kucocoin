@@ -69,7 +69,7 @@ div.spiral-container div, div.spiral-container {
   opacity: 0;
   font-size: 34px;
   font-weight: bold;
-  font-family: 'Coming Soon';
+  font-family: "Henny Penny";
   color: rgba(255,255,255,.1);
   animation-name: alternateFade;
   animation-iteration-count: infinite;

@@ -5,8 +5,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
 
-import "hardhat/console.sol";
-
 uint16 constant MAX_MENSTRUATION_LOOKBACK = 20;
 uint16 constant MAX_BIPS = 10000;
 
@@ -218,8 +216,7 @@ contract KucoCoin is ERC20, Ownable {
     function reportPeriod()
         external
     {
-        address receiver = msg.sender;
-        menstruation[receiver].entry[menstruation[receiver].index++] = uint64(block.timestamp);
+        menstruation[msg.sender].entry[menstruation[msg.sender].index++] = uint64(block.timestamp);
     }
 
     function getPeriodHistory()

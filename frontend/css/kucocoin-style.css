@@ -12,10 +12,6 @@
   0% {transform: rotate(0deg);}
   100% {transform: rotate(360deg);}
 }
-@-webkit-keyframes spin {
-  0% {-webkit-transform: rotate(0deg);}
-  100% {-webkit-transform: rotate(360deg);}
-}
 
 /* kucocoin stages */
 
@@ -130,36 +126,67 @@
   padding: 2px 0;
 }
 
-/* buttons */
+/* trans action interface */
 
-/* make trans action button */
-
-#trans-action-button {
-  padding: 20px 0;
+#trans-action-interface {
+  margin: 20px 0;
   text-align: center;
 }
-#trans-action-button > input {
+/* inputs */
+#trans-action-interface input {
   line-height: 15px;
-  font: 15px;
+  font-size: 15px;
   border-radius: 5px;
 }
-#trans-action-button > input:nth-child(1) {
+#trans-action-interface input:nth-child(1) {
   border: 1px solid #5BCEFA;
-  color: white;
-}
-#trans-action-button > input:nth-child(2) {
-  border: 1px solid #F5A9B8;
   color: #F5A9B8;
 }
-#trans-action-button > input:nth-child(2):hover {
-  cursor: pointer;
-  background-color: #F5A9B8;
+#trans-action-interface input:nth-child(2) {
+  border: 1px solid #F5A9B8;
+  color: #5BCEFA;
+}
+#trans-action-interface input::placeholder {
   color: white;
+}
+
+/* execute button text */
+.trans-color-text {
+  display: inline-block;
+  padding-top: 10px;
+  font-size: 35px;
+  transition: rotate 2s ease;
+}
+.trans-color-text:hover {
+  cursor: pointer;
+  rotate: 5deg;
+}
+.trans-color-text:not(:hover) {
+  rotate: 0deg;
+  opacity: 0.5;
+}
+.trans-color-text:hover > span:nth-child(3n+1) {
+  color: #FFFFFF;
+}
+.trans-color-text:hover > span:nth-child(3n+2) {
+  color: #5BCEFA;
+}
+.trans-color-text:hover > span:nth-child(3n) {
+  color: #F5A9B8;
+}
+.trans-color-text:not(:hover) > span:nth-child(3n+1)  {
+  color: #F5A9B8;
+}
+.trans-color-text:not(:hover) > span:nth-child(3n+2) {
+  color: #FFFFFF;
+}
+.trans-color-text:not(:hover) > span:nth-child(3n) {
+  color: #5BCEFA;
 }
 
 /* report period button */
 
-#report-period-button {
+#report-period-interface {
   margin: 20px 0px;
   padding: 5px 20px;
   color: white;
@@ -171,7 +198,7 @@
   border-radius: 3px;
 }
 
-#report-period-button:hover {
+#report-period-interface:hover {
   cursor: pointer;
   color: red;
 }
@@ -188,17 +215,17 @@
 /* blockquote */
 
 blockquote {
-  border-color: transparent;
-  font-size: 95%;
-  text-align: center;
-  hyphens: auto;
-  word-break: keep-all;
-  color: #aaa;
-  line-height: 1.3;
-  padding: 1px 5%;
   margin-top: 15pt;
   margin-bottom: 15pt;
+  padding: 1px 5%;
+  line-height: 1.3;
+  text-align: center;
+  font-size: 95%;
   font-style: italic;
+  word-break: keep-all;
+  color: #aaa;
+  hyphens: auto;
+  border-color: transparent;
 }
 
 blockquote:before {

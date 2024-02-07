@@ -19,8 +19,8 @@
   <style>
     @import "./css/global.css";
     @import './css/animate.css';
+    @import './css/namari-style.css'; /* ❗Import before namari-color❗ */
     @import './css/namari-color.css';
-    @import './css/namari-style.css';
     @import './css/kucocoin-style.css';
     @import './css/gradient-button.css';
     @import './css/fire-form.css';
@@ -31,7 +31,9 @@
 
   <!--Font Awesome and Google Webfonts-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee+Hairline&family=Coming+Soon&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Bebas+Neue&family=Bungee+Hairline&family=Coming+Soon&family=Henny+Penny&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+
+
 </head>
 
 <body>
@@ -200,7 +202,7 @@
               <p>
                 KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
-                The current price of KUCO on the liquidity pool is <span class="red" id="kuco-price-output">...loading</span> AVAX.
+                <span class="red" id="kuco-price-output">...loading</span>
               </p>
             </div>
           </div>
@@ -387,6 +389,29 @@
             </div>
           </div>
 
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.3s">
+            <div class="icon-block-description">
+              <h4>For LGBTQ community - introducing trans actions!</h4>
+              We at KucoCoin firmly believe that everyone should be represented on the blockchain.
+              That is why we call our transactions trans actions. What does this mean?
+              Besides the usual <span class="code">transfer</span> method, our contract also fatures
+              a <span class="code">makeTransAction</span> method with the EXACT same functionality.
+              Act now by choosing the amount of KUCO you wish to act with, then click the "Trans Act" text.
+              <div id="trans-action-interface">
+                <div>
+                  <input id="trans-action-address" type="text" placeholder="To address" />
+                  <input id="trans-action-amount" type="number" placeholder="Amount KUCO" />
+                </div>
+                <div id="trans-action-button" class="trans-color-text">
+                  <span>T</span><span>R</span><span>A</span><span>N</span><span>S</span>
+                  <span>A</span><span>C</span><span>T</span>
+                </div>
+              </div>
+              Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
+              We urge you to not be on the wrong side of history by missing this unique opportunity.
+            </div>
+          </div>
+
           <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>For women - track your menstrual cycle with KucoCoin!</h4>
@@ -396,32 +421,12 @@
               called <span class="code">reportPeriod</span>, that logs the start of your period.
               Stop syncing with the moon and sync with the blockchain instead, by pressing the below button.
               <div class="text-center">
-                <button id="report-period-button">
+                <button id="report-period-interface">
                   REPORT
                 </button>
-                <div id="report-period-loading" style="display: none;">
-                  <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-                </div>
               </div>
               KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
               Note that the prediction's accuracy is not guarranteed with too little data.
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
-              <h4>For LGBTQ community - introducing trans actions!</h4>
-              We at KucoCoin firmly believe that everyone should be represented on the blockchain.
-              That is why we call our transactions trans actions. What does this mean?
-              Besides the usual <span class="code">transfer</span> method, our contract also fatures
-              a <span class="code">makeTransAction</span> method with the EXACT same functionality.
-              Act now by choosing the amount of KUCO you wish to dedicate, then click the "Act" button.
-              <div id="trans-action-button">
-                <input type="number" placeholder="Amount KUCO" />
-                <input type="button" value="Act" />
-              </div>
-              Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
-              We urge you to not be on the wrong side of history by missing this unique opportunity.
             </div>
           </div>
 
@@ -619,10 +624,19 @@
   </div>
   <!--End of KucoCoin Stages-->
 
-  <!--Start Screen Popups-->
-  <div class="popup" id="popup">
+  <!--Start reusable elts-->
+  <div class="popup" id="popup"></div>
+  <!--fuck off, it works-->
+  <div class="loader" id="kuco-price-output-loader">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
-  <!--End Screen Popups-->
+  <div class="loader" id="trans-action-interface-loader">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+  <div class="loader" id="report-period-interface-loader">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+  <!--End reusable elts-->
 
   <!-- Include TypeScript/JavaScript resources -->
   <!-- Import this way so parcel inlines them into html bundle -->

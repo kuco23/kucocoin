@@ -3,5 +3,9 @@
         "KucoCoin": "0xb831BEe70742FbFdD5Bfe8Fa52077D7d69623475",
         "BlazeSwapRouter": "0x8D29b61C41CF318d15d031BE2928F79630e068e6",
         "WNat": "0xC67DCE33D7A8efA5FfEB961899C73fe01bCe9273"
+    },
+    "flare": {
+        "BlazeSwapRouter": "0xe3A1b355ca63abCBC9589334B5e609583C7BAa06",
+        "WNat": "0x1d80c49bbbcd1c0911346656b529df9e5c2f783d"
     }
 }

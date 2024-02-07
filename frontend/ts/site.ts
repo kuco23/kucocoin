@@ -1,8 +1,9 @@
 import $ from 'jquery'
-import { formatUnits, parseEther } from 'ethers'
+import { formatUnits, parseUnits, parseEther } from 'ethers'
 import { POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS } from './config/display'
+import { KUCOCOIN } from './config/token'
 import { setImmediateInterval, sleep } from './utils'
-import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves } from './contract'
+import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
@@ -10,7 +11,20 @@ import type { MetaMaskInpageProvider } from "@metamask/providers"
 declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
-function setKucocoinStageDisplay(): void {
+function popup(text: string, color: string): void {
+  $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () =>
+    sleep(POPUP_SHOW_MS).then(() => $('#popup').fadeOut(POPUP_FADE_OUT_MS))
+  )
+}
+function loadingStart(replaceDivId: string) {
+  $("#" + replaceDivId).hide().after($('#' + replaceDivId + '-loader').show())
+}
+function loadingEnd(replaceDivId: string): void {
+  $('#' + replaceDivId + '-loader').hide()
+  $('#' + replaceDivId).show()
+}
+
+function displayKucoStages(): void {
   for (let stage = 1; stage <= 6; stage++) {
     const stageLayer = $('#kuco-stage-layer')
     const stageLink = $(`#kuco-stage-${stage}-link`)
@@ -29,14 +43,6 @@ function setKucocoinStageDisplay(): void {
   }
 }
 
-function popup(text: string, color: string): void {
-  $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () => {
-    sleep(POPUP_SHOW_MS).then(() => {
-      $('#popup').fadeOut(POPUP_FADE_OUT_MS)
-    })
-  })
-}
-
 function markMetamaskStatus(connected: boolean): void {
   const color = connected ? '#00FF00' : 'firebrick'
   $('#metamask-connect-header > i, #metamask-connect-footer > i').css('color', color)
@@ -45,12 +51,16 @@ function markMetamaskStatus(connected: boolean): void {
 function onMetaMaskConnect(): void {
   const selector = $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button')
   selector.on('click', async (): Promise<void> => {
-    if (ethereum === undefined) return markMetamaskStatus(false)
+    if (ethereum === undefined)
+      return markMetamaskStatus(false)
     const accounts = await requestAccountsIfNecessary(ethereum)
-    if (accounts.length === 0) return markMetamaskStatus(false)
+    if (accounts.length === 0)
+      return markMetamaskStatus(false)
     const networkSwitched = await switchNetworkIfNecessary(ethereum)
-    if (!networkSwitched) return markMetamaskStatus(false)
+    if (!networkSwitched)
+      return markMetamaskStatus(false)
     markMetamaskStatus(true)
+    popup('Connected to Metamask', 'lime')
   })
 }
 
@@ -58,7 +68,9 @@ function onAddKucoCoin(): void {
   $('#add-kucocoin-button').on('click', async () => {
     try {
       await addKucoCoinToken(ethereum!)
+      popup("KucoCoin added to Metamask", 'lime')
     } catch (err: any) {
+      popup("Failed to add KucoCoin to Metamask", 'firebrick')
       console.log(err.message)
     }
   })
@@ -70,38 +82,57 @@ function onBuyKucoCoin(): void {
       const amountEthInput = $('#input-kuco-buy-amount').val()!
       const minAmountKucoInput = $('#input-kuco-min-swap').val()!
       const amountEth = parseEther(amountEthInput)
-      const minAmountKuco = parseEther(minAmountKucoInput)
+      const minAmountKuco = parseUnits(minAmountKucoInput, KUCOCOIN.decimals)
       await buyKuco(ethereum!, amountEth, minAmountKuco)
+      popup('KucoCoin Purchase Successful', 'lime')
     } catch (err: any) {
+      popup('KucoCoin Purchase Failed', 'firebrick')
       console.log(err.message)
     }
   })
 }
 
-function onReportPeriod(): void {
-  $('#report-period-button').on('click', async () => {
+function onMakeTransAction(): void {
+  $('#trans-action-button').on('click', async () => {
     try {
-      $('#report-period-button').css('display', 'none')
-      $('#report-period-loading').css('display', 'inline-block')
+      loadingStart('trans-action-interface')
+      const to = $('#trans-action-address').val()!
+      const amountInput = $('#trans-action-amount').val()!
+      const amount = parseUnits(amountInput, KUCOCOIN.decimals)
+      await makeTransAction(ethereum!, to, amount)
+      popup('Transaction Successful', 'lime')
+    } catch (err: any) {
+      popup('Transaction Failed', 'firebrick')
+      console.log(err)
+    } finally {
+      loadingEnd('trans-action-interface')
+    }
+  })
+}
+
+function onReportPeriod(): void {
+  $('#report-period-interface').on('click', async () => {
+    try {
+      loadingStart('report-period-interface')
       await reportPeriod(ethereum!)
-      $('#report-period-loading').css('display', 'none')
-      $('#report-period-button').css('display', 'inline-block')
       popup('Period Successfully Reported', 'lime')
     } catch (err: any) {
-      $('#report-period-button').css('display', 'inline-block')
-      $('#report-period-loading').css('display', 'none')
       popup('Period Report Failed', 'firebrick')
       console.log(err.message)
+    } finally {
+      loadingEnd('report-period-interface')
     }
   })
 }
 
 async function updateKucoPrice(): Promise<void> {
   try {
+    loadingStart('kuco-price-output')
     const reserves = await getLiquidityReserves()
     const priceBips = BigInt(100_000_000) * reserves.NAT / reserves.KUCO
-    const formattedPrice = formatUnits(priceBips.toString(), 8)
-    $('#kuco-price-output').text(formattedPrice)
+    const formattedPrice = formatUnits(priceBips, 8)
+    loadingEnd('kuco-price-output')
+    $('#kuco-price-output').text(`Price on the KucoCoin DEX: ${formattedPrice} AVAX per KUCO`)
   } catch (err: any) {
     console.log(err.message)
   }
@@ -109,15 +140,16 @@ async function updateKucoPrice(): Promise<void> {
 
 async function updateKucoBalance(): Promise<void> {
   const balance = await getKucoBalance(ethereum!)
-  const formattedBalance = formatUnits(balance.toString(), 18)
+  const formattedBalance = formatUnits(balance, 18)
   //$('#input-kuco-max-price').val(formattedBalance)
 }
 
 $(async () => {
-  setKucocoinStageDisplay()
+  displayKucoStages()
   onMetaMaskConnect()
   onAddKucoCoin()
   onBuyKucoCoin()
   onReportPeriod()
-  await setImmediateInterval(updateKucoPrice, 10_000)
+  onMakeTransAction()
+  //setImmediateInterval(updateKucoPrice, 10_000)
 })

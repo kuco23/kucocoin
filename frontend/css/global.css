@@ -109,3 +109,7 @@ input::-webkit-inner-spin-button {
   right: 50%;
   transform: translate(50%, 50%) rotateZ(20deg);
 }
+
+.loader {
+  display: none;
+}
