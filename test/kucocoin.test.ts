@@ -49,10 +49,8 @@ describe("KucoCoin", () => {
   ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
       blazeswap.router,
-      INITIAL_LIQUIDITY_KUCOCOIN,
-      INITIAL_LIQUIDITY_NATIVE,
       INVESTMENT_RETURN_BIPS,
-      await time.latest() + INVESTMENT_DURATION,
+      INVESTMENT_DURATION,
       RETRACT_DURATION,
       RETRACT_FEE_BIPS
     )
@@ -198,7 +196,7 @@ describe("KucoCoin", () => {
       const [, investor] = signers
       const amount = ethers.parseEther("101.1")
       await kucocoin.connect(investor).invest({ value: amount })
-      await time.increaseTo(await kucocoin.investmentEndTime())
+      await time.increaseTo(await kucocoin.startTradingAt())
       const expectedKuco = amount * BigInt(INVESTMENT_RETURN_BIPS) / BigInt(10_000)
       const balanceKuco = await kucocoin.balanceOf(investor)
       expect(balanceKuco).to.equal(expectedKuco)
