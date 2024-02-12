@@ -1,15 +1,20 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
-import { POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS } from './config/display'
-import { KUCOCOIN } from './config/token'
 import { setImmediateInterval, sleep } from './utils'
 import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
+import { KUCOCOIN } from './config/token'
+import {
+  POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS,
+  PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION_DIGITS
+} from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
 declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
+
+const PRICE_PRECISION = BigInt(10) ** BigInt(PRICE_PRECISION_DIGITS)
 
 function popup(text: string, color: string): void {
   $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () =>
@@ -17,7 +22,10 @@ function popup(text: string, color: string): void {
   )
 }
 function loadingStart(replaceDivId: string) {
-  $("#" + replaceDivId).hide().after($('#' + replaceDivId + '-loader').show())
+  const $replaceDiv = $('#' + replaceDivId)
+  const $loaderDiv = $('#' + replaceDivId + '-loader')
+  const replaceDivHeight = $replaceDiv.parent().innerHeight()!
+  $replaceDiv.hide().after($loaderDiv.innerHeight(replaceDivHeight).show())
 }
 function loadingEnd(replaceDivId: string): void {
   $('#' + replaceDivId + '-loader').hide()
@@ -26,31 +34,29 @@ function loadingEnd(replaceDivId: string): void {
 
 function displayKucoStages(): void {
   for (let stage = 1; stage <= 6; stage++) {
-    const stageLayer = $('#kuco-stage-layer')
-    const stageLink = $(`#kuco-stage-${stage}-link`)
-    const stageText = $(`#kuco-stage-${stage}-text`)
-    stageText.hide()
-    stageLink.on('click', () => {
+    const $stageLayer = $('#kuco-stage-layer')
+    const $stageLink = $(`#kuco-stage-${stage}-link`)
+    const $stageText = $(`#kuco-stage-${stage}-text`)
+    $stageText.hide()
+    $stageLink.on('click', () => {
       $('#wrapper').css('filter', 'blur(5px)')
-      stageLayer.fadeIn(1000)
-      stageText.fadeIn(1000)
+      $stageLayer.fadeIn(1000)
+      $stageText.fadeIn(1000)
     })
-    stageLayer.on('click', () => {
+    $stageLayer.on('click', () => {
       $('#wrapper').css('filter', '')
-      stageLayer.fadeOut(1000)
-      stageText.fadeOut(1000)
+      $stageLayer.fadeOut(1000)
+      $stageText.fadeOut(1000)
     })
   }
 }
 
-function markMetamaskStatus(connected: boolean): void {
-  const color = connected ? '#00FF00' : 'firebrick'
-  $('#metamask-connect-header > i, #metamask-connect-footer > i').css('color', color)
-}
-
 function onMetaMaskConnect(): void {
-  const selector = $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button')
-  selector.on('click', async (): Promise<void> => {
+  const markMetamaskStatus = (connected: boolean): void => {
+    $('#metamask-connect-header > i, #metamask-connect-footer > i')
+    .css('color', connected ? '#00FF00' : 'firebrick')
+  }
+  $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button').on('click', async () => {
     if (ethereum === undefined)
       return markMetamaskStatus(false)
     const accounts = await requestAccountsIfNecessary(ethereum)
@@ -100,9 +106,9 @@ function onMakeTransAction(): void {
       const amountInput = $('#trans-action-amount').val()!
       const amount = parseUnits(amountInput, KUCOCOIN.decimals)
       await makeTransAction(ethereum!, to, amount)
-      popup('Transaction Successful', 'lime')
+      popup('Trans Action Successful', 'lime')
     } catch (err: any) {
-      popup('Transaction Failed', 'firebrick')
+      popup('Trans Action Failed', 'firebrick')
       console.log(err)
     } finally {
       loadingEnd('trans-action-interface')
@@ -125,17 +131,19 @@ function onReportPeriod(): void {
   })
 }
 
-async function updateKucoPrice(): Promise<void> {
-  try {
-    loadingStart('kuco-price-output')
-    const reserves = await getLiquidityReserves()
-    const priceBips = BigInt(100_000_000) * reserves.NAT / reserves.KUCO
-    const formattedPrice = formatUnits(priceBips, 8)
-    loadingEnd('kuco-price-output')
-    $('#kuco-price-output').text(`Price on the KucoCoin DEX: ${formattedPrice} AVAX per KUCO`)
-  } catch (err: any) {
-    console.log(err.message)
-  }
+async function attachKucoCoinPriceUpdater(): Promise<void> {
+  await setImmediateInterval(async () => {
+    try {
+      loadingStart('kuco-price-output')
+      const reserves = await getLiquidityReserves()
+      const priceBips = PRICE_PRECISION * reserves.NAT / reserves.KUCO
+      const formattedPrice = formatUnits(priceBips, PRICE_PRECISION_DIGITS)
+      loadingEnd('kuco-price-output')
+      $('#kuco-price-output').text(`Price on the KucoCoin DEX: ${formattedPrice} AVAX per KUCO`)
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }, PRICE_UPDATE_INTERVAL_MS)
 }
 
 async function updateKucoBalance(): Promise<void> {
@@ -151,5 +159,5 @@ $(async () => {
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
-  //setImmediateInterval(updateKucoPrice, 10_000)
+  await attachKucoCoinPriceUpdater()
 })

@@ -16,7 +16,16 @@
     "strict": true,
     "target": "es2020"
   },
-  "exclude": ["node_modules"],
-  "files": ["./hardhat.config.ts"],
-  "include": ["frontend/**/*", "test/**/*", "src/**/*", "types/"]
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "./hardhat.config.ts"
+  ],
+  "include": [
+    "frontend/**/*",
+    "test/**/*",
+    "src/**/*",
+    "types"
+  ]
 }

@@ -103,7 +103,7 @@ input::-webkit-inner-spin-button {
   font-family: 'Coming Soon';
   font-size: 8vh;
   font-weight: bold;
-  /* center and skew */
+  /* center and rotate */
   z-index: 100;
   bottom: 50%;
   right: 50%;

@@ -202,7 +202,9 @@
               <p>
                 KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
-                <span class="red" id="kuco-price-output">...loading</span>
+                <div>
+                  <span class="red" id="kuco-price-output">...loading</span>
+                </div>
               </p>
             </div>
           </div>
@@ -215,22 +217,22 @@
           <div class="col-1">
             <aside id="gallery" class="row text-center scrollto clearfix" >
               <a id="kuco-stage-1-link" class="col-3 wow fadeIn" data-wow-delay="0.2s">
-                <img src="images/kuco-stages/kuco-stage-1.png" alt="Stage 1"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-1.png" alt="Stage 1"/>
               </a>
               <a id="kuco-stage-2-link" class="col-3 wow fadeIn" data-wow-delay="0.5s">
-                <img src="images/kuco-stages/kuco-stage-2.png" alt="Stage 2"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-2.png" alt="Stage 2"/>
               </a>
               <a id="kuco-stage-3-link" class="col-3 wow fadeIn" data-wow-delay="0.8s">
-                <img src="images/kuco-stages/kuco-stage-3.png" alt="Stage 3"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-3.png" alt="Stage 3"/>
               </a>
               <a id="kuco-stage-4-link" class="col-3 wow fadeIn" data-wow-delay="1.3s">
-                <img src="images/kuco-stages/kuco-stage-4.png" alt="Stage 4"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-4.png" alt="Stage 4"/>
               </a>
               <a id="kuco-stage-5-link" class="col-3 wow fadeIn" data-wow-delay="0.4s">
-                <img src="images/kuco-stages/kuco-stage-5.png" alt="Stage 5"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-5.png" alt="Stage 5"/>
               </a>
               <a id="kuco-stage-6-link" class="col-3 wow fadeIn" data-wow-delay="1s">
-                <img src="images/kuco-stages/kuco-stage-6.png" alt="Stage 6"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-6.png" alt="Stage 6"/>
               </a>
             </aside>
             <!--End of Gallery-->
@@ -282,15 +284,15 @@
             <h4>2. Collecting minted KUCO</h4>
             After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
             If at that time the liquidity in <span class="code">LP</span> is comprised of
-            <span class="code">K</span> KUCO and <span class="code">E</span> AVAX, with some user investing <span class="code">e</span> AVAX,
-            then they will get <span class="code">1.2 &#xd7; e &#xd7; K / E</span> KUCO in return.
+            <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with some user investing <span class="code">a</span> AVAX,
+            then they will get <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
             Note that in the second step the user gets <span class="code">k</span> KUCO, where <span class="code">k</span>
-            solves the equation <span class="code">k &#xd7; E / K = 1.2  &#xd7; e</span>.
-            Because <span class="code">E / K</span> is the price of KUCO in AVAX on the liquidity pool,
-            they get <span class="code">1.2 &#xd7; e</span> AVAX worth of KUCO.
+            solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
+            Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
+            they get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
 
             Below is a tl;dr of our scheme inside a triangle.
           </div>
@@ -364,20 +366,20 @@
             <div class="icon-block-description">
               <h4>Preventing loss of funds with burn private key</h4>
               Burn private key - we are moving away from burn addresses, because they are often responsible
-              for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>.
-              Now you can rest assured that all of your burned KUCO tokens are actually recovable.
+              for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>,
+              with associated address <span class="code">0x7B1aFE2745533D852d6fD5A677F14c074210d896</span>.
+              With KucoCoin you can rest assured that all of your burned tokens are recovable.
             </div>
           </div>
 
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.7s">
             <div class="icon-block-description">
               <h4>Attaining price stability</h4>
-              KucoCoin revolutionizes the market by introducing an ability to temporarily block all its transactions.
-              KucoCoin holders can stake their KucoCoin tokens and if enough of them are staked, KucoCoin goes into
-              a lockdown mode, where all transactions are blocked for a period of time.
-              Blocking every single KUCO transaction means it can't be swapped on any exchange.
-              It follows that no price change of the KUCO is possible, as it can be neither bought nor sold.
-              As a result, KUCO, can be viewed as a stablecoin when it can't be used.
+              KucoCoin introduces a revolutionary feature allowing temporary transaction freezes.
+              When holders stake sufficient KucoCoin tokens, the system triggers a lockdown,
+              halting all transactions and rendering KucoCoin immovable.
+              As during that time KucoCoin can be neither bought nor sold, its price remains stable.
+              This means KucoCoin can be viewed as a stablecoin when it can't be used.
             </div>
           </div>
 
@@ -397,14 +399,16 @@
               Besides the usual <span class="code">transfer</span> method, our contract also fatures
               a <span class="code">makeTransAction</span> method with the EXACT same functionality.
               Act now by choosing the amount of KUCO you wish to act with, then click the "Trans Act" text.
-              <div id="trans-action-interface">
-                <div>
-                  <input id="trans-action-address" type="text" placeholder="To address" />
-                  <input id="trans-action-amount" type="number" placeholder="Amount KUCO" />
-                </div>
-                <div id="trans-action-button" class="trans-color-text">
-                  <span>T</span><span>R</span><span>A</span><span>N</span><span>S</span>
-                  <span>A</span><span>C</span><span>T</span>
+              <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
+                <div id="trans-action-interface">
+                  <div>
+                    <input id="trans-action-address" type="text" placeholder="To address" />
+                    <input id="trans-action-amount" type="number" placeholder="Amount KUCO" />
+                  </div>
+                  <div id="trans-action-button" class="trans-color-text">
+                    <span>T</span><span>R</span><span>A</span><span>N</span><span>S</span>
+                    <span>A</span><span>C</span><span>T</span>
+                  </div>
                 </div>
               </div>
               Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
@@ -420,10 +424,12 @@
               and have implemented a simple solution. Our token is the first token to feature a method
               called <span class="code">reportPeriod</span>, that logs the start of your period.
               Stop syncing with the moon and sync with the blockchain instead, by pressing the below button.
-              <div class="text-center">
-                <button id="report-period-interface">
-                  REPORT
-                </button>
+              <div>
+                <div class="text-center" id="report-period-interface">
+                  <button class="report-period-button">
+                    REPORT
+                  </button>
+                </div>
               </div>
               KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
               Note that the prediction's accuracy is not guarranteed with too little data.
@@ -626,15 +632,15 @@
 
   <!--Start reusable elts-->
   <div class="popup" id="popup"></div>
-  <!--fuck off, it works-->
+  <!--define seperate loader for each place where it will be shwon-->
   <div class="loader" id="kuco-price-output-loader">
     <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
   <div class="loader" id="trans-action-interface-loader">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
   <div class="loader" id="report-period-interface-loader">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
   <!--End reusable elts-->
 

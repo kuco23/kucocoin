@@ -1,7 +1,8 @@
 import { ethers } from 'hardhat'
 import type {
-  KucoCoin__factory, WNat__factory, BlazeSwapRouter__factory,
+  KucoCoin__factory, FakeWNat__factory, BlazeSwapRouter__factory,
   BlazeSwapManager__factory, BlazeSwapFactory__factory,
+  FakeERC20__factory
 } from '../../types'
 
 
@@ -13,7 +14,8 @@ export interface ContractFactories {
   blazeSwapRouter: BlazeSwapRouter__factory
   blazeSwapFactory: BlazeSwapFactory__factory
   // aux tokens
-  wNat: WNat__factory
+  fakeWNat: FakeWNat__factory
+  fakeERC20: FakeERC20__factory
 }
 
 export async function getFactories(): Promise<ContractFactories> {
@@ -22,6 +24,7 @@ export async function getFactories(): Promise<ContractFactories> {
     blazeSwapManager: await ethers.getContractFactory("BlazeSwapManager"),
     blazeSwapFactory: await ethers.getContractFactory("BlazeSwapBaseFactory"),
     blazeSwapRouter: await ethers.getContractFactory("BlazeSwapRouter"),
-    wNat: await ethers.getContractFactory("WNat")
+    fakeWNat: await ethers.getContractFactory("FakeWNat"),
+    fakeERC20: await ethers.getContractFactory("FakeERC20"),
   }
 }

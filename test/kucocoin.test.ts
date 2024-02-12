@@ -1,9 +1,9 @@
 import { ethers } from "hardhat"
 import { time } from "@nomicfoundation/hardhat-network-helpers"
-import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import { expect } from "chai"
 import { getFactories } from "./helpers/factories"
-import type { KucoCoin, WNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager, ERC20 } from '../types'
+import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
+import type { KucoCoin, FakeWNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager, ERC20 } from '../types'
 import type { ContractFactories } from "./helpers/factories"
 
 
@@ -13,7 +13,12 @@ interface BlazeSwap {
   factory: BlazeSwapFactory
 }
 
-const KUCOCOIN_INITIAL_LIQUIDITY = ethers.parseEther("1000000")
+const INITIAL_LIQUIDITY_KUCOCOIN = ethers.parseEther("100000000")
+const INITIAL_LIQUIDITY_NATIVE = ethers.parseEther("100")
+const INVESTMENT_RETURN_BIPS = 11_000
+const INVESTMENT_DURATION = 30 * 24 * 60 * 60 // one month
+const RETRACT_DURATION = 7 * 24 * 60 * 60 // one week
+const RETRACT_FEE_BIPS = 500 // 5% fee on retracting the investment
 
 async function getTimestampOfBlock(blockNumber: number): Promise<number> {
   const block = await ethers.provider.getBlock(blockNumber)
@@ -23,11 +28,14 @@ async function getTimestampOfBlock(blockNumber: number): Promise<number> {
 describe("KucoCoin", () => {
   let factories: ContractFactories
   let signers: HardhatEthersSigner[]
+  let admin: HardhatEthersSigner
   let kucocoin: KucoCoin
   let blazeswap: BlazeSwap
-  let wNat: WNat
+  let wNat: FakeWNat
 
-  async function deployBlazeSwap(signer: HardhatEthersSigner): Promise<BlazeSwap> {
+  async function deployBlazeSwap(
+    signer: HardhatEthersSigner
+  ): Promise<BlazeSwap> {
     const blazeSwap: any = {}
     blazeSwap.manager = await factories.blazeSwapManager.deploy(signer)
     blazeSwap.factory = await factories.blazeSwapFactory.deploy(blazeSwap.manager)
@@ -36,23 +44,36 @@ describe("KucoCoin", () => {
     return blazeSwap
   }
 
-  async function deployKucoCoin(signer: HardhatEthersSigner): Promise<KucoCoin> {
-    const startTradingTime = await time.latest()
-    const investmentReturn = 10_050
+  async function deployKucoCoin(
+    signer: HardhatEthersSigner
+  ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
       blazeswap.router,
-      KUCOCOIN_INITIAL_LIQUIDITY,
-      startTradingTime,
-      investmentReturn
+      INITIAL_LIQUIDITY_KUCOCOIN,
+      INITIAL_LIQUIDITY_NATIVE,
+      INVESTMENT_RETURN_BIPS,
+      await time.latest() + INVESTMENT_DURATION,
+      RETRACT_DURATION,
+      RETRACT_FEE_BIPS
     )
   }
 
-  async function provideInitialLiquidity(amountKUCO?: bigint, amountNAT?: bigint): Promise<void> {
+  async function provideInitialLiquidity(
+    amountKUCO?: bigint,
+    amountNAT?: bigint
+  ): Promise<void> {
     if (amountKUCO === undefined || amountNAT === undefined) {
-      amountKUCO = ethers.parseEther("10")
-      amountNAT = ethers.parseEther("100")
+      amountKUCO = INITIAL_LIQUIDITY_KUCOCOIN
+      amountNAT = INITIAL_LIQUIDITY_NATIVE
     }
-    await kucocoin.connect(signers[0]).addLiquidity(amountKUCO, signers[0], { value: amountNAT})
+    await kucocoin.connect(admin).addLiquidity(
+      amountKUCO,
+      amountKUCO,
+      amountNAT,
+      admin,
+      ethers.MaxUint256,
+      { value: amountNAT}
+    )
   }
 
   async function swapOutput(
@@ -70,13 +91,13 @@ describe("KucoCoin", () => {
   beforeEach(async () => {
     factories = await getFactories()
     signers = await ethers.getSigners()
-    wNat = await factories.wNat.deploy()
-    blazeswap = await deployBlazeSwap(signers[0])
-    kucocoin = await deployKucoCoin(signers[0])
-    await kucocoin.depositInitialLiquidity({ value: 100 })
+    admin = signers[0]
+    wNat = await factories.fakeWNat.deploy()
+    blazeswap = await deployBlazeSwap(admin)
+    kucocoin = await deployKucoCoin(admin)
   })
 
-  describe("kucocoin erc20", () => {
+  describe("kucocoin as ERC20", () => {
     it("should test name", async () => {
       expect(await kucocoin.name()).to.equal("KucoCoin")
     })
@@ -99,13 +120,19 @@ describe("KucoCoin", () => {
     })
   })
 
-  describe("dex integration", () => {
+  describe("uniswap-v2 integration", () => {
 
     it("should test adding liquidity", async () => {
-      const [admin] = signers
       const [amountKUCO, amountNAT] = [ethers.parseEther("1"), ethers.parseEther("10")]
       const adminBalanceBefore = await kucocoin.balanceOf(admin)
-      await kucocoin.connect(admin).addLiquidity(amountKUCO, admin, { value: amountNAT})
+      await kucocoin.connect(admin).addLiquidity(
+        amountKUCO,
+        amountKUCO,
+        amountNAT,
+        admin,
+        ethers.MaxUint256,
+        { value: amountNAT }
+      )
       const adminBalanceAfter = await kucocoin.balanceOf(admin)
       expect(adminBalanceBefore - adminBalanceAfter).to.equal(amountKUCO)
       const { 0: reserveKUCO, 1: reserveNAT } = await blazeswap.router.getReserves(kucocoin, wNat)
@@ -116,12 +143,17 @@ describe("KucoCoin", () => {
     it("should test buying kucocoin", async () => {
       // setup test params
       await provideInitialLiquidity()
-      const [admin, receiver] = signers
+      const [, receiver] = signers
       const amountNat = ethers.parseEther("1")
       // execute test
       const amountKuco = await swapOutput(wNat, kucocoin, amountNat)
       const receiverKucoBefore = await kucocoin.balanceOf(receiver)
-      await kucocoin.connect(admin).buy(receiver, 0, { value: amountNat })
+      await kucocoin.connect(admin).buy(
+        receiver,
+        amountNat,
+        0,
+        { value: amountNat }
+      )
       const receiverKucoAfter = await kucocoin.balanceOf(receiver)
       expect(receiverKucoAfter - receiverKucoBefore).to.equal(amountKuco)
     })
@@ -129,15 +161,18 @@ describe("KucoCoin", () => {
     it("should test selling kucocoin", async () => {
       // setup test params
       await provideInitialLiquidity()
-      const [admin, receiver] = signers
+      const [, receiver] = signers
       const amountKUCO = ethers.parseEther("1")
+      const args: [any, bigint, number, bigint] = [
+        receiver, amountKUCO, 0, ethers.MaxUint256
+      ]
       // execute test
       const expectedOut = await swapOutput(kucocoin, wNat, amountKUCO)
       const adminKucoBefore = await kucocoin.balanceOf(admin)
       const receiverNatBefore = await ethers.provider.getBalance(receiver)
       const adminNatBefore = await ethers.provider.getBalance(admin)
-      const estimatedGasUsed = await kucocoin.sell.estimateGas(receiver, amountKUCO, 0)
-      await kucocoin.connect(admin).sell(receiver, amountKUCO, 0)
+      const estimatedGasUsed = await kucocoin.sell.estimateGas(...args)
+      await kucocoin.connect(admin).sell(...args)
       const adminKucoAfter = await kucocoin.balanceOf(admin)
       const receiverNatAfter = await ethers.provider.getBalance(receiver)
       const adminNatAfter = await ethers.provider.getBalance(admin)
@@ -149,9 +184,31 @@ describe("KucoCoin", () => {
     })
   })
 
-  describe("menstrual calendar", () => {
+  describe("investing", () => {
 
-    it("should log menstruation entry", async () => {
+    it("should invest", async () => {
+      const [, investor] = signers
+      const amount = ethers.parseEther("101.1")
+      await kucocoin.connect(investor).invest({ value: amount })
+      const invested = await kucocoin.investedBy(investor)
+      expect(invested).to.equal(amount)
+    })
+
+    it("should invest and receive KUCO", async () => {
+      const [, investor] = signers
+      const amount = ethers.parseEther("101.1")
+      await kucocoin.connect(investor).invest({ value: amount })
+      await time.increaseTo(await kucocoin.investmentEndTime())
+      const expectedKuco = amount * BigInt(INVESTMENT_RETURN_BIPS) / BigInt(10_000)
+      const balanceKuco = await kucocoin.balanceOf(investor)
+      expect(balanceKuco).to.equal(expectedKuco)
+    })
+
+  })
+
+  describe("kucocoin functionalities", () => {
+
+    it("should log period entry", async () => {
       const [, menseReceiver] = signers
       const resp1 = await kucocoin.connect(menseReceiver).reportPeriod()
       await time.increase(31412)
@@ -165,12 +222,8 @@ describe("KucoCoin", () => {
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
     })
 
-  })
-
-  describe("trans actions", () => {
-
     it("should make a trans action", async () => {
-      const [sender, receiver] = signers
+      const [, sender, receiver] = signers
       const amount = ethers.WeiPerEther
       const initialSenderAmount = await kucocoin.balanceOf(sender)
       await kucocoin.connect(sender).makeTransAction(receiver, amount)
