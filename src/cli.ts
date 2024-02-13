@@ -1,9 +1,9 @@
 import { Command } from 'commander'
-import { Wallet, ethers } from 'ethers'
+import { Contract, Wallet, ethers } from 'ethers'
 import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/contracts/KucoCoin.sol/KucoCoin.json'
 import { networkInfo } from './config'
 import type { OptionValues } from 'commander'
-import type { KucoCoin__factory } from '../types'
+import type { KucoCoin__factory, KucoCoin } from '../types'
 
 
 let provider: ethers.JsonRpcApiProvider
@@ -22,13 +22,36 @@ program
   })
 program
   .command("deploy").description("deploy KucoCoin")
-  .argument("initial liquidity", "initial liquidity deposited to the dex")
-  .argument("investment return", "factor at which to return the investment value")
-  .action(async (liquidity: string, investmentReturn: string, _options: OptionValues) => {
+  .argument("investment return (bips)", "factor at which to return the investment value")
+  .argument("investment duration (seconds)", "duration of the investment phase")
+  .argument("retract fee (bips)", "fee to be paid when retracting the investment")
+  .argument("retract duration (seconds)", "duration of the retract phase")
+  .action(async (
+    investmentReturnBips: number,
+    investmentDuration: string,
+    retractFeeBips: number,
+    retractDuration: string,
+    _options: OptionValues
+  ) => {
     const options = { ...program.opts(), ..._options }
     const ninfo = networkInfo[options.network]
-    const kucocoinAddress = await deployKucocoin(ninfo.dex, BigInt(liquidity), parseInt(investmentReturn))
+    const kucocoinAddress = await deployKucocoin(
+      ninfo.dex,
+      investmentReturnBips,
+      BigInt(investmentDuration),
+      retractFeeBips,
+      BigInt(retractDuration)
+    )
     console.log(`KucoCoin deployed at ${kucocoinAddress}`)
+  })
+program
+  .command("init").description("initialize KucoCoin")
+  .argument("kucocoin", "KucoCoin contract address")
+  .argument("liquidity kuco", "amount of Kuco to provide as liquidity")
+  .argument("liquidity nat", "amount of NAT to provide as liquidity")
+  .action(async (kucocoin: string, liquidityKuco: string, liquidityNat: string, _options: OptionValues) => {
+    const kucocoinAddress = await initKucocoin(kucocoin, BigInt(liquidityKuco), BigInt(liquidityNat))
+    console.log(`KucoCoin initialized at ${kucocoinAddress}`)
   })
 
 program.parseAsync(process.argv).catch(err => {
@@ -39,11 +62,25 @@ program.parseAsync(process.argv).catch(err => {
 
 async function deployKucocoin(
   dex: string,
-  liquidity: bigint,
-  investmentReturnBips: number
+  investmentReturnBips: number,
+  investmentDuration: bigint,
+  retractFeeBips: number,
+  retractDuration: bigint
 ): Promise<string> {
   const factory = new ethers.ContractFactory(kucocoinAbi, kucocoinBytecode) as KucoCoin__factory
-  const kucocoin = await factory.connect(signer).deploy(dex, liquidity, investmentReturnBips)
+  const kucocoin = await factory.connect(signer).deploy(
+    dex, investmentReturnBips, investmentDuration, retractFeeBips, retractDuration
+  )
   await kucocoin.waitForDeployment()
   return kucocoin.getAddress()
+}
+
+async function initKucocoin(
+  kucocoinAddress: string,
+  liquidityKuco: bigint,
+  liquidityNat: bigint
+): Promise<KucoCoin> {
+  const kucocoin = new Contract(kucocoinAddress, kucocoinAbi, signer) as unknown as KucoCoin
+  await kucocoin.connect(signer).initialize(liquidityKuco, { value: liquidityNat })
+  return kucocoin
 }

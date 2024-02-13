@@ -159,5 +159,5 @@ $(async () => {
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
-  await attachKucoCoinPriceUpdater()
+  //await attachKucoCoinPriceUpdater()
 })
