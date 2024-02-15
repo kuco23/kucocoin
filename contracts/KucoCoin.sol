@@ -48,7 +48,7 @@ contract KucoCoin is ERC20, Ownable {
     uint256 immutable public retractFeeBips;
     uint256 immutable public retractDuration;
     // vars
-    uint64 public startTradingAt;
+    uint64 public tradingPhaseStart;
     uint112 internal investedUnclaimed;
     Phase public phase = Phase.Uninitialized; // logged phases
     ReserveSnapshot public reserveSnapshot;
@@ -189,22 +189,6 @@ contract KucoCoin is ERC20, Ownable {
         return uniswapV2.pairFor(address(this), wNat);
     }
 
-    function getSwapAmountIn(
-        uint256 amountOut,
-        uint256 reserveIn,
-        uint256 reserveOut
-    )
-        internal pure
-        returns (uint256 amountIn)
-    {
-        if (amountOut == 0) {
-            return 0;
-        }
-        uint256 numerator = reserveIn * amountOut * DEX_MAX_BIPS;
-        uint256 denominator = (reserveOut - amountOut) * DEX_FACTOR_BIPS;
-        amountIn = numerator / denominator + 1;
-    }
-
     function _toPath(
         address _tokenA,
         address _tokenB
@@ -234,12 +218,12 @@ contract KucoCoin is ERC20, Ownable {
         onlyOwner
     {
         require(phase == Phase.Uninitialized, "KucoCoin: already initialized");
-        phase = Phase.Trading; // so that `_beforeTokenTransfer` doesn't block
         // determine start of trading phase
-        startTradingAt = uint64(block.timestamp + investmentDuration);
-        investedBy[msg.sender] = uint112(msg.value);
-        _mint(address(this), _amountKuco);
+        tradingPhaseStart = uint64(block.timestamp + investmentDuration);
+        //  add WNat / KUCO liquidity to the pool
+        phase = Phase.Trading; // so that `_beforeTokenTransfer` doesn't block
         _approve(address(this), address(uniswapV2), _amountKuco);
+        _mint(address(this), _amountKuco);
         uniswapV2.addLiquidityNAT{value: msg.value}(
             address(this),
             _amountKuco,
@@ -247,8 +231,9 @@ contract KucoCoin is ERC20, Ownable {
             msg.value,
             0,
             address(this),
-            block.timestamp // is ok
+            block.timestamp
         );
+        // mark investment phase
         phase = Phase.Investment;
     }
 
@@ -262,16 +247,9 @@ contract KucoCoin is ERC20, Ownable {
     )
         external payable
         requireInvestmentPhase
-        enableTradingDuringCall
     {
-        uniswapV2.swapExactNATForTokens{value: msg.value}(
-            0, // irrelevant
-            _toPath(wNat, address(this)),
-            burnAddress,
-            block.timestamp
-        );
-        _burn(burnAddress, balanceOf(burnAddress));
-        investedBy[_receiver] += uint112(msg.value);
+        _addNatToDex(address(this));
+        _updateInvested(_receiver, uint112(msg.value));
     }
 
     /**
@@ -309,9 +287,7 @@ contract KucoCoin is ERC20, Ownable {
         uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFeeBips) / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
-        (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-        uint256 _auxAmountKuco = getSwapAmountIn(amountInvestedNatWithFee, reserveKuco, reserveNat);
-        _withdrawNatFromDex(_auxAmountKuco, msg.sender);
+        _removeNatFromDex(amountInvestedNatWithFee, msg.sender);
     }
 
     function getInvestmentReward(
@@ -333,18 +309,18 @@ contract KucoCoin is ERC20, Ownable {
         internal view
         returns (bool)
     {
-        return startTradingAt > block.timestamp;
+        return tradingPhaseStart > block.timestamp;
     }
 
     function isRetractPhase()
         internal view
         returns (bool)
     {
-        uint64 _startTradingAt = startTradingAt;
+        uint64 _tradingPhaseStart = tradingPhaseStart;
         return
-            _startTradingAt > 0 &&
-            _startTradingAt <= block.timestamp &&
-            _startTradingAt + retractDuration > block.timestamp;
+            _tradingPhaseStart > 0 &&
+            _tradingPhaseStart <= block.timestamp &&
+            _tradingPhaseStart + retractDuration > block.timestamp;
     }
 
     // can also be before investment phase
@@ -352,10 +328,10 @@ contract KucoCoin is ERC20, Ownable {
         internal view
         returns (bool)
     {
-        uint64 _startTradingAt = startTradingAt;
+        uint64 _tradingPhaseStart = tradingPhaseStart;
         return
-            _startTradingAt > 0 &&
-            _startTradingAt <= block.timestamp;
+            _tradingPhaseStart > 0 &&
+            _tradingPhaseStart <= block.timestamp;
     }
 
     // should be called at the end of the investment phase
@@ -373,22 +349,47 @@ contract KucoCoin is ERC20, Ownable {
         }
     }
 
-    function _withdrawNatFromDex(
-        uint256 _amount,
+    function _addNatToDex(
         address _to
     )
         private
+        enableTradingDuringCall
     {
-        _mint(address(this), _amount);
-        _approve(address(this), address(uniswapV2), _amount);
-        uniswapV2.swapExactTokensForNAT(
-            _amount,
-            0, // irrelevant, as we artificially mint and burn KucoCoin
-            _toPath(address(this), wNat),
+        (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
+        uint256 amountKuco = msg.value * reserveKuco / reserveNat;
+        _mint(address(this), amountKuco);
+        _approve(address(this), address(uniswapV2), amountKuco);
+        uniswapV2.addLiquidityNAT{value: msg.value}(
+            address(this),
+            amountKuco,
+            amountKuco,
+            msg.value,
+            0,
             _to,
-            block.timestamp // irrelevant, same reason as above
+            block.timestamp
         );
-        _burn(getPool(), _amount); // so price is not affected
+    }
+
+    function _removeNatFromDex(
+        uint256 _amountNat,
+        address _to
+    )
+        private
+        enableTradingDuringCall
+    {
+        (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
+        uint256 totalLiquidity = ERC20(getPool()).totalSupply();
+        uint256 liquidity = totalLiquidity * _amountNat / reserveNat;
+        uint256 amountKuco = liquidity * reserveKuco / totalLiquidity;
+        (uint256 _amountKuco,) = uniswapV2.removeLiquidityNAT(
+            address(this),
+            liquidity,
+            amountKuco,
+            _amountNat,
+            _to,
+            block.timestamp
+        );
+        _burn(_to, _amountKuco);
     }
 
     function _updateInvested(

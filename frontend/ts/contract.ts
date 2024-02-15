@@ -61,3 +61,9 @@ export async function getStage(address: AddressLike): Promise<bigint> {
   const stage = await contract.getStageOf(address)
   return stage
 }
+
+export async function getTradingPhaseStart(): Promise<bigint> {
+  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
+  const contract = new Contract(KUCOCOIN.address, KUCOCOIN.abi, provider)
+  return contract.tradingPhaseStart()
+}

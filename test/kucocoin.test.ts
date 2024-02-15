@@ -1,7 +1,7 @@
 import { ethers } from "hardhat"
 import { time } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
-import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./helpers/calc"
+import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./helpers/calculations"
 import { getFactories } from "./helpers/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import type { KucoCoin, FakeWNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager } from '../types'
@@ -73,7 +73,7 @@ describe("KucoCoin", () => {
   }
 
   async function moveToTradingPhase(skipRetract = true): Promise<void> {
-    const startTradingAt = await kucocoin.startTradingAt()
+    const startTradingAt = await kucocoin.tradingPhaseStart()
     const retractDuration = await kucocoin.retractDuration()
     await time.increaseTo(startTradingAt + (skipRetract ? retractDuration : BigInt(0)))
   }

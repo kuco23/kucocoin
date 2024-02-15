@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
 import { setImmediateInterval, sleep } from './utils'
-import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
+import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction, getTradingPhaseStart } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { KUCOCOIN } from './config/token'
 import {
@@ -131,6 +131,39 @@ function onReportPeriod(): void {
   })
 }
 
+function attachCountDown(tilUnix: number, contentId: string): void {
+  const second = 1000
+  const minute = second * 60
+  const hour = minute * 60
+  const day = hour * 24
+
+  const x = setInterval(() => {
+    const countdown = new Date(tilUnix).getTime()
+    const now = new Date().getTime()
+    const distance = countdown - now
+    $('#days').text(Math.floor(distance / day))
+    $('#hours').text(Math.floor((distance % day) / hour))
+    $('#minutes').text(Math.floor((distance % hour) / minute))
+    $('#seconds').text(Math.floor((distance % minute) / second))
+    if (distance < 0) {
+      clearInterval(x)
+      $('#' + contentId).hide()
+      $('#content').show()
+    }
+  }, 0)
+}
+
+async function attachTradingPhaseCountDown(): Promise<void> {
+  const tradingPhaseStart = await getTradingPhaseStart()
+  attachCountDown(1000 * Number(tradingPhaseStart) + 172800000, 'trading-phase-countdown')
+}
+
+async function updateKucoBalance(): Promise<void> {
+  const balance = await getKucoBalance(ethereum!)
+  const formattedBalance = formatUnits(balance, 18)
+  //$('#input-kuco-max-price').val(formattedBalance)
+}
+
 async function attachKucoCoinPriceUpdater(): Promise<void> {
   await setImmediateInterval(async () => {
     try {
@@ -146,10 +179,8 @@ async function attachKucoCoinPriceUpdater(): Promise<void> {
   }, PRICE_UPDATE_INTERVAL_MS)
 }
 
-async function updateKucoBalance(): Promise<void> {
-  const balance = await getKucoBalance(ethereum!)
-  const formattedBalance = formatUnits(balance, 18)
-  //$('#input-kuco-max-price').val(formattedBalance)
+async function adaptToPhase(): Promise<void> {
+  const epochs = await getTradingPhaseStart()
 }
 
 $(async () => {
@@ -159,5 +190,6 @@ $(async () => {
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
+  await attachTradingPhaseCountDown()
   //await attachKucoCoinPriceUpdater()
 })

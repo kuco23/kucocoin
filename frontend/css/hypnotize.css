@@ -81,6 +81,10 @@ div.spiral-container div, div.spiral-container {
   animation-delay: 3s;
 }
 
+.spiral-text-1:hover, .spiral-text-2:hover {
+  cursor: default;
+}
+
 @keyframes alternateFade {
   0% {
     display: block;
