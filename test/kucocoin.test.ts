@@ -127,6 +127,23 @@ describe("KucoCoin", () => {
 
   describe("investing", () => {
 
+    it("should update liquidity pool reserves on a made investment", async () => {
+      // params
+      const investor = signers[1]
+      const initialLiquidityKuco = ethers.parseEther("100000000")
+      const initialLiquidityNat = ethers.parseEther("100")
+      const investedNat = ethers.parseEther("420.24515101")
+      // test
+      await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
+      const { reserveKuco: reserveKucoBefore, reserveNat: reserveNatBefore } = await kucocoin.getPoolReserves()
+      expect(reserveKucoBefore).to.equal(initialLiquidityKuco)
+      expect(reserveNatBefore).to.equal(initialLiquidityNat)
+      await kucocoin.connect(investor).invest(investor, { value: investedNat })
+      const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
+      expect(reserveNatAfter).to.equal(reserveNatBefore + investedNat)
+      expect(reserveKucoAfter).to.equal(reserveKucoBefore)
+    })
+
     it("should invest and claim KUCO", async () => {
       // params
       const investor = signers[1]
@@ -159,11 +176,17 @@ describe("KucoCoin", () => {
       const invested = await kucocoin.investedBy(investor)
       expect(invested).to.equal(investedNat)
       await moveToTradingPhase(false)
+      const { reserveKuco: reserveKucoBefore, reserveNat: reserveNatBefore } = await kucocoin.getPoolReserves()
       await kucocoin.connect(investor).retract()
+      const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
+      // check that retraction returned NAT to the investor
       const investorNatAfter = await ethers.provider.getBalance(investor)
       const expectedRetractedNat = retractedNatFromInvestedNat(investedNat, RETRACT_FEE_BIPS)
       expect(investorNatAfter).to.be.above(investorNatMiddle + expectedRetractedNat - MAX_GAS_COST)
       expect(investorNatAfter).to.be.below(investorNatMiddle + expectedRetractedNat)
+      // check that retraction took only NAT from the dex
+      expect(reserveKucoAfter).to.equal(reserveKucoBefore)
+      expect(reserveNatAfter).to.equal(reserveNatBefore - expectedRetractedNat)
     })
 
   })
@@ -171,6 +194,14 @@ describe("KucoCoin", () => {
   describe("uniswap-v2 integration", () => {
     const initialLiquidityKuco = ethers.parseEther("100000000")
     const initialLiquidityNat = ethers.parseEther("100")
+
+    it("should test fetching reserves", async () => {
+      await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
+      const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
+      const [dexReserveKuco, dexReserveNat] = await blazeswap.router.getReserves(kucocoin, wNat)
+      expect(reserveKuco).to.equal(dexReserveKuco)
+      expect(reserveNat).to.equal(dexReserveNat)
+    })
 
     it("should test buying kucocoin (swapping NAT for KUCO)", async () => {
       // params

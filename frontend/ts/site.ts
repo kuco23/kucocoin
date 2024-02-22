@@ -1,9 +1,9 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
 import { setImmediateInterval, sleep } from './utils'
-import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction, getTradingPhaseStart } from './contract'
+import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
-import { KUCOCOIN } from './config/token'
+import { DECIMALS, START_TRADING_TIME } from './config/token'
 import {
   POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS,
   PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION_DIGITS
@@ -88,7 +88,7 @@ function onBuyKucoCoin(): void {
       const amountEthInput = $('#input-kuco-buy-amount').val()!
       const minAmountKucoInput = $('#input-kuco-min-swap').val()!
       const amountEth = parseEther(amountEthInput)
-      const minAmountKuco = parseUnits(minAmountKucoInput, KUCOCOIN.decimals)
+      const minAmountKuco = parseUnits(minAmountKucoInput, DECIMALS)
       await buyKuco(ethereum!, amountEth, minAmountKuco)
       popup('KucoCoin Purchase Successful', 'lime')
     } catch (err: any) {
@@ -104,7 +104,7 @@ function onMakeTransAction(): void {
       loadingStart('trans-action-interface')
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
-      const amount = parseUnits(amountInput, KUCOCOIN.decimals)
+      const amount = parseUnits(amountInput, DECIMALS)
       await makeTransAction(ethereum!, to, amount)
       popup('Trans Action Successful', 'lime')
     } catch (err: any) {
@@ -154,8 +154,7 @@ function attachCountDown(tilUnix: number, contentId: string): void {
 }
 
 async function attachTradingPhaseCountDown(): Promise<void> {
-  const tradingPhaseStart = await getTradingPhaseStart()
-  attachCountDown(1000 * Number(tradingPhaseStart) + 172800000, 'trading-phase-countdown')
+  attachCountDown(1000 *START_TRADING_TIME, 'trading-phase-countdown')
 }
 
 async function updateKucoBalance(): Promise<void> {
@@ -177,10 +176,6 @@ async function attachKucoCoinPriceUpdater(): Promise<void> {
       console.log(err.message)
     }
   }, PRICE_UPDATE_INTERVAL_MS)
-}
-
-async function adaptToPhase(): Promise<void> {
-  const epochs = await getTradingPhaseStart()
 }
 
 $(async () => {

@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "blazeswap/contracts/periphery/interfaces/IBlazeSwapRouter.sol";
-
-import "hardhat/console.sol";
+import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { IUniswapV2Router } from "./interface/IUniswapV2Router.sol";
+import { IUniswapV2Pair } from "./interface/IUniswapV2Pair.sol";
 
 
 // config
@@ -40,7 +39,7 @@ contract KucoCoin is ERC20, Ownable {
 
     // constant addresses
     address immutable public burnAddress = 0x7B1aFE2745533D852d6fD5A677F14c074210d896;
-    IBlazeSwapRouter immutable public uniswapV2; // uniswap-v2 router
+    IUniswapV2Router immutable public uniswapV2; // uniswap-v2 router
     address immutable public wNat; // wrapped native token (AVAX / ETH / FLR / SGB)
     // distribution params
     uint256 immutable public investmentReturnBips;
@@ -57,7 +56,7 @@ contract KucoCoin is ERC20, Ownable {
     mapping(address => PeriodEntry) private _periodOf;
 
     constructor(
-        IBlazeSwapRouter _uniswapV2,
+        IUniswapV2Router _uniswapV2,
         uint256 _investmentReturnBips,
         uint256 _investmentDuration,
         uint256 _retractFeeBips,
@@ -172,7 +171,7 @@ contract KucoCoin is ERC20, Ownable {
         external view
         returns (uint256)
     {
-        return ERC20(getPool()).balanceOf(_provider);
+        return getPair().balanceOf(_provider);
     }
 
     function getPoolReserves()
@@ -182,11 +181,11 @@ contract KucoCoin is ERC20, Ownable {
         return uniswapV2.getReserves(address(this), wNat);
     }
 
-    function getPool()
+    function getPair()
         public view
-        returns (address)
+        returns (IUniswapV2Pair)
     {
-        return uniswapV2.pairFor(address(this), wNat);
+        return IUniswapV2Pair(uniswapV2.pairFor(address(this), wNat));
     }
 
     function _toPath(
@@ -364,12 +363,20 @@ contract KucoCoin is ERC20, Ownable {
             amountKuco,
             amountKuco,
             msg.value,
-            0,
+            0, // doesn't matter
             _to,
             block.timestamp
         );
+        IUniswapV2Pair pair = getPair();
+        // beware of in-between `skim` calls
+        _burn(address(pair), amountKuco);
+        pair.sync();
     }
 
+    // notice that this method is vulnerable to reentrancy through the
+    // uniswapV2 NAT transfer to arbitrary `_to` address.
+    // Though the only way this can reenter is through `retract`,
+    // which updates the state safely before calling this function.
     function _removeNatFromDex(
         uint256 _amountNat,
         address _to
@@ -377,19 +384,22 @@ contract KucoCoin is ERC20, Ownable {
         private
         enableTradingDuringCall
     {
-        (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-        uint256 totalLiquidity = ERC20(getPool()).totalSupply();
+        IUniswapV2Pair pair = getPair();
+        uint256 totalLiquidity = pair.totalSupply();
+        (, uint256 reserveNat) = getPoolReserves();
         uint256 liquidity = totalLiquidity * _amountNat / reserveNat;
-        uint256 amountKuco = liquidity * reserveKuco / totalLiquidity;
+        pair.approve(address(uniswapV2), liquidity);
         (uint256 _amountKuco,) = uniswapV2.removeLiquidityNAT(
             address(this),
             liquidity,
-            amountKuco,
+            0, // doesn't matter
             _amountNat,
             _to,
             block.timestamp
         );
-        _burn(_to, _amountKuco);
+        // beware of in-between `skim` calls
+        _transfer(_to, address(pair), _amountKuco);
+        pair.sync();
     }
 
     function _updateInvested(
@@ -436,7 +446,7 @@ contract KucoCoin is ERC20, Ownable {
         internal view override
     {
         if (isRetractPhase()) {
-            if (from == getPool()) {
+            if (from == address(getPair())) {
                 (, uint256 reserveNat) = getPoolReserves();
                 require(reserveNat >= investedUnclaimed,
                     "KucoCoin: trying to withdraw too much NAT from pool during the retract phase");

@@ -3,7 +3,7 @@ import { expect } from "chai"
 import { optimalAddedLiquidity } from "./helpers/calculations"
 import { getFactories } from "./helpers/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
-import type { ERC20, FakeERC20, FakeWNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager } from '../types'
+import type { ERC20, FakeERC20, FakeWNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager, BlazeSwapBasePair } from '../types'
 import type { ContractFactories } from "./helpers/factories"
 
 
@@ -30,12 +30,12 @@ describe("UniswapV2", () => {
     return blazeSwap
   }
 
-  async function getPairFor(tokenA: ERC20, tokenB: ERC20): Promise<ERC20> {
+  async function getPairFor(tokenA: ERC20, tokenB: ERC20): Promise<BlazeSwapBasePair> {
     const pairAddress = await blazeswap.factory.getPair(tokenA, tokenB)
-    return factories.blazeSwapPair.attach(pairAddress) as ERC20
+    return factories.blazeSwapPair.attach(pairAddress) as BlazeSwapBasePair
   }
 
-  async function depositLiquidity(
+  async function addLiquidity(
     signer: HardhatEthersSigner,
     tokenA: FakeERC20,
     tokenB: FakeERC20,
@@ -72,8 +72,8 @@ describe("UniswapV2", () => {
     const addedLiquidityA = ethers.parseEther("10000")
     const addedLiquidityB = ethers.parseEther("400")
     // deposit initial and added liquidity
-    await depositLiquidity(admin, tokenA, tokenB, initialReserveA, initialReserveB)
-    await depositLiquidity(admin, tokenA, tokenB, addedLiquidityA, addedLiquidityB)
+    await addLiquidity(admin, tokenA, tokenB, initialReserveA, initialReserveB)
+    await addLiquidity(admin, tokenA, tokenB, addedLiquidityA, addedLiquidityB)
     // check reserves
     const [reserveA, reserveB] = await blazeswap.router.getReserves(tokenA, tokenB)
     const [optimalAddedA, optimalAddedB] = optimalAddedLiquidity(
@@ -89,7 +89,7 @@ describe("UniswapV2", () => {
     const removedReserveA = ethers.parseEther("100")
     const [,provider] = await ethers.getSigners()
     // execute test
-    await depositLiquidity(provider, tokenA, tokenB, initialReserveA, initialReserveB)
+    await addLiquidity(provider, tokenA, tokenB, initialReserveA, initialReserveB)
     const pairAB = await getPairFor(tokenA, tokenB)
     const totalLiquidity = await pairAB.totalSupply()
     const liquidity = totalLiquidity * removedReserveA / initialReserveA
@@ -126,6 +126,21 @@ describe("UniswapV2", () => {
     const pairBalanceWNat = await wrappedNativeToken.balanceOf(pair)
     expect(pairBalanceTokenA).to.equal(amountTokenA)
     expect(pairBalanceWNat).to.equal(amountNative)
+  })
+
+  it("should sync the pair contract's reserves", async () => {
+    const initialLiquidityTokenA = ethers.parseEther("415")
+    const initialLiquidityTokenB = ethers.parseEther("10000")
+    const burnedLiquidityTokenA = ethers.parseEther("100")
+    const burnedLiquidityTokenB = ethers.parseEther("1093")
+    await addLiquidity(admin, tokenA, tokenB, initialLiquidityTokenA, initialLiquidityTokenB)
+    const pair = await getPairFor(tokenA, tokenB)
+    await tokenA.burn(pair, burnedLiquidityTokenA)
+    await tokenB.burn(pair, burnedLiquidityTokenB)
+    await pair.sync()
+    const [reserveA, reserveB] = await blazeswap.router.getReserves(tokenA, tokenB)
+    expect(reserveA).to.equal(initialLiquidityTokenA - burnedLiquidityTokenA)
+    expect(reserveB).to.equal(initialLiquidityTokenB - burnedLiquidityTokenB)
   })
 
 })
