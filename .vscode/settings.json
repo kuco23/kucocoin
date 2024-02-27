@@ -19,7 +19,5 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
-  "slither.solcPath": "",
-  "slither.hiddenDetectors": []
+  "files.trimTrailingWhitespace": true
 }

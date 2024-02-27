@@ -15,7 +15,6 @@
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && yarn typechain",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && pnpm typechain",
-    "pretest": "sh ./scripts/replace-blazeswap-hash.sh",
     "test": "hardhat test",
     "fork": "yarn hardhat node --fork https://flare-api.flare.network/ext/C/rpc --fork-block-number 19622700",
     "---------- frontend ----------": "---------- frontend ----------",
@@ -40,6 +39,7 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
     "chai": "^4.3.7",
+    "commander": "^12.0.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "gh-pages": "^6.0.0",
@@ -55,10 +55,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
-    "blazeswap": "git+https://github.com/blazeswap/contracts.git",
     "ethers": "^6.4.0",
-    "jquery": "^3.7.1",
-    "parcel-plugin-inline-source": "^1.0.0"
+    "jquery": "^3.7.1"
   },
   "targets": {
     "frontend": {
@@ -67,7 +65,7 @@
   },
   "compilerOptions": {
     "typeRoots": [
-        "./src/node_modules/@types/jquery"
+      "./src/node_modules/@types/jquery"
     ]
   },
   "browserslist": [

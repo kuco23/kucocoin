@@ -4,15 +4,9 @@ import { expect } from "chai"
 import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./helpers/calculations"
 import { getFactories } from "./helpers/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
-import type { KucoCoin, FakeWNat, BlazeSwapRouter, BlazeSwapFactory, BlazeSwapManager } from '../types'
+import type { KucoCoin, FakeWNat, UniswapV2Router } from '../types'
 import type { ContractFactories } from "./helpers/factories"
 
-
-interface BlazeSwap {
-  router: BlazeSwapRouter
-  manager: BlazeSwapManager
-  factory: BlazeSwapFactory
-}
 
 const DEFAULT_INITIAL_LIQUIDITY_KUCO = ethers.parseEther("100000000")
 const DEFAULT_INITIAL_LIQUIDITY_NAT = ethers.parseEther("100")
@@ -33,25 +27,15 @@ describe("KucoCoin", () => {
   let signers: HardhatEthersSigner[]
   let admin: HardhatEthersSigner
   let kucocoin: KucoCoin
-  let blazeswap: BlazeSwap
+  let uniswapV2: UniswapV2Router
   let wNat: FakeWNat
 
-  async function deployBlazeSwap(
-    signer: HardhatEthersSigner
-  ): Promise<BlazeSwap> {
-    const blazeSwap: any = {}
-    blazeSwap.manager = await factories.blazeSwapManager.deploy(signer)
-    blazeSwap.factory = await factories.blazeSwapFactory.deploy(blazeSwap.manager)
-    await blazeSwap.manager.setFactory(blazeSwap.factory)
-    blazeSwap.router = await factories.blazeSwapRouter.deploy(blazeSwap.factory, wNat, false)
-    return blazeSwap
-  }
-
   async function deployKucoCoin(
+    _uniswapV2: UniswapV2Router,
     signer: HardhatEthersSigner
   ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
-      blazeswap.router,
+      _uniswapV2,
       INVESTMENT_RETURN_BIPS,
       INVESTMENT_DURATION,
       RETRACT_FEE_BIPS,
@@ -91,9 +75,9 @@ describe("KucoCoin", () => {
     factories = await getFactories()
     signers = await ethers.getSigners()
     admin = signers[0]
-    wNat = await factories.fakeWNat.deploy()
-    blazeswap = await deployBlazeSwap(admin)
-    kucocoin = await deployKucoCoin(admin)
+    wNat = await factories.fakeWNat.connect(admin).deploy()
+    uniswapV2 = await factories.uniswapV2Router.connect(admin).deploy(wNat)
+    kucocoin = await deployKucoCoin(uniswapV2, admin)
   })
 
   describe("kucocoin as ERC20", () => {
@@ -198,7 +182,7 @@ describe("KucoCoin", () => {
     it("should test fetching reserves", async () => {
       await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
       const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
-      const [dexReserveKuco, dexReserveNat] = await blazeswap.router.getReserves(kucocoin, wNat)
+      const [dexReserveKuco, dexReserveNat] = await uniswapV2.getReserves(kucocoin, wNat)
       expect(reserveKuco).to.equal(dexReserveKuco)
       expect(reserveNat).to.equal(dexReserveNat)
     })

@@ -3,8 +3,8 @@ pragma solidity 0.8.20;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {IUniswapV2Router} from "./interface/IUniswapV2Router.sol";
-import {IUniswapV2Pair} from "./interface/IUniswapV2Pair.sol";
+import {IUniswapV2Router} from "./interface/IUniswapV2/IUniswapV2Router.sol";
+import {IUniswapV2Pair} from "./interface/IUniswapV2/IUniswapV2Pair.sol";
 
 
 // config
@@ -397,6 +397,7 @@ contract KucoCoin is ERC20, Ownable {
             _to,
             block.timestamp
         );
+        pair.approve(address(uniswapV2), 0);
         // beware of in-between `skim` calls
         _transfer(_to, address(pair), _amountKuco);
         pair.sync();

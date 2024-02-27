@@ -1,24 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "blazeswap/contracts/core/test/WNAT.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IWNat} from "../interface/IWNat.sol";
 
+contract FakeWNat is IWNat, ERC20 {
 
-contract FakeWNat is WNAT {
-    bool private _foo = true;
+    constructor() ERC20("WrappedNative", "WNat") {}
 
-    function increaseAllowance(address /* spender */, uint256 /* addedValue */) external returns(bool) {
-        _foo = false;
-        assert(false);
-        return false;
-    }
-    function decreaseAllowance(address /* spender */, uint256 /* addedValue */) external returns(bool) {
-        _foo = false;
-        assert(false);
-        return false;
+    function deposit() external payable {
+        depositTo(msg.sender);
     }
 
-    function mint(address _target, uint256 amount) external {
-        balanceOf[_target] += amount;
+    function depositTo(address recipient) public payable {
+        _mint(recipient, msg.value);
+    }
+
+    function withdraw(uint256 amount) external {
+        withdrawTo(amount, msg.sender);
+    }
+
+    function withdrawTo(uint256 amount, address recipient) public {
+        _burn(msg.sender, amount);
+        payable(recipient).transfer(amount);
     }
 }

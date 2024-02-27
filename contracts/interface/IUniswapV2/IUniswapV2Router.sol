@@ -2,10 +2,17 @@
 pragma solidity 0.8.20;
 
 
+/**
+ * @title IUniswapV2Router
+ * @notice Defines the methods needed for KucoCoin to interact with
+ * @notice Inspired by Uniswap V2 Router
+ */
 interface IUniswapV2Router {
 
     function wNat() external view returns (address);
+
     function pairFor(address tokenA, address tokenB) external view returns (address);
+
     function getReserves(address tokenA, address tokenB) external view returns (uint256, uint256);
 
     function addLiquidityNAT(
