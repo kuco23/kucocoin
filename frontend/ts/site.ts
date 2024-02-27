@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
 import { getUnixNow, setImmediateInterval, sleep } from './utils'
-import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
+import { buyKuco, reportPeriod, getLiquidityReserves, makeTransAction, investInKucoCoin } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { DECIMALS, START_TRADING_TIME } from './config/token'
 import {
@@ -51,6 +51,28 @@ function displayKucoStages(): void {
   }
 }
 
+function displayCountdown(tilUnix: number, contentId: string): void {
+  const second = 1000
+  const minute = second * 60
+  const hour = minute * 60
+  const day = hour * 24
+
+  const x = setInterval(() => {
+    const countdown = new Date(tilUnix).getTime()
+    const now = new Date().getTime()
+    const distance = countdown - now
+    $('#days').text(Math.floor(distance / day))
+    $('#hours').text(Math.floor((distance % day) / hour))
+    $('#minutes').text(Math.floor((distance % hour) / minute))
+    $('#seconds').text(Math.floor((distance % minute) / second))
+    if (distance < 0) {
+      clearInterval(x)
+      $('#' + contentId).hide()
+      $('#content').show()
+    }
+  }, 0)
+}
+
 function onMetaMaskConnect(): void {
   const markMetamaskStatus = (connected: boolean): void => {
     $('#metamask-connect-header > i, #metamask-connect-footer > i')
@@ -73,10 +95,27 @@ function onMetaMaskConnect(): void {
 function onAddKucoCoin(): void {
   $('#add-kucocoin-button').on('click', async () => {
     try {
+      await switchNetworkIfNecessary(ethereum!)
       await addKucoCoinToken(ethereum!)
       popup("KucoCoin added to Metamask", 'lime')
     } catch (err: any) {
       popup("Failed to add KucoCoin to Metamask", 'firebrick')
+      console.log(err.message)
+    }
+  })
+}
+
+function onInvestInKucoCoin(): void {
+  $('#invest-submit').on('click', async () => {
+    try {
+      const amountInput = $('#invest-amount').val()!
+      const amount = parseEther(amountInput)
+      await switchNetworkIfNecessary(ethereum!)
+      const accounts = await requestAccountsIfNecessary(ethereum!)
+      await investInKucoCoin(ethereum!, amount, accounts[0])
+      popup('Investment Successful', 'lime')
+    } catch (err: any) {
+      popup('Investment Failed', 'firebrick')
       console.log(err.message)
     }
   })
@@ -89,6 +128,7 @@ function onBuyKucoCoin(): void {
       const minAmountKucoInput = $('#input-kuco-min-swap').val()!
       const amountEth = parseEther(amountEthInput)
       const minAmountKuco = parseUnits(minAmountKucoInput, DECIMALS)
+      await switchNetworkIfNecessary(ethereum!)
       await buyKuco(ethereum!, amountEth, minAmountKuco, getUnixNow())
       popup('KucoCoin Purchase Successful', 'lime')
     } catch (err: any) {
@@ -105,6 +145,7 @@ function onMakeTransAction(): void {
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
       const amount = parseUnits(amountInput, DECIMALS)
+      await switchNetworkIfNecessary(ethereum!)
       await makeTransAction(ethereum!, to, amount)
       popup('Trans Action Successful', 'lime')
     } catch (err: any) {
@@ -120,6 +161,7 @@ function onReportPeriod(): void {
   $('#report-period-interface').on('click', async () => {
     try {
       loadingStart('report-period-interface')
+      await switchNetworkIfNecessary(ethereum!)
       await reportPeriod(ethereum!)
       popup('Period Successfully Reported', 'lime')
     } catch (err: any) {
@@ -129,32 +171,6 @@ function onReportPeriod(): void {
       loadingEnd('report-period-interface')
     }
   })
-}
-
-function attachCountDown(tilUnix: number, contentId: string): void {
-  const second = 1000
-  const minute = second * 60
-  const hour = minute * 60
-  const day = hour * 24
-
-  const x = setInterval(() => {
-    const countdown = new Date(tilUnix).getTime()
-    const now = new Date().getTime()
-    const distance = countdown - now
-    $('#days').text(Math.floor(distance / day))
-    $('#hours').text(Math.floor((distance % day) / hour))
-    $('#minutes').text(Math.floor((distance % hour) / minute))
-    $('#seconds').text(Math.floor((distance % minute) / second))
-    if (distance < 0) {
-      clearInterval(x)
-      $('#' + contentId).hide()
-      $('#content').show()
-    }
-  }, 0)
-}
-
-async function attachTradingPhaseCountDown(): Promise<void> {
-  attachCountDown(1000 *START_TRADING_TIME, 'trading-phase-countdown')
 }
 
 async function attachKucoCoinPriceUpdater(): Promise<void> {
@@ -176,9 +192,10 @@ $(async () => {
   displayKucoStages()
   onMetaMaskConnect()
   onAddKucoCoin()
+  onInvestInKucoCoin()
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
-  await attachTradingPhaseCountDown()
+  displayCountdown(1000 *START_TRADING_TIME, 'trading-phase-countdown')
   //await attachKucoCoinPriceUpdater()
 })

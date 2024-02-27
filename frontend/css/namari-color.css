@@ -248,35 +248,6 @@ h6 {
 
 /* ----------Default Buttons---------- */
 
-
-/* Button Text */
-
-.button, input[type="submit"]  {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size:14px;
-    font-weight:bold;
-    color:#fff;
-}
-
-
-/* Button Color */
-
-.button, input[type="submit"] {
-    border-color:#fff;
-}
-
-
-/* Button Hover Color */
-
-.button:hover,  input[type="submit"]:hover {
-    border-color:#FF3131;
-    color:#FF3131;
-}
-
-
-/* ----------Banner Buttons---------- */
-
-
 /* Button Hover Color */
 
 #banner .button:hover {

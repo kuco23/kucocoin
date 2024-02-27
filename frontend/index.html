@@ -21,7 +21,7 @@
     @import './css/animate.css';
     @import './css/namari-style.css'; /* ❗Import before namari-color❗ */
     @import './css/namari-color.css';
-    @import './css/kucocoin-style.css';
+    @import './css/kucocoin-style.scss';
     @import './css/gradient-button.css';
     @import './css/fire-form.css';
     @import './css/hypnotize.css';
@@ -203,6 +203,7 @@
               <p>
                 KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
+                Note that the contract is verified on the avascan block explorer, where you can manually call any of the methods.
                 <div>
                   <span class="red" id="kuco-price-output">...loading</span>
                 </div>
@@ -243,176 +244,46 @@
       </section>
       <!--End of Buy Section-->
 
-      <div id="kuco-svg-container" class="text-center wow fadeIn" data-wow-delay="0.6s">
-        <svg id="kucomoon" width='170' height='170' stroke-width='5' stroke-linecap="round" stroke-linejoin="round">
-          <g stroke="white">
-            <line x1='55' y1='35' x2='55' y2='135' />
-            <line x1='55' y1='85' x2='115' y2='35' />
-            <line x1='55' y1='85' x2='115' y2='135' />
-          </g>
-          <g stroke="white" fill="none">
-            <circle cx='85' cy='85' r='80' />
-          </g>
-          <g fill="#1e1e1e" stroke="FireBrick">
-            <polygon points='85 55, 135 115, 35 115' />
-          </g>
-        </svg>
-      </div>
-
-      <!--Clients-->
-      <section id="kuconomics" class="scrollto clearfix">
-        <div class="row row-tight clearfix flex-container justify-center">
-
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
-            <h2>Kuconomics - the distribution model</h2>
-            Below we describe the tokenomics of KUCO distribution.
-            The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
-            that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
-            <span class="red">
-              Before reading the following scheme, note that you should try to understand the scheme in
-              the positive light, without negative judgement, in the way we want you to.
-            </span>
+      <!--Start of Buy Kucocoin-->
+      <section id="buy-kucocoin">
+        <div class="countdown wow fadeIn" data-wow-delay="0.7s">
+          <h1>Trading Phase Starts In</h1>
+          <div id="countdown">
+            <ul>
+              <li><span id="days"></span>days</li>
+              <li><span id="hours"></span>Hours</li>
+              <li><span id="minutes"></span>Minutes</li>
+              <li><span id="seconds"></span>Seconds</li>
+            </ul>
           </div>
-
-          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
-            <h4>1. Investing AVAX liquidity</h4>
-            The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
-            with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
-            by providing AVAX as liquidity, which is then burned. Investment is nonrefundable.
-          </div>
-
-          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
-            <h4>2. Collecting minted KUCO</h4>
-            After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
-            If at that time the liquidity in <span class="code">LP</span> is comprised of
-            <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with some user investing <span class="code">a</span> AVAX,
-            then they will get <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
-          </div>
-
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
-            Note that in the second step the user gets <span class="code">k</span> KUCO, where <span class="code">k</span>
-            solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
-            Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
-            they get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
-
-            Below is a tl;dr of our scheme inside a triangle.
-          </div>
-
-          <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
-            <div id="triangle-scheme">
-              <span>First</span><br/>
-              <span>you invest</span><br/>
-              <span>your hard earned,</span><br/>
-              <span>AVAX, then you watch the</span><br/>
-              <span>price of KUCO/AVAX go up as others</span><br/>
-              <span>like you invest in the liquidity pool.</span><br/>
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.2s">
-            The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KucoCoin grow.
-            The second phase is called the DUMP phase because you have the walth of KucoCoin being dumped onto you.
-            If facing any reservations, read below a quote from a bible that reassures potential KucoCoin investors.
-            <blockquote>
-              There will come unto thee those who speak, "Engage not in the trade of KucoCoin, for in its nature, it is akin to a pyramid scheme."
-              To such words, reply, "Should wealth be granted unto me through such means, shall the nature of its scheme diminish its value?"
-              Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
-              And he who ventures therein may find thyself amongst the rewarded.
-            </blockquote>
-            With those words in mind click the investment button below and choose how much to invest.
-          </div>
-
-          <div class="text-center wow fadeIn" data-wow-delay="0.5s">
-            <div class="margin-20">
-              <input type="number" placeholder="To address" />
-              <input type="button" value="Amount AVAX" />
-            </div>
-          </div>
-
         </div>
-      </section>
-      <!--End of Kuconomics-->
 
-      <!--Start buy kucocoin hypnotic spiral-->
-      <div id="buy-hypnosis" class="col-1 center">
-        <span class="float-center spiral-text-1">BUY</span>
-        <span class="float-center spiral-text-2">KUCO</span>
-        <div class="spiral-container">
-          <div class="spiral1">
-            <div class="spiral2">
-              <div class="spiral3">
-                <div class="spiral4">
-                  <div class="spiral1">
-                    <div class="spiral2">
-                      <div class="spiral3">
-                        <div class="spiral4">
-                          <div class="spiral1">
-                            <div class="spiral2">
-                              <div class="spiral3">
-                                <div class="spiral4">
-                                  <div class="spiral1">
-                                    <div class="spiral2">
-                                      <div class="spiral3">
-                                        <div class="spiral4">
-                                          <div class="spiral1">
-                                            <div class="spiral2">
-                                              <div class="spiral3">
-                                                <div class="spiral4">
-                                                  <div class="spiral1">
-                                                    <div class="spiral2">
-                                                      <div class="spiral3">
-                                                        <div class="spiral4">
-                                                          <div class="spiral1">
-                                                            <div class="spiral2">
-                                                              <div class="spiral3">
-                                                                <div class="spiral4">
-                                                                  <div class="spiral1">
-                                                                    <div class="spiral2">
-                                                                      <div class="spiral3">
-                                                                        <div class="spiral4">
-                                                                          <div class="spiral1">
-                                                                            <div class="spiral2">
-                                                                              <div class="spiral3">
-                                                                                <div class="spiral4">
-                                                                                </div>
-                                                                              </div>
-                                                                            </div>
-                                                                          </div>
-                                                                        </div>
-                                                                      </div>
-                                                                    </div>
-                                                                  </div>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <!--Start buy form form-->
+        <div class="col-1 center wow fadeInLeft" data-wow-duration="20s" style="margin-top: 55px; display: none;">
+          <div class="fire-form">
+            <h2>Invest</h2>
+            <form>
+              <div class="user-box">
+                <input id="input-kuco-buy-amount" type="number" required="true">
+                <label>Amount AVAX</label>
               </div>
-            </div>
+              <div class="user-box">
+                <input id="input-kuco-min-swap" value="0" type="number" required="true">
+                <label>Min out KUCO</label>
+              </div>
+              <a id="button-buy-kuco">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Execute
+              </a>
+            </form>
           </div>
         </div>
-      </div>
-      <!--End buy kucocoin hypnotic spiral-->
+        <!--End of buy form form-->
+      </section>
+      <!--End of Buy Kucocoin-->
 
       <!--Features-->
       <section id="features" class="scrollto clearfix">
@@ -503,45 +374,189 @@
       </section>
       <!--End of Features-->
 
-      <section id="buy-kucocoin" class="secondary-color">
-        <div class="countdown">
-          <h1>Trading Phase Starts In</h1>
-          <div id="countdown">
-            <ul>
-              <li><span id="days"></span>days</li>
-              <li><span id="hours"></span>Hours</li>
-              <li><span id="minutes"></span>Minutes</li>
-              <li><span id="seconds"></span>Seconds</li>
-            </ul>
-          </div>
-        </div>
+      <div id="kuco-svg-container" class="text-center wow fadeIn" data-wow-delay="0.6s">
+        <svg id="kucomoon" width='170' height='170' stroke-width='5' stroke-linecap="round" stroke-linejoin="round">
+          <g stroke="white">
+            <line x1='55' y1='35' x2='55' y2='135' />
+            <line x1='55' y1='85' x2='115' y2='35' />
+            <line x1='55' y1='85' x2='115' y2='135' />
+          </g>
+          <g stroke="white" fill="none">
+            <circle cx='85' cy='85' r='80' />
+          </g>
+          <g fill="#1e1e1e" stroke="FireBrick">
+            <polygon points='85 55, 135 115, 35 115' />
+          </g>
+        </svg>
+      </div>
 
-        <!--Start buy form form-->
-        <div class="col-1 center wow fadeInLeft" data-wow-duration="20s" style="margin-top: 55px; display: none;">
-          <div class="fire-form">
-            <h2>Invest</h2>
-            <form>
-              <div class="user-box">
-                <input id="input-kuco-buy-amount" type="number" required="true">
-                <label>Amount AVAX</label>
-              </div>
-              <div class="user-box">
-                <input id="input-kuco-min-swap" value="0" type="number" required="true">
-                <label>Min out KUCO</label>
-              </div>
-              <a id="button-buy-kuco">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Execute
-              </a>
-            </form>
-          </div>
-        </div>
-        <!--End of buy form form-->
+      <!--Clients-->
+      <section id="kuconomics" class="scrollto clearfix">
+        <div class="row row-wide clearfix flex-container justify-center">
 
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
+            <h2>Kuconomics - the distribution model</h2>
+            Below we describe the tokenomics of KUCO distribution.
+            The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
+            that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
+            <b>
+              Before reading the following scheme, note that you should try to understand the scheme in
+              the positive light, without negative judgement, in the way we want you to.
+            </b>
+          </div>
+
+          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
+            <h4>1. Investing AVAX liquidity</h4>
+            The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
+            with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
+            by providing AVAX as liquidity, which is then burned. Investment is not refundable,
+            though it can be retracted for 10% fee.
+          </div>
+
+          <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
+            <h4>2. Collecting minted KUCO</h4>
+            After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
+            If at that time the liquidity in <span class="code">LP</span> is comprised of
+            <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with some user investing <span class="code">a</span> AVAX,
+            then they will get <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
+          </div>
+
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
+            Note that in the second step the user gets <span class="code">k</span> KUCO, where <span class="code">k</span>
+            solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
+            Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
+            they get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
+
+            Below is a tl;dr of our scheme inside a triangle.
+          </div>
+
+          <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
+            <div id="triangle-scheme">
+              <span>First</span><br/>
+              <span>you invest</span><br/>
+              <span>your hard earned,</span><br/>
+              <span>AVAX, then you watch the</span><br/>
+              <span>price of KUCO/AVAX go up as others</span><br/>
+              <span>like you invest in the liquidity pool.</span><br/>
+            </div>
+          </div>
+
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.2s">
+            The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KucoCoin grow.
+            The second phase is called the DUMP phase because you have the walth of KucoCoin being dumped onto you.
+            If facing any reservations, read below a quote from a bible that reassures potential KucoCoin investors.
+            <blockquote>
+              There will come unto thee those who speak, "Engage not in the trade of KucoCoin, for in its nature, it is akin to a pyramid scheme."
+              To such words, reply, "Should wealth be granted unto me through such means, shall the nature of its scheme diminish its value?"
+              Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
+              And he who ventures therein may find thyself amongst the rewarded.
+            </blockquote>
+            With those words in mind click the investment button below and choose how much to invest.
+          </div>
+
+          <investment-phase>
+            <div class="text-center wow fadeIn" data-wow-delay="0.5s">
+              <div class="invest-form">
+                <h2>Investing</h2>
+                <form>
+                  <input id="invest-amount" type="number" placeholder="AMOUNT AVAX" /><br />
+                  <input id="invest-submit" type="button" value="INVEST" />
+                </form>
+              </div>
+            </div>
+          </investment-phase>
+
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
+            Please note that retracting your investment incurs a fee of 10% of the invested amount.
+            This option is available for up to one week following the start of the trading period.
+            During that time, the non-claimed retractable AVAX is protected from withdrawal in the liquidity pool.
+            <b>If not convinced by the above arguments, stare at the below spiral for 5 minutes and then reconsider.</b>
+          </div>
+
+        </div>
       </section>
+      <!--End of Kuconomics-->
+
+      <!--Start buy kucocoin hypnotic spiral-->
+      <div id="buy-hypnosis" class="col-1 center margin-top-20">
+        <span class="float-center spiral-text-1">INVEST</span>
+        <span class="float-center spiral-text-2">IN KUCO</span>
+        <div class="spiral-container">
+          <div class="spiral1">
+            <div class="spiral2">
+              <div class="spiral3">
+                <div class="spiral4">
+                  <div class="spiral1">
+                    <div class="spiral2">
+                      <div class="spiral3">
+                        <div class="spiral4">
+                          <div class="spiral1">
+                            <div class="spiral2">
+                              <div class="spiral3">
+                                <div class="spiral4">
+                                  <div class="spiral1">
+                                    <div class="spiral2">
+                                      <div class="spiral3">
+                                        <div class="spiral4">
+                                          <div class="spiral1">
+                                            <div class="spiral2">
+                                              <div class="spiral3">
+                                                <div class="spiral4">
+                                                  <div class="spiral1">
+                                                    <div class="spiral2">
+                                                      <div class="spiral3">
+                                                        <div class="spiral4">
+                                                          <div class="spiral1">
+                                                            <div class="spiral2">
+                                                              <div class="spiral3">
+                                                                <div class="spiral4">
+                                                                  <div class="spiral1">
+                                                                    <div class="spiral2">
+                                                                      <div class="spiral3">
+                                                                        <div class="spiral4">
+                                                                          <div class="spiral1">
+                                                                            <div class="spiral2">
+                                                                              <div class="spiral3">
+                                                                                <div class="spiral4">
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End buy kucocoin hypnotic spiral-->
 
     </main>
     <!--End Main Content Area-->

@@ -36,7 +36,6 @@ input:focus {
   box-shadow: none;
 }
 input[type='number'] {
-  -moz-appearance: textfield;
   appearance: textfield;
 }
 
@@ -53,6 +52,10 @@ input::-webkit-inner-spin-button {
 
 .margin-20 {
   margin: 20px;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
 }
 
 .code {

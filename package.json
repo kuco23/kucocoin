@@ -22,7 +22,10 @@
     "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",
     "---------- github ci -----------": "---------- github ci -----------",
     "predeploy": "yarn parcel-build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "---------- other ----------": "---------- other ----------",
+    "kucocoin-deploy": "yarn ts-node src/cli.ts deploy 10500 7776000 1000 2592000 -n flarefork",
+    "kucocoin-init": "yarn ts-node src/cli.ts init 1000000000000000000000 1000000000000000000000 -n flarefork"
   },
   "devDependencies": {
     "@ethersproject/keccak256": "^5.7.0",
@@ -32,6 +35,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nomicfoundation/hardhat-verify": "^1.1.1",
+    "@parcel/transformer-sass": "2.11.0",
     "@typechain/ethers-v6": "^0.4.0",
     "@typechain/hardhat": "^8.0.0",
     "@types/chai": "^4.3.4",

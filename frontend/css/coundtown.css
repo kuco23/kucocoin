@@ -8,15 +8,13 @@
     Cantarell,
     "Helvetica Neue",
     sans-serif;
-}
-
-.countdown {
-  color: white;
+  color: FireBrick;
   margin: 0 auto;
   text-align: center;
 }
 
 .countdown h1 {
+  color: #f4c580;
   font-weight: normal;
   letter-spacing: .125rem;
   text-transform: uppercase;
@@ -26,7 +24,7 @@
   display: inline-block;
   font-size: 1.5em;
   list-style-type: none;
-  padding: 1em;
+  padding: 0em 1em;
   text-transform: uppercase;
 }
 

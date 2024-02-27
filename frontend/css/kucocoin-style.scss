@@ -1,0 +1,264 @@
+/* kucocoin image */
+
+.coin-image-container > img {
+  height: 240px;
+  width: 240px;
+  border-radius: 250em;
+  object-fit: contain;
+  animation: spin 50s linear infinite;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+/* kucocoin stages */
+
+#gallery {
+
+  a:before {
+    /* center vertically and horizontally */
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* transform */
+    transform: translate(-50%, -50%);
+    transition: all .2s linear;
+    /* layered colors */
+    color: black;
+    font-size: 2.2rem;
+    font-weight: bold;
+    font-family: 'Bungee Hairline';
+  }
+
+  a:nth-child(1):before {
+    content: 'Trash';
+    color: FireBrick;
+    text-shadow: 0.5vh 0.5vh 1vh FireBrick, 0 0 6vh white;
+  }
+  a:nth-child(2):before {
+    content: 'Hope';
+    color: #EB5406;
+    text-shadow: 0.5vh 0.5vh 1vh #EB5406, 0 0 6vh white;
+  }
+  a:nth-child(3):before {
+    content: 'Computer';
+    color: yellowgreen;
+    text-shadow: 0.5vh 0.5vh 1vh yellowgreen, 0 0 6vh white;
+  }
+  a:nth-child(4):before {
+    content: 'Chad';
+    color: #FF10F0;
+    text-shadow: 0.5vh 0.5vh 1vh #FF10F0, 0 0 6vh white;
+  }
+  a:nth-child(5):before {
+    content: 'Techsus';
+    color: Cyan;
+    text-shadow: 0.5vh 0.5vh 1vh Cyan, 0 0 6vh white;
+  }
+  a:nth-child(6):before {
+    content: 'Secret';
+    color: Gold;
+    text-shadow: 0.5vh 0.5vh 1vh Gold, 0 0 6vh white;
+  }
+
+  a:hover:before {
+    opacity: 1;
+    animation: flicker-text 10s infinite;
+  }
+}
+
+@keyframes flicker-text {
+  90%, 92%, 94%, 96%, 98% {opacity: 0.4;}
+  89%, 91%, 93%, 95%, 97%, 99% {opacity: 1;}
+}
+
+/* kucocoin stages - gallery on click */
+
+#wrapper {
+  transition: filter 1s;
+}
+
+#gallery {
+  padding: 0px 0px 50px 0px;
+}
+
+#kuco-stage-layer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0,0,0,.8);
+  cursor: default;
+  padding: 30px;
+  overflow-y: auto;
+
+  > div {
+    display: none;
+    text-align: center;
+    font-size: 2.2rem;
+    color: white;
+    text-shadow: 2px 2px black;
+    width: 100%;
+  }
+
+  > div > h2 {
+    color: FireBrick;
+  }
+}
+
+/* triangle scheme */
+#triangle-scheme {
+  text-align: center;
+
+  span {
+    padding: 2px 0;
+  }
+}
+
+/* trans action interface */
+#trans-action-interface {
+  margin: 20px 0;
+  text-align: center;
+
+  input {
+    line-height: 15px;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+  input:nth-child(1) {
+    border: 1px solid #5BCEFA;
+    color: #F5A9B8;
+  }
+  input:nth-child(2) {
+    border: 1px solid #F5A9B8;
+    color: #5BCEFA;
+  }
+  input::placeholder {
+    color: white;
+  }
+
+  .trans-color-text {
+    display: inline-block;
+    padding-top: 10px;
+    font-size: 35px;
+    transition: rotate 2s ease;
+  }
+  .trans-color-text:hover {
+    cursor: pointer;
+    rotate: 5deg;
+  }
+  .trans-color-text:not(:hover) {
+    rotate: 0deg;
+    opacity: 0.5;
+  }
+  .trans-color-text:hover > span:nth-child(3n+1) {
+    color: #FFFFFF;
+  }
+  .trans-color-text:hover > span:nth-child(3n+2) {
+    color: #5BCEFA;
+  }
+  .trans-color-text:hover > span:nth-child(3n) {
+    color: #F5A9B8;
+  }
+  .trans-color-text:not(:hover) > span:nth-child(3n+1)  {
+    color: #F5A9B8;
+  }
+  .trans-color-text:not(:hover) > span:nth-child(3n+2) {
+    color: #FFFFFF;
+  }
+  .trans-color-text:not(:hover) > span:nth-child(3n) {
+    color: #5BCEFA;
+  }
+}
+
+/* report period button */
+
+button.report-period-button {
+  margin: 20px 0px;
+  padding: 5px 20px;
+  color: white;
+  font-size: 35px;
+  font-family: 'Bebas Neue', Helvetica;
+  font-weight: bold;
+  transition: color 1s;
+  animation: tripping 2s alternate infinite;
+  border-radius: 3px;
+}
+
+button.report-period-button:hover {
+  cursor: pointer;
+  color: red;
+}
+
+@keyframes tripping {
+  from {
+    background-color: DarkRed;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* blockquote */
+
+blockquote {
+  margin-top: 15pt;
+  margin-bottom: 15pt;
+  padding: 1px 5%;
+  line-height: 1.3;
+  text-align: center;
+  font-size: 95%;
+  font-style: italic;
+  word-break: keep-all;
+  color: #aaa;
+  hyphens: auto;
+  border-color: transparent;
+}
+
+blockquote:before {
+  content: "❝";
+}
+blockquote:after {
+  content: "❞";
+}
+
+/* kucocoin triangle form */
+
+.invest-form {
+  margin: 20px;
+  padding: 12px 20px 20px 20px;
+  border-radius: 5px;
+  transition: box-shadow 1s;
+  box-shadow: 0 0 4px #000011, 0 0 15px #000011, 0 0 35px black ;
+
+  h2 {
+    text-transform: uppercase;
+    font-size: 35px;
+    color: powderblue;
+    text-shadow: 0 0 4px powderblue, 0 0 15px white, 0 0 35px white ;
+    animation: flicker-text 10s infinite linear;
+  }
+
+  input {
+    width: 250px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    font-family: 'Source Code Pro';
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,.2);
+  }
+
+  input[type="button"]:hover {
+    cursor: pointer;
+    color: powderblue;
+    border-color: rgba(0,0,0,.5);
+  }
+}

@@ -256,7 +256,9 @@ contract KucoCoin is ERC20, Ownable {
      * @notice Callable only after the trading phase has started
      * @notice Before trading phase it reverts at `_beforeTokenTransfer`
      */
-    function claim()
+    function claim(
+        address _receiver
+    )
         external
         requireTradingPhase
     {
@@ -267,7 +269,7 @@ contract KucoCoin is ERC20, Ownable {
         uint256 amountClaimedKuco = getInvestmentReward(amountInvestedNat);
         _updateClaimed(msg.sender, amountInvestedNat);
         if (amountClaimedKuco > 0) {
-            _mint(msg.sender, amountClaimedKuco);
+            _mint(_receiver, amountClaimedKuco);
         }
     }
 
@@ -277,7 +279,9 @@ contract KucoCoin is ERC20, Ownable {
      *  the retract period has ended.
      * @notice The amount of NAT returned is reduced by the `retractFeeBips`
      */
-    function retract()
+    function retract(
+        address _receiver
+    )
         external
         requireRetractPhase
     {
@@ -286,7 +290,7 @@ contract KucoCoin is ERC20, Ownable {
         uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFeeBips) / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
-        _removeNatFromDex(amountInvestedNatWithFee, msg.sender);
+        _removeNatFromDex(amountInvestedNatWithFee, _receiver);
     }
 
     function getInvestmentReward(
