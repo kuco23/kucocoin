@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
-import { setImmediateInterval, sleep } from './utils'
+import { getUnixNow, setImmediateInterval, sleep } from './utils'
 import { buyKuco, reportPeriod, getKucoBalance, getLiquidityReserves, makeTransAction } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { DECIMALS, START_TRADING_TIME } from './config/token'
@@ -89,7 +89,7 @@ function onBuyKucoCoin(): void {
       const minAmountKucoInput = $('#input-kuco-min-swap').val()!
       const amountEth = parseEther(amountEthInput)
       const minAmountKuco = parseUnits(minAmountKucoInput, DECIMALS)
-      await buyKuco(ethereum!, amountEth, minAmountKuco)
+      await buyKuco(ethereum!, amountEth, minAmountKuco, getUnixNow())
       popup('KucoCoin Purchase Successful', 'lime')
     } catch (err: any) {
       popup('KucoCoin Purchase Failed', 'firebrick')
@@ -155,12 +155,6 @@ function attachCountDown(tilUnix: number, contentId: string): void {
 
 async function attachTradingPhaseCountDown(): Promise<void> {
   attachCountDown(1000 *START_TRADING_TIME, 'trading-phase-countdown')
-}
-
-async function updateKucoBalance(): Promise<void> {
-  const balance = await getKucoBalance(ethereum!)
-  const formattedBalance = formatUnits(balance, 18)
-  //$('#input-kuco-max-price').val(formattedBalance)
 }
 
 async function attachKucoCoinPriceUpdater(): Promise<void> {
