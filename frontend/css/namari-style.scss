@@ -1,3 +1,5 @@
+@import "./config.scss";
+
 /* Namari Landing Page v.1.1.0 Style Index - a free landing page by shapingrain.com
 
 1. Default and Reset styles
@@ -28,6 +30,7 @@
 /*------------------------------------------------------------------------------------------*/
 /* 1. Defaults & Reset of specific styles across browsers */
 /*------------------------------------------------------------------------------------------*/
+
 
 *, *:before, *:after {
     -webkit-box-sizing: border-box;
@@ -669,11 +672,6 @@ h6 {
 
 .section-heading {
     padding: 0 0 15px 0;
-}
-
-.section-subtitle {
-    font-size: 18px;
-    padding-top: 0;
 }
 
 .section-heading h3 {
@@ -1368,7 +1366,7 @@ h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #1e1e1e; /* change if the mask should have another color then white */
+    background-color: $background-color; /* change if the mask should have another color then white */
     z-index: 99999; /* makes sure it stays on top */
 }
 

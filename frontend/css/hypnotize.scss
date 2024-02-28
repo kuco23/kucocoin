@@ -1,16 +1,14 @@
+@import "./config.scss";
+
 .spiral-container {
   z-index: -1;
-  margin-bottom: 20px;
-  width:340px;
-  height:340px;
+  margin-bottom: $spiral-margin-bottom;
+  width: $spiral-width;
+  height: $spiral-height;
   animation-name: spin;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  animation-duration: 3s;
-  -webkit-animation-name: spin;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-duration: 3s;
+  animation-duration: $spiral-animation-duration;
 }
 .spiral1,.spiral2,.spiral3,.spiral4 {
   position: absolute;
@@ -18,14 +16,14 @@
   height: 85%;
   margin: 0;
   padding: 0;
-  background-color: #131313;
+  background-color: $spiral-color;
 }
 .spiral1 {
   left: 0;
   top: 0;
   border-left: none;
   border-top: none;
-  background-color: #1e1e1e;
+  background-color: $background-color;
 }
 
 .spiral2 {
@@ -40,7 +38,7 @@
   bottom: 0;
   border-right: none;
   border-bottom: none;
-  background-color: #1e1e1e;
+  background-color: $background-color;
 }
 
 .spiral4 {
@@ -67,18 +65,18 @@ div.spiral-container div, div.spiral-container {
 
 .spiral-text-1, .spiral-text-2 {
   opacity: 0;
-  font-size: 34px;
+  font-size: $spiral-text-font-size;
+  font-family: $spiral-text-font-family;
+  color: $spiral-text-color;
   font-weight: bold;
-  font-family: "Henny Penny";
-  color: rgba(255,255,255,.1);
   animation-name: alternateFade;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  animation-duration: 6s;
+  animation-duration: $spiral-text-animation-duration;
 }
 
 .spiral-text-2 {
-  animation-delay: 3s;
+  animation-delay: calc($spiral-text-animation-duration / 2);
 }
 
 .spiral-text-1:hover, .spiral-text-2:hover {
@@ -93,7 +91,7 @@ div.spiral-container div, div.spiral-container {
   25% {
     opacity: 1;
   }
-  40% {
+  45% {
     display: none;
     opacity: 0;
   }

@@ -1,0 +1,84 @@
+/* global */
+$background-color: #1e1e1e;
+$body-font-family: 'Source Code Pro', sans-serif, Arial, Helvetica;
+$banner-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+$section-title-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+$h1-font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+$h2-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+$h3-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+$h4-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+
+/* popup */
+$popup-font-family: 'Coming Soon';
+$popup-font-size: 8vh;
+
+/* rotating coin */
+$kucocoin-coin-height: 240px;
+$kucocoin-coin-width: 240px;
+$kucocoin-animation-duration: 50s;
+
+/* rotating kuco coin */
+$kucocoin-stages-hover-font-family: 'Bungee Hairline';
+$kucocoin-stage-names: (
+  'Trash',
+  'Hope',
+  'Computer',
+  'Chad',
+  'Techsus',
+  'Secret'
+);
+$kucocoin-stage-colors: (
+  FireBrick,
+  #EB5406,
+  yellowgreen,
+  #FF10F0,
+  Cyan,
+  Gold
+);
+$kucocoin-stages-gallery-padding: 0px 0px 50px 0px;
+$kucocoin-stages-content-background: rgba(0,0,0,.8);
+$kucocoin-stages-content-padding: 30px;
+$kucocoin-stages-content-color: white;
+$kucocoin-stages-content-text-shadow: 2px 2px black;
+$kucocoin-stages-content-font-size: 2.2rem;
+
+/* trans-actions */
+$trans-action-color-1: #5BCEFA;
+$trans-action-color-2: #F5A9B8;
+$trans-action-color-3: white;
+$trans-action-button-font-size: 35px;
+$trans-action-button-rotation: 5deg;
+$trans-action-button-padding-top: 10px;
+
+/* menstruation */
+$report-period-padding: 5px 20px;
+$report-period-margin: 20px 0px;
+$report-period-font-family: 'Bebas Neue', Helvetica;
+$report-period-animation-duration: 2s;
+$report-period-font-size: 35px;
+
+/* Hypnotize */
+// spiral
+$spiral-width: 340px;
+$spiral-height: 340px;
+$spiral-margin-bottom: 20px;
+$spiral-color: #131313;
+$spiral-animation-duration: 3s;
+// text
+$spiral-text-font-size: 34px;
+$spiral-text-font-family: 'Henny Penny';
+$spiral-text-color: rgba(255,255,255,.1);
+$spiral-text-animation-duration: 8s;
+
+/* Countdown */
+$countdown-font-family: monospace;
+$countdown-color: FireBrick;
+$countdown-title-font-family: 'Henny Penny';
+$countdown-title-color: #f4c580;
+
+/* Kuco moon */
+$kucomoon-moon-color: #f4c580;
+$kucomoon-pyramid-color: FireBrick;
+$kucomoon-coin-color: grey;
+$kucomoon-k-color: white;
+$kucomoon-animation-duration: 10s;

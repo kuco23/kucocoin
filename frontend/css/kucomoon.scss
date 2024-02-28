@@ -1,21 +1,24 @@
+@import "./config.scss";
+
 #kucomoon g:first-child {
   transform-origin: center;
-  animation: KucomoonRotate 10s infinite alternate, KucomoonShine 10s infinite alternate;
+  animation: KucomoonRotate $kucomoon-animation-duration infinite alternate,
+    KucomoonShine $kucomoon-animation-duration infinite alternate;
 }
 
 #kucomoon g:first-child line:first-child {
-  animation: KucomoonLineDown 10s infinite alternate;
+  animation: KucomoonLineDown $kucomoon-animation-duration infinite alternate;
 }
 
 
 #kucomoon g:nth-child(2) circle {
   transform-origin: center;
-  animation: kucomoonScale 10s infinite alternate;
+  animation: kucomoonScale $kucomoon-animation-duration infinite alternate;
 }
 
 #kucomoon g:nth-child(3) polygon {
   opacity: 0;
-  animation: PolyCover 10s infinite alternate;
+  animation: PolygonCover $kucomoon-animation-duration infinite alternate;
 }
 
 
@@ -40,20 +43,20 @@
 @keyframes kucomoonScale {
   0%, 50% {
     r: 80px;
-    stroke: grey;
+    stroke: $kucomoon-coin-color;
     transform: translateY(0px);
   }
   80%, 100% {
     r: 30px;
-    stroke: grey;
+    stroke: $kucomoon-coin-color;
     transform: translateY(-18.7587px);
   }
   90%, 100% {
-    stroke: #f4c580;
+    stroke: $kucomoon-moon-color;
   }
 }
 
-@keyframes PolyCover {
+@keyframes PolygonCover {
   0%, 80% {
     opacity: 0;
   }
@@ -64,9 +67,9 @@
 
 @keyframes KucomoonShine {
   0%, 80% {
-    stroke: white;
+    stroke: $kucomoon-k-color;
   }
   90%, 100% {
-    stroke: FireBrick;
+    stroke: $kucomoon-pyramid-color;
   }
 }

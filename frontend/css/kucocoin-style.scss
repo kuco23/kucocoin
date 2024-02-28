@@ -1,11 +1,29 @@
+@import "./config.scss";
+
+/* popup */
+
+.popup {
+  display: none;
+  position: fixed;
+  text-align: center;
+  font-family: $popup-font-family;
+  font-size: $popup-font-size;
+  font-weight: bold;
+  /* center and rotate */
+  z-index: 100;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%) rotateZ(20deg);
+}
+
 /* kucocoin image */
 
 .coin-image-container > img {
-  height: 240px;
-  width: 240px;
+  height: $kucocoin-coin-height;
+  width: $kucocoin-coin-width;
   border-radius: 250em;
   object-fit: contain;
-  animation: spin 50s linear infinite;
+  animation: spin $kucocoin-animation-duration linear infinite;
 }
 
 @keyframes spin {
@@ -29,50 +47,22 @@
     /* layered colors */
     color: black;
     font-size: 2.2rem;
+    font-family: $kucocoin-stages-hover-font-family;
     font-weight: bold;
-    font-family: 'Bungee Hairline';
   }
 
-  a:nth-child(1):before {
-    content: 'Trash';
-    color: FireBrick;
-    text-shadow: 0.5vh 0.5vh 1vh FireBrick, 0 0 6vh white;
-  }
-  a:nth-child(2):before {
-    content: 'Hope';
-    color: #EB5406;
-    text-shadow: 0.5vh 0.5vh 1vh #EB5406, 0 0 6vh white;
-  }
-  a:nth-child(3):before {
-    content: 'Computer';
-    color: yellowgreen;
-    text-shadow: 0.5vh 0.5vh 1vh yellowgreen, 0 0 6vh white;
-  }
-  a:nth-child(4):before {
-    content: 'Chad';
-    color: #FF10F0;
-    text-shadow: 0.5vh 0.5vh 1vh #FF10F0, 0 0 6vh white;
-  }
-  a:nth-child(5):before {
-    content: 'Techsus';
-    color: Cyan;
-    text-shadow: 0.5vh 0.5vh 1vh Cyan, 0 0 6vh white;
-  }
-  a:nth-child(6):before {
-    content: 'Secret';
-    color: Gold;
-    text-shadow: 0.5vh 0.5vh 1vh Gold, 0 0 6vh white;
+  @for $i from 1 through length($kucocoin-stage-names) {
+    $color: nth($kucocoin-stage-colors, $i);
+    a:nth-child(#{$i}):before {
+      content: nth($kucocoin-stage-names, $i);
+      color: $color;
+      text-shadow: 0.5vh 0.5vh 1vh $color, 0 0 6vh white;
+    }
   }
 
   a:hover:before {
     opacity: 1;
-    animation: flicker-text 10s infinite;
   }
-}
-
-@keyframes flicker-text {
-  90%, 92%, 94%, 96%, 98% {opacity: 0.4;}
-  89%, 91%, 93%, 95%, 97%, 99% {opacity: 1;}
 }
 
 /* kucocoin stages - gallery on click */
@@ -82,28 +72,28 @@
 }
 
 #gallery {
-  padding: 0px 0px 50px 0px;
+  padding: $kucocoin-stages-gallery-padding;
 }
 
 #kuco-stage-layer {
+  cursor: default;
+  z-index: 9999;
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
-  background-color: rgba(0,0,0,.8);
-  cursor: default;
-  padding: 30px;
+  background-color: $kucocoin-stages-content-background;
+  padding: $kucocoin-stages-content-padding;
   overflow-y: auto;
 
   > div {
     display: none;
     text-align: center;
-    font-size: 2.2rem;
-    color: white;
-    text-shadow: 2px 2px black;
+    font-size: $kucocoin-stages-content-font-size;
+    color: $kucocoin-stages-content-color;
+    text-shadow: $kucocoin-stages-content-text-shadow;
     width: 100%;
   }
 
@@ -132,62 +122,62 @@
     border-radius: 5px;
   }
   input:nth-child(1) {
-    border: 1px solid #5BCEFA;
-    color: #F5A9B8;
+    border: 1px solid $trans-action-color-1;
+    color: $trans-action-color-2;
   }
   input:nth-child(2) {
-    border: 1px solid #F5A9B8;
-    color: #5BCEFA;
+    border: 1px solid $trans-action-color-2;
+    color: $trans-action-color-1;
   }
   input::placeholder {
-    color: white;
+    color: $trans-action-color-3;
   }
 
   .trans-color-text {
     display: inline-block;
-    padding-top: 10px;
-    font-size: 35px;
+    padding-top: $trans-action-button-padding-top;
+    font-size: $trans-action-button-font-size;
     transition: rotate 2s ease;
   }
   .trans-color-text:hover {
     cursor: pointer;
-    rotate: 5deg;
+    rotate: $trans-action-button-rotation;
   }
   .trans-color-text:not(:hover) {
     rotate: 0deg;
     opacity: 0.5;
   }
   .trans-color-text:hover > span:nth-child(3n+1) {
-    color: #FFFFFF;
+    color: $trans-action-color-3;
   }
   .trans-color-text:hover > span:nth-child(3n+2) {
-    color: #5BCEFA;
+    color: $trans-action-color-1;
   }
   .trans-color-text:hover > span:nth-child(3n) {
-    color: #F5A9B8;
+    color: $trans-action-color-2;
   }
   .trans-color-text:not(:hover) > span:nth-child(3n+1)  {
-    color: #F5A9B8;
+    color: $trans-action-color-2;
   }
   .trans-color-text:not(:hover) > span:nth-child(3n+2) {
-    color: #FFFFFF;
+    color: $trans-action-color-3;
   }
   .trans-color-text:not(:hover) > span:nth-child(3n) {
-    color: #5BCEFA;
+    color: $trans-action-color-1;
   }
 }
 
 /* report period button */
 
 button.report-period-button {
-  margin: 20px 0px;
-  padding: 5px 20px;
+  margin: $report-period-margin;
+  padding: $report-period-padding;
   color: white;
-  font-size: 35px;
-  font-family: 'Bebas Neue', Helvetica;
+  font-size: $report-period-font-size;
+  font-family: $report-period-font-family;
   font-weight: bold;
   transition: color 1s;
-  animation: tripping 2s alternate infinite;
+  animation: tripping $report-period-animation-duration alternate infinite;
   border-radius: 3px;
 }
 
@@ -261,4 +251,9 @@ blockquote:after {
     color: powderblue;
     border-color: rgba(0,0,0,.5);
   }
+}
+
+@keyframes flicker-text {
+  90%, 92%, 94%, 96%, 98% {opacity: 0.4;}
+  89%, 91%, 93%, 95%, 97%, 99% {opacity: 1;}
 }
