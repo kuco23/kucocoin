@@ -28,6 +28,26 @@ export async function investInKucoCoin(
   await kucocoin.connect(signer).invest(receiver, { value: amount })
 }
 
+export async function claimKucoCoin(
+  ethereum: MetaMaskInpageProvider,
+  receiver: string
+): Promise<void> {
+  const provider = new BrowserProvider(ethereum)
+  const signer = await provider.getSigner()
+  const kucocoin = getKucoCoin(provider)
+  await kucocoin.connect(signer).claim(receiver)
+}
+
+export async function retractKucoCoin(
+  ethereum: MetaMaskInpageProvider,
+  receiver: string
+): Promise<void> {
+  const provider = new BrowserProvider(ethereum)
+  const signer = await provider.getSigner()
+  const kucocoin = getKucoCoin(provider)
+  await kucocoin.connect(signer).retract(receiver)
+}
+
 export async function buyKuco(
   ethereum: MetaMaskInpageProvider,
   amount: bigint,

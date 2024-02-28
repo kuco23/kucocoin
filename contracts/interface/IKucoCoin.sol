@@ -43,9 +43,9 @@ interface IKucoCoin is IERC20 {
 
     function invest(address _receiver) external payable;
 
-    function claim() external;
+    function claim(address _receiver) external;
 
-    function retract() external;
+    function retract(address _receiver) external;
 
     function burn(uint256 _amount) external;
 

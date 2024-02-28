@@ -30,6 +30,9 @@ input:focus {
 input[type='number'] {
   appearance: textfield;
 }
+input[type="button"]:hover {
+  cursor: pointer;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

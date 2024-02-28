@@ -1,9 +1,12 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
 import { getUnixNow, setImmediateInterval, sleep } from './utils'
-import { buyKuco, reportPeriod, getLiquidityReserves, makeTransAction, investInKucoCoin } from './contract'
+import {
+  investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKuco,
+  reportPeriod, getLiquidityReserves, makeTransAction
+} from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
-import { DECIMALS, START_TRADING_TIME } from './config/token'
+import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
 import {
   POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS,
   PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION_DIGITS
@@ -51,12 +54,16 @@ function displayKucoStages(): void {
   }
 }
 
+function displayAppropriatePhaseContent(): void {
+  getUnixNow() >= START_TRADING_TIME_UNIX_MS
+    ? $('investment').hide() : $('trading').hide()
+}
+
 function displayCountdown(tilUnix: number, contentId: string): void {
   const second = 1000
   const minute = second * 60
   const hour = minute * 60
   const day = hour * 24
-
   const x = setInterval(() => {
     const countdown = new Date(tilUnix).getTime()
     const now = new Date().getTime()
@@ -68,31 +75,32 @@ function displayCountdown(tilUnix: number, contentId: string): void {
     if (distance < 0) {
       clearInterval(x)
       $('#' + contentId).hide()
-      $('#content').show()
+      $('investment').hide()
+      $('trading').show()
     }
   }, 0)
 }
 
 function onMetaMaskConnect(): void {
-  const markMetamaskStatus = (connected: boolean): void => {
+  const markMetaMaskStatus = (connected: boolean): void => {
     $('#metamask-connect-header > i, #metamask-connect-footer > i')
     .css('color', connected ? '#00FF00' : 'firebrick')
   }
   $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button').on('click', async () => {
     if (ethereum === undefined)
-      return markMetamaskStatus(false)
+      return markMetaMaskStatus(false)
     const accounts = await requestAccountsIfNecessary(ethereum)
     if (accounts.length === 0)
-      return markMetamaskStatus(false)
+      return markMetaMaskStatus(false)
     const networkSwitched = await switchNetworkIfNecessary(ethereum)
     if (!networkSwitched)
-      return markMetamaskStatus(false)
-    markMetamaskStatus(true)
+      return markMetaMaskStatus(false)
+    markMetaMaskStatus(true)
     popup('Connected to Metamask', 'lime')
   })
 }
 
-function onAddKucoCoin(): void {
+function onMetaMaskAddKucoCoin(): void {
   $('#add-kucocoin-button').on('click', async () => {
     try {
       await switchNetworkIfNecessary(ethereum!)
@@ -116,6 +124,34 @@ function onInvestInKucoCoin(): void {
       popup('Investment Successful', 'lime')
     } catch (err: any) {
       popup('Investment Failed', 'firebrick')
+      console.log(err.message)
+    }
+  })
+}
+
+function onClaimKucoCoin(): void {
+  $('#claim-submit').on('click', async () => {
+    try {
+      await switchNetworkIfNecessary(ethereum!)
+      const accounts = await requestAccountsIfNecessary(ethereum!)
+      await claimKucoCoin(ethereum!, accounts[0])
+      popup('Claim was successful', 'lime')
+    } catch (err: any) {
+      popup('Claim failed', 'firebrick')
+      console.log(err.message)
+    }
+  })
+}
+
+function onRetractKucoCoin(): void {
+  $('#retract-submit').on('click', async () => {
+    try {
+      await switchNetworkIfNecessary(ethereum!)
+      const accounts = await requestAccountsIfNecessary(ethereum!)
+      await retractKucoCoin(ethereum!, accounts[0])
+      popup('Retract was successful', 'lime')
+    } catch (err: any) {
+      popup('Retract failed', 'firebrick')
       console.log(err.message)
     }
   })
@@ -190,12 +226,15 @@ async function attachKucoCoinPriceUpdater(): Promise<void> {
 
 $(async () => {
   displayKucoStages()
+  displayAppropriatePhaseContent()
   onMetaMaskConnect()
-  onAddKucoCoin()
+  onMetaMaskAddKucoCoin()
   onInvestInKucoCoin()
+  onClaimKucoCoin()
+  onRetractKucoCoin()
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
-  displayCountdown(1000 *START_TRADING_TIME, 'trading-phase-countdown')
+  displayCountdown(START_TRADING_TIME_UNIX_MS, 'trading-phase-countdown')
   //await attachKucoCoinPriceUpdater()
 })
