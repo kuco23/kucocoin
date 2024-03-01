@@ -3,8 +3,10 @@ pragma solidity 0.8.20;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {TransferHelper} from "./lib/TransferHelper.sol";
 import {IUniswapV2Router} from "./interface/IUniswapV2/IUniswapV2Router.sol";
 import {IUniswapV2Pair} from "./interface/IUniswapV2/IUniswapV2Pair.sol";
+import {IKucoCoin} from "./interface/IKucoCoin.sol";
 
 
 // config
@@ -25,7 +27,7 @@ uint256 constant DEX_FACTOR_BIPS = DEX_MAX_BIPS - DEX_FEE_BIPS;
  * Implications:
  * - The first tradable KUCO is obtained via `claim` or through dex swap.
  */
-contract KucoCoin is ERC20, Ownable {
+contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
     struct PeriodEntry {
         mapping(uint16 => uint64) entry;
@@ -35,7 +37,6 @@ contract KucoCoin is ERC20, Ownable {
         uint112 reserveKuco;
         uint112 reserveNat;
     }
-    enum Phase { Uninitialized, Investment, Trading }
 
     // constant addresses
     address immutable public burnAddress = 0x7B1aFE2745533D852d6fD5A677F14c074210d896;
@@ -49,7 +50,7 @@ contract KucoCoin is ERC20, Ownable {
     // vars
     uint64 public tradingPhaseStart;
     uint112 internal investedUnclaimed;
-    Phase public phase = Phase.Uninitialized; // logged phases
+    IKucoCoin.Phase public phase = Phase.Uninitialized; // logged phases
     ReserveSnapshot public reserveSnapshot;
     // investment and period tracking
     mapping(address => uint112) public investedBy;
@@ -359,22 +360,25 @@ contract KucoCoin is ERC20, Ownable {
         enableTradingDuringCall
     {
         (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-        uint256 amountKuco = msg.value * reserveKuco / reserveNat;
-        _mint(address(this), amountKuco);
-        _approve(address(this), address(uniswapV2), amountKuco);
-        uniswapV2.addLiquidityNAT{value: msg.value}(
+        uint256 tempKuco = msg.value * reserveKuco / reserveNat;
+        _mint(address(this), tempKuco);
+        _approve(address(this), address(uniswapV2), tempKuco);
+        (uint256 addedKuco, uint256 addedNat,) = uniswapV2.addLiquidityNAT{value: msg.value}(
             address(this),
-            amountKuco,
-            amountKuco,
-            msg.value,
-            0, // doesn't matter
+            tempKuco,
+            0, // is ok
+            0, // is ok - return non-used NAT to msg.sender
+            0,
             _to,
             block.timestamp
         );
+        // sync called right after _burn!
         IUniswapV2Pair pair = getPair();
-        // beware of in-between `skim` calls
-        _burn(address(pair), amountKuco);
+        _burn(address(pair), addedKuco);
         pair.sync();
+        // in case not all KUCO/NAT liquidity was added (numeric errors or unusual dex impl)
+        if (addedKuco < tempKuco) _burn(address(this), tempKuco - addedKuco);
+        if (addedNat < msg.value) TransferHelper.safeTransferNAT(_to, msg.value - addedNat);
     }
 
     // notice that this method is vulnerable to reentrancy through the
@@ -396,13 +400,13 @@ contract KucoCoin is ERC20, Ownable {
         (uint256 _amountKuco,) = uniswapV2.removeLiquidityNAT(
             address(this),
             liquidity,
-            0, // doesn't matter
-            _amountNat,
+            0, // is ok
+            _amountNat - 1, // numeric error
             _to,
             block.timestamp
         );
         pair.approve(address(uniswapV2), 0);
-        // beware of in-between `skim` calls
+        // sync called right after forced transfer
         _transfer(_to, address(pair), _amountKuco);
         pair.sync();
     }

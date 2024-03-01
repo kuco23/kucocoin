@@ -19,6 +19,7 @@ typechain/
 .pnp.*
 coverage.json
 package-lock.json
+deploys.json
 
 *.Identifier
 .parcel-cache/

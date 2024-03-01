@@ -97,8 +97,10 @@
     width: 100%;
   }
 
-  > div > h2 {
-    color: FireBrick;
+  @for $i from 1 through length($kucocoin-stage-colors) {
+    #kuco-stage-#{$i}-text > h2 {
+      color: nth($kucocoin-stage-colors, $i);
+    }
   }
 }
 
@@ -177,7 +179,7 @@ button.report-period-button {
   font-family: $report-period-font-family;
   font-weight: bold;
   transition: color 1s;
-  animation: tripping $report-period-animation-duration alternate infinite;
+  animation: alternate-background $report-period-animation-duration alternate infinite ease-in-out;
   border-radius: 3px;
 }
 
@@ -186,7 +188,7 @@ button.report-period-button:hover {
   color: red;
 }
 
-@keyframes tripping {
+@keyframes alternate-background {
   from {
     background-color: DarkRed;
   }
@@ -271,4 +273,32 @@ blockquote:after {
 @keyframes flicker-text {
   90%, 92%, 94%, 96%, 98% {opacity: 0.4;}
   89%, 91%, 93%, 95%, 97%, 99% {opacity: 1;}
+}
+
+/* underline on scrolling */
+
+.underline {
+  position: relative;
+  white-space: nowrap;
+}
+
+.underline-active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: red;
+  z-index: -1;
+  animation: underline 2s forwards;
+}
+
+@keyframes underline {
+  10% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
 }

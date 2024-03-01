@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { formatUnits, parseUnits, parseEther } from 'ethers'
-import { getUnixNow, setImmediateInterval, sleep } from './utils'
+import { getUnixNow, sleep, setImmediateAsyncInterval, setImmediateSyncInterval, insideViewport } from './utils'
 import {
   investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKuco,
   reportPeriod, getLiquidityReserves, makeTransAction
@@ -8,8 +8,8 @@ import {
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
 import {
-  POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS,
-  PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION_DIGITS
+  POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS, UNDERLINE_CHECK_INTERVAL_MS,
+  PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION, PRICE_PRECISION_DIGITS
 } from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
@@ -17,7 +17,7 @@ import type { MetaMaskInpageProvider } from "@metamask/providers"
 declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
-const PRICE_PRECISION = BigInt(10) ** BigInt(PRICE_PRECISION_DIGITS)
+let nonunderlined: any[]
 
 function popup(text: string, color: string): void {
   $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () =>
@@ -54,7 +54,7 @@ function displayKucoStages(): void {
   }
 }
 
-function displayAppropriatePhaseContent(): void {
+function displayPhaseBasedContent(): void {
   getUnixNow() >= START_TRADING_TIME_UNIX_MS
     ? $('investment').hide() : $('trading').hide()
 }
@@ -79,6 +79,21 @@ function displayCountdown(tilUnix: number, contentId: string): void {
       $('trading').show()
     }
   }, 0)
+}
+
+function attachScrollUnderlining(): void {
+  nonunderlined = $('.underline').toArray()
+  const timeout = setImmediateSyncInterval(() => {
+    for (let i = 0; i < nonunderlined.length; i++) {
+      const elt = $(nonunderlined[i])
+      if (insideViewport(elt)) {
+        elt.addClass('underline-active')
+        nonunderlined.splice(i, 1)
+      }
+    }
+    if (nonunderlined.length === 0)
+      clearInterval(timeout)
+  }, UNDERLINE_CHECK_INTERVAL_MS)
 }
 
 function onMetaMaskConnect(): void {
@@ -210,7 +225,7 @@ function onReportPeriod(): void {
 }
 
 async function attachKucoCoinPriceUpdater(): Promise<void> {
-  await setImmediateInterval(async () => {
+  await setImmediateAsyncInterval(async () => {
     try {
       loadingStart('kuco-price-output')
       const reserves = await getLiquidityReserves()
@@ -226,7 +241,8 @@ async function attachKucoCoinPriceUpdater(): Promise<void> {
 
 $(async () => {
   displayKucoStages()
-  displayAppropriatePhaseContent()
+  displayPhaseBasedContent()
+  attachScrollUnderlining()
   onMetaMaskConnect()
   onMetaMaskAddKucoCoin()
   onInvestInKucoCoin()

@@ -1,13 +1,25 @@
-const costwo = {
-  chainName: 'Coston2',
-  chainId: "0x72",
+const coston = {
+  chainName: 'Coston',
+  chainId: '0x10',
   nativeCurrency: {
-    name: 'C2FLR',
+    name: 'CFLR',
     decimals: 18,
-    symbol: 'C2FLR'
+    symbol: 'CFLR'
   },
-  rpcUrls: ['https://coston2-api.flare.network/ext/C/rpc'],
-  blockExplorerUrls: ['https://coston2-explorer.flare.network']
+  rpcUrls: ['https://coston-api.flare.network/ext/C/rpc'],
+  blockExplorerUrls: ['https://coston-explorer.flare.network']
+}
+
+const flare = {
+  chainName: 'Flare',
+  chainId: '0xe',
+  nativeCurrency: {
+    name: 'FLR',
+    decimals: 18,
+    symbol: 'FLR'
+  },
+  rpcUrls: ['https://flare.space/frpc1', 'https://flare-api.flare.network/ext/C/rpc'],
+  blockExplorerUrls: ['https://flare-explorer.flare.network/']
 }
 
 const flarefork = {

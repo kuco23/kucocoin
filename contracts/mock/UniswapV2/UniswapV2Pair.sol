@@ -5,8 +5,8 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import {Babylonian} from "./lib/Babylonian.sol";
-import {TransferHelper} from "./lib/TransferHelper.sol";
+import {Babylonian} from "../../lib/Babylonian.sol";
+import {TransferHelper} from "../../lib/TransferHelper.sol";
 import {IUniswapV2Pair} from "../../interface/IUniswapV2/IUniswapV2Pair.sol";
 
 

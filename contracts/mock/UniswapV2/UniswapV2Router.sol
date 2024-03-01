@@ -5,7 +5,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IWNat} from "../../interface/IWNat.sol";
 import {IUniswapV2Router} from "../../interface/IUniswapV2/IUniswapV2Router.sol";
-import {TransferHelper} from "./lib/TransferHelper.sol";
+import {TransferHelper} from "../../lib/TransferHelper.sol";
 import {UniswapV2Pair} from "./UniswapV2Pair.sol";
 
 

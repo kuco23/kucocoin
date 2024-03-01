@@ -3,7 +3,9 @@ pragma solidity 0.8.20;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+
 interface IKucoCoin is IERC20 {
+    enum Phase { Uninitialized, Investment, Trading }
 
     function burnAddress() external returns (address);
     function tradingPhaseStart() external returns (uint64);
@@ -12,7 +14,7 @@ interface IKucoCoin is IERC20 {
     function retractFeeBips() external returns (uint256);
     function retractDuration() external returns (uint256);
     function investedBy(address) external returns (uint112);
-    function phase() external returns (uint8);
+    function phase() external returns (Phase);
 
     function buy(
         uint256 _minKuco,
@@ -35,7 +37,7 @@ interface IKucoCoin is IERC20 {
         uint256 _deadline
      ) external payable;
 
-    function liquidityOf(address) external view returns (uint256 liquidity);
+    function liquidityOf(address) external view returns (uint256);
 
     function getPoolReserves() external view returns (uint256 reserveKuco, uint256 reserveNat);
 

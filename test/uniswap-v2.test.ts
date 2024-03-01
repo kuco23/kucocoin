@@ -1,10 +1,10 @@
 import { ethers } from "hardhat"
 import { expect } from "chai"
-import { optimalAddedLiquidity } from "./helpers/calculations"
-import { getFactories } from "./helpers/factories"
+import { optimalAddedLiquidity } from "./utils/calculations"
+import { getFactories } from "./utils/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import type { ERC20, FakeERC20, FakeWNat, UniswapV2Router, UniswapV2Pair } from '../types'
-import type { ContractFactories } from "./helpers/factories"
+import type { ContractFactories } from "./utils/factories"
 
 
 describe("UniswapV2", () => {

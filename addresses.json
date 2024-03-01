@@ -1,11 +1,11 @@
 {
-    "costwo": {
-        "KucoCoin": "0xb831BEe70742FbFdD5Bfe8Fa52077D7d69623475",
-        "BlazeSwapRouter": "0x8D29b61C41CF318d15d031BE2928F79630e068e6",
-        "WNat": "0xC67DCE33D7A8efA5FfEB961899C73fe01bCe9273"
+    "coston": {
+        "wNat": "0xC67DCE33D7A8efA5FfEB961899C73fe01bCe9273",
+        "uniswapV2": "0xf0D01450C037DB2903CF5Ff638Dd1e2e6B0EEDF4",
+        "KucoCoin": "0xb831BEe70742FbFdD5Bfe8Fa52077D7d69623475"
     },
     "flare": {
-        "BlazeSwapRouter": "0xe3A1b355ca63abCBC9589334B5e609583C7BAa06",
-        "WNat": "0x1d80c49bbbcd1c0911346656b529df9e5c2f783d"
+        "wNat": "0x1d80c49bbbcd1c0911346656b529df9e5c2f783d",
+        "uniswapV2": "0xe3A1b355ca63abCBC9589334B5e609583C7BAa06"
     }
 }

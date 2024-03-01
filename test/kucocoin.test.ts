@@ -1,11 +1,11 @@
 import { ethers } from "hardhat"
 import { time } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
-import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./helpers/calculations"
-import { getFactories } from "./helpers/factories"
+import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./utils/calculations"
+import { getFactories } from "./utils/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import type { KucoCoin, FakeWNat, UniswapV2Router } from '../types'
-import type { ContractFactories } from "./helpers/factories"
+import type { ContractFactories } from "./utils/factories"
 
 
 const DEFAULT_INITIAL_LIQUIDITY_KUCO = ethers.parseEther("100000000")
@@ -31,11 +31,10 @@ describe("KucoCoin", () => {
   let wNat: FakeWNat
 
   async function deployKucoCoin(
-    _uniswapV2: UniswapV2Router,
     signer: HardhatEthersSigner
   ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
-      _uniswapV2,
+      uniswapV2,
       INVESTMENT_RETURN_BIPS,
       INVESTMENT_DURATION,
       RETRACT_FEE_BIPS,
@@ -68,7 +67,7 @@ describe("KucoCoin", () => {
   ): Promise<void> {
     await kucocoin.connect(account).invest(account, { value: investmentNat })
     await moveToTradingPhase()
-    await kucocoin.connect(account).claim()
+    await kucocoin.connect(account).claim(account)
   }
 
   beforeEach(async () => {
@@ -77,7 +76,7 @@ describe("KucoCoin", () => {
     admin = signers[0]
     wNat = await factories.fakeWNat.connect(admin).deploy()
     uniswapV2 = await factories.uniswapV2Router.connect(admin).deploy(wNat)
-    kucocoin = await deployKucoCoin(uniswapV2, admin)
+    kucocoin = await deployKucoCoin(admin)
   })
 
   describe("kucocoin as ERC20", () => {
@@ -138,7 +137,7 @@ describe("KucoCoin", () => {
       const invested = await kucocoin.investedBy(investor)
       expect(invested).to.equal(investedNat)
       await moveToTradingPhase(false)
-      await kucocoin.connect(investor).claim()
+      await kucocoin.connect(investor).claim(investor)
       const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
       const balanceKuco = await kucocoin.balanceOf(investor)
       const expectedRewardKuco = rewardKucoFromInvestedNat(
@@ -148,7 +147,7 @@ describe("KucoCoin", () => {
 
     it("should invest and retract", async () => {
       // params
-      const investor = signers[1]
+      const [, investor, retractee] = signers
       const investedNat = ethers.parseEther("101.1132")
       // test
       await initKucoCoin(admin)
@@ -160,14 +159,17 @@ describe("KucoCoin", () => {
       const invested = await kucocoin.investedBy(investor)
       expect(invested).to.equal(investedNat)
       await moveToTradingPhase(false)
+      const retracteeNatBefore = await ethers.provider.getBalance(retractee)
       const { reserveKuco: reserveKucoBefore, reserveNat: reserveNatBefore } = await kucocoin.getPoolReserves()
-      await kucocoin.connect(investor).retract()
+      await kucocoin.connect(investor).retract(retractee)
       const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
-      // check that retraction returned NAT to the investor
+      // check that retraction gave NAT to the retractee
+      const retracteeNatAfter = await ethers.provider.getBalance(retractee)
       const investorNatAfter = await ethers.provider.getBalance(investor)
       const expectedRetractedNat = retractedNatFromInvestedNat(investedNat, RETRACT_FEE_BIPS)
-      expect(investorNatAfter).to.be.above(investorNatMiddle + expectedRetractedNat - MAX_GAS_COST)
-      expect(investorNatAfter).to.be.below(investorNatMiddle + expectedRetractedNat)
+      expect(investorNatAfter).to.be.below(investorNatMiddle)
+      expect(investorNatAfter).to.be.above(investorNatMiddle - MAX_GAS_COST)
+      expect(retracteeNatAfter).to.equal(retracteeNatBefore + expectedRetractedNat)
       // check that retraction took only NAT from the dex
       expect(reserveKucoAfter).to.equal(reserveKucoBefore)
       expect(reserveNatAfter).to.equal(reserveNatBefore - expectedRetractedNat)
