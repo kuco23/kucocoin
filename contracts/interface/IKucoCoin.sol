@@ -7,14 +7,14 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 interface IKucoCoin is IERC20 {
     enum Phase { Uninitialized, Investment, Trading }
 
-    function burnAddress() external returns (address);
-    function tradingPhaseStart() external returns (uint64);
-    function investmentReturnBips() external returns (uint256);
-    function investmentDuration() external returns (uint256);
-    function retractFeeBips() external returns (uint256);
-    function retractDuration() external returns (uint256);
-    function investedBy(address) external returns (uint112);
-    function phase() external returns (Phase);
+    function burnAddress() external view returns (address);
+    function tradingPhaseStart() external view returns (uint64);
+    function investmentReturnBips() external view returns (uint256);
+    function investmentDuration() external view returns (uint256);
+    function retractFeeBips() external view returns (uint256);
+    function retractDuration() external view returns (uint256);
+    function getInvestedNatOf(address _receiver) external view returns (uint256);
+    function phase() external view returns (Phase);
 
     function buy(
         uint256 _minKuco,
@@ -37,7 +37,7 @@ interface IKucoCoin is IERC20 {
         uint256 _deadline
      ) external payable;
 
-    function liquidityOf(address) external view returns (uint256);
+    function liquidityOf(address _owner) external view returns (uint256);
 
     function getPoolReserves() external view returns (uint256 reserveKuco, uint256 reserveNat);
 

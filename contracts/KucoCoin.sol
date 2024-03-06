@@ -53,7 +53,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     IKucoCoin.Phase public phase = Phase.Uninitialized; // logged phases
     ReserveSnapshot public reserveSnapshot;
     // investment and period tracking
-    mapping(address => uint112) public investedBy;
+    mapping(address => uint112) private _investedBy;
     mapping(address => PeriodEntry) private _periodOf;
 
     constructor(
@@ -265,7 +265,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         _updatePhaseIfNecessary();
         require(phase == Phase.Trading, "KucoCoin: not inside trading phase");
-        uint112 amountInvestedNat = investedBy[msg.sender];
+        uint112 amountInvestedNat = _investedBy[msg.sender];
         require(amountInvestedNat > 0, "KucoCoin: no investment to claim");
         uint256 amountClaimedKuco = getInvestmentReward(amountInvestedNat);
         _updateClaimed(msg.sender, amountInvestedNat);
@@ -287,11 +287,20 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         requireRetractPhase
     {
         _updatePhaseIfNecessary();
-        uint112 amountInvestedNat = investedBy[msg.sender];
+        uint112 amountInvestedNat = _investedBy[msg.sender];
         uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFeeBips) / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
         _removeNatFromDex(amountInvestedNatWithFee, _receiver);
+    }
+
+    function getInvestedNatOf(
+        address _investor
+    )
+        external view
+        returns (uint256)
+    {
+        return _investedBy[_investor];
     }
 
     function getInvestmentReward(
@@ -417,7 +426,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         private
     {
-        investedBy[_investor] += _invested;
+        _investedBy[_investor] += _invested;
         // don't need to update `investedUnclaimed`
         // as it is set at the start of trading
     }
@@ -428,7 +437,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         private
     {
-        investedBy[_claimer] = 0;
+        _investedBy[_claimer] = 0;
         investedUnclaimed -= _claimed;
     }
 

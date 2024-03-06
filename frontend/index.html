@@ -117,10 +117,13 @@
                   <a href="#buy">Buy</a>
                 </li>
                 <li>
+                  <a href="#features">Features</a>
+                </li>
+                <li>
                   <a href="#kuconomics">Kuconomics</a>
                 </li>
                 <li>
-                  <a href="#features">Features</a>
+                  <a href="#dashboard">Dashboard</a>
                 </li>
               </ul>
             </nav>
@@ -205,9 +208,6 @@
                 KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
                 Note that the contract is verified on the avascan block explorer, where you can manually call any of the methods.
-                <div>
-                  <span class="red" id="kuco-price-output">...loading</span>
-                </div>
               </p>
             </div>
           </div>
@@ -247,42 +247,47 @@
 
       <!--Start of Buy Kucocoin-->
       <section id="buy-kucocoin">
-        <div class="countdown wow fadeIn" data-wow-delay="0.7s">
-          <h1>Trading Phase Starts In</h1>
-          <div id="countdown">
-            <ul>
-              <li><span id="days"></span>days</li>
-              <li><span id="hours"></span>Hours</li>
-              <li><span id="minutes"></span>Minutes</li>
-              <li><span id="seconds"></span>Seconds</li>
-            </ul>
+        <investment>
+          <div class="countdown wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
+            <h1>Trading Phase Starts In</h1>
+            <div id="countdown">
+              <ul>
+                <li><span id="days"></span>days</li>
+                <li><span id="hours"></span>Hours</li>
+                <li><span id="minutes"></span>Minutes</li>
+                <li><span id="seconds"></span>Seconds</li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </investment>
 
         <!--Start buy form form-->
-        <div class="col-1 center wow fadeInLeft" data-wow-duration="20s" style="margin-top: 55px; display: none;">
-          <div class="fire-form">
-            <h2>Invest</h2>
-            <form>
-              <div class="user-box">
-                <input id="input-kuco-buy-amount" type="number" required="true">
-                <label>Amount AVAX</label>
-              </div>
-              <div class="user-box">
-                <input id="input-kuco-min-swap" value="0" type="number" required="true">
-                <label>Min out KUCO</label>
-              </div>
-              <a id="button-buy-kuco">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Execute
-              </a>
-            </form>
+        <trading>
+          <div class="col-1 center wow fadeIn" data-wow-duration="2s">
+            <div class="fire-form">
+              <h2>Invest</h2>
+              <form>
+                <div class="user-box">
+                  <input id="input-kuco-buy-amount" type="number" required="true">
+                  <label>Amount AVAX</label>
+                </div>
+                <div class="user-box">
+                  <input id="input-kuco-min-swap" value="0" type="number" required="true">
+                  <label>Min out KUCO</label>
+                </div>
+                <a id="button-buy-kuco">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  Execute
+                </a>
+              </form>
+            </div>
           </div>
-        </div>
+        </trading>
         <!--End of buy form form-->
+
       </section>
       <!--End of Buy Kucocoin-->
 
@@ -492,8 +497,14 @@
 
       <!--Start buy kucocoin hypnotic spiral-->
       <div id="buy-hypnosis" class="col-1 center margin-top-20">
-        <span class="float-center spiral-text-1">INVEST</span>
-        <span class="float-center spiral-text-2">IN KUCO</span>
+        <span class="float-center spiral-text-1">
+          <investment>INVEST IN</investment>
+          <trading>BUY</trading>
+        </span>
+        <span class="float-center spiral-text-2">
+          <investment>KUCOCOIN</investment>
+          <trading>KUCOCOIN</trading>
+        </span>
         <div class="spiral-container">
           <div class="spiral1">
             <div class="spiral2">
@@ -570,6 +581,50 @@
         </div>
       </div>
       <!--End buy kucocoin hypnotic spiral-->
+
+      <!--Start Dashboard-->
+      <section id="dashboard" class="scrollto clearfix">
+        <div id="dashboard" class="row row-tight">
+
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
+            <h2>KucoCoin Dashboard</h2>
+            <p>
+              KucoCoin dashboard is a place where you can track your KucoCoin holdings, and also
+              perform various actions with your KucoCoin. The dashboard is currently under construction,
+              but you can still check the current price of KucoCoin, and also invest in KucoCoin.
+              The dashboard will be available soon, and it will feature a lot of cool features.
+            </p>
+          </div>
+
+          <connect-to-metamask>
+            <div class="col-1 text-center">
+              <button id="dashboard-connect-to-metamask" class="gradient-button">
+                CONNECT TO METAMASK
+              </button>
+            </div>
+          </connect-to-metamask>
+
+          <connected-to-metamask>
+            <div class="col-1">
+              <div class="dashboard-display">
+                <div>
+                  <span>Price:&nbsp;&nbsp;&nbsp;</span>
+                  <span id="kuco-price-output"></span> <span class="symbol">AVAX</span>
+                </div>
+                <div>
+                  <span>Balance:&nbsp;</span>
+                  <span id="kuco-balance-output"></span> <span class="symbol">KUCO</span>
+                </div>
+                <div>
+                  <span>Invested:</span>
+                  <span id="kuco-invested-output"></span> <span class="symbol">AVAX</span>
+                </div>
+              </div>
+            </div>
+          </connected-to-metamask>
+
+        </div>
+      </section>
 
     </main>
     <!--End Main Content Area-->

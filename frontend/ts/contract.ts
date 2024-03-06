@@ -10,13 +10,6 @@ function getKucoCoin(provider: JsonRpcApiProvider): IKucoCoin {
   return new Contract(ADDRESS, ABI, provider) as unknown as IKucoCoin
 }
 
-export async function getLiquidityReserves(): Promise<{ KUCO: bigint, NAT: bigint }> {
-  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
-  const contract = getKucoCoin(provider)
-  const { 0: reserveKUCO, 1: reserveNAT } = await contract.getPoolReserves()
-  return { KUCO: reserveKUCO, NAT: reserveNAT }
-}
-
 export async function investInKucoCoin(
   ethereum: MetaMaskInpageProvider,
   amount: bigint,
@@ -74,6 +67,23 @@ export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<vo
   await kucocoin.connect(signer).reportPeriod()
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// getters
+
+export async function getLiquidityReserves(): Promise<{ reserveKuco: bigint, reserveNat: bigint }> {
+  const provider = new JsonRpcProvider(NETWORK.rpcUrls[0])
+  const contract = getKucoCoin(provider)
+  return contract.getPoolReserves()
+}
+
+export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+  const provider = new BrowserProvider(ethereum)
+  const signer = await provider.getSigner()
+  const kucocoin = getKucoCoin(provider)
+  const invested =await kucocoin.getInvestedNatOf(signer)
+  return invested
+}
+
 export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
@@ -83,7 +93,6 @@ export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<
 
 export async function getStage(ethereum: MetaMaskInpageProvider): Promise<string> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner()
   const kucocoin = getKucoCoin(provider)
-  return kucocoin.connect(signer).stage()
+  return kucocoin.stage()
 }

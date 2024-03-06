@@ -220,7 +220,7 @@ blockquote:after {
   content: "❞";
 }
 
-/* kucocoin triangle form */
+/* kucocoin invest / claim form */
 
 .invest-based-form {
   margin: 20px;
@@ -232,7 +232,7 @@ blockquote:after {
   h2 {
     font-size: 35px;
     text-transform: uppercase;
-    animation: flicker-text 10s infinite linear;
+    animation: flicker-text 7s infinite linear;
   }
 
   input {
@@ -259,8 +259,8 @@ blockquote:after {
 
 .claim-retract-form {
   h2 {
-    color: lime;
-    text-shadow: 0 0 4px lime, 0 0 15px white, 0 0 35px white;
+    color: #B8FB3C;
+    text-shadow: 0 0 4px #B8FB3C, 0 0 15px white, 0 0 35px white;
   }
   input:nth-child(1) {
     color: lightgreen;
@@ -289,16 +289,43 @@ blockquote:after {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: red;
+  background-color: FireBrick;
   z-index: -1;
   animation: underline 2s forwards;
+  animation-delay: 0.75s;
 }
 
 @keyframes underline {
-  10% {
+  0% {
     width: 0;
   }
   100% {
     width: 100%;
   }
+}
+
+/* dashboard display */
+
+.dashboard-display {
+  display: flex;
+  flex-flow: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  align-content: center;
+}
+
+.dashboard-display > div {
+  font-size: 25px;
+  padding: 20px;
+  margin: 10px;
+  background-color: rgba(0,0,0,.3);
+  border-radius: 10px;
+}
+
+#kuco-price-output, #kuco-balance-output, #kuco-invested-output {
+  color: FireBrick;
+}
+
+.symbol {
+  color: lime;
 }

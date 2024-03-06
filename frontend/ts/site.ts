@@ -1,16 +1,12 @@
 import $ from 'jquery'
-import { formatUnits, parseUnits, parseEther } from 'ethers'
-import { getUnixNow, sleep, setImmediateAsyncInterval, setImmediateSyncInterval, insideViewport } from './utils'
-import {
-  investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKuco,
-  reportPeriod, getLiquidityReserves, makeTransAction
-} from './contract'
+import { parseUnits, parseEther } from 'ethers'
+import { getUnixNow, setImmediateSyncInterval, insideViewport } from './utils'
+import { investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKuco, reportPeriod, makeTransAction } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
+import { popup, loadingStart, loadingEnd } from './components/shared'
+import { displayDashboard } from './components/dashboard'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
-import {
-  POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS, POPUP_SHOW_MS, UNDERLINE_CHECK_INTERVAL_MS,
-  PRICE_UPDATE_INTERVAL_MS, PRICE_PRECISION, PRICE_PRECISION_DIGITS
-} from './config/display'
+import { UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
@@ -18,22 +14,6 @@ declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
 let nonunderlined: any[]
-
-function popup(text: string, color: string): void {
-  $('#popup').text(text).css('color', color).fadeIn(POPUP_FADE_IN_MS, () =>
-    sleep(POPUP_SHOW_MS).then(() => $('#popup').fadeOut(POPUP_FADE_OUT_MS))
-  )
-}
-function loadingStart(replaceDivId: string) {
-  const $replaceDiv = $('#' + replaceDivId)
-  const $loaderDiv = $('#' + replaceDivId + '-loader')
-  const replaceDivHeight = $replaceDiv.parent().innerHeight()!
-  $replaceDiv.hide().after($loaderDiv.innerHeight(replaceDivHeight).show())
-}
-function loadingEnd(replaceDivId: string): void {
-  $('#' + replaceDivId + '-loader').hide()
-  $('#' + replaceDivId).show()
-}
 
 function displayKucoStages(): void {
   for (let stage = 1; stage <= 6; stage++) {
@@ -59,7 +39,7 @@ function displayPhaseBasedContent(): void {
     ? $('investment').hide() : $('trading').hide()
 }
 
-function displayCountdown(tilUnix: number, contentId: string): void {
+function displayCountdown(tilUnix: number): void {
   const second = 1000
   const minute = second * 60
   const hour = minute * 60
@@ -74,9 +54,8 @@ function displayCountdown(tilUnix: number, contentId: string): void {
     $('#seconds').text(Math.floor((distance % minute) / second))
     if (distance < 0) {
       clearInterval(x)
-      $('#' + contentId).hide()
-      $('investment').hide()
-      $('trading').show()
+      $('investment').hide(500)
+      $('trading').show(500)
     }
   }, 0)
 }
@@ -96,22 +75,29 @@ function attachScrollUnderlining(): void {
   }, UNDERLINE_CHECK_INTERVAL_MS)
 }
 
-function onMetaMaskConnect(): void {
+function onConnectMetaMask(): void {
+  $('connected-to-metamask').hide()
   const markMetaMaskStatus = (connected: boolean): void => {
     $('#metamask-connect-header > i, #metamask-connect-footer > i')
     .css('color', connected ? '#00FF00' : 'firebrick')
   }
-  $('#metamask-connect-header, #metamask-connect-footer, #metamask-connect-button').on('click', async () => {
-    if (ethereum === undefined)
+  $('#metamask-connect-header, #metamask-connect-footer, #dashboard-connect-to-metamask',).on('click', async () => {
+    if (ethereum === undefined) {
+      window.open('https://metamask.io/', '_blank')
       return markMetaMaskStatus(false)
+    }
     const accounts = await requestAccountsIfNecessary(ethereum)
     if (accounts.length === 0)
       return markMetaMaskStatus(false)
     const networkSwitched = await switchNetworkIfNecessary(ethereum)
     if (!networkSwitched)
       return markMetaMaskStatus(false)
+    // execute on-metamask-connect changes
     markMetaMaskStatus(true)
     popup('Connected to Metamask', 'lime')
+    await displayDashboard(ethereum)
+    $('connected-to-metamask').show()
+    $('connect-to-metamask').hide()
   })
 }
 
@@ -224,26 +210,11 @@ function onReportPeriod(): void {
   })
 }
 
-async function attachKucoCoinPriceUpdater(): Promise<void> {
-  await setImmediateAsyncInterval(async () => {
-    try {
-      loadingStart('kuco-price-output')
-      const reserves = await getLiquidityReserves()
-      const priceBips = PRICE_PRECISION * reserves.NAT / reserves.KUCO
-      const formattedPrice = formatUnits(priceBips, PRICE_PRECISION_DIGITS)
-      loadingEnd('kuco-price-output')
-      $('#kuco-price-output').text(`Price on the KucoCoin DEX: ${formattedPrice} AVAX per KUCO`)
-    } catch (err: any) {
-      console.log(err.message)
-    }
-  }, PRICE_UPDATE_INTERVAL_MS)
-}
-
 $(async () => {
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()
-  onMetaMaskConnect()
+  onConnectMetaMask()
   onMetaMaskAddKucoCoin()
   onInvestInKucoCoin()
   onClaimKucoCoin()
@@ -251,6 +222,5 @@ $(async () => {
   onBuyKucoCoin()
   onReportPeriod()
   onMakeTransAction()
-  displayCountdown(START_TRADING_TIME_UNIX_MS, 'trading-phase-countdown')
-  //await attachKucoCoinPriceUpdater()
+  displayCountdown(START_TRADING_TIME_UNIX_MS)
 })
