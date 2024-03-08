@@ -329,3 +329,22 @@ blockquote:after {
 .symbol {
   color: lime;
 }
+
+// buy kucocoin
+
+.buy-form {
+  font-size: 30px;
+}
+
+.buy-form input {
+  all: unset;
+  font-size: 30px;
+  color: powderblue;
+}
+
+.buy-form input[type="button"] {
+  color: white;
+}
+.buy-form input[type="button"]:hover {
+  color: red;
+}

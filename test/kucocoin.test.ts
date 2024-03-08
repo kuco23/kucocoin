@@ -134,7 +134,7 @@ describe("KucoCoin", () => {
       // test
       await initKucoCoin(admin)
       await kucocoin.connect(investor).invest(investor, { value: investedNat })
-      const invested = await kucocoin.investedBy(investor)
+      const invested = await kucocoin.getInvestedNatOf(investor)
       expect(invested).to.equal(investedNat)
       await moveToTradingPhase(false)
       await kucocoin.connect(investor).claim(investor)
@@ -156,7 +156,7 @@ describe("KucoCoin", () => {
       const investorNatMiddle = await ethers.provider.getBalance(investor)
       expect(investorNatMiddle).to.be.above(investorNatBefore - investedNat - MAX_GAS_COST)
       expect(investorNatMiddle).to.be.below(investorNatBefore - investedNat)
-      const invested = await kucocoin.investedBy(investor)
+      const invested = await kucocoin.getInvestedNatOf(investor)
       expect(invested).to.equal(investedNat)
       await moveToTradingPhase(false)
       const retracteeNatBefore = await ethers.provider.getBalance(retractee)

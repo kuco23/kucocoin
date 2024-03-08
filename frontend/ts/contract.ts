@@ -41,7 +41,7 @@ export async function retractKucoCoin(
   await kucocoin.connect(signer).retract(receiver)
 }
 
-export async function buyKuco(
+export async function buyKucoCoin(
   ethereum: MetaMaskInpageProvider,
   amount: bigint,
   minKuco: bigint,
@@ -84,7 +84,7 @@ export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<
   return invested
 }
 
-export async function getKucoBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+export async function getKucoCoinBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner()
   const kucocoin = getKucoCoin(provider)

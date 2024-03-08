@@ -1,18 +1,19 @@
 import $ from 'jquery'
-import { parseUnits, parseEther } from 'ethers'
-import { getUnixNow, setImmediateSyncInterval, insideViewport } from './utils'
-import { investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKuco, reportPeriod, makeTransAction } from './contract'
+import { parseUnits, parseEther, formatUnits } from 'ethers'
+import { getUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, swapOutput, formatUnitsTruncate } from './utils'
+import { investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { popup, loadingStart, loadingEnd } from './components/shared'
 import { displayDashboard } from './components/dashboard'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
-import { UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
+import { MAX_ALLOWED_BUY_DURATION_MS as MAX_ALLOWED_BUY_DURATION_S, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
 declare const window: any
 const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 
+let reserveNat: bigint, reserveKuco: bigint
 let nonunderlined: any[]
 
 function displayKucoStages(): void {
@@ -159,14 +160,25 @@ function onRetractKucoCoin(): void {
 }
 
 function onBuyKucoCoin(): void {
-  $('#button-buy-kuco').on('click', async () => {
+  $('#kuco-buy-amount').on('input', () => {
+    $('#kuco-buy-max-time').val(getUnixNow(MAX_ALLOWED_BUY_DURATION_S))
+    if (reserveKuco !== undefined && reserveNat !== undefined) {
+      const amountAvax = $('#kuco-buy-amount').val()!
+      if (amountAvax !== '') {
+        const minAmountKuco = swapOutput(parseEther(amountAvax), reserveNat, reserveKuco)
+        $('#kuco-buy-min-out').val(formatUnitsTruncate(minAmountKuco, DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
+      } else {
+        $('#kuco-buy-min-out').val('')
+      }
+    }
+  })
+  $('#kuco-buy-submit').on('click', async () => {
     try {
-      const amountEthInput = $('#input-kuco-buy-amount').val()!
-      const minAmountKucoInput = $('#input-kuco-min-swap').val()!
-      const amountEth = parseEther(amountEthInput)
-      const minAmountKuco = parseUnits(minAmountKucoInput, DECIMALS)
+      const amountAvax = $('#kuco-buy-amount').val()!
+      const minAmountKuco = $('#kuco-buy-min-out').val()!
+      const maxBuyTime = $('#kuco-buy-max-time').val()!
       await switchNetworkIfNecessary(ethereum!)
-      await buyKuco(ethereum!, amountEth, minAmountKuco, getUnixNow())
+      await buyKucoCoin(ethereum!, parseEther(amountAvax), parseUnits(minAmountKuco, DECIMALS), Number(maxBuyTime))
       popup('KucoCoin Purchase Successful', 'lime')
     } catch (err: any) {
       popup('KucoCoin Purchase Failed', 'firebrick')
@@ -210,6 +222,21 @@ function onReportPeriod(): void {
   })
 }
 
+async function reserveUpdater(): Promise<void> {
+  await setImmediateAsyncInterval(async () => {
+    try {
+      loadingStart('kuco-price-output')
+      ;({ reserveNat, reserveKuco } = await getLiquidityReserves())
+      const priceBips = PRICE_PRECISION * reserveNat / reserveKuco
+      loadingEnd('kuco-price-output')
+      $('#kuco-price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
+    } catch (err: any) {
+      console.log(err.message)
+      loadingEnd('kuco-price-output')
+    }
+  }, PRICE_UPDATE_INTERVAL_MS)
+}
+
 $(async () => {
   displayKucoStages()
   displayPhaseBasedContent()
@@ -223,4 +250,5 @@ $(async () => {
   onReportPeriod()
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
+  await reserveUpdater()
 })
