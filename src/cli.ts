@@ -1,6 +1,6 @@
 import { Command, type OptionValues } from 'commander'
 import { Wallet, JsonRpcProvider, type JsonRpcApiProvider } from 'ethers'
-import { deployKucocoin, initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy } from './utils'
+import { deployKucocoin, initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy, readKucocoin } from './utils'
 import { networkInfo, type NetworkInfo } from './config'
 
 
@@ -50,6 +50,14 @@ program
   .action(async (liquidityKuco: string, liquidityNat: string, _options: OptionValues) => {
     const kucocoin = readKucoCoinDeploy(program.opts().network)
     await initKucocoin(kucocoin, BigInt(liquidityKuco), BigInt(liquidityNat), signer)
+  })
+program
+  .command("get").description("get kucoocin property")
+  .argument("<investmentReturnBips|tradingPhaseStart|retractFeeBips|retractPhaseEnd>", "property")
+  .action(async (propertyName: string, _options: OptionValues) => {
+    const kucocoin = readKucoCoinDeploy(program.opts().network)
+    const property = await readKucocoin(kucocoin, propertyName, provider)
+    console.log(`${propertyName}: ${property}`)
   })
 
 program.parseAsync(process.argv).catch(err => {

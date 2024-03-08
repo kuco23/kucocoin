@@ -222,7 +222,8 @@ blockquote:after {
 
 /* kucocoin invest / claim form */
 
-.invest-based-form {
+.transaction-based-form {
+  display: inline-block;
   margin: 20px;
   padding: 12px 20px 20px 20px;
   border-radius: 5px;
@@ -267,6 +268,21 @@ blockquote:after {
   }
   input:nth-child(3) {
     color: FireBrick;
+  }
+}
+
+.buy-form {
+  h2 {
+    color: gold;
+    text-shadow: 0 0 4px gold, 0 0 15px white, 0 0 35px white;
+  }
+  input {
+    color: gold;
+    text-align: left;
+  }
+  input[type="button"] {
+    color: lime;
+    text-align: center;
   }
 }
 
@@ -328,23 +344,4 @@ blockquote:after {
 
 .symbol {
   color: lime;
-}
-
-// buy kucocoin
-
-.buy-form {
-  font-size: 30px;
-}
-
-.buy-form input {
-  all: unset;
-  font-size: 30px;
-  color: powderblue;
-}
-
-.buy-form input[type="button"] {
-  color: white;
-}
-.buy-form input[type="button"]:hover {
-  color: red;
 }

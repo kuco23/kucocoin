@@ -16,6 +16,10 @@ export function swapOutput(
   return numerator / denominator
 }
 
+export function mulBips(amount: bigint, bips: number): bigint {
+  return amount * BigInt(Math.floor(bips * Number(DEX_MAX_BIPS))) / DEX_MAX_BIPS
+}
+
 export async function setImmediateAsyncInterval(func: () => Promise<any>, ms: number): Promise<NodeJS.Timeout> {
   await func()
   return setInterval(func, ms)
@@ -39,7 +43,6 @@ export function formatUnitsTruncate(amount: bigint, decimals: number, showDecima
   let decimalSeparator = formatted.includes(',') ? ',' : '.'
   if (!formatted.includes(decimalSeparator)) return formatted
   const [whole, fraction] = formatted.split(decimalSeparator)
-  console.log(whole, fraction)
   return fraction.length > showDecimals ? `${whole}${decimalSeparator}${fraction.slice(0, showDecimals)}` : formatted
 }
 

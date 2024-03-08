@@ -1,11 +1,11 @@
 @import "./config.scss";
 
-.countdown {
+.trade-countdown-container {
   margin: 0 auto;
   text-align: center;
 }
 
-.countdown h1 {
+.trade-countdown-container h1 {
   color: $countdown-title-color;
   font-family: $countdown-title-font-family;
   font-weight: normal;
@@ -13,7 +13,11 @@
   text-transform: uppercase;
 }
 
-.countdown li {
+.trade-countdown > div {
+  display: inline-block;
+}
+
+.trade-countdown > div > div {
   display: inline-block;
   font-family: $countdown-font-family;
   font-size: 1.5em;
@@ -23,19 +27,7 @@
   text-transform: uppercase;
 }
 
-.countdown li span {
+.trade-countdown span {
   display: block;
   font-size: 4.5rem;
-}
-
-@media all and (max-width: 768px) {
-  .countdown h1 {
-    font-size: calc(1.5rem * var(--smaller));
-  }
-  .countdown li {
-    font-size: calc(1.125rem * var(--smaller));
-  }
-  .countdown li span {
-    font-size: calc(3.375rem * var(--smaller));
-  }
 }

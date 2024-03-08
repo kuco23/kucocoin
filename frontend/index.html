@@ -245,28 +245,31 @@
         <div class="row row-tight clearfix">
 
           <investment>
-            <div class="countdown wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
-              <h1>Trading Phase Starts In</h1>
-              <div id="countdown">
-                <ul>
-                  <li><span id="days"></span>days</li>
-                  <li><span id="hours"></span>Hours</li>
-                  <li><span id="minutes"></span>Minutes</li>
-                  <li><span id="seconds"></span>Seconds</li>
-                </ul>
+            <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
+              <h1>Trading Starts In</h1>
+              <div class="trade-countdown">
+                <div>
+                  <div><span id="days"></span>days</div>
+                  <div><span id="hours"></span>Hours</div>
+                </div>
+                <div>
+                  <div><span id="minutes"></span>Minutes</div>
+                  <div><span id="seconds"></span>Seconds</div>
+                </div>
               </div>
             </div>
           </investment>
 
           <trading>
-            <div class="col-1 center wow fadeIn" data-wow-duration="2s">
-              <div class="buy-form">
-                BUYING KUCOCOIN SAFELY<br />
-                IN ONE TRANSACTION<br />
-                <input id="kuco-buy-amount" type="number" placeholder="SPEND AVAX" autofocus /><br/>
-                <input id="kuco-buy-min-out" type="number" placeholder="FOR MIN KUCO" /><br/>
-                <input id="kuco-buy-max-time" type="number" placeholder="UNTIL TIME" /><br/>
-                <input id="kuco-buy-submit" type="button" value="SUBMIT" />
+            <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
+              <div id="buy-interface" class="transaction-based-form buy-form">
+                <h2>BUY</h2>
+                <form>
+                  <input id="kuco-buy-amount" type="number" placeholder="AMOUNT AVAX" /><br/>
+                  <input id="kuco-buy-min-out" type="number" placeholder="MIN RECEIVED KUCO" /><br/>
+                  <input id="kuco-buy-max-time" type="number" placeholder="VALID UNTIL UNIX" /><br/>
+                  <input id="kuco-buy-submit" type="button" value="SUBMIT" />
+                </form>
               </div>
             </div>
           </trading>
@@ -460,7 +463,7 @@
 
           <investment>
             <div class="text-center wow fadeIn" data-wow-delay="0.5s">
-              <div class="invest-based-form invest-form">
+              <div id="invest-interface" class="transaction-based-form invest-form">
                 <h2>Investing</h2>
                 <form>
                   <input id="invest-amount" type="number" placeholder="AMOUNT AVAX" /><br />
@@ -472,7 +475,7 @@
 
           <trading>
             <div class="text-center wow fadeIn" data-wow-delay="0.5s">
-              <div class="invest-based-form claim-retract-form">
+              <div id="claim-interface" class="transaction-based-form claim-retract-form">
                 <h2>Claiming</h2>
                 <form>
                   <input id="claim-submit" type="button" value="CLAIM" /><br />
@@ -744,6 +747,12 @@
   </div>
   <div class="loader" id="report-period-interface-loader">
     <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+  <div class="loader" id="invest-interface-loader">
+    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+  <div class="loader" id="claim-interface-loader">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>
   <!--End reusable elts-->
 

@@ -1,12 +1,12 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, swapOutput, formatUnitsTruncate } from './utils'
+import { getUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, swapOutput, formatUnitsTruncate, mulBips } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { popup, loadingStart, loadingEnd } from './components/shared'
 import { displayDashboard } from './components/dashboard'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
-import { MAX_ALLOWED_BUY_DURATION_MS as MAX_ALLOWED_BUY_DURATION_S, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
+import { MAX_ALLOWED_BUY_DURATION_MS as MAX_ALLOWED_BUY_DURATION_S, MAX_ALLOWED_SLIPPAGE, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
@@ -118,6 +118,7 @@ function onMetaMaskAddKucoCoin(): void {
 function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
+      loadingStart('invest-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
       await switchNetworkIfNecessary(ethereum!)
@@ -127,6 +128,8 @@ function onInvestInKucoCoin(): void {
     } catch (err: any) {
       popup('Investment Failed', 'firebrick')
       console.log(err.message)
+    } finally {
+      loadingEnd('invest-interface')
     }
   })
 }
@@ -134,6 +137,7 @@ function onInvestInKucoCoin(): void {
 function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
+      loadingStart('claim-interface')
       await switchNetworkIfNecessary(ethereum!)
       const accounts = await requestAccountsIfNecessary(ethereum!)
       await claimKucoCoin(ethereum!, accounts[0])
@@ -141,6 +145,8 @@ function onClaimKucoCoin(): void {
     } catch (err: any) {
       popup('Claim failed', 'firebrick')
       console.log(err.message)
+    } finally {
+      loadingEnd('claim-interface')
     }
   })
 }
@@ -165,7 +171,8 @@ function onBuyKucoCoin(): void {
     if (reserveKuco !== undefined && reserveNat !== undefined) {
       const amountAvax = $('#kuco-buy-amount').val()!
       if (amountAvax !== '') {
-        const minAmountKuco = swapOutput(parseEther(amountAvax), reserveNat, reserveKuco)
+        const amountKuco = swapOutput(parseEther(amountAvax), reserveNat, reserveKuco)
+        const minAmountKuco = mulBips(amountKuco, 1 - MAX_ALLOWED_SLIPPAGE)
         $('#kuco-buy-min-out').val(formatUnitsTruncate(minAmountKuco, DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
       } else {
         $('#kuco-buy-min-out').val('')
@@ -222,7 +229,7 @@ function onReportPeriod(): void {
   })
 }
 
-async function reserveUpdater(): Promise<void> {
+async function priceUpdater(): Promise<void> {
   await setImmediateAsyncInterval(async () => {
     try {
       loadingStart('kuco-price-output')
@@ -250,5 +257,5 @@ $(async () => {
   onReportPeriod()
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
-  await reserveUpdater()
+  await priceUpdater()
 })

@@ -33,4 +33,4 @@ const flarefork = {
   rpcUrls: ['http://127.0.0.1:8545']
 }
 
-export const NETWORK = flarefork
+export const NETWORK = coston
