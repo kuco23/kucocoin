@@ -9,25 +9,31 @@
   color: $countdown-title-color;
   font-family: $countdown-title-font-family;
   font-weight: normal;
-  letter-spacing: .125rem;
+  letter-spacing: .125em;
   text-transform: uppercase;
 }
 
-.trade-countdown > div {
-  display: inline-block;
-}
-
-.trade-countdown > div > div {
+.trade-countdown div {
   display: inline-block;
   font-family: $countdown-font-family;
   font-size: 1.5em;
   color: $countdown-color;
   list-style-type: none;
-  padding: 0em 1em;
+  padding: 0em .7em;
   text-transform: uppercase;
 }
 
 .trade-countdown span {
   display: block;
-  font-size: 4.5rem;
+  font-size: 4rem;
+}
+
+.trade-countdown-container h2 {
+  font-size: 3rem;
+}
+
+@media only screen and (max-width: 479px) {
+  .trade-countdown > div {
+    display: block;
+  }
 }

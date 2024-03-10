@@ -248,14 +248,10 @@
             <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
               <h1>Trading Starts In</h1>
               <div class="trade-countdown">
-                <div>
-                  <div><span id="days"></span>days</div>
-                  <div><span id="hours"></span>Hours</div>
-                </div>
-                <div>
-                  <div><span id="minutes"></span>Minutes</div>
-                  <div><span id="seconds"></span>Seconds</div>
-                </div>
+                <div><span id="days"></span>days</div>
+                <div><span id="hours"></span>Hours</div>
+                <div><span id="minutes"></span>Minutes</div>
+                <div><span id="seconds"></span>Seconds</div>
               </div>
             </div>
           </investment>
@@ -263,7 +259,7 @@
           <trading>
             <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
               <div id="buy-interface" class="transaction-based-form buy-form">
-                <h2>BUY</h2>
+                <h2>BUY KUCO</h2>
                 <form>
                   <input id="kuco-buy-amount" type="number" placeholder="AMOUNT AVAX" /><br/>
                   <input id="kuco-buy-min-out" type="number" placeholder="MIN RECEIVED KUCO" /><br/>
@@ -337,8 +333,8 @@
               <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
                 <div id="trans-action-interface">
                   <div>
-                    <input id="trans-action-address" type="text" placeholder="To address" />
-                    <input id="trans-action-amount" type="number" placeholder="Amount KUCO" />
+                    <input id="trans-action-address" type="text" placeholder="TO ADDRESS" />
+                    <input id="trans-action-amount" type="number" placeholder="AMOUNT KUCO" />
                   </div>
                   <div id="trans-action-button" class="trans-color-text">
                     <span>T</span><span>R</span><span>A</span><span>N</span><span>S</span>
@@ -403,38 +399,46 @@
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
             <h2>Kuconomics - the distribution model</h2>
-            Below we describe the tokenomics of KUCO distribution.
-            The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
-            that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
-            <b>
-              Before reading the following scheme, note that you should try to understand the scheme in
-              the positive light, without negative judgement, in the way we want you to.
-            </b>
+            <p>
+              Below we describe the tokenomics of KUCO distribution.
+              The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
+              that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
+              <b>
+                Before reading the following scheme, note that you should try to understand the scheme in
+                the positive light, without negative judgement, in the way we want you to.
+              </b>
+            </p>
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
             <h4>1. Investing AVAX liquidity</h4>
-            The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
-            with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
-            by providing AVAX as liquidity, which is then burned. <span class="underline">Investment is not refundable</span>,
-            though it can be retracted for 10% fee.
+            <p>
+              The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
+              with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
+              by providing AVAX as liquidity, which is then burned. <span class="underline">Investment is not refundable</span>,
+              though it can be retracted for 10% fee.
+            </p>
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
             <h4>2. Collecting minted KUCO</h4>
-            After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
-            If at that time the liquidity in <span class="code">LP</span> is comprised of
-            <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with you investing <span class="code">a</span> AVAX,
-            then you will receive <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
+            <p>
+              After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
+              If at that time the liquidity in <span class="code">LP</span> is comprised of
+              <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with you investing <span class="code">a</span> AVAX,
+              then you will receive <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
+            </p>
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
-            Note that in the second step you get <span class="code">k</span> KUCO, where <span class="code">k</span>
-            solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
-            Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
-            you get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
+            <p>
+              Note that in the second step you get <span class="code">k</span> KUCO, where <span class="code">k</span>
+              solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
+              Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
+              you get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
 
-            Below is a tl;dr of our scheme inside a triangle.
+              Below is a tl;dr of our scheme inside a triangle.
+            </p>
           </div>
 
           <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
@@ -449,22 +453,24 @@
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.2s">
-            The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KucoCoin grow.
-            The second phase is called the DUMP phase because you have the wealth of KucoCoin being dumped onto you.
-            If facing any reservations, read below a quote from a bible that reassures potential KucoCoin investors.
-            <blockquote>
-              There will come unto thee those who speak, "Engage not in the trade of KucoCoin, for in its nature, it is akin to a pyramid scheme."
-              To such words, reply, "Should wealth be granted unto me through such means, shall the nature of its scheme diminish its value?"
-              Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
-              And he who ventures therein may find thyself amongst the rewarded.
-            </blockquote>
-            With those words in mind click the investment button below and choose how much to invest.
+            <p>
+              The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KucoCoin grow.
+              The second phase is called the DUMP phase because you have the wealth of KucoCoin being dumped onto you.
+              If facing any reservations, read below a quote from a bible that reassures potential KucoCoin investors.
+              <blockquote>
+                There will come unto thee those who speak, "Engage not in the trade of KucoCoin, for in its nature, it is akin to a pyramid scheme."
+                To such words, reply, "Should wealth be granted unto me through such means, shall the nature of its scheme diminish its value?"
+                Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
+                And he who ventures therein may find thyself amongst the rewarded.
+              </blockquote>
+              With those words in mind click the investment button below and choose how much to invest.
+            </p>
           </div>
 
           <investment>
             <div class="text-center wow fadeIn" data-wow-delay="0.5s">
               <div id="invest-interface" class="transaction-based-form invest-form">
-                <h2>Investing</h2>
+                <h2>INVESTING</h2>
                 <form>
                   <input id="invest-amount" type="number" placeholder="AMOUNT AVAX" /><br />
                   <input id="invest-submit" type="button" value="INVEST" />
@@ -476,7 +482,7 @@
           <trading>
             <div class="text-center wow fadeIn" data-wow-delay="0.5s">
               <div id="claim-interface" class="transaction-based-form claim-retract-form">
-                <h2>Claiming</h2>
+                <h2>CLAIM KUCO</h2>
                 <form>
                   <input id="claim-submit" type="button" value="CLAIM" /><br />
                   <input id="retract-submit" type="button" value="RETRACT" />
@@ -486,10 +492,12 @@
           </trading>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
-            Please note that retracting your investment incurs a fee of 10% of the invested amount.
-            This option is available for up to one week following the start of the trading period.
-            During that time, the non-claimed retractable AVAX is protected from withdrawal in the liquidity pool.
-            <b>If not convinced by the above arguments, stare at the below spiral for 5 minutes and then reconsider.</b>
+            <p>
+              Please note that retracting your investment incurs a fee of 10% of the invested amount.
+              This option is available for up to one week following the start of the trading period.
+              During that time, the non-claimed retractable AVAX is protected from withdrawal in the liquidity pool.
+              <b>If not convinced by the above arguments, stare at the below spiral for 5 minutes and then reconsider.</b>
+            </p>
           </div>
 
         </div>

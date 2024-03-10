@@ -107,6 +107,8 @@
 /* triangle scheme */
 #triangle-scheme {
   text-align: center;
+  color: FireBrick;
+  font-weight: bold;
 
   span {
     padding: 2px 0;
@@ -232,18 +234,20 @@ blockquote:after {
 
   h2 {
     font-size: 35px;
+    font-family: "Montserrat Alternates";
     text-transform: uppercase;
     animation: flicker-text 7s infinite linear;
   }
 
   input {
     width: 250px;
-    text-align: center;
-    line-height: 25px;
+    height: 45px; // button value field sinks to the bottom otherwise
+    padding: 10px;
     font-size: 20px;
     font-family: 'Source Code Pro';
-    border: none;
+    text-align: center;
     border-radius: 5px;
+    border: none;
     background-color: rgba(0,0,0,.2);
   }
 }
