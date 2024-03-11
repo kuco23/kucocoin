@@ -27,6 +27,7 @@
     @import './css/kucomoon.scss';
     @import "./css/loaders.scss";
     @import "./css/coundtown.scss";
+    @import "./css/modal.scss";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -244,31 +245,59 @@
 
         <div class="row row-tight clearfix">
 
-          <investment>
-            <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
-              <h1>Trading Starts In</h1>
-              <div class="trade-countdown">
-                <div><span id="days"></span>days</div>
-                <div><span id="hours"></span>Hours</div>
-                <div><span id="minutes"></span>Minutes</div>
-                <div><span id="seconds"></span>Seconds</div>
-              </div>
-            </div>
-          </investment>
-
-          <trading>
+          <!-- <trading>
             <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
-              <div id="buy-interface" class="transaction-based-form buy-form">
-                <h2>BUY KUCO</h2>
-                <form>
-                  <input id="kuco-buy-amount" type="number" placeholder="AMOUNT AVAX" /><br/>
-                  <input id="kuco-buy-min-out" type="number" placeholder="MIN RECEIVED KUCO" /><br/>
-                  <input id="kuco-buy-max-time" type="number" placeholder="VALID UNTIL UNIX" /><br/>
-                  <input id="kuco-buy-submit" type="button" value="SUBMIT" />
-                </form>
-              </div>
+
             </div>
-          </trading>
+          </trading> -->
+
+          <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
+            <div class="buy-kucocoin-container">
+
+              <div class="kucocoin-price">
+                Price for 1 KUCO on the liquidity pool is
+                <span class="underline"><span id="price-output"></span> AVAX</span>,
+                with liquidity of
+                <span class="underline"><span id="reserve-output-nat"></span> AVAX</span> and
+                <span class="underline"><span id="reserve-output-kuco"></span> KUCO</span>.
+              </div>
+
+              <trading>
+                <div class="col-1 text-center">
+                  <button id="buy-kucocoin" class="gradient-button">
+                    BUY KUCOCOIN
+                  </button>
+                </div>
+              </trading>
+
+              <investment>
+                <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
+                  <h1>Trading Starts In</h1>
+                  <div class="trade-countdown">
+                    <div><span id="days"></span>days</div>
+                    <div><span id="hours"></span>Hours</div>
+                    <div><span id="minutes"></span>Minutes</div>
+                    <div><span id="seconds"></span>Seconds</div>
+                  </div>
+                </div>
+              </investment>
+
+              <div class="modal-overlay" id="kucocoin-buy-modal">
+                <div class="modal text-center" id="modal">
+                  <div id="buy-interface" class="transaction-based-form buy-form">
+                    <h2>BUY KUCO</h2>
+                    <form>
+                      <input id="kuco-buy-amount" type="number" placeholder="AMOUNT AVAX" /><br/>
+                      <input id="kuco-buy-min-out" type="number" placeholder="MIN RECEIVED KUCO" /><br/>
+                      <input id="kuco-buy-max-time" type="number" placeholder="VALID UNTIL UNIX" /><br/>
+                      <input id="kuco-buy-submit" type="button" value="SUBMIT" />
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
 
         </div>
       </section>
@@ -463,7 +492,12 @@
                 Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
                 And he who ventures therein may find thyself amongst the rewarded.
               </blockquote>
-              With those words in mind click the investment button below and choose how much to invest.
+              <investment>
+                With those words in mind click the investment button below and choose how much to invest.
+              </investment>
+              <trading>
+                If you have followed the words above, collect your rewards below.
+              </trading>
             </p>
           </div>
 
@@ -616,10 +650,6 @@
           <connected-to-metamask>
             <div class="col-1">
               <div class="dashboard-display">
-                <div>
-                  <span>Price:&nbsp;&nbsp;&nbsp;</span>
-                  <span id="kuco-price-output"></span> <span class="symbol">AVAX</span>
-                </div>
                 <div>
                   <span>Balance:&nbsp;</span>
                   <span id="kuco-balance-output"></span> <span class="symbol">KUCO</span>

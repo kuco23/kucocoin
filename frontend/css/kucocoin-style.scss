@@ -10,7 +10,7 @@
   font-size: $popup-font-size;
   font-weight: bold;
   /* center and rotate */
-  z-index: 100;
+  z-index: 10000;
   bottom: 50%;
   right: 50%;
   transform: translate(50%, 50%) rotateZ(20deg);
@@ -95,6 +95,13 @@
     color: $kucocoin-stages-content-color;
     text-shadow: $kucocoin-stages-content-text-shadow;
     width: 100%;
+    padding: 10%;
+
+    h2 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   }
 
   @for $i from 1 through length($kucocoin-stage-colors) {
@@ -348,4 +355,33 @@ blockquote:after {
 
 .symbol {
   color: lime;
+}
+
+/* KucoCoin price showcase */
+
+.buy-kucocoin-container {
+  line-height: 1.2;
+  font-size: 40px;
+  font-family: "Montserrat Alternates";
+  color: FireBrick;
+
+  .underline {
+    color: white;
+  }
+
+  .gradient-button {
+    margin-top: 10px;
+    font-size: 25px;
+    color: white;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .buy-kucocoin-container {
+    font-size: 7vw;
+
+    .gradient-button {
+      font-size: 5vw;
+    }
+  }
 }

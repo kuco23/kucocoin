@@ -40,10 +40,12 @@ export function getUnixNow(offset?: number): number {
 
 export function formatUnitsTruncate(amount: bigint, decimals: number, showDecimals: number): string {
   const formatted = formatUnits(amount, decimals)
-  let decimalSeparator = formatted.includes(',') ? ',' : '.'
-  if (!formatted.includes(decimalSeparator)) return formatted
-  const [whole, fraction] = formatted.split(decimalSeparator)
-  return fraction.length > showDecimals ? `${whole}${decimalSeparator}${fraction.slice(0, showDecimals)}` : formatted
+  const seperator = formatted.includes(',') ? ',' : '.'
+  if (!formatted.includes(seperator)) return formatted
+  const [whole, fraction] = formatted.split(seperator)
+  const fractionTruncated = fraction.slice(0, showDecimals)
+  if (Number(fractionTruncated) == 0) return whole
+  return `${whole}${seperator}${fractionTruncated}`
 }
 
 export function insideViewport(elt: JQuery<HTMLLIElement>): boolean {

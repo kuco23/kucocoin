@@ -6,7 +6,6 @@
   outline: none;
   color: rgb(255, 255, 255);
   background: #111;
-  cursor: pointer;
   position: relative;
   z-index: 0;
   border-radius: 10px;
@@ -19,16 +18,16 @@
   content: "";
   background: linear-gradient(
     45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
-  );
+    #ff0000, /* Pure red */
+    #ff4000, /* Red-orange */
+    #4B0082, /* Indigo, hinting at mystery */
+    #5A0000, /* Deep Red */
+    #ff00aa, /* Merging towards a reddish-pink */
+    #ff0055, /* Reddish-pink */
+    #ff0000, /* Back to pure red */
+    #ff5555, /* Light red */
+    #ff0000  /* Pure red to finish */
+);
   position: absolute;
   top: -2px;
   left: -2px;

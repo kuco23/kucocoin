@@ -1,0 +1,35 @@
+/* Overlay Style */
+.modal-overlay {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensures overlay is above other content */
+}
+
+/* Modal Style */
+.modal {
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Allows scrolling within the modal for lots of text */
+  position: fixed;
+  z-index: 1001; /* Ensures modal is above the overlay */
+}
+
+/* You might also want some styling for the close button */
+.close-button {
+  top: 10px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

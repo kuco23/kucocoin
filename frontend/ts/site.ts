@@ -5,8 +5,9 @@ import { investInKucoCoin, claimKucoCoin, retractKucoCoin, buyKucoCoin, reportPe
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { popup, loadingStart, loadingEnd } from './components/shared'
 import { displayDashboard } from './components/dashboard'
+import { NETWORK } from './config/network'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
-import { MAX_ALLOWED_BUY_DURATION_MS as MAX_ALLOWED_BUY_DURATION_S, MAX_ALLOWED_SLIPPAGE, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
+import { MAX_ALLOWED_BUY_DURATION_MS as MAX_ALLOWED_BUY_DURATION_S, MAX_ALLOWED_SLIPPAGE, MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
@@ -166,6 +167,9 @@ function onRetractKucoCoin(): void {
 }
 
 function onBuyKucoCoin(): void {
+  $('#buy-kucocoin').on('click', async () => {
+    $('#kucocoin-buy-modal').css('visibility', 'visible')
+  })
   $('#kuco-buy-amount').on('input', () => {
     $('#kuco-buy-max-time').val(getUnixNow(MAX_ALLOWED_BUY_DURATION_S))
     if (reserveKuco !== undefined && reserveNat !== undefined) {
@@ -232,14 +236,16 @@ function onReportPeriod(): void {
 async function priceUpdater(): Promise<void> {
   await setImmediateAsyncInterval(async () => {
     try {
-      loadingStart('kuco-price-output')
+      loadingStart('price-interface')
       ;({ reserveNat, reserveKuco } = await getLiquidityReserves())
       const priceBips = PRICE_PRECISION * reserveNat / reserveKuco
-      loadingEnd('kuco-price-output')
-      $('#kuco-price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
+      loadingEnd('price-interface')
+      $('#price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
+      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
+      $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
       console.log(err.message)
-      loadingEnd('kuco-price-output')
+      loadingEnd('price-interface')
     }
   }, PRICE_UPDATE_INTERVAL_MS)
 }
