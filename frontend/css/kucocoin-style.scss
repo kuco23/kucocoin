@@ -95,12 +95,20 @@
     color: $kucocoin-stages-content-color;
     text-shadow: $kucocoin-stages-content-text-shadow;
     width: 100%;
-    padding: 10%;
+    padding: $kucocoin-stages-content-text-padding;
 
     h2 {
       font-size: 3rem;
       font-weight: bold;
       text-transform: uppercase;
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
+    padding: $kucocoin-stages-content-padding-small-screen;
+    > div {
+      font-size: $kucocoin-stages-content-font-size-small-screen;
+      padding: $kucocoin-stages-content-text-padding-small-screen;
     }
   }
 

@@ -27,7 +27,6 @@
     @import './css/kucomoon.scss';
     @import "./css/loaders.scss";
     @import "./css/coundtown.scss";
-    @import "./css/modal.scss";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -271,8 +270,9 @@
               </trading>
 
               <investment>
+                <hr />
                 <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
-                  <h1>Trading Starts In</h1>
+                  <h1>KucoCoin liquidity unlocks after investment phase when trading phase starts in</h1>
                   <div class="trade-countdown">
                     <div><span id="days"></span>days</div>
                     <div><span id="hours"></span>Hours</div>
@@ -281,20 +281,6 @@
                   </div>
                 </div>
               </investment>
-
-              <div class="modal-overlay" id="kucocoin-buy-modal">
-                <div class="modal text-center" id="modal">
-                  <div id="buy-interface" class="transaction-based-form buy-form">
-                    <h2>BUY KUCO</h2>
-                    <form>
-                      <input id="kuco-buy-amount" type="number" placeholder="AMOUNT AVAX" /><br/>
-                      <input id="kuco-buy-min-out" type="number" placeholder="MIN RECEIVED KUCO" /><br/>
-                      <input id="kuco-buy-max-time" type="number" placeholder="VALID UNTIL UNIX" /><br/>
-                      <input id="kuco-buy-submit" type="button" value="SUBMIT" />
-                    </form>
-                  </div>
-                </div>
-              </div>
 
             </div>
           </div>

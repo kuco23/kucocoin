@@ -38,9 +38,13 @@ $kucocoin-stage-colors: (
 $kucocoin-stages-gallery-padding: 0px 0px 50px 0px;
 $kucocoin-stages-content-background: rgba(0,0,0,.8);
 $kucocoin-stages-content-padding: 30px;
+$kucocoin-stages-content-padding-small-screen: 5px;
+$kucocoin-stages-content-text-padding: 10%;
+$kucocoin-stages-content-text-padding-small-screen: 10% 3%;
 $kucocoin-stages-content-color: white;
 $kucocoin-stages-content-text-shadow: 2px 2px black;
 $kucocoin-stages-content-font-size: 2.2rem;
+$kucocoin-stages-content-font-size-small-screen: 25px;
 
 /* trans-actions */
 $trans-action-color-1: #5BCEFA;
@@ -72,8 +76,9 @@ $spiral-text-animation-duration: 8s;
 
 /* Countdown */
 $countdown-font-family: monospace;
-$countdown-color: FireBrick;
-$countdown-title-font-family: 'Open Sans';
+$countdown-time-unit-color: white;
+$countdown-number-color: FireBrick;
+$countdown-title-font-family: 'Montserrat Alternates';
 $countdown-title-color: #f4c580;
 
 /* Kuco moon */
