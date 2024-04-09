@@ -495,7 +495,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         } else if (balance < 1000000 ether) {
             return "Chad";
         } else if (balance < 1000000000 ether) {
-            return "Techsus";
+            return "Profeet";
         } else {
             return "God";
         }
