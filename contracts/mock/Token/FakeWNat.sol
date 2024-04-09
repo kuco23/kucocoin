@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {IWNat} from "../interface/IWNat.sol";
+import {IWNat} from "../../interface/IWNat.sol";
 
 contract FakeWNat is IWNat, ERC20 {
 
