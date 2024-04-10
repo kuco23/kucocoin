@@ -25,7 +25,6 @@
     "@typechain/ethers-v6": "^0.4.0",
     "@types/jquery": "^3.5.22",
     "@types/node": "^18.11.9",
-    "dotenv": "^16.3.1",
     "gh-pages": "^6.0.0",
     "parcel": "^2.10.0",
     "rimraf": "^5.0.5",
@@ -37,7 +36,7 @@
   },
   "compilerOptions": {
     "typeRoots": [
-      "./src/node_modules/@types/jquery"
+      "./node_modules/@types/jquery"
     ]
   },
   "targets": {
