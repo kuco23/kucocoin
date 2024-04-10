@@ -1,1 +1,1 @@
-# Kuco Coin
+# Kuco Coin Front End
