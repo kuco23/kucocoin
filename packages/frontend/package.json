@@ -1,0 +1,60 @@
+{
+  "name": "@kucocoin/frontend",
+  "description": "kucocoin token website",
+  "version": "0.0.0",
+  "author": {
+    "name": "Nejc Ševerkar",
+    "url": "https://kuco23.github.io"
+  },
+  "repository": {
+    "url": "https://github.com/kuco23/kucocoin/packages/frontend",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "---------- build ----------": "---------- build ----------",
+    "build": "rimraf .parcel-cache dist && parcel build src/index.html --public-url ./ --no-source-maps --cache-dir .parcel-cache",
+    "serve": "rimraf .parcel-cache && parcel src/index.html --cache-dir .parcel-cache",
+    "---------- github ci -----------": "---------- github ci -----------",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "@metamask/providers": "^13.1.0",
+    "@parcel/transformer-sass": "2.12.0",
+    "@typechain/ethers-v6": "^0.4.0",
+    "@types/jquery": "^3.5.22",
+    "@types/node": "^18.11.9",
+    "dotenv": "^16.3.1",
+    "gh-pages": "^6.0.0",
+    "parcel": "^2.10.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ethers": "^6.4.0",
+    "jquery": "^3.7.1"
+  },
+  "compilerOptions": {
+    "typeRoots": [
+      "./src/node_modules/@types/jquery"
+    ]
+  },
+  "targets": {
+    "src": {
+      "optimize": true
+    }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 iOS versions",
+    "last 2 ChromeAndroid versions",
+    "last 2 Samsung versions",
+    "last 2 Opera versions",
+    "last 2 Edge versions",
+    "IE 11"
+  ],
+  "packageManager": "yarn@3.6.4"
+}

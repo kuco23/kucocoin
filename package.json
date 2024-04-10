@@ -1,7 +1,8 @@
 {
-  "name": "kucocoin",
-  "description": "kucocoin token",
-  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "author": {
     "name": "Nejc Ševerkar",
     "url": "https://kuco23.github.io"
@@ -11,76 +12,13 @@
     "type": "git"
   },
   "scripts": {
-    "---------- contracts ----------": "---------- contracts ----------",
-    "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && yarn typechain",
-    "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
-    "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && pnpm typechain",
-    "test": "hardhat test",
-    "fork-flare": "yarn hardhat node --fork https://flare-api.flare.network/ext/C/rpc --fork-block-number 20439751",
-    "---------- frontend ----------": "---------- frontend ----------",
-    "parcel-build": "rimraf .parcel-cache dist && parcel build frontend/index.html --public-url ./ --no-source-maps",
-    "parcel-start": "rimraf .parcel-cache && parcel frontend/index.html",
-    "---------- github ci -----------": "---------- github ci -----------",
-    "predeploy": "yarn parcel-build",
-    "deploy": "gh-pages -d dist",
-    "---------- other ----------": "---------- other ----------",
-    "kucocoin-deploy": "yarn ts-node src/cli.ts deploy 10500 7776000 1000 2592000 -n flarefork",
-    "kucocoin-init": "yarn ts-node src/cli.ts init 1000000000000000000000 1000000000000000000000 -n flarefork"
+    "frontend-build": "cd packages/frontend && yarn && yarn build",
+    "contracts-compile": "cd packages/contracts && yarn && yarn compile"
   },
   "devDependencies": {
-    "@ethersproject/keccak256": "^5.7.0",
-    "@metamask/providers": "^13.1.0",
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
-    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@nomicfoundation/hardhat-verify": "^1.1.1",
-    "@parcel/transformer-sass": "2.11.0",
-    "@typechain/ethers-v6": "^0.4.0",
-    "@typechain/hardhat": "^8.0.0",
-    "@types/chai": "^4.3.4",
-    "@types/jquery": "^3.5.22",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^18.11.9",
-    "chai": "^4.3.7",
-    "commander": "^12.0.0",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.3.1",
-    "gh-pages": "^6.0.0",
-    "hardhat": "^2.12.2",
-    "hardhat-gas-reporter": "^1.0.9",
-    "mocha": "^10.1.0",
-    "parcel": "^2.10.0",
-    "rimraf": "^4.1.2",
-    "solidity-coverage": "^0.8.2",
+    "@goldstack/utils-typescript-references": "0.3.9",
     "ts-node": "^10.9.1",
-    "typechain": "^8.2.0",
     "typescript": "^4.9.3"
   },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.9.3",
-    "ethers": "^6.4.0",
-    "jquery": "^3.7.1"
-  },
-  "targets": {
-    "frontend": {
-      "optimize": true
-    }
-  },
-  "compilerOptions": {
-    "typeRoots": [
-      "./src/node_modules/@types/jquery"
-    ]
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 iOS versions",
-    "last 2 ChromeAndroid versions",
-    "last 2 Samsung versions",
-    "last 2 Opera versions",
-    "last 2 Edge versions",
-    "IE 11"
-  ]
+  "packageManager": "yarn@3.6.4"
 }

@@ -3,7 +3,7 @@ import { NETWORK } from "./config/network"
 import { ADDRESS, ABI } from "./config/token"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike, JsonRpcApiProvider } from "ethers"
-import type { IKucoCoin } from "../../types"
+import type { IKucoCoin } from "../../contracts/types"
 
 
 function getKucoCoin(provider: JsonRpcApiProvider): IKucoCoin {

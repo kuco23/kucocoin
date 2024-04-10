@@ -1,4 +1,4 @@
-import { abi } from '../../../artifacts/contracts/interface/IKucoCoin.sol/IKucoCoin.json'
+import { abi } from '@kucocoin/contracts/artifacts/src/interface/IKucoCoin.sol/IKucoCoin.json' // hardcode when done testing
 
 export const ADDRESS = "0x2F073722B1c83806D005F0824e548F32A5D19b39"
 export const SYMBOL = "KUCO"

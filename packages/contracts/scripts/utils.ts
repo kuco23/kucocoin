@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { Contract, ethers } from 'ethers'
-import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/contracts/KucoCoin.sol/KucoCoin.json'
+import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/src/KucoCoin.sol/KucoCoin.json'
 import type { Signer, JsonRpcApiProvider } from 'ethers'
 import type { KucoCoin, KucoCoin__factory } from '../types'
 

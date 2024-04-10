@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": "✨ kucocoin",
+			"path": "."
+		},
+		{
+			"name": "⚙️ contracts",
+			"path": "packages/contracts"
+		},
+		{
+			"name": "🚀 frontend",
+			"path": "packages/frontend"
+		}
+	],
+	"settings": {
+        "search.useIgnoreFiles": true,
+		"search.useParentIgnoreFiles": true
+	}
+}

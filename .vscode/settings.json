@@ -19,6 +19,9 @@
       "editor.defaultFormatter": "NomicFoundation.hardhat-solidity",
       "editor.tabSize": 4,
   },
+  "[json]": {
+    "editor.tabSize": 2
+  },
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
   "files.trimFinalNewlines": true,

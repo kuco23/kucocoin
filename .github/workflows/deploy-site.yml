@@ -15,10 +15,10 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn
-      - run: yarn parcel-build
+      - run: yarn frontend-build
       - name: deploy page
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          build_dir: dist
+          build_dir: packages/frontend/dist
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

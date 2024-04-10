@@ -6,7 +6,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2020"],
+    "lib": [
+      "es2020"
+    ],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
@@ -19,13 +21,12 @@
   "exclude": [
     "node_modules"
   ],
-  "files": [
-    "./hardhat.config.ts"
-  ],
-  "include": [
-    "frontend/**/*",
-    "test/**/*",
-    "src/**/*",
-    "types"
+  "references": [
+    {
+      "path": "packages/contracts"
+    },
+    {
+      "path": "packages/frontend"
+    }
   ]
 }
