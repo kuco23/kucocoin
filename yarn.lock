@@ -551,7 +551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kucocoin/contracts@workspace:packages/contracts":
+"@kucocoin/contracts@0.0.0, @kucocoin/contracts@workspace:packages/contracts":
   version: 0.0.0-use.local
   resolution: "@kucocoin/contracts@workspace:packages/contracts"
   dependencies:
@@ -585,6 +585,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kucocoin/frontend@workspace:packages/frontend"
   dependencies:
+    "@kucocoin/contracts": 0.0.0
     "@metamask/providers": ^13.1.0
     "@parcel/transformer-sass": 2.12.0
     "@typechain/ethers-v6": ^0.4.0
@@ -7116,6 +7117,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@goldstack/utils-typescript-references": 0.3.9
+    "@parcel/transformer-sass": 2.12.0
     ts-node: ^10.9.1
     typescript: ^4.9.3
   languageName: unknown
