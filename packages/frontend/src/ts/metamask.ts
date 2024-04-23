@@ -2,6 +2,15 @@ import { NETWORK } from './config/network'
 import { ADDRESS, SYMBOL, DECIMALS } from './config/token'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
+export async function getChainId(
+  ethereum: MetaMaskInpageProvider
+): Promise<string> {
+  const chainId = await ethereum.request({
+    "method": "eth_chainId",
+    "params": []
+  })
+  return chainId! as string
+}
 
 export async function requestAccountsIfNecessary(
   ethereum: MetaMaskInpageProvider
@@ -20,7 +29,8 @@ export async function requestAccountsIfNecessary(
 export async function switchNetworkIfNecessary(
   ethereum: MetaMaskInpageProvider
 ): Promise<boolean> {
-  if (ethereum.chainId! !== NETWORK.chainId) {
+
+  if (await getChainId(ethereum) !== NETWORK.chainId) {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
