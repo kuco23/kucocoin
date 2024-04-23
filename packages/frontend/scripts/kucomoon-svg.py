@@ -36,7 +36,7 @@ print(f"""\
     <g stroke='white' fill='none'>
       <circle cx='{cc[0]}' cy='{cc[1]}' r='{r}' />
     </g>
-    <g fill='#1e1e1e' stroke='FireBrick'>
+    <g fill='#171818' stroke='FireBrick'>
       <polygon points='{cc[0]} {cc[1] - k_w_half}, {cc[0] + k / 2} {cc[1] + k_w_half}, {cc[0] - k / 2} {cc[1] + k_w_half}' />
     </g>
   </svg>
