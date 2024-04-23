@@ -1,8 +1,7 @@
 import { ethers } from 'hardhat'
 import type {
-  KucoCoin__factory,
-  FakeWNat__factory, FakeERC20__factory,
-  UniswapV2Router__factory, UniswapV2Pair__factory
+  KucoCoin__factory, FakeWNat__factory, FakeERC20__factory,
+  UniswapV2Router__factory, UniswapV2Pair__factory, UniswapV2Factory__factory
 } from '../../types'
 
 
@@ -11,6 +10,7 @@ export interface ContractFactories {
   kucoCoin: KucoCoin__factory
   // uniswap-v2
   uniswapV2Router: UniswapV2Router__factory
+  uniswapV2Factory: UniswapV2Factory__factory
   uniswapV2Pair: UniswapV2Pair__factory
   // aux tokens
   fakeWNat: FakeWNat__factory
@@ -20,6 +20,7 @@ export interface ContractFactories {
 export async function getFactories(): Promise<ContractFactories> {
   return {
     kucoCoin: await ethers.getContractFactory("KucoCoin"),
+    uniswapV2Factory: await ethers.getContractFactory("UniswapV2Factory"),
     uniswapV2Router: await ethers.getContractFactory("UniswapV2Router"),
     uniswapV2Pair: await ethers.getContractFactory("UniswapV2Pair"),
     fakeWNat: await ethers.getContractFactory("FakeWNat"),

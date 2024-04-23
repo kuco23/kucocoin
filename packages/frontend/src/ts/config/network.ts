@@ -33,4 +33,26 @@ const flarefork = {
   rpcUrls: ['http://127.0.0.1:8545']
 }
 
-export const NETWORK = coston
+const avalanche = {
+  chainName: 'Avalanche Network C-Chain',
+  chainId: '0xa86a',
+  nativeCurrency: {
+    name: 'AVAX',
+    decimals: 18,
+    symbol: 'AVAX'
+  },
+  rpcUrls: ['https://avalanche-mainnet.infura.io'],
+}
+
+const avalanchefork = {
+  chainName: 'Avalanche Fork',
+  chainId: '0x7a69',
+  nativeCurrency: {
+    name: 'AvalancheFork',
+    decimals: 18,
+    symbol: 'FAVAX'
+  },
+  rpcUrls: ['http://127.0.0.1:8545']
+}
+
+export const NETWORK = avalanchefork

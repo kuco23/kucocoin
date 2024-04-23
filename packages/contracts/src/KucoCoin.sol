@@ -4,8 +4,9 @@ pragma solidity 0.8.20;
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {TransferHelper} from "./lib/TransferHelper.sol";
-import {IUniswapV2Router} from "./interface/IUniswapV2/IUniswapV2Router.sol";
-import {IUniswapV2Pair} from "./interface/IUniswapV2/IUniswapV2Pair.sol";
+import {IUniswapV2Router} from "./uniswapV2/interfaces/IUniswapV2Router.sol";
+import {IUniswapV2Factory} from "./uniswapV2/interfaces/IUniswapV2Factory.sol";
+import {IUniswapV2Pair} from "./uniswapV2/interfaces/IUniswapV2Pair.sol";
 import {IKucoCoin} from "./interface/IKucoCoin.sol";
 
 
@@ -40,7 +41,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
     // constant addresses
     address immutable public burnAddress = 0x7B1aFE2745533D852d6fD5A677F14c074210d896;
-    IUniswapV2Router immutable public uniswapV2; // uniswap-v2 router
+    IUniswapV2Router immutable public uniswapV2Router;
     address immutable public wNat; // wrapped native token (AVAX / ETH / FLR / SGB)
     // distribution params
     uint256 immutable public investmentReturnBips;
@@ -52,6 +53,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     uint112 internal investedUnclaimed;
     IKucoCoin.Phase public phase = Phase.Uninitialized; // logged phases
     ReserveSnapshot public reserveSnapshot;
+    IUniswapV2Pair public uniswapV2Pair; // Kuco/wNat pair on dex
     // investment and period tracking
     mapping(address => uint112) private _investedBy;
     mapping(address => PeriodEntry) private _periodOf;
@@ -66,8 +68,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         ERC20("KucoCoin", "KUCO")
     {
         // set wrapped native and used dex addresses
-        uniswapV2 = _uniswapV2;
-        wNat = _uniswapV2.wNat();
+        uniswapV2Router = _uniswapV2;
+        wNat = _uniswapV2.WETH();
         // distribution functionality params
         investmentReturnBips = _investmentReturnBips;
         investmentDuration = _investmentDuration;
@@ -104,9 +106,9 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
     modifier dexApprove(uint256 _amount) {
         _transfer(msg.sender, address(this), _amount);
-        _approve(address(this), address(uniswapV2), _amount);
+        _approve(address(this), address(uniswapV2Router), _amount);
         _;
-        _approve(address(this), address(uniswapV2), 0);
+        _approve(address(this), address(uniswapV2Router), 0);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +121,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         external payable
     {
-        uniswapV2.swapExactNATForTokens{value: msg.value}(
+        uniswapV2Router.swapExactETHForTokens{value: msg.value}(
             _minKuco,
             _toPath(wNat, address(this)),
             _receiver,
@@ -136,7 +138,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external
         dexApprove(_amount)
     {
-        uniswapV2.swapExactTokensForNAT(
+        uniswapV2Router.swapExactTokensForETH(
             _amount,
             _minNat,
             _toPath(address(this), wNat),
@@ -155,12 +157,11 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external payable
         dexApprove(_amountKucoDesired)
     {
-        uniswapV2.addLiquidityNAT{value: msg.value}(
+        uniswapV2Router.addLiquidityETH{value: msg.value}(
             address(this),
             _amountKucoDesired,
             _amountKucoMin,
             _amountNatMin,
-            0,
             _receiver,
             _deadline
         );
@@ -172,21 +173,17 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external view
         returns (uint256)
     {
-        return getPair().balanceOf(_provider);
+        return uniswapV2Pair.balanceOf(_provider);
     }
 
     function getPoolReserves()
         public view
         returns (uint256 reserveKuco, uint256 reserveNat)
     {
-        return uniswapV2.getReserves(address(this), wNat);
-    }
-
-    function getPair()
-        public view
-        returns (IUniswapV2Pair)
-    {
-        return IUniswapV2Pair(uniswapV2.pairFor(address(this), wNat));
+        (reserveKuco, reserveNat,) = uniswapV2Pair.getReserves();
+        if (address(this) != uniswapV2Pair.token0()) {
+            (reserveKuco, reserveNat) = (reserveNat, reserveKuco);
+        }
     }
 
     function _toPath(
@@ -222,19 +219,21 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         tradingPhaseStart = uint64(block.timestamp + investmentDuration);
         //  add WNat / KUCO liquidity to the pool
         phase = Phase.Trading; // so that `_beforeTokenTransfer` doesn't block
-        _approve(address(this), address(uniswapV2), _amountKuco);
+        _approve(address(this), address(uniswapV2Router), _amountKuco);
         _mint(address(this), _amountKuco);
-        uniswapV2.addLiquidityNAT{value: msg.value}(
+        uniswapV2Router.addLiquidityETH{value: msg.value}(
             address(this),
             _amountKuco,
             _amountKuco,
             msg.value,
-            0,
             address(this),
             block.timestamp
         );
         // mark investment phase
         phase = Phase.Investment;
+        // store uniswap v2 pair contract address
+        IUniswapV2Factory uniswapV2Factory = IUniswapV2Factory(uniswapV2Router.factory());
+        uniswapV2Pair = IUniswapV2Pair(uniswapV2Factory.getPair(address(this), wNat));
     }
 
     /**
@@ -371,20 +370,19 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
         uint256 tempKuco = msg.value * reserveKuco / reserveNat;
         _mint(address(this), tempKuco);
-        _approve(address(this), address(uniswapV2), tempKuco);
-        (uint256 addedKuco, uint256 addedNat,) = uniswapV2.addLiquidityNAT{value: msg.value}(
+        _approve(address(this), address(uniswapV2Router), tempKuco);
+        (uint256 addedKuco, uint256 addedNat,) = uniswapV2Router.addLiquidityETH{value: msg.value}(
             address(this),
             tempKuco,
             0, // is ok
             0, // is ok - return non-used NAT to msg.sender
-            0,
             _to,
             block.timestamp
         );
         // sync called right after _burn!
-        IUniswapV2Pair pair = getPair();
-        _burn(address(pair), addedKuco);
-        pair.sync();
+        IUniswapV2Pair _pair = uniswapV2Pair;
+        _burn(address(_pair), addedKuco);
+        _pair.sync();
         // in case not all KUCO/NAT liquidity was added (numeric errors or unusual dex impl)
         if (addedKuco < tempKuco) _burn(address(this), tempKuco - addedKuco);
         if (addedNat < msg.value) TransferHelper.safeTransferNAT(_to, msg.value - addedNat);
@@ -401,12 +399,12 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         private
         enableTradingDuringCall
     {
-        IUniswapV2Pair pair = getPair();
-        uint256 totalLiquidity = pair.totalSupply();
+        IUniswapV2Pair _pair = uniswapV2Pair;
+        uint256 totalLiquidity = _pair.totalSupply();
         (, uint256 reserveNat) = getPoolReserves();
         uint256 liquidity = totalLiquidity * _amountNat / reserveNat;
-        pair.approve(address(uniswapV2), liquidity);
-        (uint256 _amountKuco,) = uniswapV2.removeLiquidityNAT(
+        _pair.approve(address(uniswapV2Router), liquidity);
+        (uint256 _amountKuco,) = uniswapV2Router.removeLiquidityETH(
             address(this),
             liquidity,
             0, // is ok
@@ -414,10 +412,10 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
             _to,
             block.timestamp
         );
-        pair.approve(address(uniswapV2), 0);
+        _pair.approve(address(uniswapV2Router), 0);
         // sync called right after forced transfer
-        _transfer(_to, address(pair), _amountKuco);
-        pair.sync();
+        _transfer(_to, address(_pair), _amountKuco);
+        _pair.sync();
     }
 
     function _updateInvested(
@@ -464,7 +462,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         internal view override
     {
         if (isRetractPhase()) {
-            if (from == address(getPair())) {
+            if (from == address(uniswapV2Pair)) {
                 (, uint256 reserveNat) = getPoolReserves();
                 require(reserveNat >= investedUnclaimed,
                     "KucoCoin: trying to withdraw too much NAT from pool during the retract phase");

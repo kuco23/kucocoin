@@ -4,7 +4,7 @@ import { expect } from "chai"
 import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./utils/calculations"
 import { getFactories } from "./utils/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
-import type { KucoCoin, FakeWNat, UniswapV2Router } from '../types'
+import type { ERC20, KucoCoin, FakeWNat, UniswapV2Router, UniswapV2Factory, UniswapV2Pair } from '../types'
 import type { ContractFactories } from "./utils/factories"
 
 
@@ -27,14 +27,29 @@ describe("KucoCoin", () => {
   let signers: HardhatEthersSigner[]
   let admin: HardhatEthersSigner
   let kucocoin: KucoCoin
-  let uniswapV2: UniswapV2Router
+  let uniswapV2Factory: UniswapV2Factory
+  let uniswapV2Router: UniswapV2Router
   let wNat: FakeWNat
+
+  async function getReserves(tokenA: ERC20, tokenB: ERC20): Promise<[bigint, bigint]> {
+    const pair = await getPairFor(tokenA, tokenB)
+    const [reserveA, reserveB] = await pair.getReserves()
+    const addressA = await tokenA.getAddress()
+    const addressB = await tokenB.getAddress()
+    const AlessThanB = BigInt(addressA) < parseInt(addressB)
+    return (AlessThanB) ? [reserveA, reserveB] : [reserveB, reserveA]
+  }
+
+  async function getPairFor(tokenA: ERC20, tokenB: ERC20): Promise<UniswapV2Pair> {
+    const pairAddress = await uniswapV2Factory.getPair(tokenA, tokenB)
+    return factories.uniswapV2Pair.attach(pairAddress) as UniswapV2Pair
+  }
 
   async function deployKucoCoin(
     signer: HardhatEthersSigner
   ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
-      uniswapV2,
+      uniswapV2Router,
       INVESTMENT_RETURN_BIPS,
       INVESTMENT_DURATION,
       RETRACT_FEE_BIPS,
@@ -75,7 +90,8 @@ describe("KucoCoin", () => {
     signers = await ethers.getSigners()
     admin = signers[0]
     wNat = await factories.fakeWNat.connect(admin).deploy()
-    uniswapV2 = await factories.uniswapV2Router.connect(admin).deploy(wNat)
+    uniswapV2Factory = await factories.uniswapV2Factory.connect(admin).deploy(ethers.ZeroAddress)
+    uniswapV2Router = await factories.uniswapV2Router.connect(admin).deploy(uniswapV2Factory, wNat)
     kucocoin = await deployKucoCoin(admin)
   })
 
@@ -184,7 +200,7 @@ describe("KucoCoin", () => {
     it("should test fetching reserves", async () => {
       await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
       const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
-      const [dexReserveKuco, dexReserveNat] = await uniswapV2.getReserves(kucocoin, wNat)
+      const [dexReserveKuco, dexReserveNat] = await getReserves(kucocoin, wNat)
       expect(reserveKuco).to.equal(dexReserveKuco)
       expect(reserveNat).to.equal(dexReserveNat)
     })

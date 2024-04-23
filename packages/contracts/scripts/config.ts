@@ -29,5 +29,15 @@ export const networkInfo: {[index: string]: NetworkInfo} = {
     rpc: 'http://localhost:8545/',
     wNat: addresses['flare'].wNat,
     uniswapV2: addresses['flare'].uniswapV2
+  },
+  "avalanche": {
+    rpc: 'https://api.avax.network/ext/bc/C/rpc',
+    wNat: addresses['avalanche'].wNat,
+    uniswapV2: addresses['avalanche'].uniswapV2
+  },
+  'avalanchefork': {
+    rpc: 'http://localhost:8545/',
+    wNat: addresses['avalanche'].wNat,
+    uniswapV2: addresses['avalanche'].uniswapV2
   }
 }

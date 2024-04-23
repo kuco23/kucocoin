@@ -1,6 +1,6 @@
 import { abi } from '@kucocoin/contracts/artifacts/src/interface/IKucoCoin.sol/IKucoCoin.json' // hardcode when done testing
 
-export const ADDRESS = "0x2F073722B1c83806D005F0824e548F32A5D19b39"
+export const ADDRESS = "0x02df3a3F960393F5B349E40A599FEda91a7cc1A7"
 export const SYMBOL = "KUCO"
 export const DECIMALS = 18
 export const ABI = abi
