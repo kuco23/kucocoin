@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity 0.8.19;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,6 +8,8 @@ import {IUniswapV2Router} from "./uniswapV2/interfaces/IUniswapV2Router.sol";
 import {IUniswapV2Factory} from "./uniswapV2/interfaces/IUniswapV2Factory.sol";
 import {IUniswapV2Pair} from "./uniswapV2/interfaces/IUniswapV2Pair.sol";
 import {IKucoCoin} from "./interface/IKucoCoin.sol";
+
+import "hardhat/console.sol";
 
 
 // config
@@ -218,7 +220,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         // determine start of trading phase
         tradingPhaseStart = uint64(block.timestamp + investmentDuration);
         //  add WNat / KUCO liquidity to the pool
-        phase = Phase.Trading; // so that `_beforeTokenTransfer` doesn't block
         _approve(address(this), address(uniswapV2Router), _amountKuco);
         _mint(address(this), _amountKuco);
         uniswapV2Router.addLiquidityETH{value: msg.value}(
@@ -449,21 +450,23 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         internal view override
     {
+        Phase _phase = phase;
         // this handles the situation where we force the trading phase
-        require(isTradingPhase() || phase == Phase.Trading,
+        require(isTradingPhase() || _phase == Phase.Trading || _phase == Phase.Uninitialized,
             "KucoCoin: token transfers are only allowed during the trading phase");
     }
 
     function _afterTokenTransfer(
-        address from,
-        address /* to */,
+        address /* from */,
+        address to,
         uint256 /* amount */
     )
         internal view override
     {
         if (isRetractPhase()) {
-            if (from == address(uniswapV2Pair)) {
+            if (to == address(uniswapV2Pair)) {
                 (, uint256 reserveNat) = getPoolReserves();
+                console.log(reserveNat, investedUnclaimed);
                 require(reserveNat >= investedUnclaimed,
                     "KucoCoin: trying to withdraw too much NAT from pool during the retract phase");
             }

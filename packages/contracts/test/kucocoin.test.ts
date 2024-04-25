@@ -22,6 +22,10 @@ async function getTimestampOfBlock(blockNumber: number): Promise<number> {
   return block!.timestamp
 }
 
+function mulBips(a: bigint, bips: number): bigint {
+  return a * BigInt(bips) / BigInt(1e5)
+}
+
 describe("KucoCoin", () => {
   let factories: ContractFactories
   let signers: HardhatEthersSigner[]
@@ -325,15 +329,38 @@ describe("KucoCoin", () => {
     })
 
     it.skip("should not allow buying KucoCoin before trading starts", async () => {
-      const [, trader] = signers
-      await expect(kucocoin.connect(trader).buy(0, trader, ethers.MaxUint256, { value: 100 }))
-        .to.revertedWith("KucoCoin: trading not yet allowed")
+      const [, buyer] = signers
+      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 }))
+        .to.be.revertedWith("KucoCoin: trading not yet allowed")
       await initKucoCoin(admin)
-      await expect(kucocoin.connect(trader).buy(0, trader, ethers.MaxUint256, { value: 100 }))
-        .to.revertedWith("KucoCoin: trading not yet allowed")
+      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 }))
+        .to.be.revertedWith("KucoCoin: trading not yet allowed")
     })
 
-    //it("should not allow selling too much KucoCoin in the retraction period", async () => {})
+    it.skip("should not allow selling too much KucoCoin inside the retraction period", async () => {
+      const [, seller, other] = signers
+      const initialLiquidityKuco = ethers.parseEther("1000")
+      const initialLiquidityNat = ethers.parseEther("10")
+      const investedNatSeller = ethers.parseEther("10")
+      const investedNatOther = ethers.parseEther("800.166193719106")
+
+      await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
+      await kucocoin.connect(seller).invest(seller, { value: investedNatSeller })
+      await kucocoin.connect(other).invest(other, { value: investedNatOther })
+      await moveToTradingPhase(false)
+      // now `investedNatOther` is protected by the retraction period
+      // which means `seller` cannot sell more than `investedNatSeller` worth of KUCO
+      // (note that they got more because of kuconomics)
+      await kucocoin.connect(seller).claim(seller)
+      const sellerKuco = await kucocoin.balanceOf(seller)
+      await expect(kucocoin.connect(seller).sell(sellerKuco, 0, seller, ethers.MaxUint256))
+        .to.be.revertedWith("KucoCoin: retraction period")
+      // wait for retract period to end
+      await time.increase(RETRACT_DURATION)
+      await kucocoin.connect(seller).sell(sellerKuco, 0, seller, ethers.MaxUint256)
+      const sellerKucoAfter = await kucocoin.balanceOf(seller)
+      expect(sellerKucoAfter).to.equal(0)
+    })
 
   })
 

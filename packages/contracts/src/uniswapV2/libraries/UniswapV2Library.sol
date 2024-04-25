@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity 0.8.20;
+pragma solidity 0.8.19;
 
 //solhint-disable reason-string
 
@@ -34,7 +34,7 @@ library UniswapV2Library {
                             bytes1(0xff),
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            hex"7f3a246d717c121538218297dc3b463df94d69fd74c6876ebe23a4ee1c55ecab" // init code hash
+                            hex"8648ab5c41870468dd4de0433ba182525ebb815478dc1abf608faad1791af102" // init code hash
                         )
                     )
                 )

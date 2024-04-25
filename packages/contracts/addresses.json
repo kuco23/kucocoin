@@ -11,5 +11,8 @@
   "avalanche": {
     "wNat": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
     "uniswapV2": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24"
+  },
+  "fuji": {
+    "uniswapV2": "0xD54d7183f6bF425cE251b38113330c29a7cF18D8"
   }
 }

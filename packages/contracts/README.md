@@ -1,1 +1,1 @@
-# Kuco Coin Contracts
+# KucoCoin Contracts
