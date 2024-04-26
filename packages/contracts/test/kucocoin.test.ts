@@ -343,7 +343,6 @@ describe("KucoCoin", () => {
       const initialLiquidityNat = ethers.parseEther("10")
       const investedNatSeller = ethers.parseEther("10")
       const investedNatOther = ethers.parseEther("800.166193719106")
-
       await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
       await kucocoin.connect(seller).invest(seller, { value: investedNatSeller })
       await kucocoin.connect(other).invest(other, { value: investedNatOther })

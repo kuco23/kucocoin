@@ -48,7 +48,7 @@ export function formatUnitsTruncate(amount: bigint, decimals: number, showDecima
   return `${whole}${seperator}${fractionTruncated}`
 }
 
-export function insideViewport(elt: JQuery<HTMLLIElement>): boolean {
+export function insideViewport(elt: JQuery<any>): boolean {
   const top_of_element = elt.offset()!.top
   const bottom_of_element = elt.offset()!.top + elt.outerHeight()!
   const bottom_of_screen = $(window).scrollTop()! + $(window).innerHeight()!

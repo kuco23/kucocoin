@@ -207,6 +207,9 @@
                 KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
                 into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
                 Note that the contract is verified on the Snowtrace block explorer, where you can manually call any of the methods.
+                <connected-to-metamask>
+                  Currently you own <span id="kuco-balance-output"></span> <span class="symbol">KUCO</span>.
+                </connected-to-metamask>
               </p>
             </div>
           </div>
@@ -484,6 +487,9 @@
               <trading>
                 If you have followed the words above, collect your rewards below.
               </trading>
+              <connected-to-metamask>
+                Currently you have <span id="kuco-invested-output"></span> <span class="symbol">AVAX</span> invested.
+              </connected-to-metamask>
             </p>
           </div>
 
@@ -624,29 +630,6 @@
               The dashboard will be available soon, and it will feature a lot of cool features.
             </p>
           </div>
-
-          <connect-to-metamask>
-            <div class="col-1 text-center">
-              <button id="dashboard-connect-to-metamask" class="gradient-button">
-                CONNECT TO METAMASK
-              </button>
-            </div>
-          </connect-to-metamask>
-
-          <connected-to-metamask>
-            <div class="col-1">
-              <div class="dashboard-display">
-                <div>
-                  <span>Balance:&nbsp;</span>
-                  <span id="kuco-balance-output"></span> <span class="symbol">KUCO</span>
-                </div>
-                <div>
-                  <span>Invested:</span>
-                  <span id="kuco-invested-output"></span> <span class="symbol">AVAX</span>
-                </div>
-              </div>
-            </div>
-          </connected-to-metamask>
 
         </div>
       </section>
