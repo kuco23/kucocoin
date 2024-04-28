@@ -20,7 +20,7 @@
     "test": "hardhat test",
     "fork-avalanche": "yarn hardhat node --fork https://api.avax.network/ext/bc/C/rpc --fork-block-number 44532200",
     "---------- live ----------": "---------- live ----------",
-    "cli": "yarn ts-node scripts/cli.ts",
+    "cli": "yarn ts-node tools/cli.ts",
     "kucocoin-deploy": "yarn cli deploy 10500 7776000 1000 2592000",
     "kucocoin-init": "yarn cli init 1000000000000000000000000 100000000000000000"
   },
@@ -28,10 +28,13 @@
     "@ethersproject/keccak256": "^5.7.0",
     "@metamask/providers": "^13.1.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-ignition": "^0.15.1",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.1",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
-    "@nomicfoundation/hardhat-verify": "^1.1.1",
+    "@nomicfoundation/hardhat-verify": "^2.0.6",
+    "@nomicfoundation/ignition-core": "^0.15.1",
     "@typechain/ethers-v6": "^0.4.0",
     "@typechain/hardhat": "^8.0.0",
     "@types/chai": "^4.3.4",
@@ -46,11 +49,11 @@
     "rimraf": "^5.0.5",
     "solidity-coverage": "^0.8.2",
     "ts-node": "^10.9.2",
-    "typechain": "^8.2.0"
+    "typechain": "^8.2.0",
+    "ethers": "^6.4.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.9.3",
-    "ethers": "^6.4.0"
+    "@openzeppelin/contracts": "^4.9.3"
   },
   "packageManager": "yarn@3.6.4"
 }

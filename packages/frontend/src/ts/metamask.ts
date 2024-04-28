@@ -1,5 +1,5 @@
 import { NETWORK } from './config/network'
-import { ADDRESS, SYMBOL, DECIMALS } from './config/token'
+import { SYMBOL, DECIMALS } from './config/token'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 export async function getChainId(
@@ -30,11 +30,11 @@ export async function switchNetworkIfNecessary(
   ethereum: MetaMaskInpageProvider
 ): Promise<boolean> {
 
-  if (await getChainId(ethereum) !== NETWORK.chainId) {
+  if (await getChainId(ethereum) !== NETWORK.metamask.chainId) {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: NETWORK.chainId }]
+        params: [{ chainId: NETWORK.metamask.chainId }]
       })
     } catch (err: any) {
       // Chain not added to MetaMask
@@ -42,7 +42,7 @@ export async function switchNetworkIfNecessary(
         try {
           await ethereum.request({
             method: 'wallet_addEthereumChain',
-            params: [NETWORK]
+            params: [NETWORK.metamask]
           })
         } catch (err: any) {
           return false
@@ -63,7 +63,7 @@ export async function addKucoCoinToken(
       params: {
         type: 'ERC20',
         options: {
-          address: ADDRESS,
+          address: NETWORK.kucocoin,
           symbol: SYMBOL,
           decimals: DECIMALS,
           // image: tokenImage, // A string url of the token logo

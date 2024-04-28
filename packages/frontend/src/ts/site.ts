@@ -17,6 +17,12 @@ const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 let reserveNat: bigint, reserveKuco: bigint
 let nonunderlined: any[]
 
+function setLinks(): void {
+  $('a[title="Snowtrace"]').attr('href', NETWORK.snowtrace)
+  $('a[title="Uniswap"]').attr('href', NETWORK.uniswap)
+  $('#buy-kucocoin').on('click', () => window.open(NETWORK.uniswap, '_blank'))
+}
+
 function displayKucoStages(): void {
   for (let stage = 1; stage <= 6; stage++) {
     const $stageLayer = $('#kuco-stage-layer')
@@ -212,7 +218,7 @@ async function priceUpdater(): Promise<void> {
       const priceBips = PRICE_PRECISION * reserveNat / reserveKuco
       loadingEnd('price-interface')
       $('#price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
-      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
+      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
       $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
       console.log(err.message)
@@ -222,6 +228,7 @@ async function priceUpdater(): Promise<void> {
 }
 
 $(async () => {
+  setLinks()
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()

@@ -1,8 +1,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { Contract } from 'ethers'
 import { abi as kucocoinAbi } from '../artifacts/src/KucoCoin.sol/KucoCoin.json'
+import { abi as uniswapV2RouterAbi } from "../artifacts/src/uniswapV2/UniswapV2Router.sol/UniswapV2Router.json"
 import type { Signer, JsonRpcApiProvider } from 'ethers'
-import type { KucoCoin } from '../types'
+import type { KucoCoin, UniswapV2Router } from '../types'
 
 
 export async function initKucocoin(
@@ -35,6 +36,14 @@ export async function readKucocoin(
   } else {
     throw new Error("unknown property")
   }
+}
+
+export async function getUniswapV2Factory(
+  routerAddress: string,
+  signer: Signer
+): Promise<string> {
+  const router = new Contract(routerAddress, uniswapV2RouterAbi, signer) as any as UniswapV2Router
+  return router.factory()
 }
 
 export function storeKucoCoinDeploy(address: string, network: string): void {

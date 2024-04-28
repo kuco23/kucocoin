@@ -24,4 +24,6 @@ deploys.json
 *.Identifier
 .parcel-cache/
 
+.yarn/install-state.gz
+
 *__pycache__/

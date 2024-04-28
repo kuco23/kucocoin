@@ -2,7 +2,7 @@ import { Command, type OptionValues } from 'commander'
 import { keccak256 } from '@ethersproject/keccak256'
 import { Wallet, JsonRpcProvider, type JsonRpcApiProvider } from 'ethers'
 import { deployKucocoin, deployWETH9, deployUniswapV2Router } from './deploy'
-import { initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy, readKucocoin } from './utils'
+import { initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy, readKucocoin, getUniswapV2Factory } from './utils'
 import { networkInfo, type NetworkInfo } from './config'
 
 
@@ -54,13 +54,14 @@ program
     await initKucocoin(kucocoin, BigInt(liquidityKuco), BigInt(liquidityNat), signer)
   })
 program
-  .command("get").description("get kucoocin property")
+  .command("get").description("get KucoCoin contract property")
   .argument("<investmentReturnBips|tradingPhaseStart|retractFeeBips|retractPhaseEnd>", "property")
   .action(async (propertyName: string, _options: OptionValues) => {
     const kucocoin = readKucoCoinDeploy(program.opts().network)
     const property = await readKucocoin(kucocoin, propertyName, provider)
     console.log(`${propertyName}: ${property}`)
   })
+// uniswap-v2 support (for testing)
 program
   .command("uniswap-hash").description("calculate uniswap-v2 pair bytecode hash to include in UniswapV2Library.sol")
   .action(async (_options: OptionValues) => {
@@ -74,6 +75,12 @@ program
     console.log(`WETH9 deployed at ${wEth}`)
     const router = await deployUniswapV2Router(wEth, signer)
     console.log(`UniswapV2Router deployed at ${router}`)
+  })
+program
+  .command("uniswap-v2-factory").description("get the factory address of a UniswapV2 Router")
+  .action(async (_options: OptionValues) => {
+    const uniswapV2Router = info.uniswapV2
+    console.log("uniswap-v2 factory", await getUniswapV2Factory(uniswapV2Router, signer))
   })
 
 program.parseAsync(process.argv).catch(err => {

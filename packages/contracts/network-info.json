@@ -1,0 +1,22 @@
+{
+  "fuji": {
+    "kucocoin": {
+      "address": "0xEB7e0aB571A8d328123C790fAae38ac5cA1E8441",
+      "params": ["0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71", "10500", "7776000", "1000", "2592000"]
+    },
+    "uniswapV2Router": {
+      "address": "0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71",
+      "params": ["0x067A9293728964B976123119926fb084FA2c2a6F", "0xec7dAb4CfEe33a195EacDD6961389Ff013B262f9"]
+    }
+  },
+  "avalanche": {
+    "kucocoin": {
+      "address": "",
+      "params": []
+    },
+    "uniswapV2Router": {
+      "address": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",
+      "params": ["", "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"]
+    }
+  }
+}

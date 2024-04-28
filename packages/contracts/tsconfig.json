@@ -8,8 +8,8 @@
     "./hardhat.config.ts"
   ],
   "include": [
+    "tools/**/*",
     "test/**/*",
-    "src/**/*",
     "types"
   ]
 }

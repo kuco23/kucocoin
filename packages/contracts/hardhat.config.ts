@@ -1,26 +1,27 @@
-import "@nomicfoundation/hardhat-toolbox";
-import type { HardhatUserConfig } from "hardhat/config";
+import "dotenv/config"
+import "@nomicfoundation/hardhat-toolbox"
+import type { HardhatUserConfig } from "hardhat/config"
 
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
-    costwo: {
-      url: "https://coston2-api.flare.network/ext/C/rpc",
-      chainId: 114,
-    },
-    flare: {
-      url: "https://flare-api.flare.network/ext/C/rpc",
-      chainId: 14,
-    },
     fuji: {
       url: 'https://api.avax-test.network/ext/bc/C/rpc',
-      chainId: 43113
+      chainId: 43113,
+      gasPrice: 225000000000
     },
     avalanche: {
       url: 'https://api.avax.network/ext/bc/C/rpc',
-      chainId: 31337
+      chainId: 43114,
+      gasPrice: 225000000000
     }
+  },
+  etherscan: {
+    apiKey: "0000"
+  },
+  sourcify: {
+    enabled: true
   },
   paths: {
     artifacts: "./artifacts",
@@ -47,4 +48,4 @@ const config: HardhatUserConfig = {
   }
 }
 
-export default config;
+export default config

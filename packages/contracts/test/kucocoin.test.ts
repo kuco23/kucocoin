@@ -387,14 +387,14 @@ describe("KucoCoin", () => {
   describe("kucocoin functionalities", () => {
 
     it("should log period entry", async () => {
-      const [, menseReceiver] = signers
-      const resp1 = await kucocoin.connect(menseReceiver).reportPeriod()
+      const [, periodReporter] = signers
+      const resp1 = await kucocoin.connect(periodReporter).reportPeriod()
       await time.increase(31412)
-      const resp2 = await kucocoin.connect(menseReceiver).reportPeriod()
-      const resp3 = await kucocoin.connect(menseReceiver).reportPeriod()
+      const resp2 = await kucocoin.connect(periodReporter).reportPeriod()
+      const resp3 = await kucocoin.connect(periodReporter).reportPeriod()
       await time.increase(1000)
-      const resp4 = await kucocoin.connect(menseReceiver).reportPeriod()
-      const entries = await kucocoin.connect(menseReceiver).getPeriodHistory()
+      const resp4 = await kucocoin.connect(periodReporter).reportPeriod()
+      const entries = await kucocoin.connect(periodReporter).getPeriodHistory()
       const resps = [resp1, resp2, resp3, resp4]
       const timestamps = await Promise.all(resps.map(resp => getTimestampOfBlock(resp.blockNumber!)))
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
