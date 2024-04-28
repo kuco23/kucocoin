@@ -97,7 +97,7 @@
     color:#fff;
 }
 
-.section-heading h2:after {
+.section-heading.with-brick h2:after {
     background:firebrick;
     content:"";
     display:block;
@@ -106,7 +106,7 @@
     margin-top:30px;
 }
 
-.text-center .section-heading h2:after {
+.text-center .section-heading.with-brick h2:after {
     margin:30px auto 25px auto;
 }
 
@@ -182,7 +182,7 @@ body {
 /* Testimonial */
 
 .testimonial q {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+    font-family: 'Source Code Pro', monospace, sans-serif, Arial, Helvetica;
     font-size: 17px;
     font-weight:300;
 }

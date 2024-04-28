@@ -149,20 +149,33 @@ describe("KucoCoin", () => {
 
     it("should invest and claim KUCO", async () => {
       // params
-      const investor = signers[1]
-      const investedNat = ethers.parseEther("101.1132")
+      const [, investor1, investor2] = signers
+      const investedNat1 = ethers.parseEther("101.1132")
+      const investedNat2 = ethers.parseEther("1032.1")
       // test
       await initKucoCoin(admin)
-      await kucocoin.connect(investor).invest(investor, { value: investedNat })
-      const invested = await kucocoin.getInvestedNatOf(investor)
-      expect(invested).to.equal(investedNat)
+      // test simple investment
+      await kucocoin.connect(investor1).invest(investor1, { value: investedNat1 })
+      await kucocoin.connect(investor2).invest(investor2, { value: investedNat2 })
+      expect(await kucocoin.getInvestedNatOf(investor1)).to.equal(investedNat1)
+      expect(await kucocoin.getInvestedNatOf(investor2)).to.equal(investedNat2)
       await moveToTradingPhase(false)
-      await kucocoin.connect(investor).claim(investor)
       const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
-      const balanceKuco = await kucocoin.balanceOf(investor)
-      const expectedRewardKuco = rewardKucoFromInvestedNat(
-        investedNat, reserveKuco, reserveNat, INVESTMENT_RETURN_BIPS)
-      expect(balanceKuco).to.equal(expectedRewardKuco)
+      await kucocoin.connect(investor1).claim(investor1)
+      const balanceKuco1 = await kucocoin.balanceOf(investor1)
+      const expectedRewardKuco1 = rewardKucoFromInvestedNat(
+        investedNat1, reserveKuco, reserveNat, INVESTMENT_RETURN_BIPS)
+      expect(balanceKuco1).to.be.greaterThan(0)
+      expect(balanceKuco1).to.equal(expectedRewardKuco1)
+      // test investment reward when liquidity pool is altered
+      await kucocoin.connect(investor1).sell(balanceKuco1, 0, investor1, ethers.MaxUint256)
+      const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
+      await kucocoin.connect(investor2).claim(investor2)
+      const balanceKuco2 = await kucocoin.balanceOf(investor2)
+      const expectedRewardKuco2 = rewardKucoFromInvestedNat(
+        investedNat2, reserveKucoAfter, reserveNatAfter, INVESTMENT_RETURN_BIPS)
+      expect(balanceKuco2).to.be.greaterThan(0)
+      expect(balanceKuco2).to.equal(expectedRewardKuco2)
     })
 
     it("should invest and retract", async () => {
@@ -328,13 +341,21 @@ describe("KucoCoin", () => {
         .to.revertedWith("KucoCoin: not inside investment phase")
     })
 
-    it.skip("should not allow buying KucoCoin before trading starts", async () => {
+    it("should not allow buying KucoCoin before trading starts", async () => {
       const [, buyer] = signers
-      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 }))
-        .to.be.revertedWith("KucoCoin: trading not yet allowed")
+      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 })).to.be.reverted
       await initKucoCoin(admin)
-      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 }))
-        .to.be.revertedWith("KucoCoin: trading not yet allowed")
+      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 })).to.be.reverted
+    })
+
+    it("should not allow claiming KucoCoin twice", async () => {
+      const [, investor] = signers
+      await initKucoCoin(admin)
+      await kucocoin.connect(investor).invest(investor, { value: 100 })
+      await moveToTradingPhase()
+      await kucocoin.connect(investor).claim(investor)
+      await expect(kucocoin.connect(investor).claim(investor))
+        .to.be.revertedWith("KucoCoin: no investment to claim")
     })
 
     it.skip("should not allow selling too much KucoCoin inside the retraction period", async () => {

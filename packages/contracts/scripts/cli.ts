@@ -1,6 +1,8 @@
 import { Command, type OptionValues } from 'commander'
+import { keccak256 } from '@ethersproject/keccak256'
 import { Wallet, JsonRpcProvider, type JsonRpcApiProvider } from 'ethers'
-import { deployKucocoin, initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy, readKucocoin } from './utils'
+import { deployKucocoin, deployWETH9, deployUniswapV2Router } from './deploy'
+import { initKucocoin, storeKucoCoinDeploy, readKucoCoinDeploy, readKucocoin } from './utils'
 import { networkInfo, type NetworkInfo } from './config'
 
 
@@ -10,7 +12,7 @@ let info: NetworkInfo
 
 const program = new Command("KucoCoin CLI")
 program
-  .option("-n, --network <coston|flare|costonfork|flarefork>", "network to use", "coston")
+  .option("-n, --network <coston|flare|costonfork|flarefork>", "network to use", "fuji")
   .option("-e, --env-file <env>", "env file to use", ".env")
   .hook("preAction", (cmd: Command) => {
     const options = cmd.opts()
@@ -58,6 +60,20 @@ program
     const kucocoin = readKucoCoinDeploy(program.opts().network)
     const property = await readKucocoin(kucocoin, propertyName, provider)
     console.log(`${propertyName}: ${property}`)
+  })
+program
+  .command("uniswap-hash").description("calculate uniswap-v2 pair bytecode hash to include in UniswapV2Library.sol")
+  .action(async (_options: OptionValues) => {
+    const BlazeSwapBasePair = require('../artifacts/src/uniswapV2/UniswapV2Pair.sol/UniswapV2Pair.json')
+    console.log(keccak256(BlazeSwapBasePair.bytecode).slice(2))
+  })
+program
+  .command("uniswap-v2-deploy").description("deploy a UniswapV2 Router and Factory, along with WETH")
+  .action(async (_options: OptionValues) => {
+    const wEth = await deployWETH9(signer)
+    console.log(`WETH9 deployed at ${wEth}`)
+    const router = await deployUniswapV2Router(wEth, signer)
+    console.log(`UniswapV2Router deployed at ${router}`)
   })
 
 program.parseAsync(process.argv).catch(err => {

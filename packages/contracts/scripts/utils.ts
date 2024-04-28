@@ -1,24 +1,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
-import { Contract, ethers } from 'ethers'
-import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/src/KucoCoin.sol/KucoCoin.json'
+import { Contract } from 'ethers'
+import { abi as kucocoinAbi } from '../artifacts/src/KucoCoin.sol/KucoCoin.json'
 import type { Signer, JsonRpcApiProvider } from 'ethers'
-import type { KucoCoin, KucoCoin__factory } from '../types'
+import type { KucoCoin } from '../types'
 
-
-export async function deployKucocoin(
-  uniswapV2: string,
-  investmentReturnBips: number,
-  investmentDuration: bigint,
-  retractFeeBips: number,
-  retractDuration: bigint,
-  signer: Signer
-): Promise<string> {
-  const factory = new ethers.ContractFactory(kucocoinAbi, kucocoinBytecode) as KucoCoin__factory
-  const kucocoin = await factory.connect(signer).deploy(
-    uniswapV2, investmentReturnBips, investmentDuration, retractFeeBips, retractDuration)
-  await kucocoin.waitForDeployment()
-  return kucocoin.getAddress()
-}
 
 export async function initKucocoin(
   kucocoinAddress: string,

@@ -155,6 +155,7 @@ function onClaimKucoCoin(): void {
 function onRetractKucoCoin(): void {
   $('#retract-submit').on('click', async () => {
     try {
+      loadingStart('claim-interface')
       await switchNetworkIfNecessary(ethereum!)
       const accounts = await requestAccountsIfNecessary(ethereum!)
       await retractKucoCoin(ethereum!, accounts[0])
@@ -162,6 +163,8 @@ function onRetractKucoCoin(): void {
     } catch (err: any) {
       popup('Retract failed', 'firebrick')
       console.log(err.message)
+    } finally {
+      loadingEnd('claim-interface')
     }
   })
 }

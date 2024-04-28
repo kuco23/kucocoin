@@ -29,9 +29,9 @@ export function rewardKucoFromInvestedNat(
   investedNat: bigint,
   reserveKuco: bigint,
   reserveNat: bigint,
-  rewardRatioBips: number
+  investmentReturnBips: number
 ): bigint {
-  return applyBips(investedNat * reserveKuco / reserveNat, rewardRatioBips)
+  return applyBips(investedNat * reserveKuco, investmentReturnBips) / reserveNat
 }
 
 export function retractedNatFromInvestedNat(

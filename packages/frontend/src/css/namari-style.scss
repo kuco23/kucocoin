@@ -670,10 +670,6 @@ h6 {
 
 /* Section Headings */
 
-.section-heading {
-    padding: 0 0 15px 0;
-}
-
 .section-heading h3 {
     font-size: 14px;
     font-weight: bold;
@@ -722,6 +718,10 @@ h6 {
 }
 
 /*Icon Block*/
+
+.text-content {
+    line-height: 25px;
+}
 
 .icon-block {
     position: relative;
@@ -833,7 +833,7 @@ h6 {
 }
 
 .testimonial img {
-    max-height: 240px;
+    max-height: 120px;
     border-radius: 250em;
 }
 

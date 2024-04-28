@@ -135,6 +135,10 @@
   margin: 20px 0;
   text-align: center;
 
+  div {
+    margin: 5px 0;
+  }
+
   input {
     line-height: 15px;
     font-size: 15px;
@@ -216,7 +220,7 @@ button.report-period-button:hover {
 
 /* blockquote */
 
-blockquote {
+blockquote.ancient {
   margin-top: 15pt;
   margin-bottom: 15pt;
   padding: 1px 5%;
@@ -230,10 +234,10 @@ blockquote {
   border-color: transparent;
 }
 
-blockquote:before {
+blockquote.ancient:before {
   content: "❝";
 }
-blockquote:after {
+blockquote.ancient:after {
   content: "❞";
 }
 

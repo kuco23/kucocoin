@@ -20,8 +20,9 @@
     "test": "hardhat test",
     "fork-avalanche": "yarn hardhat node --fork https://api.avax.network/ext/bc/C/rpc --fork-block-number 44532200",
     "---------- live ----------": "---------- live ----------",
-    "kucocoin-deploy": "yarn ts-node scripts/cli.ts deploy 10500 7776000 1000 2592000 -n avalanchefork",
-    "kucocoin-init": "yarn ts-node scripts/cli.ts init 1000000000000000000000 1000000000000000000000 -n avalanchefork"
+    "cli": "yarn ts-node scripts/cli.ts",
+    "kucocoin-deploy": "yarn cli deploy 10500 7776000 1000 2592000",
+    "kucocoin-init": "yarn cli init 1000000000000000000000000 100000000000000000"
   },
   "devDependencies": {
     "@ethersproject/keccak256": "^5.7.0",

@@ -30,6 +30,11 @@ export const networkInfo: {[index: string]: NetworkInfo} = {
     wNat: addresses['flare'].wNat,
     uniswapV2: addresses['flare'].uniswapV2
   },
+  'fuji': {
+    rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
+    wNat: addresses['fuji'].wNat,
+    uniswapV2: addresses['fuji'].uniswapV2
+  },
   "avalanche": {
     rpc: 'https://api.avax.network/ext/bc/C/rpc',
     wNat: addresses['avalanche'].wNat,

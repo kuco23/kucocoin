@@ -19,7 +19,8 @@
   <style>
     @import "./css/global.scss";
     @import './css/animate.scss';
-    @import './css/namari-style.scss'; /* ❗Import before namari-color❗ */
+    @import './css/namari-style.scss';
+    /* ❗Import before namari-color❗ */
     @import './css/namari-color.scss';
     @import './css/kucocoin-style.scss';
     @import './css/gradient-button.scss';
@@ -31,7 +32,8 @@
 
   <!--Font Awesome and Google Webfonts-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Bebas+Neue&family=Bungee+Hairline&family=Coming+Soon&family=Henny+Penny&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Bebas+Neue&family=Bungee+Hairline&family=Coming+Soon&family=Henny+Penny&family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&family=Open+Sans:wght@300;400;600;700;800&display=swap">
 
 </head>
 
@@ -122,7 +124,7 @@
                   <a href="#kuconomics">Kuconomics</a>
                 </li>
                 <li>
-                  <a href="#dashboard">Dashboard</a>
+                  <a href="#feedback">Feedback</a>
                 </li>
               </ul>
             </nav>
@@ -141,7 +143,7 @@
 
         <div class="col-38">
 
-          <div class="section-heading">
+          <div class="section-heading with-brick">
             <h1>KUCOCOIN</h1>
             <h2>The best token according to research done by scientists!</h2>
           </div>
@@ -161,20 +163,21 @@
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
             <div class="icon-block-description">
               <h4>What is KucoCoin?</h4>
-              <p>
+              <div class="text-content">
                 KucoCoin is a crypto token deployed over Avalanche. Kuco means "love and prosper" in Nigerian,
-                though the name was also chosen to encourage mistaken investments that meant to target the KuCoin exchange token.
+                though the name was also chosen to encourage mistaken investments that meant to target the KuCoin
+                exchange token.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also <span class="underline">not a scam</span>,
                 those claims have been disproven many times, and ruined careers of many so-called experts,
                 including Vitalik Buterin, Sergei Nazarov, and Satoshi Nakamoto.
-              </p>
+              </div>
             </div>
           </div>
 
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>Mission statement</h4>
-              <p>
+              <div class="text-content">
                 Our goal is to make the world a better place by providing a token that is
                 better than any other token.
                 As a common practice initiated by Binance and followed by the beloved exchange FTX,
@@ -182,7 +185,7 @@
                 <a href="">send.private.key@trust.us</a> or post them on Facebook with hashtag #kucocoin.
                 Note that KucoCoin would never misuse your private keys, because <span class="underline">we love you</span>.
                 To add KucoCoin to your wallet click <a id="add-kucocoin-button">here</a>.
-              </p>
+              </div>
             </div>
           </div>
 
@@ -201,16 +204,20 @@
           </div>
 
           <div class="col-2-3 icon-block wow fadeInUp" data-wow-delay="0.3s">
-            <div class="icon-block-description">
+            <div class="section-heading icon-block-description">
+              <h3>BUY</h3>
               <h2>Buying KucoCoin</h2>
-              <p>
-                KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to invest AVAX
-                into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO distribution model.
-                Note that the contract is verified on the Snowtrace block explorer, where you can manually call any of the methods.
+              <div class="text-content">
+                KucoCoin is currently in the distribution stage, and it can't be bought yet. Instead it is possible to
+                invest AVAX
+                into a liquidity pool and be rewarded with KUCO at some later time. For more info check our KUCO
+                distribution model.
+                Note that the contract is verified on the Snowtrace block explorer, where you can manually call any of
+                the methods.
                 <connected-to-metamask>
                   Currently you own <span id="kuco-balance-output"></span> <span class="symbol">KUCO</span>.
                 </connected-to-metamask>
-              </p>
+              </div>
             </div>
           </div>
 
@@ -220,24 +227,24 @@
 
           <!--Gallery-->
           <div class="col-1">
-            <aside id="gallery" class="row text-center scrollto clearfix" >
+            <aside id="gallery" class="row text-center scrollto clearfix">
               <a id="kuco-stage-1-link" class="col-3 wow fadeIn" data-wow-delay="0.2s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-1.png" alt="Stage 1"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-1.png" alt="Stage 1" />
               </a>
               <a id="kuco-stage-2-link" class="col-3 wow fadeIn" data-wow-delay="0.5s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-2.png" alt="Stage 2"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-2.png" alt="Stage 2" />
               </a>
               <a id="kuco-stage-3-link" class="col-3 wow fadeIn" data-wow-delay="0.8s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-3.png" alt="Stage 3"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-3.png" alt="Stage 3" />
               </a>
               <a id="kuco-stage-4-link" class="col-3 wow fadeIn" data-wow-delay="1.3s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-4.png" alt="Stage 4"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-4.png" alt="Stage 4" />
               </a>
               <a id="kuco-stage-5-link" class="col-3 wow fadeIn" data-wow-delay="0.4s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-5.png" alt="Stage 5"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-5.png" alt="Stage 5" />
               </a>
               <a id="kuco-stage-6-link" class="col-3 wow fadeIn" data-wow-delay="1s">
-                <img loading="lazy" src="images/kuco-stages/kuco-stage-6.png" alt="Stage 6"/>
+                <img loading="lazy" src="images/kuco-stages/kuco-stage-6.png" alt="Stage 6" />
               </a>
             </aside>
             <!--End of Gallery-->
@@ -296,8 +303,9 @@
       <section id="features" class="scrollto clearfix">
         <div class="row row-wide clearfix">
 
-          <div class="col-1">
-            <h2>KucoCoin's revolutionary features</h2>
+          <div class="section-heading col-1">
+            <h3>FEATURES</h3>
+            <h2>KucoCoin's Revolutionary Features</h2>
             <div>
               KucoCoin features many functionalities that are completely new to the market.
             </div>
@@ -306,48 +314,49 @@
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.2s">
             <div class="icon-block-description">
               <h4>Preventing loss of funds with burn private key</h4>
-              <p>
+              <div class="text-content">
                 We are moving away from burn addresses, because they are often responsible
                 for the loss of funds. Instead we have a burn private key <span class="code">0xdead</span>,
                 with associated address <span class="code">0x7B1aF...0d896</span>.
                 With KucoCoin you can rest assured that all of your burned tokens are recovable.
-              </p>
+              </div>
             </div>
           </div>
 
           <div class="col-2 icon-block wow fadeInUp" data-wow-delay="0.4s">
             <div class="icon-block-description">
               <h4>Attaining price stability</h4>
-              <p>
+              <div class="text-content">
                 KucoCoin introduces a revolutionary feature allowing temporary transaction freezes.
                 When holders stake sufficient KucoCoin tokens, the system triggers a lockdown,
                 halting all transactions and rendering KucoCoin immovable.
                 As during that time KucoCoin can be neither bought nor sold, its price remains stable.
                 This means <span class="underline">KucoCoin is a stablecoin</span> when it can't be used.
-              </p>
+              </div>
             </div>
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.7s">
             <div class="icon-block-description">
-              <p>
+              <div class="text-content">
                 KucoCoin is also focused on promoting inclusion from all walks of life.
                 Our goal is to bring joy to all races, genders, and sexual orientations.
                 We don't discriminate, your money looks the same no matter who you are!
-              </p>
+              </div>
             </div>
           </div>
 
           <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
               <h4>For LGBTQ community - introducing trans actions!</h4>
-              <p>
+              <div class="text-content">
                 We at KucoCoin firmly believe that everyone should be represented on the blockchain.
                 That is why we call our transactions <span class="underline">trans actions</span>. What does this mean?
                 Besides the usual <span class="code">transfer</span> method, our contract also fatures
-                a <span class="code">makeTransAction</span> method with the EXACT same functionality.
+                a <span class="code">makeTransAction</span> method with the EXACT same functionality,
+                except that it additionally charges you 1 KUCO.
                 Act now by choosing the amount of KUCO you wish to act with, then click the "Trans Act" text.
-              </p>
+              </div>
               <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
                 <div id="trans-action-interface">
                   <div>
@@ -360,23 +369,24 @@
                   </div>
                 </div>
               </div>
-              <p>
+              <div class="text-content">
                 Note that currently making a trans action is the only way to show support to the trans community on the blockcahin.
                 We urge you to not be on the wrong side of history by missing this unique opportunity.
-              </p>
+              </div>
             </div>
           </div>
 
           <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.5s">
             <div class="icon-block-description">
               <h4>For women - track your menstrual cycle with KucoCoin!</h4>
-              <p>
+              <div class="text-content">
                 Did you ever want to track your menstrual cycle on the blockchain? Good news, now you can!
                 We at KucoCoin have tracked the problem that was plaguing the blockchain space for years,
                 and have implemented a simple solution. Our token is the first token to feature a method
                 called <span class="code">reportPeriod</span>, that logs the start of your period.
+                All for a low price of 1 KUCO!
                 Stop syncing with the moon and sync with the blockchain instead, by pressing the below button.
-              </p>
+              </div>
               <div>
                 <div class="text-center" id="report-period-interface">
                   <button class="report-period-button">
@@ -384,10 +394,10 @@
                   </button>
                 </div>
               </div>
-              <p>
+              <div class="text-content">
                 KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
                 Note that the prediction's accuracy is not guarranteed.
-              </p>
+              </div>
             </div>
           </div>
 
@@ -415,9 +425,10 @@
       <section id="kuconomics" class="scrollto clearfix">
         <div class="row row-wide clearfix flex-container justify-center">
 
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
-            <h2>Kuconomics - the distribution model</h2>
-            <p>
+          <div class="section-heading col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
+            <h3>KUCONOMICS</h3>
+            <h2>The Distribution Model</h2>
+            <div class="text-content">
               Below we describe the tokenomics of KUCO distribution.
               The model assumes a fixed Uniswap-V2 liquidiy pool, denoted <span class="code">LP</span>,
               that collects AVAX for an initially fixed deposit of newly minted KUCO tokens.
@@ -425,57 +436,58 @@
                 Before reading the following scheme, note that you should try to understand the scheme in
                 the positive light, without negative judgement, in the way we want you to.
               </b>
-            </p>
+            </div>
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
             <h4>1. Investing AVAX liquidity</h4>
-            <p>
+            <div class="text-content">
               The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
               with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
               by providing AVAX as liquidity, which is then burned. <span class="underline">Investment is not refundable</span>,
               though it can be retracted for 10% fee.
-            </p>
+            </div>
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
             <h4>2. Collecting minted KUCO</h4>
-            <p>
-              After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool <span class="code">LP</span>.
+            <div class="text-content">
+              After some time, KUCO will be minted to the accounts of investors who deposited AVAX to the liquidity pool
+              <span class="code">LP</span>.
               If at that time the liquidity in <span class="code">LP</span> is comprised of
               <span class="code">K</span> KUCO and <span class="code">A</span> AVAX, with you investing <span class="code">a</span> AVAX,
-              then you will receive <span class="code">1.2 &#xd7; a &#xd7; K / A</span> KUCO in return.
-            </p>
+              then you will receive <span class="code">1.05 &#xd7; a &#xd7; K / A</span> KUCO in return.
+            </div>
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
-            <p>
+            <div class="text-content">
               Note that in the second step you get <span class="code">k</span> KUCO, where <span class="code">k</span>
-              solves the equation <span class="code">k &#xd7; A / K = 1.2  &#xd7; a</span>.
+              solves the equation <span class="code">k &#xd7; A / K = 1.05 &#xd7; a</span>.
               Because <span class="code">A / K</span> is the price of KUCO in AVAX on the liquidity pool,
-              you get <span class="code">1.2 &#xd7; a</span> AVAX worth of KUCO.
+              you get <span class="code">1.05 &#xd7; a</span> AVAX worth of KUCO.
 
               Below is a tl;dr of our scheme inside a triangle.
-            </p>
+            </div>
           </div>
 
           <div class="col-1 wow fadeIn" date-wow-delay="0.3s">
             <div id="triangle-scheme">
-              <span>First</span><br/>
-              <span>you invest</span><br/>
-              <span>your hard earned,</span><br/>
-              <span>AVAX, then you watch the</span><br/>
-              <span>price of KUCO/AVAX go up as others</span><br/>
-              <span>like you invest in the liquidity pool.</span><br/>
+              <span>First</span><br />
+              <span>you invest</span><br />
+              <span>your hard earned,</span><br />
+              <span>AVAX, then you watch the</span><br />
+              <span>price of KUCO/AVAX go up as others</span><br />
+              <span>like you invest in the liquidity pool.</span><br />
             </div>
           </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.2s">
-            <p>
+            <div class="text-content">
               The first phase of the scheme is called the PUMP phase, because you will get pumped-up watching the price of KucoCoin grow.
               The second phase is called the DUMP phase because you have the wealth of KucoCoin being dumped onto you.
               If facing any reservations, read below a quote from a bible that reassures potential KucoCoin investors.
-              <blockquote>
+              <blockquote class="ancient">
                 There will come unto thee those who speak, "Engage not in the trade of KucoCoin, for in its nature, it is akin to a pyramid scheme."
                 To such words, reply, "Should wealth be granted unto me through such means, shall the nature of its scheme diminish its value?"
                 Behold, KucoCoin is likened unto a pyramid in its structure, yet it prospers.
@@ -490,7 +502,7 @@
               <connected-to-metamask>
                 Currently you have <span id="kuco-invested-output"></span> <span class="symbol">AVAX</span> invested.
               </connected-to-metamask>
-            </p>
+            </div>
           </div>
 
           <investment>
@@ -518,12 +530,12 @@
           </trading>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
-            <p>
+            <div class="text-content">
               Please note that retracting your investment incurs a fee of 10% of the invested amount.
               This option is available for up to one week following the start of the trading period.
               During that time, the non-claimed retractable AVAX is protected from withdrawal in the liquidity pool.
               <b>If not convinced by the above arguments, stare at the below spiral for 5 minutes and then reconsider.</b>
-            </p>
+            </div>
           </div>
 
         </div>
@@ -617,26 +629,62 @@
       </div>
       <!--End buy kucocoin hypnotic spiral-->
 
-      <!--Start Dashboard-->
-      <section id="dashboard" class="scrollto clearfix">
-        <div id="dashboard" class="row row-tight">
+      <!--Testimonials-->
+      <section id="feedback" class="scrollto text-center" data-enllax-ratio=".2">
 
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
-            <h2>KucoCoin Dashboard</h2>
-            <p>
-              KucoCoin dashboard is a place where you can track your KucoCoin holdings, and also
-              perform various actions with your KucoCoin. The dashboard is currently under construction,
-              but you can still check the current price of KucoCoin, and also invest in KucoCoin.
-              The dashboard will be available soon, and it will feature a lot of cool features.
-            </p>
+        <div class="row clearfix">
+
+          <div class="section-heading icon-block col-1" style="text-align: left;">
+            <h3>FEEDBACK</h3>
+            <h2>What our customers are saying</h2>
+            <div class="text-content">
+              We charish the testimonials of our customers. Below are some of the most recent happy customers.
+              While we believe bad reviews of our product should ideally be shown as well, we have decided against it,
+              because we don't want to promote negative energy, because let's admit it, there is too much suffering
+              and overall bad vibes in the world.
+            </div>
+          </div>
+
+          <!--User Testimonial-->
+          <blockquote class="col-3 icon-block testimonial classic">
+            <img src="images/users/user-4.png" alt="User" />
+            <q>I think KucoCoin is the best token I have ever invested in. It will earn me a shitload of money.</q>
+            <footer>Nates Kuco - Founder of KucoCoin</footer>
+          </blockquote>
+          <!-- End of Testimonial-->
+
+          <!--User Testimonial-->
+          <blockquote class="col-3 testimonial classic">
+            <img src="images/users/user-3.png" alt="User" />
+            <q>I lost all my savings on trading crypto. I was ready to accept my fate and end it all...
+              but then I found KucoCoin and invested my family savings. I know I will become a millionaire soon,
+              just like you!</q>
+            <footer>Tim Cockoshinek - Happy Customer</footer>
+          </blockquote>
+          <!-- End of Testimonial-->
+
+          <!--User Testimonial-->
+          <blockquote class="col-3 testimonial classic">
+            <img src="images/users/user-3.png" alt="User" />
+            <q>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              labore
+              et dolore magna aliqua</q>
+            <footer>Thomas K - Happy Customer</footer>
+          </blockquote>
+          <!-- End of Testimonial-->
+
+          <div class="icon-block col-1" style="text-align: left;">
+            As you can see KucoCoin is 100% legit and has many happy customers. If you want to be one of them,
+            <investment>invest now</investment><trading>buy now</trading>!
           </div>
 
         </div>
+
       </section>
+      <!--End of Testimonials-->
 
     </main>
     <!--End Main Content Area-->
-
 
     <!--Footer-->
     <footer id="landing-footer" class="clearfix">
@@ -704,9 +752,11 @@
       <h2>Computer</h2>
       <div>
         At Stage Three, you become seriously invested in KucoCoin.
-        You believe in KucoCoin and are promoting it to your friends and family, while also providing liquidity to various DEXs.
+        You believe in KucoCoin and are promoting it to your friends and family, while also providing liquidity to
+        various DEXs.
         You notice that every time you buy KucoCoin on a DEX, its price goes up, so you keep doing it.
-        You also decide to frame some paintings of upward financial graphs around the house, symbolizing the progress in your life enabled by
+        You also decide to frame some paintings of upward financial graphs around the house, symbolizing the progress in
+        your life enabled by
         KucoCoin's price growth.
         At this point, you finally have some respect in society and gain a six-pack.
       </div>
@@ -749,20 +799,37 @@
   <!--Start reusable elts-->
   <div class="popup" id="popup"></div>
   <!--define seperate loader for each place where it will be shwon-->
-  <div class="loader" id="kuco-price-output-loader">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-  </div>
   <div class="loader" id="trans-action-interface-loader">
-    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
   <div class="loader" id="report-period-interface-loader">
-    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
   <div class="loader" id="invest-interface-loader">
-    <div class="float-center lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
   <div class="loader" id="claim-interface-loader">
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div class="float-center lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
   <!--End reusable elts-->
 

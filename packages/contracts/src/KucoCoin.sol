@@ -9,11 +9,10 @@ import {IUniswapV2Factory} from "./uniswapV2/interfaces/IUniswapV2Factory.sol";
 import {IUniswapV2Pair} from "./uniswapV2/interfaces/IUniswapV2Pair.sol";
 import {IKucoCoin} from "./interface/IKucoCoin.sol";
 
-import "hardhat/console.sol";
-
-
 // config
-uint16 constant MAX_MENSTRUATION_LOOKBACK = 20;
+uint256 constant TRANS_ACTION_FEE = 1 ether;
+uint256 constant REPORT_PERIOD_FEE = 1 ether;
+uint16 constant MAX_PERIOD_LOOKUP = 20;
 uint16 constant MAX_BIPS = 10000;
 // dex config (0.3% fee as hardcoded in uniswap v2)
 uint256 constant DEX_MAX_BIPS = 1000;
@@ -54,7 +53,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     uint64 public tradingPhaseStart;
     uint112 internal investedUnclaimed;
     IKucoCoin.Phase public phase = Phase.Uninitialized; // logged phases
-    ReserveSnapshot public reserveSnapshot;
     IUniswapV2Pair public uniswapV2Pair; // Kuco/wNat pair on dex
     // investment and period tracking
     mapping(address => uint112) private _investedBy;
@@ -309,8 +307,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         internal view
         returns (uint256)
     {
-        uint256 reserveKuco = reserveSnapshot.reserveKuco;
-        uint256 reserveNat = reserveSnapshot.reserveNat;
+        (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
         return investmentReturnBips
             * _amountInvestedNat
             * reserveKuco
@@ -352,13 +349,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         private
      {
         if (isTradingPhase() && phase == Phase.Investment) {
-            (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-            reserveSnapshot = ReserveSnapshot({
-                reserveKuco: uint112(reserveKuco),
-                reserveNat: uint112(reserveNat)
-            });
             phase = Phase.Trading;
-            investedUnclaimed = uint112(reserveNat);
         }
     }
 
@@ -426,8 +417,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         private
     {
         _investedBy[_investor] += _invested;
-        // don't need to update `investedUnclaimed`
-        // as it is set at the start of trading
+        investedUnclaimed += _invested;
     }
 
     function _updateClaimed(
@@ -466,7 +456,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         if (isRetractPhase()) {
             if (to == address(uniswapV2Pair)) {
                 (, uint256 reserveNat) = getPoolReserves();
-                console.log(reserveNat, investedUnclaimed);
                 require(reserveNat >= investedUnclaimed,
                     "KucoCoin: trying to withdraw too much NAT from pool during the retract phase");
             }
@@ -505,6 +494,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     function reportPeriod()
         external
     {
+        _burn(msg.sender, REPORT_PERIOD_FEE);
         _periodOf[msg.sender].entry[_periodOf[msg.sender].index++] = uint64(block.timestamp);
     }
 
@@ -514,7 +504,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         address receiver = msg.sender;
         uint16 end = _periodOf[receiver].index;
-        uint16 start = MAX_MENSTRUATION_LOOKBACK <= end ? end - MAX_MENSTRUATION_LOOKBACK : 0;
+        uint16 start = MAX_PERIOD_LOOKUP <= end ? end - MAX_PERIOD_LOOKUP : 0;
         uint64[] memory result = new uint64[](end - start);
         for (uint16 i = start; i < end; i++) {
             result[i-start] = _periodOf[receiver].entry[i];
@@ -540,6 +530,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         external
     {
+        _burn(msg.sender, TRANS_ACTION_FEE);
         _transfer(msg.sender, _to, _amount);
     }
 

@@ -13,6 +13,14 @@ const config: HardhatUserConfig = {
       url: "https://flare-api.flare.network/ext/C/rpc",
       chainId: 14,
     },
+    fuji: {
+      url: 'https://api.avax-test.network/ext/bc/C/rpc',
+      chainId: 43113
+    },
+    avalanche: {
+      url: 'https://api.avax.network/ext/bc/C/rpc',
+      chainId: 31337
+    }
   },
   paths: {
     artifacts: "./artifacts",

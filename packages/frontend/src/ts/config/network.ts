@@ -33,6 +33,17 @@ const flarefork = {
   rpcUrls: ['http://127.0.0.1:8545']
 }
 
+const fuji = {
+  chainName: 'Fuji Network C-Chain',
+  chainId: '0xa869',
+  nativeCurrency: {
+    name: 'FUJI',
+    decimals: 18,
+    symbol: 'FUJI'
+  },
+  rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc']
+}
+
 const avalanche = {
   chainName: 'Avalanche Network C-Chain',
   chainId: '0xa86a',
@@ -55,4 +66,4 @@ const avalanchefork = {
   rpcUrls: ['http://127.0.0.1:8545']
 }
 
-export const NETWORK = avalanchefork
+export const NETWORK = fuji
