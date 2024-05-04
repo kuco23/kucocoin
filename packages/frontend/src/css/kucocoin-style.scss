@@ -192,21 +192,19 @@
 
 /* report period button */
 
-button.report-period-button {
-  margin: $report-period-margin;
-  padding: $report-period-padding;
+.period-button {
+  margin: $period-button-margin;
+  padding: $period-button-padding;
   color: white;
-  font-size: $report-period-font-size;
-  font-family: $report-period-font-family;
+  font-size: $period-button-font-size;
+  font-family: $period-button-font-family;
   font-weight: bold;
   transition: color 1s;
-  animation: alternate-background $report-period-animation-duration alternate infinite ease-in-out;
   border-radius: 3px;
 }
 
-button.report-period-button:hover {
-  cursor: pointer;
-  color: red;
+.report-period-button {
+  animation: alternate-background $report-period-animation-duration alternate infinite ease-in-out;
 }
 
 @keyframes alternate-background {
@@ -217,6 +215,16 @@ button.report-period-button:hover {
     background-color: transparent;
   }
 }
+
+.period-button:hover {
+  cursor: pointer;
+  color: red;
+}
+
+#next-period-date-display {
+  font-size: 25px;
+}
+
 
 /* blockquote */
 

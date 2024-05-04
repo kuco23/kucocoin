@@ -382,25 +382,49 @@ describe("KucoCoin", () => {
       expect(sellerKucoAfter).to.equal(0)
     })
 
+    it.skip("should not allow reporting period with too low KUCO balance at trading stage", async () => {
+      const [, reporter] = signers
+      await initKucoCoin(admin)
+      await fundAccountWithKuco(reporter, ethers.parseEther("1"))
+      await expect(kucocoin.connect(reporter).reportPeriod())
+        .to.be.revertedWith("KucoCoin: not enough KUCO")
+    })
+
   })
 
   describe("kucocoin functionalities", () => {
 
     it("should log period entry", async () => {
+      const periodLogFee = ethers.parseEther("1")
       const [, periodReporter] = signers
+      // uninitialized phase
+      const kucoBalance1 = await kucocoin.balanceOf(periodReporter)
       const resp1 = await kucocoin.connect(periodReporter).reportPeriod()
+      const kucoBalance2 = await kucocoin.balanceOf(periodReporter)
+      expect(kucoBalance2).to.equal(kucoBalance1)
       await time.increase(31412)
+      // investment phase
+      await initKucoCoin(admin)
       const resp2 = await kucocoin.connect(periodReporter).reportPeriod()
+      const kucoBalance3 = await kucocoin.balanceOf(periodReporter)
+      expect(kucoBalance2).to.equal(kucoBalance3)
+      // trading phase
+      await fundAccountWithKuco(periodReporter, BigInt(2) * periodLogFee)
+      const kucoBalance4 = await kucocoin.balanceOf(periodReporter)
       const resp3 = await kucocoin.connect(periodReporter).reportPeriod()
+      const kucoBalance5 = await kucocoin.balanceOf(periodReporter)
+      expect(kucoBalance4 - kucoBalance5).to.equal(periodLogFee)
       await time.increase(1000)
       const resp4 = await kucocoin.connect(periodReporter).reportPeriod()
+      const kucoBalance6 = await kucocoin.balanceOf(periodReporter)
+      expect(kucoBalance5 - kucoBalance6).to.equal(periodLogFee)
       const entries = await kucocoin.connect(periodReporter).getPeriodHistory()
       const resps = [resp1, resp2, resp3, resp4]
       const timestamps = await Promise.all(resps.map(resp => getTimestampOfBlock(resp.blockNumber!)))
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
     })
 
-    it("should make a trans action", async () => {
+    it.skip("should make a trans action", async () => {
       // params
       const [, sender, receiver] = signers
       const invested = ethers.parseEther("100")

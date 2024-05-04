@@ -1,24 +1,8 @@
 import $ from 'jquery'
 import { formatUnits } from 'ethers'
-import { DEX_FACTOR_BIPS, DEX_MAX_BIPS } from './config/display'
 
 
 declare const window: any
-
-export function swapOutput(
-  amountA: bigint,
-  reserveA: bigint,
-  reserveB: bigint
-): bigint {
-  const amountAWithFee = DEX_FACTOR_BIPS * amountA
-  const numerator = amountAWithFee * reserveB
-  const denominator = DEX_MAX_BIPS * reserveA + amountAWithFee
-  return numerator / denominator
-}
-
-export function mulBips(amount: bigint, bips: number): bigint {
-  return amount * BigInt(Math.floor(bips * Number(DEX_MAX_BIPS))) / DEX_MAX_BIPS
-}
 
 export async function setImmediateAsyncInterval(func: () => Promise<any>, ms: number): Promise<NodeJS.Timeout> {
   await func()
@@ -46,6 +30,16 @@ export function formatUnitsTruncate(amount: bigint, decimals: number, showDecima
   const fractionTruncated = fraction.slice(0, showDecimals)
   if (Number(fractionTruncated) == 0) return whole
   return `${whole}${seperator}${fractionTruncated}`
+}
+
+export function formatUnixDate(unix: number): string {
+  const date = new Date(1000 * unix)
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  } as { year: "numeric", month: "long", day: "2-digit" }
+  return date.toLocaleDateString('en-US', options);
 }
 
 export function insideViewport(elt: JQuery<any>): boolean {

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate } from './utils'
-import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves } from './contract'
+import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate } from './utils'
+import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { popup, loadingStart, loadingEnd } from './components/shared'
 import { displayDashboard } from './components/dashboard'
@@ -227,6 +227,24 @@ function onReportPeriod(): void {
   })
 }
 
+function onGetNextPeriod(): void {
+  $('#next-period-date-display').fadeOut()
+  $('#get-next-period-interface').on('click', async () => {
+    try {
+      loadingStart('get-next-period-interface')
+      await switchNetworkIfNecessary(ethereum!)
+      const nextPeriodUnix = await getNextPeriod(ethereum!)
+      const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
+      $('#next-period-date-display').fadeIn().text(nextPeriod)
+    } catch (err: any) {
+      popup('Failed to get next period', 'firebrick')
+      console.log(err.message)
+    } finally {
+      loadingEnd('get-next-period-interface')
+    }
+  })
+}
+
 async function priceUpdater(): Promise<void> {
   await setImmediateAsyncInterval(async () => {
     try {
@@ -255,6 +273,7 @@ $(async () => {
   onClaimKucoCoin()
   onRetractKucoCoin()
   onReportPeriod()
+  onGetNextPeriod()
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
   await priceUpdater()

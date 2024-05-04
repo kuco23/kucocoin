@@ -96,3 +96,10 @@ export async function getStage(ethereum: MetaMaskInpageProvider): Promise<string
   const kucocoin = getKucoCoin(provider)
   return kucocoin.stage()
 }
+
+export async function getNextPeriod(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+  const provider = new BrowserProvider(ethereum)
+  const kucocoin = getKucoCoin(provider)
+  const signer = await provider.getSigner()
+  return kucocoin.connect(signer).nextPeriod()
+}

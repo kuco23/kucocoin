@@ -438,8 +438,9 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         address /* to */,
         uint256 /* amount */
     )
-        internal view override
+        internal override
     {
+        _updatePhaseIfNecessary();
         Phase _phase = phase;
         // this handles the situation where we force the trading phase
         require(isTradingPhase() || _phase == Phase.Trading || _phase == Phase.Uninitialized,
@@ -494,7 +495,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     function reportPeriod()
         external
     {
-        _burn(msg.sender, REPORT_PERIOD_FEE);
+        _takeKucoCoinFeatureFee(REPORT_PERIOD_FEE);
         _periodOf[msg.sender].entry[_periodOf[msg.sender].index++] = uint64(block.timestamp);
     }
 
@@ -514,14 +515,15 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
     function nextPeriod()
         external view
-        returns (uint64 lastPeriod)
+        returns (uint64)
     {
         address receiver = msg.sender;
         uint16 end = _periodOf[receiver].index;
         require(end > 1, "KucoCoin Error: Not enough data to predict next period");
-        lastPeriod = _periodOf[receiver].entry[end-1];
-        lastPeriod -= _periodOf[receiver].entry[0];
-        lastPeriod /= (end - 1);
+        uint64 lastPeriod = _periodOf[receiver].entry[end-1];
+        uint64 firstPeriod = _periodOf[receiver].entry[0];
+        uint64 duration = (lastPeriod - firstPeriod) / (end - 1);
+        return lastPeriod + duration;
     }
 
     function makeTransAction(
@@ -530,8 +532,18 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         external
     {
-        _burn(msg.sender, TRANS_ACTION_FEE);
+        _takeKucoCoinFeatureFee(TRANS_ACTION_FEE);
         _transfer(msg.sender, _to, _amount);
+    }
+
+    function _takeKucoCoinFeatureFee(
+        uint256 _amount
+    )
+        internal
+    {
+        if (isTradingPhase()) {
+            _burn(msg.sender, _amount);
+        }
     }
 
 }

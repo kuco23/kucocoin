@@ -3,7 +3,7 @@ import { abi as wEthAbi, bytecode as wEthBytecode } from "../artifacts/src/unisw
 import { abi as uniswapV2RouterAbi, bytecode as uniswapV2RouterBytecode } from "../artifacts/src/uniswapV2/UniswapV2Router.sol/UniswapV2Router.json"
 import { abi as uniswapV2FactoryAbi, bytecode as uniswapV2FactoryBytecode } from "../artifacts/src/uniswapV2/UniswapV2Factory.sol/UniswapV2Factory.json"
 import { abi as kucocoinAbi, bytecode as kucocoinBytecode } from '../artifacts/src/KucoCoin.sol/KucoCoin.json'
-import type { WETH9__factory, UniswapV2Factory__factory, UniswapV2Router__factory, KucoCoin__factory, UniswapV2Router } from '../types'
+import type { WETH9__factory, UniswapV2Factory__factory, UniswapV2Router__factory, KucoCoin__factory } from '../types'
 
 
 export async function deployKucocoin(

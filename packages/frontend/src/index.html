@@ -352,8 +352,8 @@
                 We at KucoCoin firmly believe that everyone should be represented on the blockchain.
                 That is why we call our transactions <span class="underline">trans actions</span>. What does this mean?
                 Besides the usual <span class="code">transfer</span> method, our contract also fatures
-                a <span class="code">makeTransAction</span> method with the EXACT same functionality
-                <trading>, except that it additionally charges you 1 KUCO</trading>.
+                a <span class="code">makeTransAction</span> method with the EXACT same functionality<investment>.</investment>
+                <trading>, except that it additionally charges you 1 KUCO.</trading>
                 Act now by choosing the amount of KUCO you wish to act with, then click the "Trans Act" text.
               </div>
               <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
@@ -388,7 +388,7 @@
               </div>
               <div>
                 <div class="text-center" id="report-period-interface">
-                  <button class="report-period-button">
+                  <button class="period-button report-period-button">
                     REPORT
                   </button>
                 </div>
@@ -397,6 +397,17 @@
                 KucoCoin stores all your period entires, and it uses on-chain AI (not yet implemented) to predict your next period.
                 Note that the prediction's accuracy is not guarranteed.
               </div>
+              <div>
+                <div class="text-center" id="get-next-period-interface">
+                  <button class="period-button">
+                    GET NEXT PERIOD
+                  </button>
+                </div>
+              </div>
+              <div id="next-period-date-display" class="text-center">
+                ----
+              </div>
+
             </div>
           </div>
 
@@ -635,9 +646,9 @@
 
         <div class="row clearfix">
 
-          <div class="section-heading icon-block col-1" style="text-align: left;">
+          <div class="section-heading icon-block col-1 wow fadeIn" data-wow-delay="0.3s" style="text-align: left;">
             <h3>FEEDBACK</h3>
-            <h2>What our customers are saying</h2>
+            <h2>What Our Customers Are Saying</h2>
             <div class="text-content">
               We charish the testimonials of our customers. Below are some of the most recent happy customers.
               While we believe bad reviews of our product should ideally be shown as well, we have decided against it,
@@ -647,7 +658,7 @@
           </div>
 
           <!--User Testimonial-->
-          <blockquote class="col-3 icon-block testimonial classic">
+          <blockquote class="col-3 icon-block testimonial classic wow fadeIn" data-wow-delay="0.5s">
             <img src="images/users/user-1.png" alt="User" />
             <q>I think KucoCoin is the best token I have ever invested in. It will earn me a shitload of money.</q>
             <footer>Nates Kuco - Founder of KucoCoin</footer>
@@ -655,7 +666,7 @@
           <!-- End of Testimonial-->
 
           <!--User Testimonial-->
-          <blockquote class="col-3 testimonial classic">
+          <blockquote class="col-3 testimonial classic wow fadeIn" data-wow-delay="0.8s">
             <img src="images/users/user-1.png" alt="User" />
             <q>I lost all my savings on trading crypto. I was ready to accept my fate and end it all...
               but then I found KucoCoin and invested my family savings. I know I will become a millionaire soon,
@@ -665,7 +676,7 @@
           <!-- End of Testimonial-->
 
           <!--User Testimonial-->
-          <blockquote class="col-3 testimonial classic">
+          <blockquote class="col-3 testimonial classic wow fadeIn" data-wow-delay="1.2s">
             <img src="images/users/user-1.png" alt="User" />
             <q>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
               labore
@@ -674,7 +685,7 @@
           </blockquote>
           <!-- End of Testimonial-->
 
-          <div class="icon-block col-1" style="text-align: left;">
+          <div class="icon-block col-1 wow fadeIn" data-wow-delay="0.4s" style="text-align: left;">
             As you can see KucoCoin is 100% legit and has many happy customers. If you want to be one of them,
             <investment>invest now</investment><trading>buy now</trading>!
           </div>
@@ -809,6 +820,14 @@
     </div>
   </div>
   <div class="loader" id="report-period-interface-loader">
+    <div class="float-center lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="loader" id="get-next-period-interface-loader">
     <div class="float-center lds-ellipsis">
       <div></div>
       <div></div>

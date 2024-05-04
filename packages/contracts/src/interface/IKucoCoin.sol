@@ -55,6 +55,8 @@ interface IKucoCoin is IERC20 {
 
     function reportPeriod() external;
 
+    function nextPeriod() external view returns (uint64);
+
     function makeTransAction(address _to, uint256 _amount) external;
 
 }
