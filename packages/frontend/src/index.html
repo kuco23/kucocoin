@@ -28,6 +28,7 @@
     @import './css/kucomoon.scss';
     @import "./css/loaders.scss";
     @import "./css/coundtown.scss";
+    @import "./css/tooltip.scss";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -78,27 +79,27 @@
               <!--Social Icons in Header-->
               <ul class="social-icons">
                 <li>
-                  <a target="_blank" title="Twitter" href="http://www.twitter.com/username">
+                  <a class="tooltip fade" data-title="Twitter" href="http://www.twitter.com/username" target="_blank">
                     <i class="fa-brands fa-twitter"></i><span>Twitter</span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Github" href="https://github.com/kuco23/kucocoin">
+                  <a class="tooltip fade" data-title="Github" href="https://github.com/kuco23/kucocoin" target="_blank">
                     <i class="fa-brands fa-github"></i><span></span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Uniswap" href="">
+                  <a class="tooltip fade" data-title="Uniswap" href="" target="_blank">
                     <i class="fa fa-exchange"></i><span>Uniswap</span>
                   </a>
                 </li>
                 <li>
-                  <a target="_blank" title="Snowtrace" href="">
+                  <a class="tooltip fade" data-title="Snowtrace" href="" target="_blank">
                     <i class="fa-brands fa-ethereum"></i><span>Snowtrace</span>
                   </a>
                 </li>
                 <li>
-                  <a title="MetaMask connect" id="metamask-connect-header">
+                  <a class="tooltip fade" data-title="MetaMask" id="metamask-connect-header">
                     <i class="fa fa-wallet"></i><span>Wallet</span>
                   </a>
                 </li>
@@ -268,6 +269,7 @@
                 with liquidity of
                 <span class="underline"><span id="reserve-output-nat"></span> AVAX</span> and
                 <span class="underline"><span id="reserve-output-kuco"></span> KUCO</span>.
+                <investment>KucoCoin token unlocks after investment phase is over in</investment>
               </div>
 
               <trading>
@@ -279,9 +281,7 @@
               </trading>
 
               <investment>
-                <hr />
                 <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
-                  <h1>KucoCoin liquidity unlocks after investment phase when trading phase starts in</h1>
                   <div class="trade-countdown">
                     <div><span id="days"></span>days</div>
                     <div><span id="hours"></span>Hours</div>
@@ -352,8 +352,8 @@
                 We at KucoCoin firmly believe that everyone should be represented on the blockchain.
                 That is why we call our transactions <span class="underline">trans actions</span>. What does this mean?
                 Besides the usual <span class="code">transfer</span> method, our contract also fatures
-                a <span class="code">makeTransAction</span> method with the EXACT same functionality,
-                except that it additionally charges you 1 KUCO.
+                a <span class="code">makeTransAction</span> method with the EXACT same functionality
+                <trading>, except that it additionally charges you 1 KUCO</trading>.
                 Act now by choosing the amount of KUCO you wish to act with, then click the "Trans Act" text.
               </div>
               <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
@@ -383,7 +383,7 @@
                 We at KucoCoin have tracked the problem that was plaguing the blockchain space for years,
                 and have implemented a simple solution. Our token is the first token to feature a method
                 called <span class="code">reportPeriod</span>, that logs the start of your period.
-                All for a low price of 1 KUCO!
+                <trading>All for a low price of 1 KUCO!</trading>
                 Stop syncing with the moon and sync with the blockchain instead, by pressing the below button.
               </div>
               <div>
@@ -442,8 +442,8 @@
             <h4>1. Investing AVAX liquidity</h4>
             <div class="text-content">
               The liquidity pool <span class="code">LP</span> has an initial deposit of a billion KUCO tokens,
-              with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
               by providing AVAX as liquidity, which is then burned. <span class="underline">Investment is not refundable</span>,
+              with deposit's liquidity burned. Before KucoCoin can be traded, users can invest in the pool,
               though it can be retracted for 10% fee.
             </div>
           </div>
@@ -522,7 +522,9 @@
                 <h2>CLAIM KUCO</h2>
                 <form>
                   <input id="claim-submit" type="button" value="CLAIM" /><br />
-                  <input id="retract-submit" type="button" value="RETRACT" />
+                  <span id="retract-submit-container">
+                    <input id="retract-submit" type="button" value="RETRACT" />
+                  </span>
                 </form>
               </div>
             </div>
@@ -714,7 +716,7 @@
             </a>
           </li>
           <li>
-            <a title="MetaMask connect" id="metamask-connect-footer">
+            <a title="MetaMask" id="metamask-connect-footer">
               <i class="fa fa-wallet"></i><span>Wallet</span>
             </a>
           </li>

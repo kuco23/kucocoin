@@ -286,10 +286,10 @@ blockquote.ancient:after {
     color: #B8FB3C;
     text-shadow: 0 0 4px #B8FB3C, 0 0 15px white, 0 0 35px white;
   }
-  input:nth-child(1) {
+  #claim-submit {
     color: lightgreen;
   }
-  input:nth-child(3) {
+  #retract-submit {
     color: FireBrick;
   }
 }

@@ -34,8 +34,8 @@ export async function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export function getUnixNow(offset?: number): number {
-  return Math.floor(Date.now() / 1000) + (offset ?? 0)
+export function getMsUnixNow(offset?: number): number {
+  return Math.floor(Date.now()) + (offset ?? 0)
 }
 
 export function formatUnitsTruncate(amount: bigint, decimals: number, showDecimals: number): string {

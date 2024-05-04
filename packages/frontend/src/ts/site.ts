@@ -1,13 +1,16 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate } from './utils'
+import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves } from './contract'
 import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
 import { popup, loadingStart, loadingEnd } from './components/shared'
 import { displayDashboard } from './components/dashboard'
 import { NETWORK } from './config/network'
-import { DECIMALS, START_TRADING_TIME_UNIX_MS } from './config/token'
-import { MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION, PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS } from './config/display'
+import { DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
+import {
+  MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
+  PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
+} from './config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
@@ -43,7 +46,7 @@ function displayKucoStages(): void {
 }
 
 function displayPhaseBasedContent(): void {
-  getUnixNow() >= START_TRADING_TIME_UNIX_MS
+  getMsUnixNow() >= START_TRADING_TIME_UNIX_MS
     ? $('investment').hide() : $('trading').hide()
 }
 
@@ -159,7 +162,21 @@ function onClaimKucoCoin(): void {
 }
 
 function onRetractKucoCoin(): void {
+  function handleRetractEnd(): boolean {
+    const retractPhaseEnded = getMsUnixNow() >= END_RETRACT_PERIOD_UNIX_MS
+    if (retractPhaseEnded) {
+      $('#retract-submit-container')
+        .attr('data-title', 'Retract period ended')
+        .addClass('tooltip fade')
+      $('#retract-submit')
+        .off('click')
+        .css('cursor', 'not-allowed')
+    }
+    return retractPhaseEnded
+  }
+  if (handleRetractEnd()) return
   $('#retract-submit').on('click', async () => {
+    if (handleRetractEnd()) return
     try {
       loadingStart('claim-interface')
       await switchNetworkIfNecessary(ethereum!)
