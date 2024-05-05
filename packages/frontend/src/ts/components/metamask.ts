@@ -20,47 +20,48 @@ export function attachMetaMask(): void {
 }
 
 async function initialMetaMaskStatus(): Promise<void> {
-  if (ethereum === undefined) return
-  const chainId = await getChainId(ethereum)
-  if (chainId !== NETWORK.metamask.chainId) return
-  const accounts = await getAccounts(ethereum)
-  if (accounts.length === 0) return
-  vars.connectedAccount = accounts[0]
-  await markMetaMaskConnected()
+  if (ethereum !== undefined) {
+    const chainId = await getChainId(ethereum)
+    if (chainId === NETWORK.metamask.chainId) {
+      const accounts = await getAccounts(ethereum)
+      if (accounts?.length) {
+        vars.connectedAccount = accounts[0]
+      }
+    }
+  }
+  await updateMetaMaskConnectionStatus()
 }
 
 async function onRequestMetaMaskConnect(): Promise<void> {
   if (ethereum === undefined) {
     window.open('https://metamask.io/', '_blank')
-    return await markMetaMaskConnected()
+  } else {
+    if (await switchNetworkIfNecessary(ethereum)) {
+      if (vars.connectedAccount === undefined) {
+        const accounts = await requestAccounts(ethereum)
+        if (accounts?.length)
+          vars.connectedAccount = accounts[0]
+      }
+    }
   }
-  if (!await switchNetworkIfNecessary(ethereum))
-    return await markMetaMaskConnected()
-  if (vars.connectedAccount === undefined) {
-    const accounts = await requestAccounts(ethereum)
-    if (!accounts?.length)
-      return await markMetaMaskConnected()
-    vars.connectedAccount = accounts[0]
-  }
-  // execute on-metamask-connect changes
-  await markMetaMaskConnected()
+  await updateMetaMaskConnectionStatus()
   popup('Connected to Metamask', 'lime')
 }
 
 function onMetaMaskChange(): void {
-  ethereum?.on('accountsChanged', async (accounts) => {
+  if (ethereum === undefined) return
+  ethereum.on('accountsChanged', async (accounts) => {
     vars.connectedAccount = (accounts as string[])[0]
-    await markMetaMaskConnected()
+    await updateMetaMaskConnectionStatus()
   })
-  ethereum?.on('chainChanged', async chainId => {
+  ethereum.on('chainChanged', async chainId => {
     if (chainId !== NETWORK.metamask.chainId) {
       vars.connectedAccount = undefined
-      await markMetaMaskConnected()
     } else {
       const accounts = await getAccounts(ethereum!)
       vars.connectedAccount = accounts[0]
-      await markMetaMaskConnected()
     }
+    await updateMetaMaskConnectionStatus()
   })
 }
 
@@ -75,10 +76,9 @@ async function onMetaMaskAddKucoCoin(): Promise<void> {
   }
 }
 
-async function markMetaMaskConnected(): Promise<void> {
+async function updateMetaMaskConnectionStatus(): Promise<void> {
   const connected = vars.connectedAccount !== undefined
   $('#metamask-connect-header > i, #metamask-connect-footer > i')
     .css('color', connected ? '#00FF00' : 'firebrick')
   if (connected) await displayWallet(ethereum!)
-
 }
