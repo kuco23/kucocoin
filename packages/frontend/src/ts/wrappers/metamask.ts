@@ -1,5 +1,5 @@
-import { NETWORK } from './config/network'
-import { SYMBOL, DECIMALS } from './config/token'
+import { NETWORK } from '../config/network'
+import { SYMBOL, DECIMALS } from '../config/token'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 export async function getChainId(
@@ -12,7 +12,21 @@ export async function getChainId(
   return chainId! as string
 }
 
-export async function requestAccountsIfNecessary(
+export async function getAccounts(
+  ethereum: MetaMaskInpageProvider
+): Promise<string[]> {
+  try {
+    const accounts = await ethereum.request({
+      method: 'eth_accounts',
+      params: []
+    })
+    return accounts as string[]
+  } catch (err: any) {
+    return []
+  }
+}
+
+export async function requestAccounts(
   ethereum: MetaMaskInpageProvider
 ): Promise<string[]> {
   try {

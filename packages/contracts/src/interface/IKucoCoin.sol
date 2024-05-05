@@ -51,8 +51,6 @@ interface IKucoCoin is IERC20 {
 
     function burn(uint256 _amount) external;
 
-    function stage() external view returns (string memory);
-
     function reportPeriod() external;
 
     function nextPeriod() external view returns (uint64);

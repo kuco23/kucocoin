@@ -1,22 +1,20 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
 import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate } from './utils'
-import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './contract'
-import { requestAccountsIfNecessary, switchNetworkIfNecessary, addKucoCoinToken } from './metamask'
-import { popup, loadingStart, loadingEnd } from './components/shared'
-import { displayDashboard } from './components/dashboard'
+import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
+import { requestAccounts, switchNetworkIfNecessary } from './wrappers/metamask'
+import { popup, loadingStart, loadingEnd } from './components/utils'
+import { attachMetaMask } from './components/metamask'
 import { NETWORK } from './config/network'
 import { DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
+import { ethereum } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
 } from './config/display'
-import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
 declare const window: any
-const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
-
 let reserveNat: bigint, reserveKuco: bigint
 let nonunderlined: any[]
 
@@ -86,45 +84,6 @@ function attachScrollUnderlining(): void {
   }, UNDERLINE_CHECK_INTERVAL_MS)
 }
 
-function onConnectMetaMask(): void {
-  $('connected-to-metamask').hide()
-  const markMetaMaskStatus = (connected: boolean): void => {
-    $('#metamask-connect-header > i, #metamask-connect-footer > i')
-    .css('color', connected ? '#00FF00' : 'firebrick')
-  }
-  $('#metamask-connect-header, #metamask-connect-footer, #dashboard-connect-to-metamask',).on('click', async () => {
-    if (ethereum === undefined) {
-      window.open('https://metamask.io/', '_blank')
-      return markMetaMaskStatus(false)
-    }
-    const accounts = await requestAccountsIfNecessary(ethereum)
-    if (accounts.length === 0)
-      return markMetaMaskStatus(false)
-    const networkSwitched = await switchNetworkIfNecessary(ethereum)
-    if (!networkSwitched)
-      return markMetaMaskStatus(false)
-    // execute on-metamask-connect changes
-    markMetaMaskStatus(true)
-    popup('Connected to Metamask', 'lime')
-    await displayDashboard(ethereum)
-    $('connected-to-metamask').show()
-    $('connect-to-metamask').hide()
-  })
-}
-
-function onMetaMaskAddKucoCoin(): void {
-  $('#add-kucocoin-button').on('click', async () => {
-    try {
-      await switchNetworkIfNecessary(ethereum!)
-      await addKucoCoinToken(ethereum!)
-      popup("KucoCoin added to Metamask", 'lime')
-    } catch (err: any) {
-      popup("Failed to add KucoCoin to Metamask", 'firebrick')
-      console.log(err.message)
-    }
-  })
-}
-
 function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
@@ -132,7 +91,7 @@ function onInvestInKucoCoin(): void {
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
       await switchNetworkIfNecessary(ethereum!)
-      const accounts = await requestAccountsIfNecessary(ethereum!)
+      const accounts = await requestAccounts(ethereum!)
       await investInKucoCoin(ethereum!, amount, accounts[0])
       popup('Investment Successful', 'lime')
     } catch (err: any) {
@@ -149,7 +108,7 @@ function onClaimKucoCoin(): void {
     try {
       loadingStart('claim-interface')
       await switchNetworkIfNecessary(ethereum!)
-      const accounts = await requestAccountsIfNecessary(ethereum!)
+      const accounts = await requestAccounts(ethereum!)
       await claimKucoCoin(ethereum!, accounts[0])
       popup('Claim was successful', 'lime')
     } catch (err: any) {
@@ -180,7 +139,7 @@ function onRetractKucoCoin(): void {
     try {
       loadingStart('claim-interface')
       await switchNetworkIfNecessary(ethereum!)
-      const accounts = await requestAccountsIfNecessary(ethereum!)
+      const accounts = await requestAccounts(ethereum!)
       await retractKucoCoin(ethereum!, accounts[0])
       popup('Retract was successful', 'lime')
     } catch (err: any) {
@@ -267,8 +226,7 @@ $(async () => {
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()
-  onConnectMetaMask()
-  onMetaMaskAddKucoCoin()
+  attachMetaMask()
   onInvestInKucoCoin()
   onClaimKucoCoin()
   onRetractKucoCoin()
