@@ -19,7 +19,9 @@ let reserveNat: bigint, reserveKuco: bigint
 let nonunderlined: any[]
 
 function setLinks(): void {
+  $('a[data-title="Snowtrace"]').attr('href', NETWORK.snowtrace)
   $('a[title="Snowtrace"]').attr('href', NETWORK.snowtrace)
+  $('a[data-title="Uniswap"]').attr('href', NETWORK.uniswap)
   $('a[title="Uniswap"]').attr('href', NETWORK.uniswap)
   $('#buy-kucocoin').on('click', () => window.open(NETWORK.uniswap, '_blank'))
 }

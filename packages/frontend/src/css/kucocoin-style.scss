@@ -351,17 +351,6 @@ blockquote.ancient:after {
   }
 }
 
-/* investment and balance display */
-
-#kuco-balance-output, #kuco-invested-output {
-  color: gold;
-}
-
-.symbol {
-  color: FireBrick;
-  font-weight: bold;
-}
-
 /* KucoCoin price showcase */
 
 .buy-kucocoin-container {
@@ -388,5 +377,43 @@ blockquote.ancient:after {
     .gradient-button {
       font-size: 5vw;
     }
+  }
+}
+
+/* wallet */
+
+.wallet {
+  z-index: 9999;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: calc(100% - 40px);
+  padding: 10px;
+  color: black;
+  background-color: #ccc;
+
+  .symbol {
+    font-weight: bold;
+    color: FireBrick;
+  }
+
+  .balance {
+    color: green;
+  }
+
+  .field-name {
+    font-weight: bold;
+  }
+}
+
+#wallet {
+  display: none;
+}
+
+@media all and (max-width: 1024px) {
+  .wallet {
+    width: 100%;
+    left: 0;
+    bottom: 0;
   }
 }

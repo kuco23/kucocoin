@@ -1,7 +1,7 @@
 import { BrowserProvider, Contract, JsonRpcProvider } from "ethers"
 import { NETWORK } from "../config/network"
 import { ABI } from "../config/token"
-import { vars } from "../shared"
+import { globals } from "../shared"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike, JsonRpcApiProvider } from "ethers"
 import type { IKucoCoin } from "@kucocoin/contracts/types"
@@ -17,7 +17,7 @@ export async function investInKucoCoin(
   receiver: string,
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).invest(receiver, { value: amount })
 }
@@ -27,7 +27,7 @@ export async function claimKucoCoin(
   receiver: string
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).claim(receiver)
 }
@@ -37,7 +37,7 @@ export async function retractKucoCoin(
   receiver: string
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).retract(receiver)
 }
@@ -49,21 +49,21 @@ export async function buyKucoCoin(
   deadline: number
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).buy(minKuco, signer, deadline, { value: amount })
 }
 
 export async function makeTransAction(ethereum: MetaMaskInpageProvider, to: AddressLike, amount: bigint): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).makeTransAction(to, amount)
 }
 
 export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<void> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).reportPeriod()
 }
@@ -79,7 +79,7 @@ export async function getLiquidityReserves(): Promise<{ reserveKuco: bigint, res
 
 export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   const invested =await kucocoin.getInvestedNatOf(signer)
   return invested
@@ -87,7 +87,7 @@ export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<
 
 export async function getKucoCoinBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   return kucocoin.balanceOf(signer)
 }
@@ -95,6 +95,6 @@ export async function getKucoCoinBalance(ethereum: MetaMaskInpageProvider): Prom
 export async function getNextPeriod(ethereum: MetaMaskInpageProvider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const kucocoin = getKucoCoin(provider)
-  const signer = await provider.getSigner(vars.connectedAccount)
+  const signer = await provider.getSigner(globals.connectedAccount)
   return kucocoin.connect(signer).nextPeriod()
 }
