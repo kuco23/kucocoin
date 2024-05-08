@@ -1,11 +1,20 @@
 # Kuco Coin
 
+This is an implementation of a non-meme token on Avalanche. It has real world functionalities, like things and such, so it's definitely not a pyramid scheme. The code has also been audited by the author during implementation.
+
+## Thanks to
+- Avalanche for honestly being the best chain,
+- Uniswap for deploying their V2 on Avalanche,
+- People that developed [Namari](https://onepagelove.com/namari) for their free template hacked into KucoCoin frontend,
+- To this guy for the [spiral animation](https://jsfiddle.net/j08691/CKWrN/),
+- To this guy that updated [UniwapV2 for Solidity 0.8.4](https://github.com/islishude/uniswapv2-solc0.8).
+
 ## To do
-- [] Modal for wallet balance,
+- [ ] Modal for wallet balance,
 - [x] Button for period data fetching,
-- [] KucoCoin stage implementation and front-end integration,
-- [] KucoCoin burn front-end integration,
-- [] KucoCoin freeze implementation and front-end integration,
+- [ ] KucoCoin stage implementation and front-end integration,
+- [ ] KucoCoin burn front-end integration,
+- [ ] KucoCoin freeze implementation and front-end integration,
 - [x] disable retract button if it is overdue (and show a tooltip),
-- [] better error display,
-- [] get svg links for uniswap, metamask and avalanche.
+- [ ] better error display,
+- [ ] get svg links for uniswap, metamask and avalanche.
