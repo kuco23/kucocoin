@@ -43,19 +43,29 @@ async function onRequestMetaMaskConnect(): Promise<void> {
     if (await switchNetworkIfNecessary(ethereum)) {
       if (globals.connectedAccount === undefined) {
         const accounts = await requestAccounts(ethereum)
-        if (accounts?.length)
+        if (accounts?.length) {
           globals.connectedAccount = accounts[0]
+          popup('Connected to Metamask', 'lime')
+        }
+      } else {
+        popup('Already connected to Metamask', 'lime')
       }
+    } else {
+      popup('Failed to switch network to Avalanche', 'firebrick')
     }
   }
   await updateMetaMaskConnectionStatus()
-  popup('Connected to Metamask', 'lime')
 }
 
 function onMetaMaskChange(): void {
   if (ethereum === undefined) return
   ethereum.on('accountsChanged', async (accounts) => {
-    globals.connectedAccount = (accounts as string[])[0]
+    const chainId = await getChainId(ethereum!)
+    if (chainId === NETWORK.metamask.chainId) {
+      globals.connectedAccount = (accounts as string[])[0]
+    } else {
+      globals.connectedAccount = undefined
+    }
     await updateMetaMaskConnectionStatus()
   })
   ethereum.on('chainChanged', async chainId => {
@@ -71,9 +81,17 @@ function onMetaMaskChange(): void {
 
 async function onMetaMaskAddKucoCoin(): Promise<void> {
   try {
-    await switchNetworkIfNecessary(ethereum!)
-    await addKucoCoinToken(ethereum!)
-    popup("KucoCoin added to Metamask", 'lime')
+    const switched = await switchNetworkIfNecessary(ethereum!)
+    if (switched) {
+      const added = await addKucoCoinToken(ethereum!)
+      if (added) {
+        popup("KucoCoin added to Metamask", 'lime')
+      } else {
+        popup("Failed to add KucoCoin to Metamask", 'firebrick')
+      }
+    } else {
+      popup("Failed to switch network to Avalanche", 'firebrick')
+    }
   } catch (err: any) {
     popup("Failed to add KucoCoin to Metamask", 'firebrick')
     console.log(err.message)

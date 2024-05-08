@@ -12,9 +12,11 @@ export async function displayWallet(ethereum: MetaMaskInpageProvider): Promise<v
     globals.walletDisplayed = false
   } else {
     $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
-    await displayBalance(ethereum)
-    await displayInvested(ethereum)
     displayConnectedAccount()
+    await Promise.all([
+      displayBalance(ethereum),
+      displayInvested(ethereum)
+    ])
     globals.walletDisplayed = true
   }
 }
