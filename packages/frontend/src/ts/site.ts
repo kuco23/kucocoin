@@ -6,7 +6,7 @@ import { requestAccounts, switchNetworkIfNecessary } from './wrappers/metamask'
 import { popup, loadingStart, loadingEnd } from './components/utils'
 import { attachMetaMask } from './components/metamask'
 import { NETWORK } from './config/network'
-import { DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
+import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
 import { ethereum } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
@@ -159,7 +159,7 @@ function onMakeTransAction(): void {
       loadingStart('trans-action-interface')
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
-      const amount = parseUnits(amountInput, DECIMALS)
+      const amount = parseUnits(amountInput, KUCOCOIN_DECIMALS)
       await switchNetworkIfNecessary(ethereum!)
       await makeTransAction(ethereum!, to, amount)
       popup('Trans Action Successful', 'lime')
@@ -215,7 +215,7 @@ async function priceUpdater(): Promise<void> {
       loadingEnd('price-interface')
       $('#price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
       $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
-      $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
+      $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
       console.log(err.message)
       loadingEnd('price-interface')

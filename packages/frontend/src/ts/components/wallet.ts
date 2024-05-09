@@ -12,12 +12,20 @@ export async function displayWallet(ethereum: MetaMaskInpageProvider): Promise<v
     globals.walletDisplayed = false
   } else {
     $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
+    await refreshWallet(ethereum)
+    globals.walletDisplayed = true
+  }
+}
+
+export async function refreshWallet(ethereum: MetaMaskInpageProvider): Promise<void> {
+  if (globals.connectedAccount === undefined) {
+    $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
+  } else {
     displayConnectedAccount()
     await Promise.all([
       displayBalance(ethereum),
       displayInvested(ethereum)
     ])
-    globals.walletDisplayed = true
   }
 }
 
@@ -40,5 +48,5 @@ async function displayBalance(ethereum: MetaMaskInpageProvider): Promise<void> {
 }
 
 function displayConnectedAccount(): void {
-  $('#connected-account-output').text(globals.connectedAccount!)
+  $('#connected-account-output').text(globals.connectedAccount!.substring(0,10) + '...')
 }

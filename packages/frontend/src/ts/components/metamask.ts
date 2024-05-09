@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { addKucoCoinToken, requestAccounts, switchNetworkIfNecessary, getAccounts, getChainId } from '../wrappers/metamask'
 import { popup } from './utils'
 import { ethereum, globals } from '../shared'
-import { displayWallet } from './wallet'
+import { displayWallet, refreshWallet } from './wallet'
 import { NETWORK } from '../config/network'
 
 
@@ -54,6 +54,7 @@ async function onRequestMetaMaskConnect(): Promise<void> {
       popup('Failed to switch network to Avalanche', 'firebrick')
     }
   }
+  await refreshWallet(ethereum!)
   await updateMetaMaskConnectionStatus()
 }
 
@@ -66,6 +67,7 @@ function onMetaMaskChange(): void {
     } else {
       globals.connectedAccount = undefined
     }
+    await refreshWallet(ethereum!)
     await updateMetaMaskConnectionStatus()
   })
   ethereum.on('chainChanged', async chainId => {
@@ -75,6 +77,7 @@ function onMetaMaskChange(): void {
       const accounts = await getAccounts(ethereum!)
       globals.connectedAccount = accounts[0]
     }
+    await refreshWallet(ethereum!)
     await updateMetaMaskConnectionStatus()
   })
 }

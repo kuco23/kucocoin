@@ -1,5 +1,5 @@
 import { NETWORK } from '../config/network'
-import { SYMBOL, DECIMALS } from '../config/token'
+import { KUCOCOIN_SYMBOL, KUCOCOIN_DECIMALS, KUCOCOIN_LOGO_URL } from '../config/token'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 export async function getChainId(
@@ -78,9 +78,9 @@ export async function addKucoCoinToken(
         type: 'ERC20',
         options: {
           address: NETWORK.kucocoin,
-          symbol: SYMBOL,
-          decimals: DECIMALS,
-          // image: tokenImage, // A string url of the token logo
+          symbol: KUCOCOIN_SYMBOL,
+          decimals: KUCOCOIN_DECIMALS,
+          image: KUCOCOIN_LOGO_URL
         }
       }
     }) as boolean

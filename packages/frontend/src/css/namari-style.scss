@@ -86,7 +86,7 @@ figure {
 
 .page-border {
     position: fixed;
-    z-index: 999999;
+    z-index: 99999;
     pointer-events: none;
 }
 
@@ -937,7 +937,7 @@ h6 {
 #slvj-window {
     width: 100%;
     min-height: 100%;
-    z-index: 9999999999;
+    z-index: 99999;
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
     top: 0;

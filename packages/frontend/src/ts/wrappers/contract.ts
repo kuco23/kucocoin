@@ -1,6 +1,6 @@
 import { BrowserProvider, Contract, JsonRpcProvider } from "ethers"
 import { NETWORK } from "../config/network"
-import { ABI } from "../config/token"
+import { KUCOCOIN_ABI } from "../config/token"
 import { globals } from "../shared"
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 import type { AddressLike, JsonRpcApiProvider } from "ethers"
@@ -8,7 +8,7 @@ import type { IKucoCoin } from "@kucocoin/contracts/types"
 
 
 function getKucoCoin(provider: JsonRpcApiProvider): IKucoCoin {
-  return new Contract(NETWORK.kucocoin, ABI, provider) as unknown as IKucoCoin
+  return new Contract(NETWORK.kucocoin, KUCOCOIN_ABI, provider) as unknown as IKucoCoin
 }
 
 export async function investInKucoCoin(

@@ -157,16 +157,32 @@
     <main id="content">
 
       <div class="wallet" id="wallet">
-        <span class="field-name">Account:</span>
-        <span class="account" id="connected-account-output"></span>
-        <br />
-        <span class="field-name">Invested:</span>
-        <span class="balance" id="kuco-invested-output"></span>
-        <span class="symbol">AVAX</span>
-        <br />
-        <span class="field-name">Balance:</span>
-        <span class="balance" id="kuco-balance-output"></span>
-        <span class="symbol">KUCO</span>
+        <div class="wallet-data-wrapper">
+          <div class="col-3 text-center">
+            <div class="wallet-entry">
+              <div class="label">Balance</div>
+              <div class="entry">
+                <span id="kuco-balance-output"></span>
+                <span>KUCO</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 text-center">
+            <div class="wallet-entry">
+              <div class="label">Invested</div>
+              <div class="entry">
+                <span id="kuco-invested-output"></span>
+                <span>AVAX</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 text-center">
+            <div class="wallet-entry">
+              <div class="label">Connected address</div>
+              <div id="connected-account-output" class="entry">0x</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!--Start About section-->
@@ -263,12 +279,6 @@
         </div>
 
         <div class="row row-tight clearfix">
-
-          <!-- <trading>
-            <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
-
-            </div>
-          </trading> -->
 
           <div class="col-1 text-center wow fadeIn" data-wow-delay="0.5s">
             <div class="buy-kucocoin-container">

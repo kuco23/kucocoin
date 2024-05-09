@@ -1,8 +1,9 @@
 import { abi } from '@kucocoin/contracts/artifacts/src/interface/IKucoCoin.sol/IKucoCoin.json' // hardcode when done testing
 
-export const SYMBOL = "KUCO"
-export const DECIMALS = 18
-export const ABI = abi
+export const KUCOCOIN_SYMBOL = "KUCO"
+export const KUCOCOIN_DECIMALS = 18
+export const KUCOCOIN_LOGO_URL = 'https://github.com/kuco23/kucocoin/blob/monorepo/logo.png'
+export const KUCOCOIN_ABI = abi
 
 // change this if necessary
 export const START_TRADING_TIME_UNIX = 1722099696
