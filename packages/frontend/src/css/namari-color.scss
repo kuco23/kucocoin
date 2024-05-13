@@ -62,12 +62,12 @@
 
 #header.nav-solid nav a:hover {
   background: #ccc;
-  color: #0591AF;
+  color: $header-hover-color;
 }
 
 #nav-mobile ul li a:hover {
   background: #ccc;
-  color: #0591AF;
+  color: $header-hover-color;
 }
 
 
@@ -78,8 +78,8 @@
 }
 
 #header.nav-solid .active {
-  color: #0591AF;
-  border-color: #0591AF!important;
+  color: $header-hover-color;
+  border-color: $header-hover-color!important;
 }
 
 /*------------------------------------------------------------------------------------------*/
