@@ -103,6 +103,8 @@ async function onMetaMaskAddKucoCoin(): Promise<void> {
 
 async function updateMetaMaskConnectionStatus(): Promise<void> {
   const connected = globals.connectedAccount !== undefined
-  $('#metamask-connect-header > i, #metamask-connect-footer > i')
-    .css('color', connected ? '#00FF00' : 'firebrick')
+  $('span.icon-metamask').css({
+    'box-shadow': '0px 0px 20px 5px ' + (connected ? '#00FF00' : 'firebrick'),
+    'background-color': connected ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)'
+  })
 }
