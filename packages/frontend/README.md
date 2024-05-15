@@ -8,9 +8,7 @@ Icon library was generated with [icomoon](https://icomoon.io/), see the [stackov
 
 ## Testing
 
-You can test the frontend on a local avalanche fork. The fork comes with a funded acount with private key `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, which will be refered to as `PRIVATE_KEY` in the following steps.
-
-To test the frontend on forked avalanche, follow below steps:
+You can test the frontend on a locally run avalanche fork, which comes with a funded account specified by the private key `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, which we'll refer to as `PRIVATE_KEY` in the following steps.
 
 1. Setup the `contracts` workspace and:
     - open `.env` and fill in `SIGNER_PRIVATE_KEY=<PRIVATE_KEY>`.
@@ -27,4 +25,5 @@ To test the frontend on forked avalanche, follow below steps:
 To configure investment and retract periods, you have to also navigate to `src/ts/config/token.ts` and update `START_TRADING_TIME_UNIX` and `END_RETRACT_PERIOD_UNIX` to the values obtained by running
 - `yarn cli get tradingPhaseStart -n avalanchefork`,
 - `yarn cli get retractPhaseEnd -n avalanchefork`,
+
 inside `contracts` workspace.
