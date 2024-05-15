@@ -1,19 +1,30 @@
-# KucoCoin Front End
+# KucoCoin Frontend
 
 This workspace contains the frontend for KucoCoin.
 
-# Icons
+## Icons
 
 Icon library was generated with [icomoon](https://icomoon.io/), see the [stackoverflow answer](https://stackoverflow.com/a/41288167/8456253).
 
 ## Testing
 
-To test the frontend locally, follow below steps:
+You can test the frontend on a local avalanche fork. The fork comes with a funded acount with private key `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, which will be refered to as `PRIVATE_KEY` in the following steps.
 
-1. In contracts workspace:
-    - Run `yarn fork-avalanche`,
-    - Run `yarn kucocoin-deploy`,
-    - Run `yarn kucocoin-init`.
-2. In frontend workspace:
-    - Navigate to `src/ts/config/token.ts` and update `ADDRESS` to the one displayed after completing step `2`,
-    - Run `yarn serve`.
+To test the frontend on forked avalanche, follow below steps:
+
+1. Setup the `contracts` workspace and:
+    - open `.env` and fill in `SIGNER_PRIVATE_KEY=<PRIVATE_KEY>`.
+    - run `yarn fork-avalanche`,
+    - run `yarn kucocoin-deploy -n avalanchefork`,
+    - run `yarn kucocoin-init -n avalanchefork`.
+
+1. Set up Metamask and import the `PRIVATE_KEY`. You may need to delete metamask nonce cache to avoid some future errors.
+1. In frontend workspace:
+    - navigate to `src/ts/config/network.ts` and update `NETWORK` to `avalanchefork`,
+    - navigate to `src/ts/config/token.ts` and update `ADDRESS` to the one displayed after deploying `kucocoin` in step 1,
+    - run `yarn serve`.
+
+To configure investment and retract periods, you have to also navigate to `src/ts/config/token.ts` and update `START_TRADING_TIME_UNIX` and `END_RETRACT_PERIOD_UNIX` to the values obtained by running
+- `yarn cli get tradingPhaseStart -n avalanchefork`,
+- `yarn cli get retractPhaseEnd -n avalanchefork`,
+inside `contracts` workspace.

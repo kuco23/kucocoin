@@ -12,7 +12,7 @@ let info: NetworkInfo
 
 const program = new Command("KucoCoin CLI")
 program
-  .option("-n, --network <coston|flare|costonfork|flarefork>", "network to use", "fuji")
+  .option("-n, --network <avalanche|fuji|avalanchefork>", "network to use", "fuji")
   .option("-e, --env-file <env>", "env file to use", ".env")
   .hook("preAction", (cmd: Command) => {
     const options = cmd.opts()
