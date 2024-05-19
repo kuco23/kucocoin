@@ -3,7 +3,7 @@ import { parseUnits, parseEther, formatUnits } from 'ethers'
 import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
 import { requestAccounts, switchNetworkIfNecessary } from './wrappers/metamask'
-import { popup, loadingStart, loadingEnd } from './components/utils'
+import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
 import { attachMetaMask } from './components/metamask'
 import { NETWORK } from './config/network'
 import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
@@ -95,9 +95,9 @@ function onInvestInKucoCoin(): void {
       await switchNetworkIfNecessary(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await investInKucoCoin(ethereum!, amount, accounts[0])
-      popup('Investment Successful', 'lime')
+      popupSuccess('Investment Successful')
     } catch (err: any) {
-      popup('Investment Failed', 'firebrick')
+      popupError(`Investment Failed with: ${err.message}`)
       console.log(err.message)
     } finally {
       loadingEnd('invest-interface')
@@ -112,9 +112,9 @@ function onClaimKucoCoin(): void {
       await switchNetworkIfNecessary(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await claimKucoCoin(ethereum!, accounts[0])
-      popup('Claim was successful', 'lime')
+      popupSuccess('Claim was successful')
     } catch (err: any) {
-      popup('Claim failed', 'firebrick')
+      popupError(`Claim failed with: ${err.message}`)
       console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
@@ -143,9 +143,9 @@ function onRetractKucoCoin(): void {
       await switchNetworkIfNecessary(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await retractKucoCoin(ethereum!, accounts[0])
-      popup('Retract was successful', 'lime')
+      popupSuccess('Retract was successful')
     } catch (err: any) {
-      popup('Retract failed', 'firebrick')
+      popupError(`Retract failed with: ${err.message}`)
       console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
@@ -162,9 +162,9 @@ function onMakeTransAction(): void {
       const amount = parseUnits(amountInput, KUCOCOIN_DECIMALS)
       await switchNetworkIfNecessary(ethereum!)
       await makeTransAction(ethereum!, to, amount)
-      popup('Trans Action Successful', 'lime')
+      popupSuccess('Trans Action Successful')
     } catch (err: any) {
-      popup('Trans Action Failed', 'firebrick')
+      popupError(`Trans Action Failed with: ${err.message}`)
       console.log(err)
     } finally {
       loadingEnd('trans-action-interface')
@@ -178,9 +178,9 @@ function onReportPeriod(): void {
       loadingStart('report-period-interface')
       await switchNetworkIfNecessary(ethereum!)
       await reportPeriod(ethereum!)
-      popup('Period Successfully Reported', 'lime')
+      popupSuccess('Period Successfully Reported')
     } catch (err: any) {
-      popup('Period Report Failed', 'firebrick')
+      popupError(`Period Report Failed with: ${err.message}`)
       console.log(err.message)
     } finally {
       loadingEnd('report-period-interface')
@@ -198,7 +198,7 @@ function onGetNextPeriod(): void {
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
       $('#next-period-date-display').fadeIn().text(nextPeriod)
     } catch (err: any) {
-      popup('Failed to get next period', 'firebrick')
+      popupError(`Failed with: ${err.message}`)
       console.log(err.message)
     } finally {
       loadingEnd('get-next-period-interface')
@@ -237,4 +237,8 @@ $(async () => {
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
   await priceUpdater()
+
+  $('#windows95-error button').on('click', () => {
+    $('#windows95-error').hide()
+  })
 })

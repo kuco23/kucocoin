@@ -1,0 +1,214 @@
+// color palette
+$dr: #800b00;
+$r: #fa2000;
+$t: #188080;
+$b: #120180;
+$bk: #000000;
+$dg: #808080;
+$mg: #c0c0c0;
+$lg: #dfdfdf;
+$w: #ffffff;
+
+@font-face {
+	font-family: "MS Sans Serif";
+	src: url('../fonts/ms-sans-serif/ms_sans_serif.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap
+}
+@font-face {
+	font-family: "MS Sans Serif";
+	src: url('../fonts/ms-sans-serif/ms_sans_serif_b.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap
+}
+
+#windows95-error {
+	font: 12px/18px "MS Sans Serif", Helvetica, sans-serif;
+	color:$bk;
+	display: none;
+	position: fixed;
+  max-width: 90%;
+}
+
+.window {
+	background-color: $mg;
+	box-shadow: -1px -1px 0 $bk inset, 1px 1px 0 $lg inset, -2px -2px 0 $dg inset, 2px 2px 0 $w inset;
+	display: flex;
+	flex-direction: column;
+	padding: 3px;
+	min-height: 119px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	&__sprite {
+		display: block;
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		width: 1px;
+		height: 1px;
+		&--close {
+			box-shadow: 5px 4px $bk,
+        6px 4px $bk,
+        6px 5px $bk,
+        7px 5px $bk,
+        7px 6px $bk,
+        8px 6px $bk,
+        9px 6px $bk,
+        10px 6px $bk,
+        10px 5px $bk,
+        11px 5px $bk,
+        11px 4px $bk,
+        12px 4px $bk,
+        8px 7px $bk,
+        9px 7px $bk,
+        7px 8px $bk,
+        8px 8px $bk,
+        9px 8px $bk,
+        10px 8px $bk,
+        6px 9px $bk,
+        7px 9px $bk,
+        11px 9px $bk,
+        10px 9px $bk,
+        5px 10px $bk,
+        6px 10px $bk,
+        12px 10px $bk,
+        11px 10px $bk;
+		}
+		&--close-disabled {
+			box-shadow: 5px 4px $dg,
+      6px 4px $dg,
+      6px 5px $dg,
+      7px 5px $dg,
+      7px 6px $dg,
+      8px 6px $dg,
+      9px 6px $dg,
+      10px 6px $dg,
+      10px 5px $dg,
+      11px 5px $dg,
+      11px 4px $dg,
+      12px 4px $dg,
+      8px 7px $dg,
+      9px 7px $dg,
+      7px 8px $dg,
+      8px 8px $dg,
+      9px 8px $dg,
+      10px 8px $dg,
+      6px 9px $dg,
+      7px 9px $dg,
+      11px 9px $dg,
+      10px 9px $dg,
+      5px 10px $dg,
+      6px 10px $dg,
+      12px 10px $dg,
+      11px 10px $dg,
+      12px 5px $w,
+      13px 5px $w,
+      11px 6px $w,
+      12px 6px $w,
+      10px 7px $w,
+      11px 7px $w,
+      8px 9px $w,
+      9px 9px $w,
+      7px 10px $w,
+      8px 10px $w,
+      6px 11px $w,
+      7px 11px $w,
+      12px 11px $w,
+      13px 11px $w;
+		}
+	}
+	&__button {
+		background-color: $mg;
+		border-radius: 0;
+		box-shadow: 1px 1px 0 $w inset, -1px -1px 0 $dg inset, 2px 2px 0 $lg inset, 1px 0 0 $bk, 0 1px 0 $bk, 1px 1px 0 $bk;
+		letter-spacing: 1px;
+		outline: 0;
+		position: relative;
+		min-width: 15px;
+		height: 13px;
+		-webkit-appearance: none;
+		appearance: none;
+		-webkit-tap-highlight-color: transparent;
+		&:not(:disabled):active {
+			box-shadow: 1px 1px 0 $bk inset, -1px -1px 0 $mg inset, 2px 2px 0 $dg inset, 1px 0 0 $w, 0 1px 0 $w, 1px 1px 0 $w;
+			padding: 1px 0 0 1px;
+		}
+		&--lg {
+			box-shadow: -1px -1px 0 $bk inset, 1px 1px 0 $w inset, -2px -2px 0 $dg inset;
+			padding: 1px 0 0 1px;
+			min-width: 75px;
+			height: 23px;
+			&:not(:disabled):active {
+				box-shadow: 0 0 0 1px $bk inset, 0 0 0 2px $dg inset;
+				padding: 3px 0 0 3px;
+			}
+		}
+	}
+	&__button:not(:disabled):active &__sprite {
+		transform: translate(1px,1px)
+	}
+	&__header,
+	&__footer {
+		display: flex
+	}
+	&__header {
+		background-color: $dg;
+		color: $mg;
+		justify-content: space-between;
+		padding: 2px 3px;
+		width: 100%;
+		height: 18px;
+	}
+	&--active &__header {
+		background-color: $b;
+		color: $w;
+	}
+	&--active &__button--lg {
+		box-shadow: 0 0 0 1px $bk inset, -2px -2px 0 $bk inset, 2px 2px 0 $w inset, -3px -3px 0 $dg inset, 3px 3px 0 $lg inset;
+		&:before {
+			background: linear-gradient(90deg,transparent 50%,$bk 50%) (0 0) / (2px 1px) repeat-x,
+        linear-gradient(90deg,transparent 50%,$bk 50%) (0 100%) / (2px 1px) repeat-x,
+        linear-gradient(transparent 50%,$bk 50%) (0 0) / (1px 2px) repeat-y,
+        linear-gradient(transparent 50%,$bk 50%) (100% 0) / (1px 2px) repeat-y;
+			content: "";
+			display: block;
+			position: absolute;
+			inset: 4px;
+		}
+	}
+	&__header &__button {
+		margin-left: 10px;
+	}
+	&__body {
+		flex: 1;
+		padding: 12px 11px 11px 11px;
+		&-icon {
+			display: block;
+			flex-shrink: 0;
+			margin-right: 16px;
+			width: 32px;
+			height: 32px;
+		}
+		&-text {
+      flex-shrink: 1;
+			padding: 8px 0;
+		}
+	}
+	&__footer {
+		justify-content: center;
+		padding: 0 11px 12px 11px;
+	}
+	&__title {
+		font-weight: bold;
+		line-height: 1;
+		transform: translate(0,-1px)
+	}
+	&__sr {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+	}
+}

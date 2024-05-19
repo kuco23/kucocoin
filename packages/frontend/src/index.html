@@ -26,11 +26,11 @@
     @import './css/gradient-button.scss';
     @import './css/hypnotize.scss';
     @import './css/kucomoon.scss';
-    @import "./css/loaders.scss";
+    @import "./css/icomoon.scss";
     @import "./css/coundtown.scss";
     @import "./css/tooltip.scss";
-    @import "./css/icomoon.scss";
-
+    @import "./css/loaders.scss";
+    @import "./css/windows95-popup.scss";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -677,7 +677,7 @@
 
           <!--User Testimonial-->
           <blockquote class="col-3 icon-block testimonial classic wow rollIn" data-wow-delay="0.5s">
-            <img src="images/users/user-1.png" alt="User" />
+            <img src="images/misc/smiley.png" alt="User" />
             <q>I think KucoCoin is the best token I have ever invested in. It will earn me a shitload of money.</q>
             <footer>Nates Kuco - Founder of KucoCoin</footer>
           </blockquote>
@@ -685,7 +685,7 @@
 
           <!--User Testimonial-->
           <blockquote class="col-3 testimonial classic wow lightSpeedIn" data-wow-delay="0.8s">
-            <img src="images/users/user-1.png" alt="User" />
+            <img src="images/misc/smiley.png" alt="User" />
             <q>I lost all my money investing in KucoCoin, but KucoCoin team assured me it was my fault.</q>
             <footer>Thomas K. - Happy Customer</footer>
           </blockquote>
@@ -693,7 +693,7 @@
 
           <!--User Testimonial-->
           <blockquote class="col-3 testimonial classic wow zoomIn" data-wow-delay="1.2s">
-            <img src="images/users/user-1.png" alt="User" />
+            <img src="images/misc/smiley.png" alt="User" />
             <q>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</q>
             <footer>Thomas L. - Happy Customer</footer>
           </blockquote>
@@ -823,7 +823,29 @@
   <!--End of KucoCoin Stages-->
 
   <!--Start reusable elts-->
+  <!--Success popup-->
   <div class="popup" id="popup"></div>
+  <!--Error popup-->
+  <div id="windows95-error" class="float-center">
+    <div class="window window--active" role="alertdialog" aria-modal="true" aria-labelledby="error-label-0" aria-describedby="error-desc-0" data-window>
+      <div class="window__header" data-header>
+        <div id="error-label-0" class="window__title" data-label>Error</div>
+        <button class="window__button" type="button">
+          <span class="window__sprite window__sprite--close-disabled"></span>
+          <span class="window__sr"></span>
+        </button>
+      </div>
+      <div class="window__body">
+        <img class="window__body-icon" alt="X" src="./images/misc/win95_error_icon.webp" width="32" height="32">
+        <p id="error-desc-0" class="window__body-text">
+          Error happened
+        </p>
+      </div>
+      <div class="window__footer">
+        <button class="window__button window__button--lg" type="button" data-ok>OK</button>
+      </div>
+    </div>
+  </div>
   <!--define seperate loader for each place where it will be shwon-->
   <div class="loader" id="trans-action-interface-loader">
     <div class="float-center lds-ellipsis">

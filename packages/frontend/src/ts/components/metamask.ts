@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { addKucoCoinToken, requestAccounts, switchNetworkIfNecessary, getAccounts, getChainId } from '../wrappers/metamask'
-import { popup } from './utils'
+import { popupSuccess, popupError } from './utils'
 import { ethereum, globals } from '../shared'
 import { displayWallet, refreshWallet } from './wallet'
 import { NETWORK } from '../config/network'
@@ -45,13 +45,13 @@ async function onRequestMetaMaskConnect(): Promise<void> {
         const accounts = await requestAccounts(ethereum)
         if (accounts?.length) {
           globals.connectedAccount = accounts[0]
-          popup('Connected to Metamask', 'lime')
+          popupSuccess('Connected to Metamask')
         }
       } else {
-        popup('Already connected to Metamask', 'lime')
+        popupSuccess('Already connected to Metamask')
       }
     } else {
-      popup('Failed to switch network to Avalanche', 'firebrick')
+      popupError('Failed to switch network to Avalanche')
     }
   }
   await refreshWallet(ethereum!)
@@ -88,15 +88,15 @@ async function onMetaMaskAddKucoCoin(): Promise<void> {
     if (switched) {
       const added = await addKucoCoinToken(ethereum!)
       if (added) {
-        popup("KucoCoin added to Metamask", 'lime')
+        popupSuccess("KucoCoin added to Metamask")
       } else {
-        popup("Failed to add KucoCoin to Metamask", 'firebrick')
+        popupError("Failed to add KucoCoin to Metamask")
       }
     } else {
-      popup("Failed to switch network to Avalanche", 'firebrick')
+      popupError("Failed to switch network to Avalanche")
     }
   } catch (err: any) {
-    popup("Failed to add KucoCoin to Metamask", 'firebrick')
+    popupError("Failed to add KucoCoin to Metamask")
     console.log(err.message)
   }
 }
