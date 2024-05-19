@@ -43,7 +43,6 @@ export async function requestAccounts(
 export async function switchNetworkIfNecessary(
   ethereum: MetaMaskInpageProvider
 ): Promise<boolean> {
-
   if (await getChainId(ethereum) !== NETWORK.metamask.chainId) {
     try {
       await ethereum.request({
@@ -66,6 +65,12 @@ export async function switchNetworkIfNecessary(
     }
   }
   return true
+}
+
+export async function requireMetamaskNetwork(ethereum: MetaMaskInpageProvider): Promise<void> {
+  if (!await switchNetworkIfNecessary(ethereum)) {
+    throw new Error('Failed to switch network to Avalanche')
+  }
 }
 
 export async function addKucoCoinToken(

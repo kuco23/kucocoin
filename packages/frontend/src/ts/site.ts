@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
 import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
-import { requestAccounts, switchNetworkIfNecessary } from './wrappers/metamask'
+import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
 import { attachMetaMask } from './components/metamask'
 import { NETWORK } from './config/network'
@@ -92,7 +92,7 @@ function onInvestInKucoCoin(): void {
       loadingStart('invest-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await investInKucoCoin(ethereum!, amount, accounts[0])
       popupSuccess('Investment Successful')
@@ -109,7 +109,7 @@ function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
       loadingStart('claim-interface')
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await claimKucoCoin(ethereum!, accounts[0])
       popupSuccess('Claim was successful')
@@ -140,7 +140,7 @@ function onRetractKucoCoin(): void {
     if (handleRetractEnd()) return
     try {
       loadingStart('claim-interface')
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await retractKucoCoin(ethereum!, accounts[0])
       popupSuccess('Retract was successful')
@@ -160,7 +160,7 @@ function onMakeTransAction(): void {
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
       const amount = parseUnits(amountInput, KUCOCOIN_DECIMALS)
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       await makeTransAction(ethereum!, to, amount)
       popupSuccess('Trans Action Successful')
     } catch (err: any) {
@@ -176,7 +176,7 @@ function onReportPeriod(): void {
   $('#report-period-interface').on('click', async () => {
     try {
       loadingStart('report-period-interface')
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       await reportPeriod(ethereum!)
       popupSuccess('Period Successfully Reported')
     } catch (err: any) {
@@ -193,7 +193,7 @@ function onGetNextPeriod(): void {
   $('#get-next-period-interface').on('click', async () => {
     try {
       loadingStart('get-next-period-interface')
-      await switchNetworkIfNecessary(ethereum!)
+      await requireMetamaskNetwork(ethereum!)
       const nextPeriodUnix = await getNextPeriod(ethereum!)
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
       $('#next-period-date-display').fadeIn().text(nextPeriod)
