@@ -11,7 +11,7 @@ export function popupSuccess(text: string): void {
 
 export function popupError(text: string): void {
   $('#error-desc-0').text(text)
-  $('#windows95-error').show(POPUP_FADE_IN_MS)
+  $('#windows95-error').show(0)
 }
 
 export function loadingStart(replaceDivId: string) {
