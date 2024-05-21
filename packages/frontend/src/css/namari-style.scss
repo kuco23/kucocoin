@@ -435,10 +435,6 @@ section {
     transition: all 0.3s ease-out;
 }
 
-#header.nav-solid nav a:hover {
-    opacity: 1;
-}
-
 /* Social Elements when Solid*/
 
 #header.nav-solid .social-icons a {
@@ -446,7 +442,7 @@ section {
     -moz-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    opacity: 0.5;
+    color: #666;
 }
 
 #header.nav-solid .social-icons a:hover {
@@ -586,6 +582,7 @@ nav#nav-mobile a:hover {
     display: inline-block;
     width: 32px;
     text-align: center;
+    color: #999;
 }
 
 .social-icons a:hover {
