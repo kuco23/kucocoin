@@ -5,20 +5,12 @@
   text-align: center;
 }
 
-.trade-countdown-container h1 {
-  color: $countdown-title-color;
-  font-family: $countdown-title-font-family;
-  font-weight: normal;
-  letter-spacing: .125em;
-  font-size: 30px;
-}
-
 .trade-countdown div {
+  margin-top: 35px;
   display: inline-block;
   font-family: $countdown-font-family;
   font-size: 40px;
   color: $countdown-time-unit-color;
-  list-style-type: none;
   padding: 0em .7em;
   span {
     display: block;
@@ -30,13 +22,17 @@
 @media only screen and (max-width: 479px) {
   .trade-countdown {
     > div {
+      margin-top: 15px;
       display: block;
-      margin-top: 10px;
     }
     div {
-      font-size: 50px;
+      font-size: 1em;
       span {
-        font-size: 80px;
+        display: inline-block;
+        font-size: 1.5em;
+      }
+      span:after {
+        content: '\00a0'
       }
     }
   }
