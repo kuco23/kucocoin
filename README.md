@@ -11,10 +11,11 @@ This is an implementation of a non-meme token on Avalanche. It has real world fu
 - To this guy that updated [UniwapV2 for Solidity 0.8.4](https://github.com/islishude/uniswapv2-solc0.8).
 
 ## To do
-- [ ] Modal for wallet balance,
+- [x] Modal for wallet balance,
 - [x] Button for period data fetching,
 - [ ] KucoCoin burn front-end integration,
 - [ ] KucoCoin freeze implementation and front-end integration,
 - [x] disable retract button if it is overdue (and show a tooltip),
-- [ ] better error display,
-- [ ] get svg links for uniswap, metamask and avalanche.
+- [x] better error display,
+- [ ] format error display,
+- [x] get svg links for uniswap, metamask and avalanche.
