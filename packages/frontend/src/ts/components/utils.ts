@@ -9,8 +9,11 @@ export function popupSuccess(text: string): void {
   )
 }
 
-export function popupError(text: string): void {
-  $('#error-desc-0').text(text)
+export function popupError(title?: string, description?: string): void {
+  if (title !== undefined)
+    $('#error-desc-0').text(title)
+  if (description !== undefined)
+    $('#error-desc-1').text(description)
   $('#windows95-error').show(0)
 }
 

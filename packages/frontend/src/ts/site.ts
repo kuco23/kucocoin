@@ -97,7 +97,7 @@ function onInvestInKucoCoin(): void {
       await investInKucoCoin(ethereum!, amount, accounts[0])
       popupSuccess('Investment Successful')
     } catch (err: any) {
-      popupError(`Investment Failed with: ${err.message}`)
+      popupError("Investment Failed", err.message)
       console.log(err.message)
     } finally {
       loadingEnd('invest-interface')
@@ -114,7 +114,7 @@ function onClaimKucoCoin(): void {
       await claimKucoCoin(ethereum!, accounts[0])
       popupSuccess('Claim was successful')
     } catch (err: any) {
-      popupError(`Claim failed with: ${err.message}`)
+      popupError("Claim failed", err.message)
       console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
@@ -145,7 +145,7 @@ function onRetractKucoCoin(): void {
       await retractKucoCoin(ethereum!, accounts[0])
       popupSuccess('Retract was successful')
     } catch (err: any) {
-      popupError(`Retract failed with: ${err.message}`)
+      popupError("Retract failed", err.message)
       console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
@@ -164,7 +164,7 @@ function onMakeTransAction(): void {
       await makeTransAction(ethereum!, to, amount)
       popupSuccess('Trans Action Successful')
     } catch (err: any) {
-      popupError(`Trans Action Failed with: ${err.message}`)
+      popupError("Trans Action Failed", err.message)
       console.log(err)
     } finally {
       loadingEnd('trans-action-interface')
@@ -180,7 +180,7 @@ function onReportPeriod(): void {
       await reportPeriod(ethereum!)
       popupSuccess('Period Successfully Reported')
     } catch (err: any) {
-      popupError(`Period Report Failed with: ${err.message}`)
+      popupError("Period Report Failed", err.message)
       console.log(err.message)
     } finally {
       loadingEnd('report-period-interface')
@@ -198,7 +198,7 @@ function onGetNextPeriod(): void {
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
       $('#next-period-date-display').fadeIn().text(nextPeriod)
     } catch (err: any) {
-      popupError(`Failed with: ${err.message}`)
+      popupError("Failed", err.message)
       console.log(err.message)
     } finally {
       loadingEnd('get-next-period-interface')

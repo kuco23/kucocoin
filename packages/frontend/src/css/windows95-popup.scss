@@ -30,6 +30,10 @@ $w: #ffffff;
   display: none;
   position: fixed;
   max-width: 90%;
+
+  p {
+    margin: 0;
+  }
 }
 
 .window {
@@ -37,8 +41,10 @@ $w: #ffffff;
 	box-shadow: -1px -1px 0 $bk inset, 1px 1px 0 $lg inset, -2px -2px 0 $dg inset, 2px 2px 0 $w inset;
 	display: flex;
 	flex-direction: column;
+
 	padding: 3px;
 	min-height: 119px;
+  min-width: 296px;
 	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -151,6 +157,7 @@ $w: #ffffff;
 		transform: translate(1px,1px)
 	}
 	&__header,
+  &__body,
 	&__footer {
 		display: flex
 	}
@@ -193,7 +200,6 @@ $w: #ffffff;
 			height: 32px;
 		}
 		&-text {
-      flex-shrink: 1;
 			padding: 8px 0;
 		}
 	}
