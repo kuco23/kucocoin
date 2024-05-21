@@ -97,8 +97,7 @@ function onInvestInKucoCoin(): void {
       await investInKucoCoin(ethereum!, amount, accounts[0])
       popupSuccess('Investment Successful')
     } catch (err: any) {
-      popupError("Investment Failed", err.message)
-      console.log(err.message)
+      popupError("Investment failed", err.message.toString())
     } finally {
       loadingEnd('invest-interface')
     }
@@ -115,7 +114,6 @@ function onClaimKucoCoin(): void {
       popupSuccess('Claim was successful')
     } catch (err: any) {
       popupError("Claim failed", err.message)
-      console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
     }
@@ -146,7 +144,6 @@ function onRetractKucoCoin(): void {
       popupSuccess('Retract was successful')
     } catch (err: any) {
       popupError("Retract failed", err.message)
-      console.log(err.message)
     } finally {
       loadingEnd('claim-interface')
     }
@@ -180,8 +177,7 @@ function onReportPeriod(): void {
       await reportPeriod(ethereum!)
       popupSuccess('Period Successfully Reported')
     } catch (err: any) {
-      popupError("Period Report Failed", err.message)
-      console.log(err.message)
+      popupError("Period report failed", err.message)
     } finally {
       loadingEnd('report-period-interface')
     }
@@ -198,8 +194,7 @@ function onGetNextPeriod(): void {
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
       $('#next-period-date-display').fadeIn().text(nextPeriod)
     } catch (err: any) {
-      popupError("Failed", err.message)
-      console.log(err.message)
+      popupError("Period fetching failed", err.message)
     } finally {
       loadingEnd('get-next-period-interface')
     }
@@ -217,7 +212,6 @@ async function priceUpdater(): Promise<void> {
       $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
       $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
-      console.log(err.message)
       loadingEnd('price-interface')
     }
   }, PRICE_UPDATE_INTERVAL_MS)

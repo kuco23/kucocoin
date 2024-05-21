@@ -9,11 +9,11 @@ export function popupSuccess(text: string): void {
   )
 }
 
-export function popupError(title?: string, description?: string): void {
+export function popupError(title?: string, message?: string): void {
   if (title !== undefined)
     $('#error-desc-0').text(title)
-  if (description !== undefined)
-    $('#error-desc-1').text(description)
+  if (message !== undefined)
+    $('#error-desc-1').text(formatErrorMessage(message))
   $('#windows95-error').show(0)
 }
 
@@ -27,4 +27,14 @@ export function loadingStart(replaceDivId: string) {
 export function loadingEnd(replaceDivId: string): void {
   $('#' + replaceDivId + '-loader').hide()
   $('#' + replaceDivId).show()
+}
+
+function formatErrorMessage(error: string): string {
+  if (error.includes('execution reverted')) {
+    return "smart contract call reverted with " + error.split('"')[1]
+  } else if (error.includes('(')) {
+    return error.slice(0, error.indexOf('('))
+  } else {
+    return error;
+  }
 }
