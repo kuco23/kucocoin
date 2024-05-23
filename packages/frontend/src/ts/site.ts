@@ -185,14 +185,13 @@ function onReportPeriod(): void {
 }
 
 function onGetNextPeriod(): void {
-  $('#next-period-date-display').fadeOut()
   $('#get-next-period-interface').on('click', async () => {
     try {
       loadingStart('get-next-period-interface')
       await requireMetamaskNetwork(ethereum!)
       const nextPeriodUnix = await getNextPeriod(ethereum!)
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
-      $('#next-period-date-display').fadeIn().text(nextPeriod)
+      popupSuccess(nextPeriod)
     } catch (err: any) {
       popupError("Period fetching failed", err.message)
     } finally {
