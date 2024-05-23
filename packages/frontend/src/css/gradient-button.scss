@@ -1,14 +1,14 @@
+@import "./config.scss";
 
-/* CSS */
 .gradient-button {
+  z-index: 0;
   padding: 0.6em 2em;
   border: none;
   outline: none;
-  color: rgb(255, 255, 255);
-  background: #111;
+  color: $gradient-button-text-color;
+  background: $gradient-button-background-color;
   position: relative;
-  z-index: 0;
-  border-radius: 10px;
+  border-radius: $gradient-button-border-radius;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -16,18 +16,7 @@
 
 .gradient-button:before {
   content: "";
-  background: linear-gradient(
-    45deg,
-    #ff0000, /* Pure red */
-    #ff4000, /* Red-orange */
-    #4B0082, /* Indigo, hinting at mystery */
-    #5A0000, /* Deep Red */
-    #ff00aa, /* Merging towards a reddish-pink */
-    #ff0055, /* Reddish-pink */
-    #ff0000, /* Back to pure red */
-    #ff5555, /* Light red */
-    #ff0000  /* Pure red to finish */
-);
+  background: $gradient-button-background-gradient;
   position: absolute;
   top: -2px;
   left: -2px;
@@ -37,7 +26,7 @@
   -webkit-filter: blur(5px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  animation: glowing-gradient-button 20s linear infinite;
+  animation: glowing-gradient-button $gradient-button-animation-speed linear infinite;
   transition: opacity 0.3s ease-in-out;
   border-radius: 10px;
 }
@@ -60,8 +49,8 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #222;
+  background: $gradient-button-background-color;
   left: 0;
   top: 0;
-  border-radius: 10px;
+  border-radius: $gradient-button-border-radius;
 }
