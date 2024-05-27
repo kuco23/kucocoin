@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate } from './utils'
+import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate, mobileAndTabletCheck } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
 import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
@@ -18,6 +18,18 @@ declare const window: any
 let reserveNat: bigint, reserveKuco: bigint
 let nonunderlined: any[]
 
+function adjustForMobile(): void {
+  if (mobileAndTabletCheck()) {
+    $('.tooltip').removeClass('tooltip')
+  }
+}
+
+function setPopup(): void {
+  $('#windows95-error button').on('click', () => {
+    $('#windows95-error').hide()
+  })
+}
+
 function setLinks(): void {
   $('a[data-title="Snowtrace"]').attr('href', NETWORK.snowtrace)
   $('a[title="Snowtrace"]').attr('href', NETWORK.snowtrace)
@@ -33,7 +45,7 @@ function displayKucoStages(): void {
     const $stageText = $(`#kuco-stage-${stage}-text`)
     $stageText.hide()
     $stageLink.on('click', () => {
-      $('#wrapper').css('filter', 'blur(5px)')
+      $('#wrapper').css('filter', 'blur(1.5px)')
       $stageLayer.fadeIn(1000)
       $stageText.fadeIn(1000)
     })
@@ -200,7 +212,7 @@ function onGetNextPeriod(): void {
   })
 }
 
-async function priceUpdater(): Promise<void> {
+async function attachPriceUpdater(): Promise<void> {
   await setImmediateAsyncInterval(async () => {
     try {
       loadingStart('price-interface')
@@ -217,6 +229,8 @@ async function priceUpdater(): Promise<void> {
 }
 
 $(async () => {
+  adjustForMobile()
+  setPopup()
   setLinks()
   displayKucoStages()
   displayPhaseBasedContent()
@@ -229,9 +243,5 @@ $(async () => {
   onGetNextPeriod()
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
-  await priceUpdater()
-
-  $('#windows95-error button').on('click', () => {
-    $('#windows95-error').hide()
-  })
+  await attachPriceUpdater()
 })
