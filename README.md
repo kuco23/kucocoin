@@ -2,6 +2,11 @@
 
 This is an implementation of a non-meme token on Avalanche. It has real world functionalities, like things and such, so it's definitely not a pyramid scheme. The code has also been audited by the author during implementation.
 
+
+## Ideas
+
+Buy KucoCoin. it's meaningless, but so is your life.
+
 ## Thanks to
 - Avalanche for honestly being the best chain,
 - Uniswap for deploying their V2 on Avalanche,
