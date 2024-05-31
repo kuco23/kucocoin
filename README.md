@@ -23,4 +23,5 @@ Buy KucoCoin. it's meaningless, but so is your life.
 - [x] disable retract button if it is overdue (and show a tooltip),
 - [x] better error display,
 - [ ] format error display,
-- [x] get svg links for uniswap, metamask and avalanche.
+- [x] get svg links for uniswap, metamask and avalanche,
+- [ ] error display "can't read properties of undefined" when metamask is not installed.
