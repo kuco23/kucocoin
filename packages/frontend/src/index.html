@@ -27,7 +27,6 @@
     @import './css/hypnotize.scss';
     @import './css/kucomoon.scss';
     @import "./css/icomoon.scss";
-    @import "./css/coundtown.scss";
     @import "./css/tooltip.scss";
     @import "./css/loaders.scss";
     @import "./css/windows95-popup.scss";
@@ -289,7 +288,13 @@
                 with liquidity of
                 <span id="reserve-output-nat"></span> AVAX and
                 <span id="reserve-output-kuco"></span> KUCO.
-                <investment>Trading starts in</investment>
+                <investment>
+                  Trading starts in
+                  <span class="countdown-entry" id="countdown-days"></span>&nbsp;days
+                  <span class="countdown-entry" id="countdown-hours"></span>&nbsp;hours
+                  <span class="countdown-entry" id="countdown-minutes"></span>&nbsp;minutes and
+                  <span class="countdown-entry" id="countdown-seconds"></span>&nbsp;seconds.
+                </investment>
               </div>
 
               <trading>
@@ -299,17 +304,6 @@
                   </button>
                 </div>
               </trading>
-
-              <investment>
-                <div class="trade-countdown-container wow fadeIn" data-wow-delay="0.5s" data-wow-duration="0.75s">
-                  <div class="trade-countdown">
-                    <div><span id="days"></span>days</div>
-                    <div><span id="hours"></span>Hours</div>
-                    <div><span id="minutes"></span>Minutes</div>
-                    <div><span id="seconds"></span>Seconds</div>
-                  </div>
-                </div>
-              </investment>
 
             </div>
           </div>
@@ -365,7 +359,7 @@
             </div>
           </div>
 
-          <div class="col-1 icon-block wow fadeInDown" data-wow-delay="0.3s">
+          <div class="col-1 icon-block wow fadeInUp" data-wow-delay="0.3s">
             <div class="icon-block-description">
               <h4>For LGBTQ community - introducing trans actions!</h4>
               <div class="text-content">

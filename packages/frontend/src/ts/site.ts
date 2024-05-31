@@ -67,20 +67,28 @@ function displayCountdown(tilUnix: number): void {
   const minute = second * 60
   const hour = minute * 60
   const day = hour * 24
+  let firstRender = true
   const x = setInterval(() => {
     const countdown = new Date(tilUnix).getTime()
     const now = new Date().getTime()
     const distance = countdown - now
-    $('#days').text(Math.floor(distance / day))
-    $('#hours').text(Math.floor((distance % day) / hour))
-    $('#minutes').text(Math.floor((distance % hour) / minute))
-    $('#seconds').text(Math.floor((distance % minute) / second))
     if (distance < 0) {
       clearInterval(x)
       $('investment').hide(500)
       $('trading').show(500)
     }
-  }, 0)
+    const seconds = Math.floor((distance % minute) / second)
+    $('#countdown-seconds').text(seconds.toString().padStart(2, '0'))
+    if (seconds === 59 || firstRender) {
+      const minutes = Math.floor((distance % hour) / minute)
+      $('#countdown-minutes').text(minutes.toString().padStart(2, '0'))
+      const hours = Math.floor((distance % day) / hour)
+      $('#countdown-hours').text(hours.toString().padStart(2, '0'))
+      const days = Math.floor(distance / day)
+      $('#countdown-days').text(days.toString().padStart(2, '0'))
+      firstRender = false
+    }
+  }, 1000)
 }
 
 function attachScrollUnderlining(): void {
