@@ -7,7 +7,7 @@ import { popupSuccess, popupError, loadingStart, loadingEnd } from './components
 import { attachMetaMask } from './components/metamask'
 import { NETWORK } from './config/network'
 import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
-import { ethereum } from './shared'
+import { ethereum, globals } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS,
@@ -35,6 +35,7 @@ function setWallet(): void {
   $('#wallet').hide()
   $('#wallet-exit-button').on('click', () => {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
+    globals.walletDisplayed = false
   })
 }
 
