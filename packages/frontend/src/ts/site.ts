@@ -10,7 +10,8 @@ import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX
 import { ethereum } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
-  PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
+  PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS,
+  WALLET_SLIDE_DURATION_MS
 } from './config/display'
 
 
@@ -27,6 +28,13 @@ function adjustForMobile(): void {
 function setPopup(): void {
   $('#windows95-error button').on('click', () => {
     $('#windows95-error').hide()
+  })
+}
+
+function setWallet(): void {
+  $('#wallet').hide()
+  $('#wallet-exit-button').on('click', () => {
+    $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
   })
 }
 
@@ -240,6 +248,7 @@ $(async () => {
   adjustForMobile()
   setPopup()
   setLinks()
+  setWallet()
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()

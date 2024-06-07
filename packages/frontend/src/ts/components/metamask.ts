@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { addKucoCoinToken, requestAccounts, switchNetworkIfNecessary, getAccounts, getChainId } from '../wrappers/metamask'
 import { popupSuccess, popupError } from './utils'
 import { ethereum, globals } from '../shared'
-import { displayWallet, refreshWallet } from './wallet'
+import { toggleWalletDisplay, refreshWalletInfo } from './wallet'
 import { NETWORK } from '../config/network'
 
 
@@ -15,7 +15,7 @@ export function attachMetaMask(): void {
     if (globals.connectedAccount === undefined) {
       await onRequestMetaMaskConnect()
     } else {
-      await displayWallet(ethereum!)
+      await toggleWalletDisplay(ethereum!)
     }
   })
   $('#add-kucocoin-button').on('click', async () => {
@@ -54,7 +54,7 @@ async function onRequestMetaMaskConnect(): Promise<void> {
       popupError('Failed to switch network to Avalanche')
     }
   }
-  await refreshWallet(ethereum!)
+  await refreshWalletInfo(ethereum!)
   await updateMetaMaskConnectionStatus()
 }
 
@@ -67,7 +67,7 @@ function onMetaMaskChange(): void {
     } else {
       globals.connectedAccount = undefined
     }
-    await refreshWallet(ethereum!)
+    await refreshWalletInfo(ethereum!)
     await updateMetaMaskConnectionStatus()
   })
   ethereum.on('chainChanged', async chainId => {
@@ -77,7 +77,7 @@ function onMetaMaskChange(): void {
       const accounts = await getAccounts(ethereum!)
       globals.connectedAccount = accounts[0]
     }
-    await refreshWallet(ethereum!)
+    await refreshWalletInfo(ethereum!)
     await updateMetaMaskConnectionStatus()
   })
 }

@@ -6,18 +6,18 @@ import { WALLET_SLIDE_DURATION_MS } from '../config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 
-export async function displayWallet(ethereum: MetaMaskInpageProvider): Promise<void> {
+export async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
   if (globals.walletDisplayed) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
     globals.walletDisplayed = false
   } else {
     $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
-    await refreshWallet(ethereum)
+    await refreshWalletInfo(ethereum)
     globals.walletDisplayed = true
   }
 }
 
-export async function refreshWallet(ethereum: MetaMaskInpageProvider): Promise<void> {
+export async function refreshWalletInfo(ethereum: MetaMaskInpageProvider): Promise<void> {
   if (globals.connectedAccount === undefined) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
   } else {
