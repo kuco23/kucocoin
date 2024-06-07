@@ -147,11 +147,13 @@
     border: 1px solid $trans-action-color-1;
     color: $trans-action-color-2;
     background-color: $trans-action-background-1;
+    box-shadow: 0 0 10px $trans-action-color-1;
   }
   input:nth-child(2) {
     border: 1px solid $trans-action-color-2;
     color: $trans-action-color-1;
     background-color: $trans-action-background-2;
+    box-shadow: 0 0 10px $trans-action-color-2;
   }
   input::placeholder {
     color: $trans-action-color-3;
