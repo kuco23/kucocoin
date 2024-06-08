@@ -447,8 +447,31 @@ blockquote.ancient:after {
 .social-icons span[class^="icon-"], .social-icons span[class*=" icon-"] {
   transition: color .5s;
   color: $social-icon-color;
+  font-size: 14px;
 }
 
 .social-icons a:hover span[class^="icon-"], .social-icons a:hover span[class*=" icon-"] {
   color: $social-icon-hover-color;
+}
+
+/* testimonials */
+
+.testimonial-footer {
+
+  span:first-child {
+    color: #ccc;
+    font-weight: bold;
+  }
+
+  span:nth-child(3) {
+    color: rgb(50, 205, 50);
+    font-family: Poppins, sans-serif;
+  }
+}
+
+.star-rating {
+  color: gold;
+  font-size: 40px;
+  text-align: center;
+  padding: 10px 0px;
 }
