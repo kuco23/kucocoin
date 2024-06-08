@@ -32,6 +32,8 @@ export function loadingEnd(replaceDivId: string): void {
 function formatErrorMessage(error: string): string {
   if (error.includes('execution reverted')) {
     return "smart contract call reverted with " + error.split('"')[1]
+  } else if (error == 'Cannot read properties of undefined') {
+    return "MetaMask not installed"
   } else if (error.includes('(')) {
     return error.slice(0, error.indexOf('('))
   } else {

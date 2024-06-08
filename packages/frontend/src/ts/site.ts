@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate, mobileAndTabletCheck } from './utils'
+import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate, mobileAndTabletCheck, requireMetamask } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
 import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
@@ -110,6 +110,7 @@ function attachScrollUnderlining(): void {
 function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
+      requireMetamask()
       loadingStart('invest-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
@@ -128,6 +129,7 @@ function onInvestInKucoCoin(): void {
 function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
+      requireMetamask()
       loadingStart('claim-interface')
       await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
@@ -158,6 +160,7 @@ function onRetractKucoCoin(): void {
   $('#retract-submit').on('click', async () => {
     if (handleRetractEnd()) return
     try {
+      requireMetamask()
       loadingStart('claim-interface')
       await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
@@ -174,6 +177,7 @@ function onRetractKucoCoin(): void {
 function onMakeTransAction(): void {
   $('#trans-action-button').on('click', async () => {
     try {
+      requireMetamask()
       loadingStart('trans-action-interface')
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
@@ -183,7 +187,6 @@ function onMakeTransAction(): void {
       popupSuccess('Trans Action Successful')
     } catch (err: any) {
       popupError("Trans Action Failed", err.message)
-      console.log(err)
     } finally {
       loadingEnd('trans-action-interface')
     }
@@ -193,6 +196,7 @@ function onMakeTransAction(): void {
 function onReportPeriod(): void {
   $('#report-period-interface').on('click', async () => {
     try {
+      requireMetamask()
       loadingStart('report-period-interface')
       await requireMetamaskNetwork(ethereum!)
       await reportPeriod(ethereum!)
@@ -208,6 +212,7 @@ function onReportPeriod(): void {
 function onGetNextPeriod(): void {
   $('#get-next-period-interface').on('click', async () => {
     try {
+      requireMetamask()
       loadingStart('get-next-period-interface')
       await requireMetamaskNetwork(ethereum!)
       const nextPeriodUnix = await getNextPeriod(ethereum!)
