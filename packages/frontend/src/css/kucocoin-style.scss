@@ -77,15 +77,16 @@
 #kuco-stage-layer {
   cursor: default;
   z-index: 9999;
+  overflow-y: auto;
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: $kucocoin-stages-content-background;
   padding: $kucocoin-stages-content-padding;
-  overflow-y: auto;
+  background-color: $kucocoin-stages-content-background;
+  backdrop-filter: invert(1);
 
   > div {
     display: none;
@@ -239,7 +240,7 @@ blockquote.ancient {
   font-size: 95%;
   font-style: italic;
   word-break: keep-all;
-  color: $foreground-color;
+  color: $blockquote-color;
   hyphens: auto;
   border-color: transparent;
 }
@@ -439,4 +440,15 @@ blockquote.ancient:after {
   padding: 0;
   margin: 0;
   text-align: center;
+}
+
+/* social icons */
+
+.social-icons span[class^="icon-"], .social-icons span[class*=" icon-"] {
+  transition: color .5s;
+  color: $social-icon-color;
+}
+
+.social-icons a:hover span[class^="icon-"], .social-icons a:hover span[class*=" icon-"] {
+  color: $social-icon-hover-color;
 }
