@@ -2,22 +2,17 @@ import $ from 'jquery'
 import { addKucoCoinToken, requestAccounts, switchNetworkIfNecessary, getAccounts, getChainId } from '../wrappers/metamask'
 import { popupSuccess, popupError } from './utils'
 import { ethereum, globals } from '../shared'
-import { toggleWalletDisplay, refreshWalletInfo } from './wallet'
+import { walletSelector, refreshWalletInfo } from './wallet'
 import { NETWORK } from '../config/network'
 
 
 declare const window: any
+const metamaskSelector = '#metamask-connect-header, #metamask-connect-footer'
 
-export function attachMetaMask(): void {
-  initialMetaMaskStatus()
+export async function attachMetaMask(): Promise<void> {
+  await initialMetaMaskStatus()
+  onMetaMaskClick()
   onMetaMaskChange()
-  $('#metamask-connect-header, #metamask-connect-footer').on('click', async () => {
-    if (globals.connectedAccount === undefined) {
-      await onRequestMetaMaskConnect()
-    } else {
-      await toggleWalletDisplay(ethereum!)
-    }
-  })
   $('#add-kucocoin-button').on('click', async () => {
     await onMetaMaskAddKucoCoin()
   })
@@ -30,32 +25,42 @@ async function initialMetaMaskStatus(): Promise<void> {
       const accounts = await getAccounts(ethereum)
       if (accounts?.length) {
         globals.connectedAccount = accounts[0]
+        return updateConnectionDisplay(true)
       }
     }
   }
-  await updateMetaMaskConnectionStatus()
+  await updateConnectionDisplay(false)
 }
 
-async function onRequestMetaMaskConnect(): Promise<void> {
-  if (ethereum === undefined) {
-    window.open('https://metamask.io/', '_blank')
-  } else {
-    if (await switchNetworkIfNecessary(ethereum)) {
-      if (globals.connectedAccount === undefined) {
-        const accounts = await requestAccounts(ethereum)
-        if (accounts?.length) {
-          globals.connectedAccount = accounts[0]
-          popupSuccess('Connected to Metamask')
+async function onMetaMaskClick(): Promise<void> {
+  $(metamaskSelector).on('click', async () => {
+    if (globals.connectedAccount !== undefined) {
+      return updateConnectionDisplay(true)
+    }
+    if (ethereum === undefined) {
+      window.open('https://metamask.io/', '_blank')
+    } else {
+      if (await switchNetworkIfNecessary(ethereum)) {
+        if (globals.connectedAccount === undefined) {
+          const accounts = await requestAccounts(ethereum)
+          if (accounts?.length) {
+            globals.connectedAccount = accounts[0]
+            await updateConnectionDisplay(true)
+            popupSuccess('Connected to Metamask')
+          } else {
+            popupError('Failed to detect Metamask account')
+            await updateConnectionDisplay(false)
+          }
+        } else {
+          popupSuccess('Already connected to Metamask')
+          await updateConnectionDisplay(false)
         }
       } else {
-        popupSuccess('Already connected to Metamask')
+        popupError('Failed to switch network to Avalanche')
+        await updateConnectionDisplay(false)
       }
-    } else {
-      popupError('Failed to switch network to Avalanche')
     }
-  }
-  await refreshWalletInfo(ethereum!)
-  await updateMetaMaskConnectionStatus()
+  })
 }
 
 function onMetaMaskChange(): void {
@@ -64,21 +69,23 @@ function onMetaMaskChange(): void {
     const chainId = await getChainId(ethereum!)
     if (chainId === NETWORK.metamask.chainId) {
       globals.connectedAccount = (accounts as string[])[0]
+      await updateConnectionDisplay(true)
     } else {
       globals.connectedAccount = undefined
+      await updateConnectionDisplay(false)
     }
     await refreshWalletInfo(ethereum!)
-    await updateMetaMaskConnectionStatus()
   })
   ethereum.on('chainChanged', async chainId => {
-    if (chainId !== NETWORK.metamask.chainId) {
-      globals.connectedAccount = undefined
-    } else {
+    if (chainId === NETWORK.metamask.chainId) {
       const accounts = await getAccounts(ethereum!)
       globals.connectedAccount = accounts[0]
+      await updateConnectionDisplay(true)
+    } else {
+      globals.connectedAccount = undefined
+      await updateConnectionDisplay(false)
     }
     await refreshWalletInfo(ethereum!)
-    await updateMetaMaskConnectionStatus()
   })
 }
 
@@ -101,10 +108,12 @@ async function onMetaMaskAddKucoCoin(): Promise<void> {
   }
 }
 
-async function updateMetaMaskConnectionStatus(): Promise<void> {
-  const connected = globals.connectedAccount !== undefined
-  $('span.icon-metamask').css({
-    'box-shadow': '0px 0px 20px 5px ' + (connected ? '#00FF00' : 'firebrick'),
-    'background-color': connected ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)'
-  })
+async function updateConnectionDisplay(connected: boolean): Promise<void> {
+  if (connected) {
+    $(walletSelector).show()
+    $(metamaskSelector).hide()
+  } else {
+    $(walletSelector).hide()
+    $(metamaskSelector).show()
+  }
 }

@@ -32,6 +32,12 @@
 .icon-buy:before {
   content: "\e921";
 }
+.icon-wallet:before {
+  content: "\e922";
+}
+.icon-angle-down:before {
+  content: "\e923";
+}
 .icon-bars:before {
   content: "\e901";
 }
@@ -184,9 +190,6 @@
   content: "\e91f";
   margin-left: -1.078125em;
   color: rgb(246, 133, 27);
-}
-.icon-loop2:before {
-  content: "\ea2e";
 }
 .icon-github:before {
   content: "\eab0";

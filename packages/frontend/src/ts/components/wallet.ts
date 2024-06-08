@@ -1,12 +1,24 @@
 import $ from 'jquery'
 import { formatUnits } from 'ethers'
-import { globals } from '../shared'
+import { globals, ethereum } from '../shared'
 import { getInvestedNat, getKucoCoinBalance } from '../wrappers/contract'
 import { WALLET_SLIDE_DURATION_MS } from '../config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
+export const walletSelector = '#wallet-button-header, #wallet-button-footer'
 
-export async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
+export function attachWallet(): void {
+  $('#wallet').hide()
+  $('#wallet-exit-button').on('click', () => {
+    $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
+    globals.walletDisplayed = false
+  })
+  $(walletSelector).on('click', async () => {
+    await toggleWalletDisplay(ethereum!)
+  })
+}
+
+async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
   if (globals.walletDisplayed) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
     globals.walletDisplayed = false
