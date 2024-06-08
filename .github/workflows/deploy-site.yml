@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
+      - name: Enable Corepack before setting up Node
+        run: corepack enable
       - name: setup Node.js
         uses: actions/setup-node@v1
         with:
