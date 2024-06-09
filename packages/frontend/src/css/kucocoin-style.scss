@@ -86,7 +86,6 @@
   height: 100%;
   padding: $kucocoin-stages-content-padding;
   background-color: $kucocoin-stages-content-background;
-  backdrop-filter: invert(1);
 
   > div {
     display: none;
@@ -323,10 +322,10 @@ blockquote.ancient:after {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: FireBrick;
+  background-color: $underline-color;
   z-index: -1;
-  animation: underline 2s forwards;
-  animation-delay: 0.75s;
+  animation: underline $underline-duration forwards;
+  animation-delay: $underline-delay;
 }
 
 @keyframes underline {
