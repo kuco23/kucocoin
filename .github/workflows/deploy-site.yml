@@ -10,12 +10,17 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - name: Enable Corepack before setting up Node
+      - name: Setup target Node.js to enable Corepack
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - name: Enable Corepack
         run: corepack enable
       - name: setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 16
+          cache: yarn
       - run: yarn
       - run: yarn frontend-build
       - name: deploy page
