@@ -22,7 +22,8 @@ jobs:
           node-version: 16
           cache: yarn
       - run: yarn
-      - run: yarn frontend-build
+      - run: yarn compile-contracts # during dev phase
+      - run: yarn build-frontend
       - name: deploy page
         uses: crazy-max/ghaction-github-pages@v2
         with:
