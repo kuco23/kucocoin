@@ -445,6 +445,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         // this handles the situation where we force the trading phase
         require(isTradingPhase() || _phase == Phase.Trading || _phase == Phase.Uninitialized,
             "KucoCoin: token transfers are only allowed during the trading phase");
+        require(!locked(), "KucoCoin: token transfers are locked at this hour every day");
     }
 
     function _afterTokenTransfer(
@@ -524,6 +525,13 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         if (isTradingPhase()) {
             _burn(msg.sender, _amount);
         }
+    }
+
+    function locked()
+        public view
+        returns (bool)
+    {
+        return (block.timestamp - 1722027600) / 3600 % 24 == 0;
     }
 
 }

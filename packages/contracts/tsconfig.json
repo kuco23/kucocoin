@@ -11,8 +11,6 @@
     "tools/**/*",
     "test/**/*",
     "types",
-    "artifacts",
-  ],
-  "resolveJsonModule": true,
-  "esModuleInterop": true,
+    "artifacts"
+  ]
 }
