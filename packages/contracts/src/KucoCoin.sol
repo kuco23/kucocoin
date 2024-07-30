@@ -531,7 +531,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         public view
         returns (bool)
     {
-        return (block.timestamp - 1722027600) / 3600 % 24 == 0;
+        return (block.timestamp - 1722117600) / (3600 * 24) % 7 == 0;
     }
 
 }
