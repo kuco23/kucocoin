@@ -9,8 +9,8 @@ const fuji = {
     },
     rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc']
   },
-  kucocoin: "0x6f587509C96c619D74454E8aE1734fB70DF62715",
-  snowtrace: "https://testnet.snowtrace.io/address/0xEB7e0aB571A8d328123C790fAae38ac5cA1E8441/contract/43113/writeContract?chainId=43113",
+  kucocoin: "0x193731026C8e13b908c1e41F37BE2104e08859bE",
+  snowtrace: "https://testnet.snowtrace.io/address/0x193731026C8e13b908c1e41F37BE2104e08859bE/contract/43113/writeContract?chainId=43113",
   uniswap: "https://testnet.snowtrace.io/address/0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71/contract/43113/writeContract?chainId=43113#F10"
 }
 

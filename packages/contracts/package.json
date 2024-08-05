@@ -21,8 +21,9 @@
     "fork-avalanche": "yarn hardhat node --fork https://api.avax.network/ext/bc/C/rpc --fork-block-number 44532200",
     "---------- live ----------": "---------- live ----------",
     "cli": "yarn ts-node tools/cli.ts",
-    "kucocoin-deploy": "yarn cli deploy 10500 7776000 1000 2592000",
-    "kucocoin-init": "yarn cli init 1000000000000000000000000 100000000000000000"
+    "kucocoin-deploy": "yarn cli deploy 10500 432000 1000 216000",
+    "kucocoin-init": "yarn cli init 1000000000000000000000000 100000000000000000",
+    "verify": "yarn hardhat verify <kucocoin-address> <uniswap-address> 10500 432000 1000 216000 --network <network>"
   },
   "devDependencies": {
     "@ethersproject/keccak256": "^5.7.0",
