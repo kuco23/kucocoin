@@ -445,7 +445,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         // this handles the situation where we force the trading phase
         require(isTradingPhase() || _phase == Phase.Trading || _phase == Phase.Uninitialized,
             "KucoCoin: token transfers are only allowed during the trading phase");
-        require(!locked(), "KucoCoin: token transfers are locked at this hour every day");
+        require(!isSunday(), "KucoCoin: token not working on Sundays");
     }
 
     function _afterTokenTransfer(
@@ -527,7 +527,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         }
     }
 
-    function locked()
+    function isSunday()
         public view
         returns (bool)
     {
