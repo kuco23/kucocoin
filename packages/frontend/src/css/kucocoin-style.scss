@@ -431,6 +431,12 @@ blockquote.ancient:after {
   }
 }
 
+@media all and (max-width: 768) {
+  #connected-address-container {
+    width: 100%;
+  }
+}
+
 /* countdown */
 
 .countdown-entry {

@@ -60,5 +60,7 @@ async function displayBalance(ethereum: MetaMaskInpageProvider): Promise<void> {
 }
 
 function displayConnectedAccount(): void {
-  $('#connected-account-output').text(globals.connectedAccount!.substring(0,10) + '...')
+  const truncatedStart = globals.connectedAccount!.substring(0,7)
+  const truncatedEnd = globals.connectedAccount!.substring(37)
+  $('#connected-account-output').text(truncatedStart + '...' + truncatedEnd)
 }
