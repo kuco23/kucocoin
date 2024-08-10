@@ -5,6 +5,7 @@ import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTra
 import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
 import { attachMetaMask } from './components/metamask'
+import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { NETWORK } from './config/network'
 import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
 import { ethereum } from './shared'
@@ -12,7 +13,6 @@ import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
 } from './config/display'
-import { attachWallet } from './components/wallet'
 
 
 declare const window: any
@@ -259,4 +259,5 @@ $(async () => {
   onMakeTransAction()
   displayCountdown(START_TRADING_TIME_UNIX_MS)
   await attachPriceUpdater()
+  await attachWalletInfoRefresher()
 })

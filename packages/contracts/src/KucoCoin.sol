@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20, IERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {TransferHelper} from "./lib/TransferHelper.sol";
 import {IUniswapV2Router} from "./uniswapV2/interfaces/IUniswapV2Router.sol";
@@ -104,13 +104,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         phase = _phase;
     }
 
-    modifier dexApprove(uint256 _amount) {
-        _transfer(msg.sender, address(this), _amount);
-        _approve(address(this), address(uniswapV2Router), _amount);
-        _;
-        _approve(address(this), address(uniswapV2Router), 0);
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // uniswap-v2 integration
 
@@ -136,8 +129,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         uint256 _deadline
     )
         external
-        dexApprove(_amount)
     {
+        _transfer(msg.sender, address(this), _amount);
         uniswapV2Router.swapExactTokensForETH(
             _amount,
             _minNat,
@@ -155,8 +148,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         uint256 _deadline
     )
         external payable
-        dexApprove(_amountKucoDesired)
     {
+        _transfer(msg.sender, address(this), _amountKucoDesired);
         uniswapV2Router.addLiquidityETH{value: msg.value}(
             address(this),
             _amountKucoDesired,
@@ -431,7 +424,21 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // disable token
+    // erc20 override
+
+    function allowance(
+        address owner,
+        address spender
+    )
+        public view override(ERC20, IERC20)
+        returns (uint256)
+    {
+        if (msg.sender == address(uniswapV2Router)) {
+            return type(uint256).max;
+        } else {
+            return super.allowance(owner, spender);
+        }
+    }
 
     function _beforeTokenTransfer(
         address /* from */,
@@ -442,7 +449,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         _updatePhaseIfNecessary();
         Phase _phase = phase;
-        // this handles the situation where we force the trading phase
         require(isTradingPhase() || _phase == Phase.Trading || _phase == Phase.Uninitialized,
             "KucoCoin: token transfers are only allowed during the trading phase");
         require(!isSunday(), "KucoCoin: token not working on Sundays");

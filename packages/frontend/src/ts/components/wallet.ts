@@ -1,8 +1,9 @@
 import $ from 'jquery'
 import { formatUnits } from 'ethers'
-import { globals, ethereum } from '../shared'
+import { setImmediateAsyncInterval } from '../utils'
 import { getInvestedNat, getKucoCoinBalance } from '../wrappers/contract'
-import { WALLET_SLIDE_DURATION_MS } from '../config/display'
+import { globals, ethereum } from '../shared'
+import { WALLET_INFO_UPDATE_INTERVAL_MS, WALLET_SLIDE_DURATION_MS } from '../config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
 export const walletSelector = '#wallet-button-header, #wallet-button-footer'
@@ -18,17 +19,6 @@ export function attachWallet(): void {
   })
 }
 
-async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
-  if (globals.walletDisplayed) {
-    $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
-    globals.walletDisplayed = false
-  } else {
-    $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
-    await refreshWalletInfo(ethereum)
-    globals.walletDisplayed = true
-  }
-}
-
 export async function refreshWalletInfo(ethereum: MetaMaskInpageProvider): Promise<void> {
   if (globals.connectedAccount === undefined) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
@@ -38,6 +28,25 @@ export async function refreshWalletInfo(ethereum: MetaMaskInpageProvider): Promi
       displayBalance(ethereum),
       displayInvested(ethereum)
     ])
+  }
+}
+
+export async function attachWalletInfoRefresher(): Promise<void> {
+  await setImmediateAsyncInterval(async () => {
+    if (globals.walletDisplayed) {
+      await refreshWalletInfo(ethereum!)
+    }
+  }, WALLET_INFO_UPDATE_INTERVAL_MS)
+}
+
+async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
+  if (globals.walletDisplayed) {
+    $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
+    globals.walletDisplayed = false
+  } else {
+    $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
+    await refreshWalletInfo(ethereum)
+    globals.walletDisplayed = true
   }
 }
 
