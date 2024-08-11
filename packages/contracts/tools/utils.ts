@@ -30,9 +30,7 @@ export async function readKucocoin(
   } else if (property === "retractFeeBips") {
     return kucocoin.retractFeeBips()
   } else if (property === "retractPhaseEnd") {
-    const tradingStart = await kucocoin.tradingPhaseStart()
-    const retractDuration = await kucocoin.retractDuration()
-    return tradingStart + retractDuration
+    return kucocoin.retractPhaseEnd()
   } else {
     throw new Error("unknown property")
   }

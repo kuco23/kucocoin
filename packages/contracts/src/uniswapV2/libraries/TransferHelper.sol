@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pragma solidity 0.8.19;
+import "hardhat/console.sol";
 
 // helper methods for interacting with ERC20 tokens and sending ETH that do not consistently return true/false
 library TransferHelper {
@@ -20,6 +21,7 @@ library TransferHelper {
         (bool success, bytes memory data) = token.call(
             abi.encodeWithSelector(0xa9059cbb, to, value)
         );
+        console.log("here");
         require(
             success && (data.length == 0 || abi.decode(data, (bool))),
             "TransferHelper::safeTransfer: transfer failed"

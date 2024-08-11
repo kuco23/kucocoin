@@ -10,9 +10,8 @@ interface IKucoCoin is IERC20 {
     function burnAddress() external view returns (address);
     function tradingPhaseStart() external view returns (uint64);
     function investmentReturnBips() external view returns (uint256);
-    function investmentDuration() external view returns (uint256);
     function retractFeeBips() external view returns (uint256);
-    function retractDuration() external view returns (uint256);
+    function retractPhaseEnd() external view returns (uint64);
     function getInvestedNatOf(address _receiver) external view returns (uint256);
     function phase() external view returns (Phase);
 
