@@ -9,7 +9,6 @@ import {IUniswapV2Factory} from "./uniswapV2/interfaces/IUniswapV2Factory.sol";
 import {IUniswapV2Pair} from "./uniswapV2/interfaces/IUniswapV2Pair.sol";
 import {IKucoCoin} from "./interface/IKucoCoin.sol";
 
-import "hardhat/console.sol";
 
 // config
 uint256 constant TRANS_ACTION_FEE = 1 ether;

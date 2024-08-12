@@ -5,8 +5,10 @@ declare const window: any
 export const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
 export const globals: {
   connectedAccount: string | undefined
-  walletDisplayed: boolean
+  walletDisplayed: boolean,
+  walletLastRefresh: number
 } = {
   connectedAccount: undefined,
-  walletDisplayed: false
+  walletDisplayed: false,
+  walletLastRefresh: 0
 }

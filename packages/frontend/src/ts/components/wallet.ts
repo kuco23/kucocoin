@@ -1,10 +1,14 @@
 import $ from 'jquery'
-import { formatUnits } from 'ethers'
-import { setImmediateAsyncInterval } from '../utils'
+import { formatUnitsTruncate, setImmediateAsyncInterval } from '../utils'
 import { getInvestedNat, getKucoCoinBalance } from '../wrappers/contract'
 import { globals, ethereum } from '../shared'
-import { WALLET_INFO_UPDATE_INTERVAL_MS, WALLET_SLIDE_DURATION_MS } from '../config/display'
+import { KUCOCOIN_DECIMALS } from '../config/token'
+import {
+  MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY,
+  WALLET_INFO_UPDATE_INTERVAL_MS, WALLET_INFO_UPDATE_OFFSET_S, WALLET_SLIDE_DURATION_MS
+} from '../config/display'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
+
 
 export const walletSelector = '#wallet-button-header, #wallet-button-footer'
 
@@ -20,23 +24,25 @@ export function attachWallet(): void {
 }
 
 export async function refreshWalletInfo(ethereum: MetaMaskInpageProvider): Promise<void> {
+  if (!globals.walletDisplayed) return
   if (globals.connectedAccount === undefined) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
-  } else {
+    return
+  }
+  const now = Date.now()
+  const sinceLastRefresh = now - globals.walletLastRefresh
+  if (sinceLastRefresh >= WALLET_INFO_UPDATE_OFFSET_S) {
     displayConnectedAccount()
     await Promise.all([
       displayBalance(ethereum),
       displayInvested(ethereum)
     ])
+    globals.walletLastRefresh = now
   }
 }
 
 export async function attachWalletInfoRefresher(): Promise<void> {
-  await setImmediateAsyncInterval(async () => {
-    if (globals.walletDisplayed) {
-      await refreshWalletInfo(ethereum!)
-    }
-  }, WALLET_INFO_UPDATE_INTERVAL_MS)
+  await setImmediateAsyncInterval(async () => refreshWalletInfo(ethereum!), WALLET_INFO_UPDATE_INTERVAL_MS)
 }
 
 async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
@@ -45,15 +51,16 @@ async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<vo
     globals.walletDisplayed = false
   } else {
     $('#wallet').slideDown(WALLET_SLIDE_DURATION_MS)
-    await refreshWalletInfo(ethereum)
     globals.walletDisplayed = true
+    await refreshWalletInfo(ethereum)
   }
 }
 
 async function displayInvested(ethereum: MetaMaskInpageProvider): Promise<void> {
   try {
     const invested = await getInvestedNat(ethereum)
-    $('#kuco-invested-output').text(formatUnits(invested, 18))
+    const formatted = formatUnitsTruncate(invested, 18, MAX_AVAX_DECIMALS_DISPLAY)
+    $('#kuco-invested-output').text(formatted)
   } catch (err: any) {
     console.log(err.message)
   }
@@ -62,7 +69,8 @@ async function displayInvested(ethereum: MetaMaskInpageProvider): Promise<void> 
 async function displayBalance(ethereum: MetaMaskInpageProvider): Promise<void> {
   try {
     const balance = await getKucoCoinBalance(ethereum)
-    $('#kuco-balance-output').text(formatUnits(balance, 18))
+    const formatted = formatUnitsTruncate(balance, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY)
+    $('#kuco-balance-output').text(formatted)
   } catch (err: any) {
     console.log(err.message)
   }
