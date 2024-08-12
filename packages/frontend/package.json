@@ -17,7 +17,7 @@
     "serve": "rimraf .parcel-cache && parcel src/index.html --cache-dir .parcel-cache",
     "---------- github pages -----------": "---------- github pages -----------",
     "production-build": "yarn build && echo kucocoin.wtf > dist/CNAME",
-    "deploy": "production-build && gh-pages -d dist"
+    "deploy": "yarn production-build && gh-pages -d dist"
   },
   "devDependencies": {
     "@kucocoin/contracts": "0.0.0",
