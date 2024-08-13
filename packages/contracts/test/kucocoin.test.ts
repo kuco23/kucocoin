@@ -446,6 +446,15 @@ describe("KucoCoin", () => {
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
     })
 
+    it("should not transfer on sundays", async () => {
+      const [, sender, receiver] = signers
+      await initKucoCoin(admin)
+      await fundAccountWithKuco(sender, ethers.parseEther("100"))
+      await moveToSunday()
+      await expect(kucocoin.connect(sender).transfer(receiver, 1))
+        .to.be.revertedWith('KucoCoin: token not working on Sundays')
+    })
+
     it("should not trade on sundays", async () => {
       const [, buyer] = signers
       await initKucoCoin(admin)
