@@ -14,7 +14,8 @@ const KUCOCOIN_FEATURE_FEE = ethers.parseEther("1")
 
 const DEFAULT_INITIAL_LIQUIDITY_KUCO = ethers.parseEther("100000000")
 const DEFAULT_INITIAL_LIQUIDITY_NAT = ethers.parseEther("100")
-const INVESTMENT_RETURN_BIPS = 11_000
+const INVESTMENT_INTEREST_BIPS = 500
+const INVESTMENT_FACTOR_BIPS = 10_000 + INVESTMENT_INTEREST_BIPS
 const TRADING_STARTS_AT = 7258114800
 const RETRACT_FEE_BIPS = 1000 // 10% fee on retracting the investment
 const RETRACT_ENDS_AT = TRADING_STARTS_AT + 24 * 60 * 60 * 14
@@ -69,7 +70,7 @@ describe("KucoCoin", () => {
   ): Promise<KucoCoin> {
     return factories.kucoCoin.connect(signer).deploy(
       uniswapV2Router,
-      INVESTMENT_RETURN_BIPS,
+      INVESTMENT_INTEREST_BIPS,
       TRADING_STARTS_AT,
       RETRACT_FEE_BIPS,
       RETRACT_ENDS_AT
@@ -183,7 +184,7 @@ describe("KucoCoin", () => {
       await kucocoin.connect(investor1).claim(investor1)
       const balanceKuco1 = await kucocoin.balanceOf(investor1)
       const expectedRewardKuco1 = rewardKucoFromInvestedNat(
-        investedNat1, reserveKuco, reserveNat, INVESTMENT_RETURN_BIPS)
+        investedNat1, reserveKuco, reserveNat, INVESTMENT_FACTOR_BIPS)
       expect(balanceKuco1).to.be.greaterThan(0)
       expect(balanceKuco1).to.equal(expectedRewardKuco1)
       // test investment reward when liquidity pool is altered
@@ -193,7 +194,7 @@ describe("KucoCoin", () => {
       await kucocoin.connect(investor2).claim(investor2)
       const balanceKuco2 = await kucocoin.balanceOf(investor2)
       const expectedRewardKuco2 = rewardKucoFromInvestedNat(
-        investedNat2, reserveKucoAfter, reserveNatAfter, INVESTMENT_RETURN_BIPS)
+        investedNat2, reserveKucoAfter, reserveNatAfter, INVESTMENT_FACTOR_BIPS)
       expect(balanceKuco2).to.be.greaterThan(0)
       expect(balanceKuco2).to.equal(expectedRewardKuco2)
     })

@@ -62,9 +62,9 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         uniswapV2Router = _uniswapV2;
         wNat = _uniswapV2.WETH();
         // distribution functionality params
-        investmentFactorBips = 10_000 + _investmentInterestBips;
+        investmentFactorBips = MAX_BIPS + _investmentInterestBips;
         tradingPhaseStart = _tradingPhaseStart;
-        retractFactorBips = 10_000 - _retractFeeBips;
+        retractFactorBips = MAX_BIPS - _retractFeeBips;
         retractPhaseEnd = _retractPhaseEnd;
         require(retractPhaseEnd > tradingPhaseStart, "KucoCoin: invalid phase timing");
         require(tradingPhaseStart > block.timestamp, "KucoCoin: trading phase already started");
@@ -259,7 +259,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         requireRetractPhase
     {
         uint112 amountInvestedNat = _investedBy[msg.sender];
-        uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFactorBips) / MAX_BIPS;
+        uint256 amountInvestedNatWithFee = amountInvestedNat * retractFactorBips / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
         _removeNatFromDex(amountInvestedNatWithFee, _receiver);

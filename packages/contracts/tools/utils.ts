@@ -62,5 +62,5 @@ export function storeKucoCoinDeploy(
 
 export function readKucoCoinDeploy(network: string): string {
   const addresses = JSON.parse(readFileSync('deploys.json', 'utf8'))
-  return addresses[network]
+  return addresses[network].address
 }

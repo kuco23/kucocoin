@@ -1,7 +1,7 @@
 {
   "fuji": {
     "kucocoin": {
-      "address": "0x919A1a7f43F0642548E0cfC1Dfe114F8F9858DcA",
+      "address": "0x324c535b7B540b7ef151Ad3D09078F6fa6af0A6e",
       "params": ["0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71", "500", "1723584600", "1000", "1723671000"]
     },
     "uniswapV2Router": {
