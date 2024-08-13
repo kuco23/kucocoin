@@ -37,8 +37,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     address immutable public wNat; // wrapped native token (AVAX / ETH / FLR / SGB)
     IUniswapV2Router immutable public uniswapV2Router;
     // distribution params
-    uint256 immutable public investmentReturnBips;
-    uint256 immutable public retractFeeBips;
+    uint256 immutable public investmentFactorBips;
+    uint256 immutable public retractFactorBips;
     uint64 immutable public tradingPhaseStart;
     uint64 immutable public retractPhaseEnd;
     // vars
@@ -51,7 +51,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
     constructor(
         IUniswapV2Router _uniswapV2,
-        uint256 _investmentReturnBips,
+        uint256 _investmentInterestBips,
         uint64 _tradingPhaseStart,
         uint256 _retractFeeBips,
         uint64 _retractPhaseEnd
@@ -62,10 +62,12 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         uniswapV2Router = _uniswapV2;
         wNat = _uniswapV2.WETH();
         // distribution functionality params
-        investmentReturnBips = _investmentReturnBips;
+        investmentFactorBips = 10_000 + _investmentInterestBips;
         tradingPhaseStart = _tradingPhaseStart;
-        retractFeeBips = _retractFeeBips;
+        retractFactorBips = 10_000 - _retractFeeBips;
         retractPhaseEnd = _retractPhaseEnd;
+        require(retractPhaseEnd > tradingPhaseStart, "KucoCoin: invalid phase timing");
+        require(tradingPhaseStart > block.timestamp, "KucoCoin: trading phase already started");
     }
 
     receive() external payable {}
@@ -257,7 +259,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         requireRetractPhase
     {
         uint112 amountInvestedNat = _investedBy[msg.sender];
-        uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFeeBips) / MAX_BIPS;
+        uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFactorBips) / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
         _removeNatFromDex(amountInvestedNatWithFee, _receiver);
@@ -279,7 +281,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         returns (uint256)
     {
         (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-        return investmentReturnBips
+        return investmentFactorBips
             * _amountInvestedNat
             * reserveKuco
             / reserveNat

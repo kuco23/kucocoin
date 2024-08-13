@@ -2,10 +2,48 @@
 
 This is an implementation of a non-meme token on Avalanche. It has real world functionalities, like things and such, so it's definitely not a pyramid scheme. The code has also been audited by the author during implementation.
 
+## Deployment
 
-## Ideas
+To deploy the contract and frontend, do the following:
 
-Buy KucoCoin. it's meaningless, but so is your life.
+1. Obtain an account funded with enough AVAX (or test AVAX), then copy the private key inside `packages/contracts/.env` under the name `SIGNER_PRIVATE_KEY`,
+1. Move to `packages/contracts` and do:
+    - `yarn install`,
+    - `yarn compile`,
+    - `yarn cli deploy <investmentInterestBips> <investmentPhaseStartUnix> <retractFeeBips> <retractPhaseEndUnix> --network <avalanche|fuji>`,
+    - `yarn cli init <liquidityKUCO> <liquidityAVAX> --network <avalanche|fuji>`,
+    - `yarn hardhat verify <kucocoin-address> <uniswap-address> <investmentInterestBips> <investmentPhaseStartUnix> <retractFeeBips> <retractPhaseEndUnix> --network <avalanche|fuji>`,
+1. Move to `packages/frontend` and do:
+    - `yarn install`,
+    - copy `<investmentPhaseStartUnix>` and `<retractPhaseEndUnix>` into `packages/frontend/src/ts/config/token.ts`,
+    - replace the old kucocoin contract address in `packages/frontend/ts/config/network.ts` with the one from `packages/contracts/deploys.json`
+    - `yarn serve` to see frontend on `localhost:1234`,
+    - `yarn deploy` to deploy frontend on `gh-pages` (need to set that up on github tho).
+
+> **Note**
+> If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the places in `packages/frontend/index.html` where those values are used.
+
+## Testing
+
+You can test the frontend on a locally run avalanche fork, which comes with a funded account specified by the private key `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, which we'll refer to as `PRIVATE_KEY` in the following steps.
+
+1. Setup the `contracts` workspace and:
+    - open `.env` and fill in `SIGNER_PRIVATE_KEY=<PRIVATE_KEY>`.
+    - run `yarn fork-avalanche`,
+    - run `yarn kucocoin-deploy -n avalanchefork`,
+    - run `yarn kucocoin-init -n avalanchefork`.
+
+1. Set up Metamask and import the `PRIVATE_KEY`. You may need to delete metamask nonce cache to avoid some future errors.
+1. In frontend workspace:
+    - navigate to `src/ts/config/network.ts` and update `NETWORK` to `avalanchefork`,
+    - navigate to `src/ts/config/token.ts` and update `ADDRESS` to the one displayed after deploying `kucocoin` in step 1,
+    - run `yarn serve`.
+
+To configure investment and retract periods, you have to also navigate to `src/ts/config/token.ts` and update `START_TRADING_TIME_UNIX` and `END_RETRACT_PERIOD_UNIX` to the values obtained by running
+- `yarn cli get tradingPhaseStart -n avalanchefork`,
+- `yarn cli get retractPhaseEnd -n avalanchefork`,
+
+inside `contracts` workspace.
 
 ## Thanks to
 - Avalanche for honestly being the best chain,

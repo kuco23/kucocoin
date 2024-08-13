@@ -23,12 +23,12 @@ export async function readKucocoin(
   provider: JsonRpcApiProvider
 ): Promise<bigint> {
   const kucocoin = new Contract(kucocoinAddress, kucocoinAbi, provider) as unknown as KucoCoin
-  if (property === "investmentReturnBips") {
-    return kucocoin.investmentReturnBips()
+  if (property === "investmentFactorBips") {
+    return kucocoin.investmentFactorBips()
   } else if (property === "tradingPhaseStart") {
     return kucocoin.tradingPhaseStart()
-  } else if (property === "retractFeeBips") {
-    return kucocoin.retractFeeBips()
+  } else if (property === "retractFactorBips") {
+    return kucocoin.retractFactorBips()
   } else if (property === "retractPhaseEnd") {
     return kucocoin.retractPhaseEnd()
   } else {
@@ -44,12 +44,19 @@ export async function getUniswapV2Factory(
   return router.factory()
 }
 
-export function storeKucoCoinDeploy(address: string, network: string): void {
+export function storeKucoCoinDeploy(
+  address: string, network: string, uniswapV2Router: string,
+  investmentInterestBips: number, investmentDuration: string,
+  retractFeeBips: number, retractDuration: string
+): void {
   if (!existsSync('deploys.json')) {
       writeFileSync('deploys.json', JSON.stringify({}))
   }
   const addresses = JSON.parse(readFileSync('deploys.json', 'utf8'))
-  addresses[network] = address
+  addresses[network] = {
+    address: address,
+    params: [uniswapV2Router, investmentInterestBips, investmentDuration, retractFeeBips, retractDuration]
+  }
   writeFileSync('deploys.json', JSON.stringify(addresses, null, 2))
 }
 

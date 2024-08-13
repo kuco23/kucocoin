@@ -73,6 +73,7 @@ export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<vo
 
 export async function getLiquidityReserves(): Promise<{ reserveKuco: bigint, reserveNat: bigint }> {
   const provider = new JsonRpcProvider(NETWORK.metamask.rpcUrls[0])
+  console.log(NETWORK.metamask.rpcUrls[0])
   const contract = getKucoCoin(provider)
   return contract.getPoolReserves()
 }

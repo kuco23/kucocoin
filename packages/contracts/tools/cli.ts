@@ -23,12 +23,12 @@ program
   })
 program
   .command("deploy").description("deploy KucoCoin")
-  .argument("investment return (bips)", "factor at which to return the investment value")
+  .argument("investment interest (bips)", "factor at which to return the investment value")
   .argument("investment duration (seconds)", "duration of the investment phase")
   .argument("retract fee (bips)", "fee to be paid when retracting the investment")
   .argument("retract duration (seconds)", "duration of the retract phase")
   .action(async (
-    investmentReturnBips: number,
+    investmentInterestBips: number,
     investmentDuration: string,
     retractFeeBips: number,
     retractDuration: string,
@@ -36,14 +36,18 @@ program
   ) => {
     const kucocoinAddress = await deployKucocoin(
       info.uniswapV2,
-      investmentReturnBips,
+      investmentInterestBips,
       BigInt(investmentDuration),
       retractFeeBips,
       BigInt(retractDuration),
       signer
     )
     console.log(`KucoCoin deployed at ${kucocoinAddress}`)
-    storeKucoCoinDeploy(kucocoinAddress, program.opts().network)
+    storeKucoCoinDeploy(
+      kucocoinAddress, program.opts().network, info.uniswapV2,
+      investmentInterestBips, investmentDuration,
+      retractFeeBips, retractDuration
+    )
   })
 program
   .command("init").description("initialize KucoCoin")
@@ -55,7 +59,7 @@ program
   })
 program
   .command("get").description("get KucoCoin contract property")
-  .argument("<investmentReturnBips|tradingPhaseStart|retractFeeBips|retractPhaseEnd>", "property")
+  .argument("<investmentFactorBips|tradingPhaseStart|retractFactorBips|retractPhaseEnd>", "property")
   .action(async (propertyName: string, _options: OptionValues) => {
     const kucocoin = readKucoCoinDeploy(program.opts().network)
     const property = await readKucocoin(kucocoin, propertyName, provider)
