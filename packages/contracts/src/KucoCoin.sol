@@ -32,15 +32,6 @@ uint256 constant DEX_FACTOR_BIPS = DEX_MAX_BIPS - DEX_FEE_BIPS;
  */
 contract KucoCoin is IKucoCoin, ERC20, Ownable {
 
-    struct PeriodEntry {
-        mapping(uint16 => uint64) entry;
-        uint16 index;
-    }
-    struct ReserveSnapshot {
-        uint112 reserveKuco;
-        uint112 reserveNat;
-    }
-
     // constant addresses
     address immutable public burnAddress = 0x7B1aFE2745533D852d6fD5A677F14c074210d896;
     address immutable public wNat; // wrapped native token (AVAX / ETH / FLR / SGB)
@@ -51,10 +42,9 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     uint64 immutable public tradingPhaseStart;
     uint64 immutable public retractPhaseEnd;
     // vars
-    uint112 internal investedUnclaimed;
-    IKucoCoin.Phase public phase = Phase.Uninitialized; // logged phases
-    IUniswapV2Pair public uniswapV2Pair; // Kuco/wNat pair on dex
+    IUniswapV2Pair public uniswapV2Pair; // Kuco / wNat pair on dex
     bool private _forceTrading; // just for retracting on sundays
+    uint112 internal investedUnclaimed;
     // investment and period tracking
     mapping(address => uint112) private _investedBy;
     mapping(address => PeriodEntry) private _periodOf;
@@ -84,12 +74,12 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     // modifiers
 
     modifier requireInvestmentPhase() {
-        require(isInvestmentPhase(), "KucoCoin: not inside investment phase");
+        require(isInvestmentPhase(), "KucoCoin: investment no longer allowed");
         _;
     }
 
     modifier requireRetractPhase() {
-        require(isRetractPhase(), "KucoCoin: retract not allowed during this time");
+        require(isRetractPhase(), "KucoCoin: retract not allowed at current time");
         _;
     }
 
@@ -201,7 +191,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external payable
         onlyOwner
     {
-        require(phase == Phase.Uninitialized, "KucoCoin: already initialized");
+        require(address(uniswapV2Pair) == address(0), "KucoCoin: already initialized");
         //  add WNat / KUCO liquidity to the pool
         _mint(address(this), _amountKuco);
         _forceTrading = true;
@@ -214,8 +204,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
             block.timestamp
         );
         _forceTrading = false;
-        // mark investment phase
-        phase = Phase.Investment;
         // store uniswap v2 pair contract address
         IUniswapV2Factory uniswapV2Factory = IUniswapV2Factory(uniswapV2Router.factory());
         uniswapV2Pair = IUniswapV2Pair(uniswapV2Factory.getPair(address(this), wNat));
@@ -247,8 +235,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external
         requireTradingPhase
     {
-        _updatePhaseIfNecessary();
-        require(phase == Phase.Trading, "KucoCoin: not inside trading phase");
         uint112 amountInvestedNat = _investedBy[msg.sender];
         require(amountInvestedNat > 0, "KucoCoin: no investment to claim");
         uint256 amountClaimedKuco = getInvestmentReward(amountInvestedNat);
@@ -270,7 +256,6 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         external
         requireRetractPhase
     {
-        _updatePhaseIfNecessary();
         uint112 amountInvestedNat = _investedBy[msg.sender];
         uint256 amountInvestedNatWithFee = amountInvestedNat * (MAX_BIPS - retractFeeBips) / MAX_BIPS;
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
@@ -312,9 +297,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         internal view
         returns (bool)
     {
-        return
-            tradingPhaseStart > 0 &&
-            tradingPhaseStart <= block.timestamp &&
+        return tradingPhaseStart <= block.timestamp &&
             retractPhaseEnd > block.timestamp;
     }
 
@@ -323,18 +306,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         internal view
         returns (bool)
     {
-        return
-            tradingPhaseStart > 0 &&
-            tradingPhaseStart <= block.timestamp;
-    }
-
-    // should be called at the end of the investment phase
-    function _updatePhaseIfNecessary()
-        private
-     {
-        if (isTradingPhase() && phase == Phase.Investment) {
-            phase = Phase.Trading;
-        }
+        return tradingPhaseStart <= block.timestamp;
     }
 
     function _addNatToDex(
@@ -355,13 +327,12 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
             block.timestamp
         );
         _forceTrading = false;
-        // sync called right after _burn!
         IUniswapV2Pair _pair = uniswapV2Pair;
         _burn(address(_pair), addedKuco);
         _pair.sync();
         // in case not all KUCO/NAT liquidity was added (numeric errors or unusual dex impl)
         if (addedKuco < mintedKuco) _burn(address(this), mintedKuco - addedKuco);
-        if (addedNat < msg.value) TransferHelper.safeTransferNAT(_to, msg.value - addedNat);
+        if (addedNat < msg.value) TransferHelper.safeTransferNAT(_to, msg.value - addedNat); // call last
     }
 
     // notice that this method is vulnerable to reentrancy through the
@@ -385,7 +356,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
             liquidity,
             0, // is ok
             _amountNat - 1, // numeric error
-            address(this),
+            address(this), // security: not to _to yet
             block.timestamp
         );
         _pair.approve(address(uniswapV2Router), 0);
@@ -395,7 +366,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         // carefully transfer NAT to _to
         uint256 balanceNat = address(this).balance;
         uint256 giveNat = balanceNat >= _amountNat ? _amountNat : balanceNat;
-        TransferHelper.safeTransferNAT(_to, giveNat);
+        if (giveNat > 0) TransferHelper.safeTransferNAT(_to, giveNat);
     }
 
     function _updateInvested(
@@ -440,11 +411,10 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         address to,
         uint256 /* amount */
     )
-        internal override
+        internal view override
     {
-        _updatePhaseIfNecessary();
         if (from == address(0) || to == address(0) || _forceTrading) return;
-        require(isTradingPhase(), "KucoCoin: token transfers are only allowed during the trading phase");
+        require(isTradingPhase(), "KucoCoin: trading not yet allowed");
         require(!isSunday(), "KucoCoin: token not working on Sundays");
     }
 
@@ -459,7 +429,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
             if (to == address(uniswapV2Pair)) {
                 (, uint256 reserveNat) = getPoolReserves();
                 require(reserveNat >= investedUnclaimed,
-                    "KucoCoin: trying to withdraw too much NAT from pool during the retract phase");
+                    "KucoCoin: withdrawn liquidity is protected during retract phase");
             }
         }
     }

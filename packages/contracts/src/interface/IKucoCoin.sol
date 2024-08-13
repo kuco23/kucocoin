@@ -5,7 +5,11 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
 interface IKucoCoin is IERC20 {
-    enum Phase { Uninitialized, Investment, Trading }
+
+    struct PeriodEntry {
+        mapping(uint16 => uint64) entry;
+        uint16 index;
+    }
 
     function burnAddress() external view returns (address);
     function tradingPhaseStart() external view returns (uint64);
@@ -13,7 +17,6 @@ interface IKucoCoin is IERC20 {
     function retractFeeBips() external view returns (uint256);
     function retractPhaseEnd() external view returns (uint64);
     function getInvestedNatOf(address _receiver) external view returns (uint256);
-    function phase() external view returns (Phase);
 
     function buy(
         uint256 _minKuco,
