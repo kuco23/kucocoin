@@ -57,9 +57,10 @@ inside `contracts` workspace.
 - [x] Modal for wallet balance,
 - [x] Button for period data fetching,
 - [ ] KucoCoin burn front-end integration,
-- [ ] KucoCoin freeze implementation and front-end integration,
+- [x] KucoCoin freeze implementation,
 - [x] disable retract button if it is overdue (and show a tooltip),
 - [x] better error display,
 - [ ] format error display,
-- [x] get svg links for uniswap, metamask and avalanche,
-- [ ] error display "can't read properties of undefined" when metamask is not installed.
+- [x] get svg links for metamask and avalanche,
+- [ ] error display "can't read properties of undefined" when metamask is not installed,
+- [ ] copy kucocoin address to clipboard.
