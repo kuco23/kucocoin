@@ -5,11 +5,15 @@ import type { MetaMaskInpageProvider } from "@metamask/providers"
 export async function getChainId(
   ethereum: MetaMaskInpageProvider
 ): Promise<string> {
-  const chainId = await ethereum.request({
-    "method": "eth_chainId",
-    "params": []
-  })
-  return chainId! as string
+  try {
+    const chainId = await ethereum.request({
+      "method": "eth_chainId",
+      "params": []
+    })
+    return chainId! as string
+  } catch (err: any) {
+    return ''
+  }
 }
 
 export async function getAccounts(
