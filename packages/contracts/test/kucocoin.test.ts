@@ -441,7 +441,7 @@ describe("KucoCoin", () => {
       const resp4 = await kucocoin.connect(periodReporter).reportPeriod()
       const kucoBalance6 = await kucocoin.balanceOf(periodReporter)
       expect(kucoBalance5 - kucoBalance6).to.equal(periodLogFee)
-      const entries = await kucocoin.connect(periodReporter).getPeriodHistory()
+      const entries = await kucocoin.connect(periodReporter).periodHistory()
       const resps = [resp1, resp2, resp3, resp4]
       const timestamps = await Promise.all(resps.map(resp => getTimestampOfBlock(resp.blockNumber!)))
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
@@ -457,12 +457,12 @@ describe("KucoCoin", () => {
     })
 
     it("should not trade on sundays", async () => {
-      const [, buyer] = signers
+      const [, trader] = signers
       await initKucoCoin(admin)
-      await moveToTradingPhase()
+      await fundAccountWithKuco(trader, ethers.parseEther("100"))
       await moveToSunday()
-      await expect(kucocoin.connect(buyer).buy(0, buyer, ethers.MaxUint256, { value: 100 }))
-        .to.be.reverted
+      await expect(kucocoin.connect(trader).buy(0, trader, ethers.MaxUint256, { value: 100 })).to.be.reverted
+      await expect(kucocoin.connect(trader).sell(KUCOCOIN_FEATURE_FEE, 0, trader, ethers.MaxUint256)).to.be.reverted
     })
 
     it("should make a trans action", async () => {

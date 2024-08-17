@@ -417,7 +417,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         if (from == address(0) || to == address(0) || _forceTrading) return;
         require(isTradingPhase(), "KucoCoin: trading not yet allowed");
-        require(!isSunday(), "KucoCoin: token not working on Sundays");
+        require(!_isSunday(), "KucoCoin: token not working on Sundays");
     }
 
     function _afterTokenTransfer(
@@ -452,7 +452,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         _periodOf[msg.sender].entry[_periodOf[msg.sender].index++] = uint64(block.timestamp);
     }
 
-    function getPeriodHistory()
+    function periodHistory()
         external view
         returns(uint64[] memory)
     {
@@ -472,8 +472,9 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         address receiver = msg.sender;
         uint16 end = _periodOf[receiver].index;
-        require(end > 1, "KucoCoin Error: Not enough data to predict next period");
+        require(end > 0, "KucoCoin Error: Not enough data to predict next period");
         uint64 lastPeriod = _periodOf[receiver].entry[end-1];
+        if (end == 1) return lastPeriod + 30 days;
         uint64 firstPeriod = _periodOf[receiver].entry[0];
         uint64 duration = (lastPeriod - firstPeriod) / (end - 1);
         return lastPeriod + duration;
@@ -501,7 +502,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         }
     }
 
-    function isSunday()
+    function _isSunday()
         internal view
         returns (bool)
     {
