@@ -15,13 +15,13 @@ To deploy the contract and frontend, do the following:
     - `yarn hardhat verify <kucocoin-address> <uniswap-address> <investmentInterestBips> <investmentPhaseStartUnix> <retractFeeBips> <retractPhaseEndUnix> --network <avalanche|fuji>`,
 1. Move to `packages/frontend` and do:
     - `yarn install`,
-    - copy `<investmentPhaseStartUnix>` and `<retractPhaseEndUnix>` into `packages/frontend/src/ts/config/token.ts`,
-    - replace the old kucocoin contract address in `packages/frontend/ts/config/network.ts` with the one from `packages/contracts/deploys.json`
+    - replace the `packages/frontend/ts/config/network.ts` kucocoin address variable with the one from `packages/contracts/deploys.json`
+    - replace the `<investmentPhaseStartUnix>` and `<retractPhaseEndUnix>` variables inside `packages/frontend/src/ts/config/token.ts`,
     - `yarn serve` to see frontend on `localhost:1234`,
     - `yarn deploy` to deploy frontend on `gh-pages` (need to set that up on github tho).
 
 > **Note**
-> If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the places in `packages/frontend/index.html` where those values are used.
+> If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the places in `packages/frontend/index.html` where those values are used (in `kuconomics` section).
 
 ## Testing
 
