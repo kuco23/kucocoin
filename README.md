@@ -49,6 +49,7 @@ inside `contracts` workspace.
 - Avalanche for honestly being the best chain,
 - Uniswap for deploying their V2 on Avalanche,
 - People that developed [Namari](https://onepagelove.com/namari) for their free template hacked into KucoCoin frontend,
+- To tis guy for [this awesome pen](https://codepen.io/Rplus/pen/abPLGx),
 - To this guy for the [spiral animation](https://jsfiddle.net/j08691/CKWrN/),
 - To this guy for the [windows95 error tab in css](https://codepen.io/jkantner/pen/oNypPOZ),
 - To this guy that updated [UniwapV2 for Solidity 0.8.4](https://github.com/islishude/uniswapv2-solc0.8).
