@@ -23,6 +23,7 @@
     /* ❗Import before namari-color❗ */
     @import './css/namari-color.scss';
     @import './css/kucocoin-style.scss';
+    @import "./css/moving-borders.scss";
     @import './css/gradient-button.scss';
     @import './css/hypnotize.scss';
     @import './css/kucomoon.scss';
@@ -522,36 +523,27 @@
                 With those words in mind click the investment button below and choose how much to invest.
               </investment>
               <trading>
-                If you have followed the words above, collect your rewards below.
+                If you have followed the words above, claim your rewards below (or retract if you hate KucoCoin).
               </trading>
             </div>
           </div>
 
-          <investment>
-            <div class="text-center wow fadeIn" data-wow-delay="0.5s">
-              <div id="invest-interface" class="transaction-based-form invest-form">
-                <h2>INVESTING</h2>
-                <form>
-                  <input id="invest-amount" type="number" placeholder="AMOUNT AVAX" /><br />
-                  <input id="invest-submit" type="button" value="INVEST" />
+          <div class="text-center wow fadeIn" data-wow-delay="0.5s" style="width: 300px; height: 300px; position: relative;">
+              <div id="claim-interface" class="moving-borders">
+                <form class="invest-claim-retract-form">
+                  <investment style="height: 100%;">
+                    <input id="invest-amount" class="invest-amount-input" type="number" placeholder="AMOUNT AVAX" />
+                    <input id="invest-submit" class="invest-submit-input" type="button" value="INVEST" />
+                  </investment>
+                  <trading style="height: 100%;">
+                    <input id="claim-submit" class="claim-input" type="button" value="CLAIM" />
+                    <span id="retract-submit-container">
+                      <input id="retract-submit" class="retract-input" type="button" value="RETRACT" />
+                    </span>
+                  </trading>
                 </form>
               </div>
-            </div>
-          </investment>
-
-          <trading>
-            <div class="text-center wow fadeIn" data-wow-delay="0.5s">
-              <div id="claim-interface" class="transaction-based-form claim-retract-form">
-                <h2>CLAIM KUCO</h2>
-                <form>
-                  <input id="claim-submit" type="button" value="CLAIM" /><br />
-                  <span id="retract-submit-container">
-                    <input id="retract-submit" type="button" value="RETRACT" />
-                  </span>
-                </form>
-              </div>
-            </div>
-          </trading>
+          </div>
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
             <div class="text-content">
@@ -909,7 +901,7 @@
     </div>
   </div>
   <div class="loader" id="invest-interface-loader">
-    <div class="float-center lds-ellipsis">
+    <div class="float-center-y lds-ellipsis">
       <div></div>
       <div></div>
       <div></div>
@@ -917,7 +909,7 @@
     </div>
   </div>
   <div class="loader" id="claim-interface-loader">
-    <div class="float-center lds-ellipsis">
+    <div class="float-center-y lds-ellipsis">
       <div></div>
       <div></div>
       <div></div>

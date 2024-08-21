@@ -128,21 +128,12 @@ $buy-kucocoin-line-height: 1.2;
 $buy-kucocoin-font-color: white;
 $buy-kucocoin-entry-font-color: firebrick;
 
-/* Invest-related forms */
-$transaction-based-form-h2-font-family: 'Montserrat Alternates';
-$transaction-based-form-h2-font-size: 35px;
-$transaction-based-form-box-shadow: 0 0 4px #000011, 0 0 15px #000011, 0 0 35px black;
-$transaction-based-form-flicker-speed: 13s;
-$transaction-based-form-input-width: 250px;
-$transaction-based-form-input-font-size: 20px;
-$transactiob-based-form-input-padding: 10px;
-$transaction-based-form-input-border-radius: 5px;
-$transaction-based-form-input-font-family: 'Source Code Pro';
-$transaction-based-form-input-background-color: rgba(0,0,0,.2);
-$invest-form-h2-color: powderblue;
-$claim-form-h2-color: #B8FB3C;
-$claim-form-submit-color: limegreen;
-$claim-form-retract-color: firebrick;
+/* invest-claim-retract forms */
+$invest-claim-retract-input-hover: rgba(0,0,0,.2);
+$invest-amount-input-color: white;
+$invest-submit-input-color: powderblue;
+$claim-input-color: #B8FB3C;
+$retract-input-color: firebrick;
 
 /* blockquote */
 $blockquote-color: #ccc;

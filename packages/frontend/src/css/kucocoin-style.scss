@@ -148,13 +148,11 @@
     border: 1px solid $trans-action-color-1;
     color: $trans-action-color-2;
     background-color: $trans-action-background-1;
-    box-shadow: 0 0 10px $trans-action-color-1;
   }
   input:nth-child(2) {
     border: 1px solid $trans-action-color-2;
     color: $trans-action-color-1;
     background-color: $trans-action-background-2;
-    box-shadow: 0 0 10px $trans-action-color-2;
   }
   input::placeholder {
     color: $trans-action-color-3;
@@ -252,55 +250,40 @@ blockquote.ancient:after {
   content: "❞";
 }
 
-/* kucocoin invest / claim form */
+/* kucocoin invest/claim/retract form */
 
-.transaction-based-form {
-  display: inline-block;
-  margin: 20px;
-  padding: 12px 20px 20px 20px;
-  border-radius: 5px;
-  box-shadow: $transaction-based-form-box-shadow;
-
-  h2 {
-    font-size: $transaction-based-form-h2-font-size;
-    font-family: $transaction-based-form-h2-font-family;
-    text-transform: uppercase;
-    animation: flicker-text $transaction-based-form-flicker-speed infinite linear;
-  }
+.invest-claim-retract-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   input {
-    width: $transaction-based-form-input-width;
+    margin: 0;
+    width: 100%;
+    height: 50%;
+    font-size: 18px;
     text-align: center;
-    height: calc($transaction-based-form-input-font-size * 2 + 5px); // button value field sinks to the bottom otherwise
-    padding: $transactiob-based-form-input-padding;
-    font-size: $transaction-based-form-input-font-size;
-    font-family: $transaction-based-form-input-font-family;
-    background-color: $transaction-based-form-input-background-color;
-    border-radius: $transaction-based-form-input-border-radius;
     border: none;
   }
-}
 
-.invest-form {
-  h2 {
-    color: $invest-form-h2-color;
-    text-shadow: 0 0 4px $invest-form-h2-color, 0 0 15px white, 0 0 35px white ;
+  input:hover {
+    background-color: $invest-claim-retract-input-hover;
   }
-  input[type="button"]:hover {
-    color: $invest-form-h2-color;
-  }
-}
 
-.claim-retract-form {
-  h2 {
-    color: $claim-form-h2-color;
-    text-shadow: 0 0 4px $claim-form-h2-color, 0 0 15px white, 0 0 35px white;
+  .claim-input {
+    color: $claim-input-color;
   }
-  #claim-submit {
-    color: $claim-form-submit-color;
+
+  .retract-input {
+    color: $retract-input-color;
   }
-  #retract-submit {
-    color: $claim-form-retract-color;
+
+  .invest-amount-input {
+    color: $invest-amount-input-color;
+  }
+
+  .invest-submit-input {
+    color: $invest-submit-input-color;
   }
 }
 
