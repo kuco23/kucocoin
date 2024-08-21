@@ -37,6 +37,7 @@ function setLinks(): void {
   $('a[data-title="Uniswap"]').attr('href', NETWORK.uniswap)
   $('a[title="Uniswap"]').attr('href', NETWORK.uniswap)
   $('#buy-kucocoin').on('click', () => window.open(NETWORK.uniswap, '_blank'))
+
 }
 
 function displayKucoStages(): void {
