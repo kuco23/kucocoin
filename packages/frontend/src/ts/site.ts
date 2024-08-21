@@ -111,7 +111,7 @@ function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
       requireMetamask()
-      loadingStart('invest-interface')
+      loadingStart('invest-claim-retract-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
       await requireMetamaskNetwork(ethereum!)
@@ -121,7 +121,7 @@ function onInvestInKucoCoin(): void {
     } catch (err: any) {
       popupError("Investment failed", err.message.toString())
     } finally {
-      loadingEnd('invest-interface')
+      loadingEnd('invest-claim-retract-interface')
     }
   })
 }
@@ -130,7 +130,7 @@ function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
       requireMetamask()
-      loadingStart('claim-interface')
+      loadingStart('invest-claim-retract-interface')
       await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await claimKucoCoin(ethereum!, accounts[0])
@@ -138,7 +138,7 @@ function onClaimKucoCoin(): void {
     } catch (err: any) {
       popupError("Claim failed", err.message)
     } finally {
-      loadingEnd('claim-interface')
+      loadingEnd('invest-claim-retract-interface')
     }
   })
 }
@@ -161,7 +161,7 @@ function onRetractKucoCoin(): void {
     if (handleRetractEnd()) return
     try {
       requireMetamask()
-      loadingStart('claim-interface')
+      loadingStart('invest-claim-retract-interface')
       await requireMetamaskNetwork(ethereum!)
       const accounts = await requestAccounts(ethereum!)
       await retractKucoCoin(ethereum!, accounts[0])
@@ -169,7 +169,7 @@ function onRetractKucoCoin(): void {
     } catch (err: any) {
       popupError("Retract failed", err.message)
     } finally {
-      loadingEnd('claim-interface')
+      loadingEnd('invest-claim-retract-interface')
     }
   })
 }

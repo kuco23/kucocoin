@@ -6,7 +6,7 @@ export const KUCOCOIN_LOGO_URL = 'https://github.com/kuco23/kucocoin/blob/monore
 export const KUCOCOIN_ABI = abi
 
 // change this if necessary
-export const START_TRADING_TIME_UNIX = 17240904000
-export const END_RETRACT_PERIOD_UNIX = 17241768000
+export const START_TRADING_TIME_UNIX = 1724090400
+export const END_RETRACT_PERIOD_UNIX = 1724176800
 export const START_TRADING_TIME_UNIX_MS = START_TRADING_TIME_UNIX * 1000
 export const END_RETRACT_PERIOD_UNIX_MS = END_RETRACT_PERIOD_UNIX * 1000

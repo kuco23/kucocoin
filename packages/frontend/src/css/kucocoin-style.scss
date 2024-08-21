@@ -252,6 +252,12 @@ blockquote.ancient:after {
 
 /* kucocoin invest/claim/retract form */
 
+#invest-claim-retract {
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
 .invest-claim-retract-form {
   display: flex;
   flex-direction: column;
