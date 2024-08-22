@@ -200,7 +200,7 @@
             <div class="icon-block-description">
               <h4>Who is KucoCoin?</h4>
               <div class="text-content">
-                KucoCoin is a token deployed over the Avalanche network. Kuco means "love and prosper" in Nigerian.
+                KucoCoin is a token deployed on the Avalanche network. Kuco means "love and prosper" in Nigerian.
                 In contrast to many other tokens, KucoCoin is not a meme token. It is also <span class="underline">not a scam</span>,
                 those claims have been disproven many times, and ruined the careers of many so-called experts,
                 including Sergei Nazarov, Vitalik Buterin, and Satoshi Nakamoto.
@@ -250,8 +250,7 @@
                 <trading>
                   You can buy KucoCoin on Uniswap and trade it anywhere!
                 </trading>
-                To interact with the contract on Snowtrace, click <a target="_blank" data-title="Snowtrace">here</a>,
-                and add KucoCoin token to MetaMask wallet by clicking <a id="add-kucocoin-button">here</a>.
+                To add KucoCoin token to MetaMask wallet, click <a id="add-kucocoin-button">here</a>.
               </div>
             </div>
           </div>
@@ -353,7 +352,7 @@
               <h4>Attaining price stability</h4>
               <div class="text-content">
                 One day I urgently needed to make a bank transfer, but it was Sunday and the bank was closed.
-                I thought to myself, "Genius, get that shit in crypto!". Thus our love for the banking system was the motivation behind
+                I thought to myself, "Genius, get that shit in crypto!". Thus our love for the banking system was the inspiration behind
                 KucoCoin's work-free Sundays with all transactions halted on (CET) Sundays, just as God intended.
                 Additionally, on Sundays, KucoCoin can be neither bought nor sold, so its price remains stable.
                 This means <span class="underline">KUCO is a stablecoin</span> on Sundays when it can't be used.
@@ -379,7 +378,7 @@
                 We at KucoCoin firmly believe that everyone should be represented on the blockchain.
                 That is why we call our transactions <span class="underline">trans actions</span>&trade;. What does this mean?
                 Besides the usual <span class="code">transfer</span> method, our contract also features
-                the <span class="code">makeTransAction</span> method with the EXACT same functionality, except we additionally charge you 1 KUCO.
+                the <span class="code">makeTransAction</span> method with the EXACT same functionality, except we charge you one KUCO.
                 Act now by choosing the amount of KUCO you wish to act with, then click "Trans Act".
               </div>
               <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
@@ -465,7 +464,7 @@
             <h3>KUCONOMICS</h3>
             <h2>The Distribution Model</h2>
             <div class="text-content">
-              By discovering a trick in the mathematics of uniswap constant product math, we devised a
+              By discovering a trick in the mathematics of uniswap's constant product, we devised a
               way to make everyone profit out of their investment. Below we describe the tokenomics of KUCO distribution.
               The model assumes a fixed Uniswap-V2 liquidity pool, denoted <span class="code">LP</span>,
               that holds initially fixed deposit of a billion KUCO tokens, and collects AVAX in the form of investment.
@@ -475,16 +474,17 @@
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.5s">
             <h4>1. Investing AVAX liquidity</h4>
             <div class="text-content">
-              The liquidity pool <span class="code">LP</span> has an initial liquidity of a billion KUCO tokens and some AVAX deposited by the team.
-              By providing AVAX as liquidity, which is held by the contract, users can invest AVAX by depositing it in the pool.
-              Note that the AVAX <span class="underline">investment is refundable</span> after the investment phase for a 10% fee.
+              The pool <span class="code">LP</span> has initial liquidity of a billion KUCO tokens and some AVAX deposited by the team.
+              Users can invest in KucoCoin by providing AVAX liquidity, with liquidity pool tokens deposited to the KucoCoin contract.
+              Note that liquidity pool tokens are not burned to enable a <span class="underline">refundable AVAX investment</span>,
+              though after the investment phase for a 10% fee.
             </div>
           </div>
 
           <div class="col-2 icon-block wow fadeIn" data-wow-delay="0.3s">
             <h4>2. Collecting minted KUCO</h4>
             <div class="text-content">
-              After the investment phase, KUCO tokens can be minted and claimed by investors that followed Step 1.
+              After the investment phase, KUCO tokens can be minted and claimed by investors that followed step 1.
               The amount of KUCO minted is proportional to the amount of AVAX invested and the present liquidity in the pool.
               If you invested <span class="code">a</span> AVAX, then you will receive <span class="code">1.05 &#xd7; a &#xd7; K / A</span> KUCO,
               where <span class="code">K</span> is the total KUCO and <span class="code">A</span> is the total AVAX in the pool <span>LP</span>
@@ -494,11 +494,11 @@
 
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
             <div class="text-content">
-              Note that in the second step you get <span class="code">k</span> KUCO tokens, where <span class="code">k</span>
+              In the step 2. you get <span class="code">k</span> KUCO tokens, where <span class="code">k</span>
               solves the equation <span class="code">k &#xd7; A / K = 1.05 &#xd7; a</span>.
               Because <span class="code">A / K</span> is the liquidity pool's price (oracle) of 1 KUCO in AVAX,
               you effectively get <span class="code">1.05 &#xd7; a</span> AVAX worth of KUCO.
-              This can be interpreted as everyone profiting a 5% return on their investment.
+              This can be interpreted as you profiting a 5% return on your investment.
               If understanding this is too complex, below is a tl;dr of our scheme inside a triangle.
             </div>
           </div>
