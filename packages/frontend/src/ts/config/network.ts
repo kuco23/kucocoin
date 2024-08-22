@@ -17,6 +17,22 @@ const fuji = {
   uniswap: `https://testnet.snowtrace.io/address/${FUJI_UNISWAP_ROUTER_ADDRESS}/contract/43113/writeContract?chainId=43113#F10`
 }
 
+const avalanchefork = {
+  metamask: {
+    chainName: 'Avalanche Fork',
+    chainId: '0x7a69',
+    nativeCurrency: {
+      name: 'AvalancheFork',
+      decimals: 18,
+      symbol: 'FAVAX'
+    },
+    rpcUrls: ['https://51.178.88.56:8545/']
+  },
+  kucocoin: '0x1780bCf4103D3F501463AD3414c7f4b654bb7aFd',
+  snowtrace: '',
+  uniswap: ''
+}
+
 const avalanche = {
   metamask: {
     chainName: 'Avalanche Network C-Chain',
@@ -30,17 +46,4 @@ const avalanche = {
   }
 }
 
-const avalanchefork = {
-  metamask: {
-    chainName: 'Avalanche Fork',
-    chainId: '0x7a69',
-    nativeCurrency: {
-      name: 'AvalancheFork',
-      decimals: 18,
-      symbol: 'FAVAX'
-    },
-    rpcUrls: ['http://127.0.0.1:8545']
-  }
-}
-
-export const NETWORK = fuji
+export const NETWORK = avalanchefork

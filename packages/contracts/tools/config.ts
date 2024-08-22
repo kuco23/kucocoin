@@ -15,7 +15,7 @@ const networkInfoJson: NetworkInfoJson = require('../network-info.json')
 
 export const networkInfo: {[index: string]: NetworkInfo} = {
   'avalanchefork': {
-    rpc: 'http://localhost:8545/',
+    rpc: 'https://51.178.88.56:8545/',
     uniswapV2: networkInfoJson['avalanche']['uniswapV2Router'].address
   },
   'fuji': {

@@ -1,4 +1,12 @@
 {
+  "avalanchefork": {
+    "address": "0x1780bCf4103D3F501463AD3414c7f4b654bb7aFd",
+    "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1724364000", "1000", "1724450400"],
+    "uniswapV2Router": {
+      "address": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",
+      "params": ["", "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"]
+    }
+  },
   "fuji": {
     "kucocoin": {
       "address": "0x75AF24D9E330984F718BeCa47742fb554b95F568",

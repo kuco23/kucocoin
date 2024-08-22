@@ -2,6 +2,7 @@ import { NETWORK } from '../config/network'
 import { KUCOCOIN_SYMBOL, KUCOCOIN_DECIMALS, KUCOCOIN_LOGO_URL } from '../config/token'
 import type { MetaMaskInpageProvider } from "@metamask/providers"
 
+
 export async function getChainId(
   ethereum: MetaMaskInpageProvider
 ): Promise<string> {
@@ -51,15 +52,21 @@ export async function switchNetworkIfNecessary(
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: NETWORK.metamask.chainId }]
+        params: [{
+          chainId: NETWORK.metamask.chainId
+        }]
       })
     } catch (err: any) {
       // Chain not added to MetaMask
+      console.log('here')
       if (err.code === 4902) {
         try {
           await ethereum.request({
             method: 'wallet_addEthereumChain',
-            params: [NETWORK.metamask]
+            params: [{
+              ...NETWORK.metamask,
+              blockExplorerUrls: null
+          }],
           })
         } catch (err: any) {
           return false
