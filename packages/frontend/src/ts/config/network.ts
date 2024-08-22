@@ -46,4 +46,4 @@ const avalanche = {
   }
 }
 
-export const NETWORK = avalanchefork
+export const NETWORK = fuji
