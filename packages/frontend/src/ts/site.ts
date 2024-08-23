@@ -147,6 +147,7 @@ function onRetractKucoCoin(): void {
   function handleRetractEnd(): boolean {
     const retractPhaseEnded = getMsUnixNow() >= END_RETRACT_PERIOD_UNIX_MS
     if (retractPhaseEnded) {
+      console.log('retract period ended')
       $('#retract-submit-container')
         .attr('data-title', 'Retract period ended')
         .addClass('tooltip fade')
