@@ -131,8 +131,19 @@
 }
 
 /* trans action interface */
+
+#trans-action-interface-bg {
+  background-image: url('../images/misc/trans.svg');
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  filter: blur(8px);
+  opacity: 0.2;
+}
+
 #trans-action-interface {
-  margin: 20px 0;
+  position: relative;
+  padding: 20px 0;
   text-align: center;
 
   div {
@@ -142,35 +153,31 @@
   input {
     line-height: 15px;
     font-size: 15px;
-    border-radius: 5px;
   }
   input:nth-child(1) {
-    border: 1px solid $trans-action-color-1;
+    border: 2px solid $trans-action-color-1;
     color: $trans-action-color-2;
     background-color: $trans-action-background-1;
   }
   input:nth-child(2) {
-    border: 1px solid $trans-action-color-2;
+    border: 2px solid $trans-action-color-2;
     color: $trans-action-color-1;
     background-color: $trans-action-background-2;
   }
   input::placeholder {
-    color: $trans-action-color-3;
+    color: white;
+    font-weight: bold;
   }
 
   .trans-color-text {
     display: inline-block;
     padding-top: $trans-action-button-padding-top;
     font-size: $trans-action-button-font-size;
-    transition: rotate 2s ease;
+    opacity: 0.5;
   }
   .trans-color-text:hover {
     cursor: pointer;
-    rotate: $trans-action-button-rotation;
-  }
-  .trans-color-text:not(:hover) {
-    rotate: 0deg;
-    opacity: 0.5;
+    opacity: 1;
   }
   .trans-color-text:hover > span:nth-child(3n+1) {
     color: $trans-action-color-3;
@@ -194,37 +201,25 @@
 
 /* report period button */
 
-.report-period-button, .get-period-button {
+#report-period-button {
+  margin: 20px;
+  width: 150px;
+  height: 150px;
+  opacity: 0.5;
+}
+
+#report-period-button:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+#get-period-button {
   margin: $period-button-margin;
   padding: $period-button-padding;
   color: white;
   font-size: $period-button-font-size;
-  font-weight: bold;
-  transition: color 1s;
-  border-radius: 3px;
-}
-
-.get-period-button {
   font-family: $get-period-button-font-family;
-}
-
-.report-period-button {
-  font-family: $report-period-button-font-family;
-  animation: alternate-background $report-period-animation-duration alternate infinite ease-in-out;
-}
-
-.report-period-button:hover {
-  cursor: pointer;
-  color: red;
-}
-
-@keyframes alternate-background {
-  from {
-    background-color: DarkRed;
-  }
-  100% {
-    background-color: transparent;
-  }
+  font-weight: bold;
 }
 
 /* blockquote */

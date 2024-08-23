@@ -371,9 +371,44 @@
             </div>
           </div>
 
+          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
+            <div class="icon-block-description">
+              <h4>For women 👩 - track your menstrual cycle with KucoCoin!</h4>
+              <div class="text-content">
+                Did you ever want to track your menstrual cycle on the blockchain? Good news, now you can!
+                We at KucoCoin have identified the problem plaguing the blockchain space for years
+                and have implemented a simple solution. Our token is the first token to feature a method
+                called <span class="code">reportPeriod</span>, that logs the start of your period.
+                <trading>And all for the low price of 1 KUCO!</trading>
+                Stop syncing with the moon and sync with the blockchain instead, by clicking the monthly shame bellow.
+              </div>
+              <div>
+                <div class="text-center" id="report-period-interface">
+                  <img id="report-period-button" src="./images/misc/blood.svg" />
+                </div>
+              </div>
+              <div class="text-content">
+                KucoCoin stores all your period entires, and it uses on-chain AI (arithmetic icecream,
+                not to be confused with artificial intelligence) to predict your next period.
+                Click below to find out our prediction for your next period.
+              </div>
+              <div>
+                <div class="text-center" id="get-next-period-interface">
+                  <button id="get-period-button">
+                    GET NEXT PERIOD
+                  </button>
+                </div>
+              </div>
+              <div class="text-content">
+                Note that we use a 64-bit unsigned integer for the returned prediction date,
+                which means the maximum error of our prediction is 18,446,744,073,709,551,615 seconds.
+              </div>
+            </div>
+          </div>
+
           <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.3s">
             <div class="icon-block-description">
-              <h4>For LGBTQ community - introducing trans actions!</h4>
+              <h4>For LGBTQ community 🧔‍♀️ - introducing trans actions!</h4>
               <div class="text-content">
                 We at KucoCoin firmly believe that everyone should be represented on the blockchain.
                 That is why we call our transactions <span class="underline">trans actions</span>&trade;. What does this mean?
@@ -381,9 +416,10 @@
                 the <span class="code">makeTransAction</span> method with the EXACT same functionality, except we charge you one KUCO.
                 Act now by choosing the amount of KUCO you wish to act with, then click "Trans Act".
               </div>
-              <div style="border: 2px solid transparent;"> <!--hack so loading div doesn't resize-->
+              <div style="border: 2px solid transparent; position: relative;"> <!--hack so loading div doesn't resize-->
+                <div id="trans-action-interface-bg"></div>
                 <div id="trans-action-interface">
-                  <div>
+                  <div class="input-container">
                     <input id="trans-action-address" type="text" placeholder="TO ADDRESS" />
                     <input id="trans-action-amount" type="number" placeholder="AMOUNT KUCO" />
                   </div>
@@ -396,42 +432,6 @@
               <div class="text-content">
                 Note that currently making a trans action is the only way to show support to the trans community on the blockchain.
                 We urge you to not be on the wrong side of history by missing this unique opportunity.
-              </div>
-            </div>
-          </div>
-
-          <div class="col-1 icon-block wow fadeIn" data-wow-delay="0.5s">
-            <div class="icon-block-description">
-              <h4>For women - track your menstrual cycle with KucoCoin!</h4>
-              <div class="text-content">
-                Did you ever want to track your menstrual cycle on the blockchain? Good news, now you can!
-                We at KucoCoin have identified the problem plaguing the blockchain space for years
-                and have implemented a simple solution. Our token is the first token to feature a method
-                called <span class="code">reportPeriod</span>, that logs the start of your period.
-                <trading>And all for the low price of 1 KUCO!</trading>
-                Stop syncing with the moon and sync with the blockchain instead, by pressing the button bellow.
-              </div>
-              <div>
-                <div class="text-center" id="report-period-interface">
-                  <button class="report-period-button">
-                    REPORT
-                  </button>
-                </div>
-              </div>
-              <div class="text-content">
-                KucoCoin stores all your period entires, and it uses on-chain AI (arithmetic icecream,
-                not to be confused with artificial intelligence) to predict your next period.
-              </div>
-              <div>
-                <div class="text-center" id="get-next-period-interface">
-                  <button class="get-period-button">
-                    GET NEXT PERIOD
-                  </button>
-                </div>
-              </div>
-              <div class="text-content">
-                Note that we use a 64-bit unsigned integer for the returned prediction date,
-                which means the maximum error of our prediction is 18,446,744,073,709,551,615 seconds.
               </div>
             </div>
           </div>
@@ -477,7 +477,7 @@
               The pool <span class="code">LP</span> has initial liquidity of a billion KUCO tokens and some AVAX deposited by the team.
               Users can invest in KucoCoin by providing AVAX liquidity, with liquidity pool tokens deposited to the KucoCoin contract.
               Note that liquidity pool tokens are not burned to enable a <span class="underline">refundable AVAX investment</span>,
-              though after the investment phase for a 10% fee.
+              which is called "retraction" and possible after the investment phase for a 10% fee.
             </div>
           </div>
 
