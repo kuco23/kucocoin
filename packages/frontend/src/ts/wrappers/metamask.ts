@@ -58,7 +58,6 @@ export async function switchNetworkIfNecessary(
       })
     } catch (err: any) {
       // Chain not added to MetaMask
-      console.log('here')
       if (err.code === 4902) {
         try {
           await ethereum.request({
@@ -66,13 +65,14 @@ export async function switchNetworkIfNecessary(
             params: [{
               ...NETWORK.metamask,
               blockExplorerUrls: null
-          }],
+            }],
           })
         } catch (err: any) {
           return false
         }
+      } else {
+        return false
       }
-      return false
     }
   }
   return true

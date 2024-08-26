@@ -81,8 +81,7 @@ export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  const invested =await kucocoin.getInvestedNatOf(signer)
-  return invested
+  return kucocoin.getInvestedNatOf(signer)
 }
 
 export async function getKucoCoinBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {

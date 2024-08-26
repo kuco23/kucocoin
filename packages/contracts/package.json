@@ -18,10 +18,10 @@
     "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && yarn typechain",
     "---------- test ----------": "---------- test ----------",
     "test": "hardhat test",
-    "fork-avalanche": "yarn hardhat node --fork https://api.avax.network/ext/bc/C/rpc --fork-block-number 44532200",
+    "fork-avalanche": "yarn hardhat node --fork https://api.avax.network/ext/bc/C/rpc",
     "---------- live ----------": "---------- live ----------",
     "cli": "yarn ts-node tools/cli.ts",
-    "kucocoin-deploy": "yarn cli deploy 500 1724364000 1000 1724450400",
+    "kucocoin-deploy": "yarn cli deploy 500 1724788800 1000 1724875200",
     "kucocoin-init": "yarn cli init 1000000000000000000000000 100000000000000000",
     "verify": "yarn hardhat verify 0x75AF24D9E330984F718BeCa47742fb554b95F568 0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71 500 1724090400 1000 1724176800"
   },

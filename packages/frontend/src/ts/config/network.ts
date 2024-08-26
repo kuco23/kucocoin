@@ -1,4 +1,4 @@
-const FUJI_KUCOCOIN_ADDRESS = "0x75AF24D9E330984F718BeCa47742fb554b95F568"
+const FUJI_KUCOCOIN_ADDRESS = "0x6424da4c62a3694CF8bE0Ec6cCd4144a9aBE6Ef4"
 const FUJI_UNISWAP_ROUTER_ADDRESS = "0xA9992b1Cc07C2338e325870ccFEE73127F3E2b71"
 
 const fuji = {
@@ -26,7 +26,7 @@ const avalanchefork = {
       decimals: 18,
       symbol: 'FAVAX'
     },
-    rpcUrls: ['https://51.178.88.56:8545/']
+    rpcUrls: ['http://127.0.0.1:8545/']
   },
   kucocoin: '0x1780bCf4103D3F501463AD3414c7f4b654bb7aFd',
   snowtrace: '',
