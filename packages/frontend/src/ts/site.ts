@@ -68,7 +68,7 @@ function displayCountdown(tilUnix: number): void {
   const minute = second * 60
   const hour = minute * 60
   const day = hour * 24
-  let firstRender = true
+  let lastUpdated = 0
   const x = setInterval(() => {
     const countdown = new Date(tilUnix).getTime()
     const now = new Date().getTime()
@@ -80,16 +80,16 @@ function displayCountdown(tilUnix: number): void {
     }
     const seconds = Math.floor((distance % minute) / second)
     $('#countdown-seconds').text(seconds.toString().padStart(2, '0'))
-    if (seconds === 59 || firstRender) {
+    if (seconds === 59 || now - lastUpdated >= second) {
       const minutes = Math.floor((distance % hour) / minute)
       $('#countdown-minutes').text(minutes.toString().padStart(2, '0'))
       const hours = Math.floor((distance % day) / hour)
       $('#countdown-hours').text(hours.toString().padStart(2, '0'))
       const days = Math.floor(distance / day)
       $('#countdown-days').text(days.toString().padStart(2, '0'))
-      firstRender = false
     }
-  }, 1000)
+    lastUpdated = now
+  }, second)
 }
 
 function attachScrollUnderlining(): void {
