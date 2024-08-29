@@ -6,8 +6,8 @@ import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
 import { attachMetaMask } from './components/metamask'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
-import { NETWORK } from './config/network'
-import { KUCOCOIN_DECIMALS, START_TRADING_TIME_UNIX_MS , END_RETRACT_PERIOD_UNIX_MS } from './config/token'
+import { KUCOCOIN_DECIMALS } from './config/token'
+import { config } from './config/main'
 import { ethereum } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
@@ -32,11 +32,11 @@ function setPopup(): void {
 }
 
 function setLinks(): void {
-  $('a[data-title="Snowtrace"]').attr('href', NETWORK.snowtrace)
-  $('a[title="Snowtrace"]').attr('href', NETWORK.snowtrace)
-  $('a[data-title="Uniswap"]').attr('href', NETWORK.uniswap)
-  $('a[title="Uniswap"]').attr('href', NETWORK.uniswap)
-  $('#buy-kucocoin').on('click', () => window.open(NETWORK.uniswap, '_blank'))
+  $('a[data-title="Snowtrace"]').attr('href', config.token.snowtrace)
+  $('a[title="Snowtrace"]').attr('href', config.token.snowtrace)
+  $('a[data-title="Uniswap"]').attr('href', config.token.uniswap)
+  $('a[title="Uniswap"]').attr('href', config.token.uniswap)
+  $('#buy-kucocoin').on('click', () => window.open(config.token.uniswap, '_blank'))
 }
 
 function displayKucoStages(): void {
@@ -59,7 +59,7 @@ function displayKucoStages(): void {
 }
 
 function displayPhaseBasedContent(): void {
-  getMsUnixNow() >= START_TRADING_TIME_UNIX_MS
+  getMsUnixNow() >= config.token.startTradingTimeUnixMs
     ? $('investment').hide() : $('trading').hide()
 }
 
@@ -145,7 +145,7 @@ function onClaimKucoCoin(): void {
 
 function onRetractKucoCoin(): void {
   function handleRetractEnd(): boolean {
-    const retractPhaseEnded = getMsUnixNow() >= END_RETRACT_PERIOD_UNIX_MS
+    const retractPhaseEnded = getMsUnixNow() >= config.token.endRetractPeriodUnixMs
     if (retractPhaseEnded) {
       $('#retract-submit-container')
         .attr('data-title', 'Retract period ended')
@@ -234,7 +234,7 @@ async function attachPriceUpdater(): Promise<void> {
       const priceBips = PRICE_PRECISION * reserveNat / reserveKuco
       loadingEnd('price-interface')
       $('#price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
-      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, NETWORK.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
+      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, config.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
       $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
       loadingEnd('price-interface')
@@ -257,7 +257,7 @@ $(async () => {
   onReportPeriod()
   onGetNextPeriod()
   onMakeTransAction()
-  displayCountdown(START_TRADING_TIME_UNIX_MS)
+  displayCountdown(config.token.startTradingTimeUnixMs)
   await attachPriceUpdater()
   await attachWalletInfoRefresher()
 })

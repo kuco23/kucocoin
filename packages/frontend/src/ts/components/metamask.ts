@@ -3,7 +3,7 @@ import { addKucoCoinToken, requestAccounts, switchNetworkIfNecessary, getAccount
 import { popupSuccess, popupError } from './utils'
 import { ethereum, globals } from '../shared'
 import { walletSelector, refreshWalletInfo } from './wallet'
-import { NETWORK } from '../config/network'
+import { config } from '../config/main'
 
 
 declare const window: any
@@ -21,7 +21,7 @@ export async function attachMetaMask(): Promise<void> {
 async function initialMetaMaskStatus(): Promise<void> {
   if (ethereum !== undefined) {
     const chainId = await getChainId(ethereum)
-    if (chainId === NETWORK.metamask.chainId) {
+    if (chainId === config.metamask.chainId) {
       const accounts = await getAccounts(ethereum)
       if (accounts?.length) {
         globals.connectedAccount = accounts[0]
@@ -67,7 +67,7 @@ function onMetaMaskChange(): void {
   if (ethereum === undefined) return
   ethereum.on('accountsChanged', async (accounts) => {
     const chainId = await getChainId(ethereum!)
-    if (chainId === NETWORK.metamask.chainId) {
+    if (chainId === config.metamask.chainId) {
       globals.connectedAccount = (accounts as string[])[0]
       await updateConnectionDisplay(true)
     } else {
@@ -77,7 +77,7 @@ function onMetaMaskChange(): void {
     await refreshWalletInfo(ethereum!)
   })
   ethereum.on('chainChanged', async chainId => {
-    if (chainId === NETWORK.metamask.chainId) {
+    if (chainId === config.metamask.chainId) {
       const accounts = await getAccounts(ethereum!)
       globals.connectedAccount = accounts[0]
       await updateConnectionDisplay(true)

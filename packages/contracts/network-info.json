@@ -1,7 +1,9 @@
 {
   "avalanchefork": {
-    "address": "0x1780bCf4103D3F501463AD3414c7f4b654bb7aFd",
-    "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1724364000", "1000", "1724450400"],
+    "kucocoin": {
+      "address": "0x1780bCf4103D3F501463AD3414c7f4b654bb7aFd",
+      "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1724364000", "1000", "1724450400"]
+    },
     "uniswapV2Router": {
       "address": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",
       "params": ["", "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"]
@@ -19,8 +21,8 @@
   },
   "avalanche": {
     "kucocoin": {
-      "address": "",
-      "params": []
+      "address": "0x6323C8D0B431c5fAe077ad7f6Aac2724Da18C7Ba",
+      "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1725645600", "1000", "1725991200"]
     },
     "uniswapV2Router": {
       "address": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",

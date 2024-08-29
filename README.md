@@ -13,15 +13,15 @@ To deploy the contract and frontend, do the following:
     - `yarn cli deploy <investmentInterestBips> <investmentPhaseStartUnix> <retractFeeBips> <retractPhaseEndUnix> --network <avalanche|fuji>`,
     - `yarn cli init <liquidityKUCO> <liquidityAVAX> --network <avalanche|fuji>`,
     - `yarn hardhat verify <kucocoin-address> <uniswap-address> <investmentInterestBips> <investmentPhaseStartUnix> <retractFeeBips> <retractPhaseEndUnix> --network <avalanche|fuji>`,
+    - replace `network-info.json` with relevant information about your deploy.
 1. Move to `packages/frontend` and do:
     - `yarn install`,
-    - replace the `packages/frontend/ts/config/network.ts` kucocoin address variable with the one from `packages/contracts/deploys.json`
-    - replace the `<investmentPhaseStartUnix>` and `<retractPhaseEndUnix>` variables inside `packages/frontend/src/ts/config/token.ts`,
+    - navigate to `src/ts/config/network.ts` and update `network` to the network you deployed on,
     - `yarn serve` to see frontend on `localhost:1234`,
     - `yarn deploy` to deploy frontend on `gh-pages` (need to set that up on github tho).
 
 > **Note**
-> If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the places in `packages/frontend/index.html` where those values are used (in `kuconomics` section).
+> If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the sections in `packages/frontend/index.html` where those values are directly referenced (in `kuconomics` section).
 
 ## Testing
 
@@ -36,7 +36,6 @@ You can test the frontend on a locally run avalanche fork, which comes with a fu
 1. Set up Metamask and import the `PRIVATE_KEY`. You may need to delete metamask nonce cache to avoid some future errors.
 1. In frontend workspace:
     - navigate to `src/ts/config/network.ts` and update `NETWORK` to `avalanchefork`,
-    - navigate to `src/ts/config/token.ts` and update `ADDRESS` to the one displayed after deploying `kucocoin` in step 1,
     - run `yarn serve`.
 
 To configure investment and retract periods, you have to also navigate to `src/ts/config/token.ts` and update `START_TRADING_TIME_UNIX` and `END_RETRACT_PERIOD_UNIX` to the values obtained by running
