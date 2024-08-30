@@ -15,6 +15,10 @@ const config: HardhatUserConfig = {
       url: 'https://api.avax.network/ext/bc/C/rpc',
       chainId: 43114,
       gasPrice: 225000000000
+    },
+    avalanchefork: {
+      url: 'http://localhost:8545/ext/bc/C/rpc',
+      chainId: 31337
     }
   },
   etherscan: {

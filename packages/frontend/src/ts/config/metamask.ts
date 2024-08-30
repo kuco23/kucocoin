@@ -1,5 +1,5 @@
 export const avalancheforkMetamask = {
-  chainName: 'Avalanche Fork',
+  chainName: 'Avalanche Network C-Chain Fork',
   chainId: '0x7a69',
   nativeCurrency: {
     name: 'AvalancheFork',
