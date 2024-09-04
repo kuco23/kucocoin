@@ -1,16 +1,15 @@
+import { providers } from '../shared'
 import type { EIP6963AnnounceProviderEvent } from '@metamask/providers'
 
 
 declare const window: any
 
-export const providers: EIP6963AnnounceProviderEvent[] = []
-
-export function onPageLoad() {
+export function eip6963OnPageLoad() {
 
   window.addEventListener(
     "eip6963:announceProvider",
     (event: EIP6963AnnounceProviderEvent) => {
-      console.log(event.detail)
+      providers.push(event)
     }
   )
 

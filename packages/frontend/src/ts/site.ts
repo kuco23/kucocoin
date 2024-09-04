@@ -1,10 +1,17 @@
 import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
-import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate, mobileAndTabletCheck, requireMetamask } from './utils'
-import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
+import {
+  getMsUnixNow, setImmediateSyncInterval, insideViewport,
+  setImmediateAsyncInterval, formatUnitsTruncate,
+  formatUnixDate, mobileAndTabletCheck, requireMetamask
+} from './utils'
+import {
+  investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod,
+  makeTransAction, getLiquidityReserves, getNextPeriod
+} from './wrappers/contract'
 import { requestAccounts, requireMetamaskNetwork } from './wrappers/eip1193'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
-import { attachEIP1193 } from './components/eip1193'
+import { attachEip1193 } from './components/eip1193'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
@@ -13,6 +20,7 @@ import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
 } from './config/display'
+import { eip6963OnPageLoad } from './wrappers/eip6963'
 
 
 declare const window: any
@@ -247,7 +255,7 @@ $(async () => {
   setPopup()
   setLinks()
   attachWallet()
-  await attachEIP1193()
+  await attachEip1193()
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()
@@ -260,4 +268,5 @@ $(async () => {
   displayCountdown(config.token.startTradingTimeUnixMs)
   await attachPriceUpdater()
   await attachWalletInfoRefresher()
+  eip6963OnPageLoad()
 })

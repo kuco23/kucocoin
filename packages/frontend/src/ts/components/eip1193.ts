@@ -10,13 +10,11 @@ import type { MetaMaskInpageProvider } from '@metamask/providers'
 declare const window: any
 const metamaskSelector = '#metamask-connect-header, #metamask-connect-footer'
 
-export async function attachEIP1193(): Promise<void> {
+export async function attachEip1193(): Promise<void> {
   await initialWalletConnectStatus()
   onWalletConnectClick()
   onWalletStatusChange()
-  $('#add-kucocoin-button').on('click', async () => {
-    await onWalletAddKucoCoin()
-  })
+  onWalletAddKucoCoin()
 }
 
 async function initialWalletConnectStatus(): Promise<void> {
@@ -92,23 +90,25 @@ function onWalletStatusChange(): void {
   })
 }
 
-async function onWalletAddKucoCoin(): Promise<void> {
-  try {
-    const switched = await switchNetworkIfNecessary(ethereum!)
-    if (switched) {
-      const added = await addKucoCoinToken(ethereum!)
-      if (added) {
-        popupSuccess("KucoCoin added to Metamask")
+function onWalletAddKucoCoin(): void {
+  $('#add-kucocoin-button').on('click', async () => {
+    try {
+      const switched = await switchNetworkIfNecessary(ethereum!)
+      if (switched) {
+        const added = await addKucoCoinToken(ethereum!)
+        if (added) {
+          popupSuccess("KucoCoin added to Metamask")
+        } else {
+          popupError("Failed to add KucoCoin to Metamask")
+        }
       } else {
-        popupError("Failed to add KucoCoin to Metamask")
+        popupError("Failed to switch network to Avalanche")
       }
-    } else {
-      popupError("Failed to switch network to Avalanche")
+    } catch (err: any) {
+      popupError("Failed to add KucoCoin to Metamask")
+      console.log(err.message)
     }
-  } catch (err: any) {
-    popupError("Failed to add KucoCoin to Metamask")
-    console.log(err.message)
-  }
+  })
 }
 
 async function updateWalletConnectionDisplay(connected: boolean): Promise<void> {
