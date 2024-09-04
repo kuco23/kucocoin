@@ -2,9 +2,9 @@ import $ from 'jquery'
 import { parseUnits, parseEther, formatUnits } from 'ethers'
 import { getMsUnixNow, setImmediateSyncInterval, insideViewport, setImmediateAsyncInterval, formatUnitsTruncate, formatUnixDate, mobileAndTabletCheck, requireMetamask } from './utils'
 import { investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod, makeTransAction, getLiquidityReserves, getNextPeriod } from './wrappers/contract'
-import { requestAccounts, requireMetamaskNetwork } from './wrappers/metamask'
+import { requestAccounts, requireMetamaskNetwork } from './wrappers/eip1193'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
-import { attachMetaMask } from './components/metamask'
+import { attachEIP1193 } from './components/eip1193'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
@@ -247,7 +247,7 @@ $(async () => {
   setPopup()
   setLinks()
   attachWallet()
-  await attachMetaMask()
+  await attachEIP1193()
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()

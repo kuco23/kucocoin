@@ -7,7 +7,7 @@ import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY,
   WALLET_INFO_UPDATE_INTERVAL_MS, WALLET_INFO_UPDATE_OFFSET_S, WALLET_SLIDE_DURATION_MS
 } from '../config/display'
-import type { MetaMaskInpageProvider } from "@metamask/providers"
+import type { Eip1193Provider } from 'ethers'
 
 
 export const walletSelector = '#wallet-button-header, #wallet-button-footer'
@@ -23,7 +23,7 @@ export function attachWallet(): void {
   })
 }
 
-export async function refreshWalletInfo(ethereum: MetaMaskInpageProvider): Promise<void> {
+export async function refreshWalletInfo(ethereum: Eip1193Provider): Promise<void> {
   if (!globals.walletDisplayed) return
   if (globals.connectedAccount === undefined) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
@@ -45,7 +45,7 @@ export async function attachWalletInfoRefresher(): Promise<void> {
   await setImmediateAsyncInterval(async () => refreshWalletInfo(ethereum!), WALLET_INFO_UPDATE_INTERVAL_MS)
 }
 
-async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<void> {
+async function toggleWalletDisplay(ethereum: Eip1193Provider): Promise<void> {
   if (globals.walletDisplayed) {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
     globals.walletDisplayed = false
@@ -56,7 +56,7 @@ async function toggleWalletDisplay(ethereum: MetaMaskInpageProvider): Promise<vo
   }
 }
 
-async function displayInvested(ethereum: MetaMaskInpageProvider): Promise<void> {
+async function displayInvested(ethereum: Eip1193Provider): Promise<void> {
   try {
     const invested = await getInvestedNat(ethereum)
     const formatted = formatUnitsTruncate(invested, 18, MAX_AVAX_DECIMALS_DISPLAY)
@@ -66,7 +66,7 @@ async function displayInvested(ethereum: MetaMaskInpageProvider): Promise<void> 
   }
 }
 
-async function displayBalance(ethereum: MetaMaskInpageProvider): Promise<void> {
+async function displayBalance(ethereum: Eip1193Provider): Promise<void> {
   try {
     const balance = await getKucoCoinBalance(ethereum)
     const formatted = formatUnitsTruncate(balance, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY)

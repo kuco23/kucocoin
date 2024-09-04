@@ -1,5 +1,5 @@
 import { network } from "./network"
-import { avalancheforkMetamask, fujiMetamask, avalancheMetamask } from "./metamask"
+import { avalancheforkMetamask, fujiMetamask, avalancheMetamask } from "./eip1193"
 import { avalancheforkToken, fujiToken, avalancheToken } from "./token"
 
 let metamask = avalancheMetamask

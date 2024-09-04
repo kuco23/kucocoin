@@ -1,8 +1,8 @@
-import type { MetaMaskInpageProvider } from "@metamask/providers"
+import type { Eip1193Provider } from "ethers"
 
 declare const window: any
 
-export const ethereum: MetaMaskInpageProvider | undefined = window.ethereum
+export let ethereum: Eip1193Provider | undefined = window.ethereum
 export const globals: {
   connectedAccount: string | undefined
   walletDisplayed: boolean,

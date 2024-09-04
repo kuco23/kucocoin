@@ -2,8 +2,7 @@ import { BrowserProvider, Contract, JsonRpcProvider } from "ethers"
 import { KUCOCOIN_ABI } from "../config/token"
 import { config } from "../config/main"
 import { globals } from "../shared"
-import type { MetaMaskInpageProvider } from "@metamask/providers"
-import type { AddressLike, JsonRpcApiProvider } from "ethers"
+import type { AddressLike, JsonRpcApiProvider, Eip1193Provider } from "ethers"
 import type { IKucoCoin } from "@kucocoin/contracts/types"
 
 
@@ -12,7 +11,7 @@ function getKucoCoin(provider: JsonRpcApiProvider): IKucoCoin {
 }
 
 export async function investInKucoCoin(
-  ethereum: MetaMaskInpageProvider,
+  ethereum: Eip1193Provider,
   amount: bigint,
   receiver: string,
 ): Promise<void> {
@@ -23,7 +22,7 @@ export async function investInKucoCoin(
 }
 
 export async function claimKucoCoin(
-  ethereum: MetaMaskInpageProvider,
+  ethereum: Eip1193Provider,
   receiver: string
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
@@ -33,7 +32,7 @@ export async function claimKucoCoin(
 }
 
 export async function retractKucoCoin(
-  ethereum: MetaMaskInpageProvider,
+  ethereum: Eip1193Provider,
   receiver: string
 ): Promise<void> {
   const provider = new BrowserProvider(ethereum)
@@ -43,7 +42,7 @@ export async function retractKucoCoin(
 }
 
 export async function buyKucoCoin(
-  ethereum: MetaMaskInpageProvider,
+  ethereum: Eip1193Provider,
   amount: bigint,
   minKuco: bigint,
   deadline: number
@@ -54,14 +53,14 @@ export async function buyKucoCoin(
   await kucocoin.connect(signer).buy(minKuco, signer, deadline, { value: amount })
 }
 
-export async function makeTransAction(ethereum: MetaMaskInpageProvider, to: AddressLike, amount: bigint): Promise<void> {
+export async function makeTransAction(ethereum: Eip1193Provider, to: AddressLike, amount: bigint): Promise<void> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   await kucocoin.connect(signer).makeTransAction(to, amount)
 }
 
-export async function reportPeriod(ethereum: MetaMaskInpageProvider): Promise<void> {
+export async function reportPeriod(ethereum: Eip1193Provider): Promise<void> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
@@ -77,21 +76,21 @@ export async function getLiquidityReserves(): Promise<{ reserveKuco: bigint, res
   return contract.getPoolReserves()
 }
 
-export async function getInvestedNat(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+export async function getInvestedNat(ethereum: Eip1193Provider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   return kucocoin.getInvestedNatOf(signer)
 }
 
-export async function getKucoCoinBalance(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+export async function getKucoCoinBalance(ethereum: Eip1193Provider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
   return kucocoin.balanceOf(signer)
 }
 
-export async function getNextPeriod(ethereum: MetaMaskInpageProvider): Promise<bigint> {
+export async function getNextPeriod(ethereum: Eip1193Provider): Promise<bigint> {
   const provider = new BrowserProvider(ethereum)
   const kucocoin = getKucoCoin(provider)
   const signer = await provider.getSigner(globals.connectedAccount)

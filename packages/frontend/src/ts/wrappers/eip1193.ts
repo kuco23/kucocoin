@@ -1,10 +1,10 @@
 import { KUCOCOIN_SYMBOL, KUCOCOIN_DECIMALS, KUCOCOIN_LOGO_URL } from '../config/token'
 import { config } from '../config/main'
-import type { MetaMaskInpageProvider } from "@metamask/providers"
+import type { Eip1193Provider } from 'ethers'
 
 
 export async function getChainId(
-  ethereum: MetaMaskInpageProvider
+  ethereum: Eip1193Provider
 ): Promise<string> {
   try {
     const chainId = await ethereum.request({
@@ -18,7 +18,7 @@ export async function getChainId(
 }
 
 export async function getAccounts(
-  ethereum: MetaMaskInpageProvider
+  ethereum: Eip1193Provider
 ): Promise<string[]> {
   try {
     const accounts = await ethereum.request({
@@ -32,7 +32,7 @@ export async function getAccounts(
 }
 
 export async function requestAccounts(
-  ethereum: MetaMaskInpageProvider
+  ethereum: Eip1193Provider
 ): Promise<string[]> {
   try {
     const accounts = await ethereum.request({
@@ -46,7 +46,7 @@ export async function requestAccounts(
 }
 
 export async function switchNetworkIfNecessary(
-  ethereum: MetaMaskInpageProvider
+  ethereum: Eip1193Provider
 ): Promise<boolean> {
   if (await getChainId(ethereum) !== config.metamask.chainId) {
     try {
@@ -78,14 +78,14 @@ export async function switchNetworkIfNecessary(
   return true
 }
 
-export async function requireMetamaskNetwork(ethereum: MetaMaskInpageProvider): Promise<void> {
+export async function requireMetamaskNetwork(ethereum: Eip1193Provider): Promise<void> {
   if (!await switchNetworkIfNecessary(ethereum)) {
     throw new Error('Failed to switch network to Avalanche')
   }
 }
 
 export async function addKucoCoinToken(
-  ethereum: MetaMaskInpageProvider
+  ethereum: Eip1193Provider
 ): Promise<boolean> {
   try {
     const wasAdded = await ethereum.request({
