@@ -45,6 +45,7 @@ function setLinks(): void {
   $('a[data-title="Uniswap"]').attr('href', config.token.uniswap)
   $('a[title="Uniswap"]').attr('href', config.token.uniswap)
   $('#buy-kucocoin').on('click', () => window.open(config.token.uniswap, '_blank'))
+  $('.buy-kucocoin-link').attr('href', config.token.uniswap)
 }
 
 function displayKucoStages(): void {
