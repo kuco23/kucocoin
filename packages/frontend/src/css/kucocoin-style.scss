@@ -435,12 +435,7 @@ blockquote.ancient:after {
 
 .social-icons span[class^="icon-"], .social-icons span[class*=" icon-"] {
   transition: color .5s;
-  color: $social-icon-color;
   font-size: 14px;
-}
-
-.social-icons a:hover span[class^="icon-"], .social-icons a:hover span[class*=" icon-"] {
-  color: $social-icon-hover-color;
 }
 
 /* testimonials */

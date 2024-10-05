@@ -50,7 +50,7 @@
 /* Navigation Colors when the Navigation is sticky and solid */
 
 #header.nav-solid, #header.nav-solid a, #header.nav-solid i, #nav-mobile ul li a {
-  color: $background-color;
+  color: black;
 }
 
 #header nav a:hover {
@@ -62,15 +62,12 @@
 }
 
 #header.nav-solid nav a:hover {
-  background: $foreground-color;
   color: $header-hover-color;
 }
 
 #nav-mobile ul li a:hover {
-  background: $foreground-color;
   color: $header-hover-color;
 }
-
 
 /* Navigation Active State */
 
@@ -79,8 +76,8 @@
 }
 
 #header.nav-solid .active {
-  color: $header-hover-color;
-  border-color: $header-hover-color!important;
+  color: $header-underlined-color;
+  border-color: $header-underlined-color!important;
 }
 
 /*------------------------------------------------------------------------------------------*/

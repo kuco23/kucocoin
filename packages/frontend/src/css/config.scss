@@ -1,6 +1,7 @@
 /* global */
 $background-color: #171818;
-$foreground-color: #ccc;
+$foreground-color: darkred;
+$suptitle-color: white;
 $body-font-family: 'Source Code Pro', sans-serif, Arial, Helvetica;
 $h1-font-family: 'Open Sans', sans-serif, Arial, Helvetica;
 $h2-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
@@ -13,7 +14,8 @@ $banner-h1-animation-flicker-speed: 5s;
 
 /* Namari style */
 $section-title-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
-$header-hover-color: FireBrick;
+$header-hover-color: white;
+$header-underlined-color: white;
 
 /* popup */
 $popup-font-family: 'Coming Soon';
@@ -114,7 +116,7 @@ $gradient-button-animation-speed: 20s;
 $wallet-font-family: 'Open Sans', 'Montserrat Alternates';
 $wallet-label-font-size: 0.8rem;
 $wallet-label-font-weight: 100;
-$wallet-label-font-color: #444;
+$wallet-label-font-color: #000;
 $wallet-entry-font-size: 30px;
 $wallet-entry-font-color: white;
 $wallet-entry-text-shadow: 0 0 4px black;
@@ -137,8 +139,8 @@ $retract-input-color: firebrick;
 $blockquote-color: #ccc;
 
 /* social icons */
-$social-icon-color: #777;
-$social-icon-hover-color: FireBrick;
+$social-icon-solid-color: rgba(255,255,255,.6);
+$social-icon-solid-hover-color: white;
 
 /* underlining */
 $underline-color: firebrick;

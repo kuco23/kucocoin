@@ -443,12 +443,12 @@ section {
     -moz-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
-    color: #666;
+    color: $social-icon-solid-color;
 }
 
 #header.nav-solid .social-icons a:hover {
-    opacity: 1;
-    color: #e4473c;
+  color: $social-icon-solid-hover-color;
+  opacity: 1;
 }
 
 /* Responsive Nav Styling */
@@ -536,7 +536,7 @@ nav#nav-mobile li {
     margin: 0 20px;
     float: none;
     text-align: left;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid black;
 }
 
 nav#nav-mobile li:last-child {
@@ -544,7 +544,7 @@ nav#nav-mobile li:last-child {
 }
 
 .nav-solid nav#nav-mobile li {
-    border-top: 1px solid #e1e1e1;
+    border-top: 1px solid black;
     border-bottom: none;
 }
 
@@ -668,7 +668,7 @@ h6 {
 .section-heading h3 {
     font-size: 14px;
     font-weight: bold;
-    color: $foreground-color;
+    color: $suptitle-color;
     letter-spacing: 2px;
     padding-bottom: 0;
 }
@@ -1088,7 +1088,7 @@ h6 {
 }
 
 #scrollUp:before {
-    background: $foreground-color;
+    background: #ddd;
     font-family: "icomoon";
     font-size: 2.4em;
     font-style: normal;
