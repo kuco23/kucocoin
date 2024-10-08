@@ -536,7 +536,7 @@ nav#nav-mobile li {
     margin: 0 20px;
     float: none;
     text-align: left;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid black !important; /* force-out browser's dark mode */
 }
 
 nav#nav-mobile li:last-child {
@@ -544,7 +544,7 @@ nav#nav-mobile li:last-child {
 }
 
 .nav-solid nav#nav-mobile li {
-    border-top: 1px solid black;
+    border-top: 1px solid black !important; /* force-out browser's dark mode */
     border-bottom: none;
 }
 
