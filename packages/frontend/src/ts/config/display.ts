@@ -12,8 +12,4 @@ export const WALLET_INFO_UPDATE_INTERVAL_MS = 10_000
 export const WALLET_INFO_UPDATE_OFFSET_S = 2
 
 export const MAX_AVAX_DECIMALS_DISPLAY = 6
-export const MAX_KUCOCOIN_DECIMALS_DISPLAY = 6
-
-// dex
-export const DEX_FACTOR_BIPS = BigInt(997)
-export const DEX_MAX_BIPS = BigInt(1000)
+export const MAX_KUCOCOIN_DECIMALS_DISPLAY = 2
