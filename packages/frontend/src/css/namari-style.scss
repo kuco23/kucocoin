@@ -536,7 +536,7 @@ nav#nav-mobile li {
     margin: 0 20px;
     float: none;
     text-align: left;
-    border-bottom: 1px solid black !important; /* force-out browser's dark mode */
+    border-bottom: 1px solid black;
 }
 
 nav#nav-mobile li:last-child {
@@ -544,7 +544,7 @@ nav#nav-mobile li:last-child {
 }
 
 .nav-solid nav#nav-mobile li {
-    border-top: 1px solid black !important; /* force-out browser's dark mode */
+    border-top: 1px solid black;
     border-bottom: none;
 }
 
@@ -886,112 +886,6 @@ h6 {
     opacity: 0.2;
     backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-}
-
-/* --------- 6.5 Video ---------- */
-
-#video-box {
-    color:#fff;
-    position:relative;
-    overflow:hidden;
-    text-align:center;
-}
-
-.video_container, .easyContainer {
-    position: relative;
-    padding-bottom: 56.25%; /* 16/9 ratio */
-    margin: 0;
-    padding-top: 0; /* IE6 workaround*/
-    height: 0;
-    overflow: hidden;
-}
-
-.video_container iframe, .video_container object, .video_container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.slvj-lightbox iframe, .slvj-lightbox object, .slvj-lightbox embed {
-    width: 100% !important;
-    height: 529px !important;
-}
-
-.videojs-background-wrap {
-    overflow: hidden;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: -998;
-}
-
-#slvj-window {
-    width: 100%;
-    min-height: 100%;
-    z-index: 99999;
-    background: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-#slvj-window,
-#slvj-window * {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-#slvj-background-close {
-    width: 100%;
-    min-height: 100%;
-    z-index: 31;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-#slvj-back-lightbox {
-    max-width: 940px;
-    max-height: 529px;
-    z-index: 32;
-    text-align: center;
-    margin: 0 auto;
-}
-
-.slvj-lightbox {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    z-index: 53;
-}
-
-#slvj-close-icon:before {
-    font-family: "icomoon";
-    color: #fff;
-    content: '\e920';
-    font-size: 22px;
-    opacity: 0.5;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    z-index: 99999;
-    height: 22px;
-    width: 22px;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    cursor: pointer;
-}
-
-#slvj-close-icon:before:hover {
-    opacity: 1;
-    cursor: pointer;
 }
 
 /* --------- 6.6 Clients ---------- */
@@ -1709,11 +1603,6 @@ h6 {
         padding-bottom: 25px;
     }
 
-    /* Video */
-    .slvj-lightbox iframe, .slvj-lightbox object, .slvj-lightbox embed {
-        height: 270px !important;
-    }
-
     /* Footer */
     #landing-footer #copyright {
         float: left;
@@ -1804,11 +1693,6 @@ h6 {
 
     /*-----------------Sections-----------------*/
 
-    /* Video */
-    .slvj-lightbox iframe, .slvj-lightbox object, .slvj-lightbox embed {
-        height: 370px !important;
-    }
-
     /* Footer */
     #landing-footer #copyright {
         float: left;
@@ -1860,13 +1744,6 @@ h6 {
         margin-right: -40px;
         padding-left: 20px;
         padding-right: 20px;
-    }
-
-    /*-----------------Sections-----------------*/
-
-    /* Video */
-    .slvj-lightbox iframe, .slvj-lightbox object, .slvj-lightbox embed {
-        height: 432px !important;
     }
 
 }
