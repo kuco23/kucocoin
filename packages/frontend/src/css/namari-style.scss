@@ -1,5 +1,6 @@
 @import "./config.scss";
 @import "./icomoon.scss";
+@import "./animate.scss";
 
 /* Namari Landing Page v.1.1.0 Style Index - a free landing page by shapingrain.com
 
@@ -117,18 +118,22 @@ figure {
 
 .page-border .top-border {
     top: 0;
+    animation: 0.7s ease-in forwards fadeInDown;
 }
 
 .page-border .right-border {
     right: 0;
+    animation: 1.4s linear forwards fadeInRight;
 }
 
 .page-border .bottom-border {
     bottom: 0;
+    animation: 0.8s linear forwards fadeInUp;
 }
 
 .page-border .left-border {
     left: 0;
+    animation: 1.6s ease-in forwards fadeInLeft;
 }
 
 #wrapper {
