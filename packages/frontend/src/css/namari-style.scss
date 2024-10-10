@@ -1010,14 +1010,12 @@ h6 {
 }
 
 #status {
-    width: 110px;
-    height: 110px;
+    width: 32px;
+    height: 32px;
     position: absolute;
-    left: 50%; /* centers the loading animation horizontally one the screen */
-    top: 50%; /* centers the loading animation vertically one the screen */
-    background-position: center;
-    margin: -55px 0 0 -55px; /* is width and height divided by two */
-    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /*!
