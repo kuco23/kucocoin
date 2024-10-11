@@ -72,9 +72,7 @@ async function tryAutomaticallyConnectFirstWallet(wallet: EIP6963ProviderDetail)
 async function onWalletConnectClick(wallet: EIP6963ProviderDetail) {
   if (await switchNetworkIfNecessary(wallet.provider)) {
     if (!isCurrentWallet(wallet) || globals.connectedAccount === undefined) {
-      console.log('detecting accounts of', wallet.info.name)
       const accounts = await requestAccounts(wallet.provider)
-      console.log(accounts)
       if (accounts?.length) {
         await updateWalletConnectionDisplay(wallet)
         popupSuccess(`Connected to ${wallet.info.name}`)
