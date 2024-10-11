@@ -49,6 +49,7 @@
     @import "./css/tooltip.scss";
     @import "./css/loaders.scss";
     @import "./css/windows95-popup.scss";
+    @import "./css/eip6963.scss";
   </style>
 
   <!--Font Awesome and Google Webfonts-->
@@ -93,7 +94,7 @@
             </div>
             <!--End of Logo-->
 
-            <aside>
+            <aside id="social-icons-container"> <!-- contain eip6963-walet-choice -->
 
               <!--Social Icons in Header-->
               <ul class="social-icons">
@@ -118,14 +119,13 @@
                   </a>
                 </li>
                 <li>
-                  <a class="tooltip fade" data-title="MetaMask" id="metamask-connect-header">
-                    <span class="icon-metamask"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span><span class="path19"></span><span class="path20"></span><span class="path21"></span><span class="path22"></span><span class="path23"></span><span class="path24"></span><span class="path25"></span><span class="path26"></span><span class="path27"></span><span class="path28"></span><span class="path29"></span></span>
-                  </a>
-                  <a class="tooltip fade" data-title="Wallet" id="wallet-button-header">
-                    <span class="icon-wallet"></span>
+                  <a id="chosen-wallet-header">
+                    <span id="default-icon-wallet-header" class="icon-wallet"></span>
+                    <img id="chosen-icon-wallet-header" width="15px" height="15px" />
                   </a>
                 </li>
               </ul>
+              <div id="eip6963-wallet-choice" class="eip6963-dropdown"></div>
               <!--End of Social Icons in Header-->
 
             </aside>
@@ -137,7 +137,7 @@
                   <a href="#banner">Home</a>
                 </li>
                 <li>
-                  <a href="#buy">Buy KUCO</a>
+                  <a href="#buy">Buy KucoCoin</a>
                 </li>
                 <li>
                   <a href="#features">Features</a>
@@ -203,7 +203,7 @@
           </div>
           <div id="connected-address-container" class="col-3 text-center">
             <div class="wallet-entry">
-              <div class="label">Connected MetaMask address</div>
+              <div class="label">Connected <span id="wallet-name">wallet</span> address</div>
               <div id="connected-account-output" class="entry">0x</div>
             </div>
           </div>
@@ -788,11 +788,9 @@
             </a>
           </li>
           <li>
-            <a title="MetaMask" id="metamask-connect-footer">
-              <span class="icon-metamask"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span><span class="path19"></span><span class="path20"></span><span class="path21"></span><span class="path22"></span><span class="path23"></span><span class="path24"></span><span class="path25"></span><span class="path26"></span><span class="path27"></span><span class="path28"></span><span class="path29"></span></span>
-            </a>
-            <a title="Wallet" id="wallet-button-footer">
-              <span class="icon-wallet"></span>
+            <a title="Wallet" id="chosen-wallet-footer">
+              <span id="default-icon-wallet-footer" class="icon-wallet"></span>
+              <img id="chosen-icon-wallet-footer" width="14px" height="14px" />
             </a>
           </li>
         </ul>

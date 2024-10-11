@@ -1,15 +1,14 @@
-import { providers } from '../shared'
 import type { EIP6963AnnounceProviderEvent } from '@metamask/providers'
 
 
 declare const window: any
 
-export function eip6963OnPageLoad() {
+export function eip6963OnPageLoad(fn: (x: EIP6963AnnounceProviderEvent) => Promise<void>): void {
 
   window.addEventListener(
     "eip6963:announceProvider",
-    (event: EIP6963AnnounceProviderEvent) => {
-      providers.push(event)
+    async (event: EIP6963AnnounceProviderEvent) => {
+      await fn(event)
     }
   )
 

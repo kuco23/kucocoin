@@ -1,12 +1,12 @@
 import { network } from "./network"
-import { avalancheforkMetamask, fujiMetamask, avalancheMetamask } from "./eip1193"
+import { avalancheforkEip1193, fujiEip1193, avalancheEip1193 } from "./eip1193"
 import { avalancheforkToken, fujiToken, avalancheToken } from "./token"
 
-let metamask = avalancheMetamask
+let eip1193 = avalancheEip1193
 if (network === "fuji") {
-  metamask = fujiMetamask
+  eip1193 = fujiEip1193
 } else if (network === "avalanchefork") {
-  metamask = avalancheforkMetamask
+  eip1193 = avalancheforkEip1193
 }
 
 let token = avalancheToken
@@ -16,7 +16,4 @@ if (network === "fuji") {
   token = avalancheforkToken
 }
 
-export const config = {
-  metamask: metamask,
-  token: token
-}
+export const config = { eip1193, token }

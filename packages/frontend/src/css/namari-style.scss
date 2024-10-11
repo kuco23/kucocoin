@@ -89,14 +89,14 @@ figure {
 
 .page-border {
     position: fixed;
-    z-index: 99999;
+    z-index: 15;
     pointer-events: none;
 }
 
 .page-border .bottom-border, .page-border .left-border, .page-border .right-border, .page-border .top-border {
     background: #f3f3ef;
     position: fixed;
-    z-index: 9999;
+    z-index: 15;
 }
 
 .page-border > .top-border, .page-border > .right-border, .page-border > .bottom-border, .page-border > .left-border {
@@ -310,7 +310,7 @@ section {
 #header {
     height: 71px !important;
     overflow: visible;
-    z-index: 9999;
+    z-index: 10;
     width: 100%;
     position: absolute !important;
 }
@@ -1011,7 +1011,7 @@ h6 {
     right: 0;
     bottom: 0;
     background-color: $background-color; /* change if the mask should have another color then white */
-    z-index: 99999; /* makes sure it stays on top */
+    z-index: 9999; /* makes sure it stays on top */
 }
 
 #status {

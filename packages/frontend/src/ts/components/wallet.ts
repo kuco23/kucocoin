@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { formatUnitsTruncate, setImmediateAsyncInterval } from '../utils'
 import { getInvestedNat, getKucoCoinBalance } from '../wrappers/contract'
-import { globals, ethereum } from '../shared'
+import { globals } from '../shared'
 import { KUCOCOIN_DECIMALS } from '../config/token'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY,
@@ -10,16 +10,16 @@ import {
 import type { Eip1193Provider } from 'ethers'
 
 
-export const walletSelector = '#wallet-button-header, #wallet-button-footer'
-
 export function attachWallet(): void {
   $('#wallet').hide()
   $('#wallet-exit-button').on('click', () => {
     $('#wallet').slideUp(WALLET_SLIDE_DURATION_MS)
     globals.walletDisplayed = false
   })
-  $(walletSelector).on('click', async () => {
-    await toggleWalletDisplay(ethereum!)
+  $('#chosen-wallet-header, #chosen-wallet-footer').on('click', async () => {
+    if (globals.connectedWallet !== undefined) {
+      await toggleWalletDisplay(globals.connectedWallet.provider)
+    }
   })
 }
 
@@ -42,7 +42,12 @@ export async function refreshWalletInfo(ethereum: Eip1193Provider): Promise<void
 }
 
 export async function attachWalletInfoRefresher(): Promise<void> {
-  await setImmediateAsyncInterval(async () => refreshWalletInfo(ethereum!), WALLET_INFO_UPDATE_INTERVAL_MS)
+  await setImmediateAsyncInterval(async () => {
+    const provider = globals.connectedWallet?.provider
+    if (provider !== undefined) {
+      await refreshWalletInfo(provider)
+    }
+  }, WALLET_INFO_UPDATE_INTERVAL_MS)
 }
 
 async function toggleWalletDisplay(ethereum: Eip1193Provider): Promise<void> {

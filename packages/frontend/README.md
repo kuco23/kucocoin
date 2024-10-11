@@ -12,4 +12,5 @@ Icon library was generated with [icomoon](https://icomoon.io/), see the [stackov
 - [x] When refreshing the page, the page border doesn't render until scrolling to the top;
 - [ ] Metamask icon renders fucked on some devices, replace with EIP-6963 drop-down;
 - [ ] Navigation-based scrolldown is not accurate;
-- [ ] On some outdated mobile browsers the page stretches left and right.
+- [ ] On some outdated mobile browsers the page stretches left and right;
+- [ ] Z-index of the top border seems to not cover the navbar.

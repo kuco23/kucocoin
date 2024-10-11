@@ -48,12 +48,12 @@ export async function requestAccounts(
 export async function switchNetworkIfNecessary(
   ethereum: Eip1193Provider
 ): Promise<boolean> {
-  if (await getChainId(ethereum) !== config.metamask.chainId) {
+  if (await getChainId(ethereum) !== config.eip1193.chainId) {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{
-          chainId: config.metamask.chainId
+          chainId: config.eip1193.chainId
         }]
       })
     } catch (err: any) {
@@ -63,14 +63,16 @@ export async function switchNetworkIfNecessary(
           await ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [{
-              ...config.metamask,
+              ...config.eip1193,
               blockExplorerUrls: null
             }],
           })
         } catch (err: any) {
+          console.log(err)
           return false
         }
       } else {
+        console.log(err)
         return false
       }
     }
@@ -78,7 +80,7 @@ export async function switchNetworkIfNecessary(
   return true
 }
 
-export async function requireMetamaskNetwork(ethereum: Eip1193Provider): Promise<void> {
+export async function requireWalletOnAvalanche(ethereum: Eip1193Provider): Promise<void> {
   if (!await switchNetworkIfNecessary(ethereum)) {
     throw new Error('Failed to switch network to Avalanche')
   }

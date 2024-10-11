@@ -3,24 +3,23 @@ import { parseUnits, parseEther, formatUnits } from 'ethers'
 import {
   getMsUnixNow, setImmediateSyncInterval, insideViewport,
   setImmediateAsyncInterval, formatUnitsTruncate,
-  formatUnixDate, mobileAndTabletCheck, requireMetamask
+  formatUnixDate, mobileAndTabletCheck, requireConnectedWallet
 } from './utils'
 import {
   investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod,
   makeTransAction, getLiquidityReserves, getNextPeriod
 } from './wrappers/contract'
-import { requestAccounts, requireMetamaskNetwork } from './wrappers/eip1193'
+import { requestAccounts, requireWalletOnAvalanche } from './wrappers/eip1193'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
-import { attachEip1193 } from './components/eip1193'
+import { attachEip6963 } from './components/eip6963'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
-import { ethereum } from './shared'
+import { globals } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
 } from './config/display'
-import { eip6963OnPageLoad } from './wrappers/eip6963'
 
 
 declare const window: any
@@ -119,13 +118,13 @@ function attachScrollUnderlining(): void {
 function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('invest-claim-retract-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
-      await requireMetamaskNetwork(ethereum!)
-      const accounts = await requestAccounts(ethereum!)
-      await investInKucoCoin(ethereum!, amount, accounts[0])
+      await requireWalletOnAvalanche(wallet.provider)
+      const accounts = await requestAccounts(wallet.provider)
+      await investInKucoCoin(wallet.provider, amount, accounts[0])
       popupSuccess('Investment Successful')
     } catch (err: any) {
       popupError("Investment failed", err.message.toString())
@@ -138,11 +137,11 @@ function onInvestInKucoCoin(): void {
 function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('invest-claim-retract-interface')
-      await requireMetamaskNetwork(ethereum!)
-      const accounts = await requestAccounts(ethereum!)
-      await claimKucoCoin(ethereum!, accounts[0])
+      await requireWalletOnAvalanche(wallet.provider)
+      const accounts = await requestAccounts(wallet.provider)
+      await claimKucoCoin(wallet.provider, accounts[0])
       popupSuccess('Claim was successful')
     } catch (err: any) {
       popupError("Claim failed", err.message)
@@ -169,11 +168,11 @@ function onRetractKucoCoin(): void {
   $('#retract-submit').on('click', async () => {
     if (handleRetractEnd()) return
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('invest-claim-retract-interface')
-      await requireMetamaskNetwork(ethereum!)
-      const accounts = await requestAccounts(ethereum!)
-      await retractKucoCoin(ethereum!, accounts[0])
+      await requireWalletOnAvalanche(wallet.provider)
+      const accounts = await requestAccounts(wallet.provider)
+      await retractKucoCoin(wallet.provider, accounts[0])
       popupSuccess('Retract was successful')
     } catch (err: any) {
       popupError("Retract failed", err.message)
@@ -186,13 +185,13 @@ function onRetractKucoCoin(): void {
 function onMakeTransAction(): void {
   $('#trans-action-button').on('click', async () => {
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('trans-action-interface')
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
       const amount = parseUnits(amountInput, KUCOCOIN_DECIMALS)
-      await requireMetamaskNetwork(ethereum!)
-      await makeTransAction(ethereum!, to, amount)
+      await requireWalletOnAvalanche(wallet.provider)
+      await makeTransAction(wallet.provider, to, amount)
       popupSuccess('Trans Action Successful')
     } catch (err: any) {
       popupError("Trans Action Failed", err.message)
@@ -205,10 +204,10 @@ function onMakeTransAction(): void {
 function onReportPeriod(): void {
   $('#report-period-interface').on('click', async () => {
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('report-period-interface')
-      await requireMetamaskNetwork(ethereum!)
-      await reportPeriod(ethereum!)
+      await requireWalletOnAvalanche(wallet.provider)
+      await reportPeriod(wallet.provider)
       popupSuccess('Period Successfully Reported')
     } catch (err: any) {
       popupError("Period report failed", err.message)
@@ -221,10 +220,10 @@ function onReportPeriod(): void {
 function onGetNextPeriod(): void {
   $('#get-next-period-interface').on('click', async () => {
     try {
-      requireMetamask()
+      const wallet = requireConnectedWallet()
       loadingStart('get-next-period-interface')
-      await requireMetamaskNetwork(ethereum!)
-      const nextPeriodUnix = await getNextPeriod(ethereum!)
+      await requireWalletOnAvalanche(wallet.provider)
+      const nextPeriodUnix = await getNextPeriod(wallet.provider)
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
       popupSuccess(nextPeriod)
     } catch (err: any) {
@@ -243,7 +242,7 @@ async function attachPriceUpdater(): Promise<void> {
       const priceBips = PRICE_PRECISION * reserveNat / reserveKuco
       loadingEnd('price-interface')
       $('#price-output').text(formatUnits(priceBips, PRICE_PRECISION_DIGITS))
-      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, config.metamask.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
+      $('#reserve-output-nat').text(formatUnitsTruncate(reserveNat, config.eip1193.nativeCurrency.decimals, MAX_AVAX_DECIMALS_DISPLAY))
       $('#reserve-output-kuco').text(formatUnitsTruncate(reserveKuco, KUCOCOIN_DECIMALS, MAX_KUCOCOIN_DECIMALS_DISPLAY))
     } catch (err: any) {
       loadingEnd('price-interface')
@@ -251,12 +250,12 @@ async function attachPriceUpdater(): Promise<void> {
   }, PRICE_UPDATE_INTERVAL_MS)
 }
 
-$(async () => {
+$(() => {
   adjustForMobile()
   setPopup()
   setLinks()
   attachWallet()
-  await attachEip1193()
+  void attachEip6963()
   displayKucoStages()
   displayPhaseBasedContent()
   attachScrollUnderlining()
@@ -267,7 +266,6 @@ $(async () => {
   onGetNextPeriod()
   onMakeTransAction()
   displayCountdown(config.token.startTradingTimeUnixMs)
-  await attachPriceUpdater()
-  await attachWalletInfoRefresher()
-  eip6963OnPageLoad()
+  void attachPriceUpdater()
+  void attachWalletInfoRefresher()
 })

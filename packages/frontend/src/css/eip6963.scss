@@ -1,0 +1,29 @@
+$eip6963-choice-size: 18px;
+$right-offset-large: calc(20px + (32px - $eip6963-choice-size) / 2);
+$right-offset-small: calc(5px + (32px - $eip6963-choice-size) / 2);
+
+.eip6963-dropdown {
+  position: absolute;
+  right: $right-offset-large;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.eip6963-dropdown > a > img {
+  width: $eip6963-choice-size;
+  height: $eip6963-choice-size;
+  margin-top: 5px;
+}
+
+#chosen-icon-wallet-header,
+#chosen-icon-wallet-footer {
+  display: none;
+}
+
+@media only screen and (max-width: 1024) {
+  .eip6963-dropdown {
+    right: $right-offset-small;
+  }
+}

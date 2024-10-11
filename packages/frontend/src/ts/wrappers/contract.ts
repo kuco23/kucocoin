@@ -71,7 +71,7 @@ export async function reportPeriod(ethereum: Eip1193Provider): Promise<void> {
 // getters
 
 export async function getLiquidityReserves(): Promise<{ reserveKuco: bigint, reserveNat: bigint }> {
-  const provider = new JsonRpcProvider(config.metamask.rpcUrls[0])
+  const provider = new JsonRpcProvider(config.eip1193.rpcUrls[0])
   const contract = getKucoCoin(provider)
   return contract.getPoolReserves()
 }

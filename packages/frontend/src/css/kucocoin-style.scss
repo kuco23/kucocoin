@@ -11,7 +11,7 @@
   font-size: $popup-font-size;
   font-weight: bold;
   /* center and rotate */
-  z-index: 10000;
+  z-index: 19;
   bottom: 50%;
   right: 50%;
   transform: translate(50%, 50%) rotateZ(20deg);
@@ -77,7 +77,7 @@
 
 #kuco-stage-layer {
   cursor: default;
-  z-index: 9999;
+  z-index: 19;
   overflow-y: auto;
   display: none;
   position: fixed;
@@ -353,7 +353,7 @@ blockquote.ancient:after {
 /* wallet */
 
 .wallet {
-  z-index: 9999;
+  z-index: 15;
   position: fixed;
   width: calc(100% - 40px);
   left: 20px;
