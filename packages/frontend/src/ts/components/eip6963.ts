@@ -48,9 +48,8 @@ function attachMouseEvents() {
 }
 
 function addNewWalletOption(wallet: EIP6963ProviderDetail) {
-  const link = wallet.info.icon
-  const eltId = 'eip6963-wallet-' + wallet.info.name
-  $('#eip6963-wallet-choice').append(`<a id="${eltId}"><img src="${link}" /></a>`)
+  const eltId = getWalletChoiceElementId(wallet)
+  $('#eip6963-wallet-choice').append(`<a id="${eltId}"><img src="${wallet.info.icon}" /></a>`)
   $('#' + eltId).on('click', () => onWalletConnectClick(wallet))
 }
 
@@ -153,14 +152,18 @@ async function updateWalletConnectionDisplay(wallet?: EIP6963ProviderDetail) {
     $('#wallet-name').text(wallet.info.name)
     $('#default-icon-wallet-header, #default-icon-wallet-footer').hide()
     $('#chosen-icon-wallet-header, #chosen-icon-wallet-footer').attr('src', wallet.info.icon).show()
-    $('#eip6963-wallet-' + wallet.info.name).hide()
+    $('#' + getWalletChoiceElementId(wallet)).hide()
   }
   const previousWallet = globals.connectedWallet
   if (previousWallet !== undefined && (wallet === undefined || !isCurrentWallet(wallet))) {
-    $('#eip6963-wallet-' + previousWallet.info.name).show()
+    $('#' + getWalletChoiceElementId(previousWallet)).show()
   }
 }
 
 function isCurrentWallet(wallet: EIP6963ProviderDetail) {
   return globals.connectedWallet?.info.name === wallet.info.name
+}
+
+function getWalletChoiceElementId(wallet: EIP6963ProviderDetail) {
+  return 'eip6963-wallet-' + wallet.info.name.replace(/\s+/g, '-').toLowerCase()
 }
