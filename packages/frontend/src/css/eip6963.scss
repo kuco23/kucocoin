@@ -1,6 +1,4 @@
-$eip6963-choice-size: 18px;
-$right-offset-large: calc(20px + (32px - $eip6963-choice-size) / 2);
-$right-offset-small: calc(5px + (32px - $eip6963-choice-size) / 2);
+@import "./config.scss";
 
 .eip6963-dropdown {
   position: absolute;

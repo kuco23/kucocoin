@@ -466,3 +466,27 @@ blockquote.ancient:after {
   text-align: center;
   padding: 10px 0px;
 }
+
+/* adjusted footer */
+
+@media only screen and (min-width: 1024) {
+  #landing-footer #copyright, #landing-footer .social-icons {
+    width: calc(50% - 12px);
+    margin-bottom: 12px;
+  }
+  #landing-footer #copyright {
+    margin-left: 12px;
+  }
+  #landing-footer .social-icons {
+    margin-right: 12px;
+  }
+}
+
+@media only screen and (min-width: 1260) {
+  #landing-footer #copyright {
+    margin-left: 0px;
+  }
+  #landing-footer .social-icons {
+    margin-right: 0px;
+  }
+}

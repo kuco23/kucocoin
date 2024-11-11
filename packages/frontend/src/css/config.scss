@@ -145,3 +145,8 @@ $social-icon-solid-hover-color: white;
 $underline-color: firebrick;
 $underline-duration: 2s;
 $underline-delay: 0.75s;
+
+/* custom offset data */
+$eip6963-choice-size: 18px;
+$right-offset-large: calc(20px + (32px - $eip6963-choice-size) / 2);
+$right-offset-small: calc(5px + (32px - $eip6963-choice-size) / 2);
