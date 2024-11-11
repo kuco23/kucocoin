@@ -19,19 +19,20 @@
 /* Default Link Color */
 
 .la-ball-triangle-path {
-    color:FireBrick;
+  color: FireBrick;
 }
 
 /* Default Icon Color */
 
 .icon i {
-    color:#FF3131;
+  color: #FF3131;
 }
 
 /* Border Color */
 
-#banner .section-heading:before, .testimonial.classic footer:before {
-    background: firebrick;
+#banner .section-heading:before,
+.testimonial.classic footer:before {
+  background: firebrick;
 }
 
 
@@ -42,14 +43,18 @@
 
 /* Transparent Navigation Color on a Banner */
 
-#header nav a, #header i {
-    color: #ddd;
+#header nav a,
+#header i {
+  color: #ddd;
 }
 
 
 /* Navigation Colors when the Navigation is sticky and solid */
 
-#header.nav-solid, #header.nav-solid a, #header.nav-solid i, #nav-mobile ul li a {
+#header.nav-solid,
+#header.nav-solid a,
+#header.nav-solid i,
+#nav-mobile ul li a {
   color: black;
 }
 
@@ -73,12 +78,12 @@
 /* Navigation Active State */
 
 #header.nav-solid a {
-  border-color: transparent!important;
+  border-color: transparent !important;
 }
 
 #header.nav-solid .active {
   color: $header-underlined-color;
-  border-color: $header-underlined-color!important;
+  border-color: $header-underlined-color !important;
 }
 
 /*------------------------------------------------------------------------------------------*/
@@ -89,37 +94,42 @@
 /* Primary Background and Text Colors */
 
 .primary-color {
-    background-color:#FF3131;
+  background-color: #FF3131;
 }
 
-.primary-color, .primary-color .section-title, .primary-color, .featured, .featured {
-    color:#fff;
+.primary-color,
+.primary-color .section-title,
+.primary-color,
+.featured,
+.featured {
+  color: #fff;
 }
 
 .section-heading.with-brick h2:after {
-    background:firebrick;
-    content:"";
-    display:block;
-    width:30px;
-    height:5px;
-    margin-top:30px;
+  background: firebrick;
+  content: "";
+  display: block;
+  width: 30px;
+  height: 5px;
+  margin-top: 30px;
 }
 
 .text-center .section-heading.with-brick h2:after {
-    margin:30px auto 25px auto;
+  margin: 30px auto 25px auto;
 }
 
 /* Primary Icon Colors */
 
-.primary-color .icon i, .primary-color i {
-    color:#fff;
+.primary-color .icon i,
+.primary-color i {
+  color: #fff;
 }
 
 
 /* Secondary Background and Text Colors */
 
 .secondary-color {
-    background-color:#2e2e2e;
+  background-color: #2e2e2e;
 }
 
 
@@ -131,11 +141,11 @@
 /* Banner Background and Text Colors */
 
 #banner {
-    background:
-      linear-gradient(transparent, transparent, $background-color),
-      url("../images/banner.webp") no-repeat center top;
-    background-color: $background-color;
-    background-size: cover;
+  background:
+    linear-gradient(transparent, transparent, $background-color),
+    url("../images/banner.webp") no-repeat center top;
+  background-color: $background-color;
+  background-size: cover;
 }
 
 
@@ -145,98 +155,99 @@
 
 
 body {
-    font-family: $body-font-family;
-    font-size:15px;
-    font-weight:normal;
-    color:white;
-    background-color: $background-color;
+  font-family: $body-font-family;
+  font-size: 15px;
+  font-weight: normal;
+  color: white;
+  background-color: $background-color;
 }
 
 
 /* Banner Typography */
 
 #banner h1 {
-    font-family: $banner-font-family;
-    font-size:62px;
-    line-height:60px;
-    font-weight:800;
-    color: FireBrick;
-    text-shadow: black 0px 0px 8px, red 0 0 18px, black 0 0 30px, black 0 0 40px;
-    animation: flicker-text $banner-h1-animation-flicker-speed infinite linear;
+  font-family: $banner-font-family;
+  font-size: 62px;
+  line-height: 60px;
+  font-weight: 800;
+  color: FireBrick;
+  text-shadow: black 0px 0px 8px, red 0 0 18px, black 0 0 30px, black 0 0 40px;
+  animation: flicker-text $banner-h1-animation-flicker-speed infinite linear;
 }
 
 #banner h2 {
-    font-family: $body-font-family;
-    font-size:18px;
-    font-weight:300;
-    color: $kucomoon-moon-color;
-    text-shadow: black 0px 0px 8px, $kucomoon-moon-color 0 0 18px;
+  font-family: $body-font-family;
+  font-size: 18px;
+  font-weight: 300;
+  color: $kucomoon-moon-color;
+  text-shadow: black 0px 0px 8px, $kucomoon-moon-color 0 0 18px;
 }
 
 
 /* Section Title and Subtitle */
 
 .section-title {
-    font-family: $section-title-font-family;
-    font-size: 34px;
-    font-weight:700;
-    color:#fff;
+  font-family: $section-title-font-family;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fff;
 }
 
 /* Testimonial */
 
 .testimonial q {
-    font-family: 'Source Code Pro', monospace, sans-serif, Arial, Helvetica;
-    font-size: 17px;
-    font-weight:300;
+  font-family: 'Source Code Pro', monospace, sans-serif, Arial, Helvetica;
+  font-size: 17px;
+  font-weight: 300;
 }
 
-.testimonial.classic q, .testimonial.classic footer {
-    color:#fff;
+.testimonial.classic q,
+.testimonial.classic footer {
+  color: #fff;
 }
 
 /* Standard Headings h1-h6 */
 
 h1 {
-    font-family: $h1-font-family;
-    font-size: 40px;
-    font-weight:300;
-    color:#fff;
+  font-family: $h1-font-family;
+  font-size: 40px;
+  font-weight: 300;
+  color: #fff;
 }
 
 h2 {
-    font-family: $h2-font-family;
-    font-size: 34px;
-    font-weight:300;
-    color:#fff;
+  font-family: $h2-font-family;
+  font-size: 34px;
+  font-weight: 300;
+  color: #fff;
 }
 
 h3 {
-    font-family: $h3-font-family;
-    font-size: 30px;
-    font-weight:700;
-    color:#fff;
+  font-family: $h3-font-family;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
 }
 
 h4 {
-    font-family: $h4-font-family;
-    font-size: 18px;
-    font-weight:400;
-    color:#fff;
+  font-family: $h4-font-family;
+  font-size: 18px;
+  font-weight: 400;
+  color: #fff;
 }
 
 h5 {
-    font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
-    font-size: 16px;
-    font-weight:400;
-    color:#fff;
+  font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
 }
 
 h6 {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size: 14px;
-    font-weight:400;
-    color:#fff;
+  font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
 }
 
 
@@ -249,8 +260,8 @@ h6 {
 /* Button Hover Color */
 
 #banner .button:hover {
-    color:#FF3131;
-    border-color:#FF3131;
+  color: #FF3131;
+  border-color: #FF3131;
 }
 
 
@@ -258,15 +269,17 @@ h6 {
 /* 7. Footer */
 /*------------------------------------------------------------------------------------------*/
 
-#landing-footer, #landing-footer p, #landing-footer a {
-    font-family: 'Open Sans', sans-serif, Arial, Helvetica;
-    font-size:12px;
-    font-weight:normal;
-    color:#999;
+#landing-footer,
+#landing-footer p,
+#landing-footer a {
+  font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
 }
 
 /* Footer Icon Color */
 
 #landing-footer i {
-    color:#999;
+  color: #999;
 }
