@@ -93,18 +93,6 @@
 
 /* Primary Background and Text Colors */
 
-.primary-color {
-  background-color: #FF3131;
-}
-
-.primary-color,
-.primary-color .section-title,
-.primary-color,
-.featured,
-.featured {
-  color: #fff;
-}
-
 .section-heading.with-brick h2:after {
   background: firebrick;
   content: "";
@@ -116,20 +104,6 @@
 
 .text-center .section-heading.with-brick h2:after {
   margin: 30px auto 25px auto;
-}
-
-/* Primary Icon Colors */
-
-.primary-color .icon i,
-.primary-color i {
-  color: #fff;
-}
-
-
-/* Secondary Background and Text Colors */
-
-.secondary-color {
-  background-color: #2e2e2e;
 }
 
 
