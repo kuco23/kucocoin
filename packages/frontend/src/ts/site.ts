@@ -15,7 +15,6 @@ import { attachEip6963 } from './components/eip6963'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
-import { globals } from './shared'
 import {
   MAX_AVAX_DECIMALS_DISPLAY, MAX_KUCOCOIN_DECIMALS_DISPLAY, PRICE_PRECISION,
   PRICE_PRECISION_DIGITS, PRICE_UPDATE_INTERVAL_MS, UNDERLINE_CHECK_INTERVAL_MS
