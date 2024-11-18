@@ -3,7 +3,8 @@ import { parseUnits, parseEther, formatUnits } from 'ethers'
 import {
   getMsUnixNow, setImmediateSyncInterval, insideViewport,
   setImmediateAsyncInterval, formatUnitsTruncate,
-  formatUnixDate, mobileAndTabletCheck
+  formatUnixDate, mobileAndTabletCheck,
+  scrollTo
 } from './utils'
 import {
   investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod,
@@ -35,6 +36,10 @@ function setPopup(): void {
   $('#windows95-error button').on('click', () => {
     $('#windows95-error').hide()
   })
+}
+
+function setScrollAnimations(): void {
+  $('#scroll-to-investment').on('click', () => scrollTo('#invest-claim-retract'))
 }
 
 function setLinks(): void {
@@ -253,6 +258,7 @@ $(() => {
   adjustForMobile()
   setPopup()
   setLinks()
+  setScrollAnimations()
   attachWallet()
   void attachEip6963()
   displayKucoStages()
