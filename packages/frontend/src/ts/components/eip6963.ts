@@ -10,6 +10,19 @@ import type { EIP6963AnnounceProviderEvent, EIP6963ProviderDetail, MetaMaskInpag
 
 declare const window: any
 
+export async function ensureOrForceEip1193(): Promise<EIP6963ProviderDetail> {
+  if (globals.connectedAccount !== undefined) {
+    return globals.connectedWallet!
+  }
+  if (providers.length > 0) {
+    await onWalletConnectClick(providers[0], false)
+  }
+  if (globals.connectedAccount !== undefined) {
+    return globals.connectedWallet!
+  }
+  throw new Error('Failed to connect wallet.')
+}
+
 export async function attachEip6963() {
   onWalletAddKucoCoin()
   attachMouseEvents()
@@ -68,25 +81,25 @@ async function tryAutomaticallyConnectFirstWallet(wallet: EIP6963ProviderDetail)
   }
 }
 
-async function onWalletConnectClick(wallet: EIP6963ProviderDetail) {
+async function onWalletConnectClick(wallet: EIP6963ProviderDetail, popup = true) {
   if (await switchNetworkIfNecessary(wallet.provider)) {
     if (!isCurrentWallet(wallet) || globals.connectedAccount === undefined) {
       const accounts = await requestAccounts(wallet.provider)
       if (accounts?.length) {
         await updateWalletConnectionDisplay(wallet)
-        popupSuccess(`Connected to ${wallet.info.name}`)
+        popup && popupSuccess(`Connected to ${wallet.info.name}`)
         globals.connectedAccount = accounts[0]
         globals.connectedWallet = wallet
       } else {
-        popupError(`Failed to detect ${wallet.info.name} account`)
+        popup && popupError(`Failed to detect ${wallet.info.name} account`)
         await updateWalletConnectionDisplay()
       }
     } else {
-      popupSuccess(`Already connected to ${wallet.info.name}`)
+      popup && popupSuccess(`Already connected to ${wallet.info.name}`)
       await updateWalletConnectionDisplay(wallet)
     }
   } else {
-    popupError(`Failed to switch ${wallet.info.name} network to Avalanche`)
+    popup && popupError(`Failed to switch ${wallet.info.name} network to Avalanche`)
     await updateWalletConnectionDisplay()
   }
 }

@@ -3,7 +3,7 @@ import { parseUnits, parseEther, formatUnits } from 'ethers'
 import {
   getMsUnixNow, setImmediateSyncInterval, insideViewport,
   setImmediateAsyncInterval, formatUnitsTruncate,
-  formatUnixDate, mobileAndTabletCheck, requireConnectedWallet
+  formatUnixDate, mobileAndTabletCheck
 } from './utils'
 import {
   investInKucoCoin, claimKucoCoin, retractKucoCoin, reportPeriod,
@@ -11,7 +11,7 @@ import {
 } from './wrappers/contract'
 import { requestAccounts, requireWalletOnAvalanche } from './wrappers/eip1193'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
-import { attachEip6963 } from './components/eip6963'
+import { attachEip6963, ensureOrForceEip1193 } from './components/eip6963'
 import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
@@ -117,7 +117,7 @@ function attachScrollUnderlining(): void {
 function onInvestInKucoCoin(): void {
   $('#invest-submit').on('click', async () => {
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('invest-claim-retract-interface')
       const amountInput = $('#invest-amount').val()!
       const amount = parseEther(amountInput)
@@ -136,7 +136,7 @@ function onInvestInKucoCoin(): void {
 function onClaimKucoCoin(): void {
   $('#claim-submit').on('click', async () => {
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('invest-claim-retract-interface')
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
@@ -167,7 +167,7 @@ function onRetractKucoCoin(): void {
   $('#retract-submit').on('click', async () => {
     if (handleRetractEnd()) return
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('invest-claim-retract-interface')
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
@@ -184,7 +184,7 @@ function onRetractKucoCoin(): void {
 function onMakeTransAction(): void {
   $('#trans-action-button').on('click', async () => {
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('trans-action-interface')
       const to = $('#trans-action-address').val()!
       const amountInput = $('#trans-action-amount').val()!
@@ -203,7 +203,7 @@ function onMakeTransAction(): void {
 function onReportPeriod(): void {
   $('#report-period-interface').on('click', async () => {
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('report-period-interface')
       await requireWalletOnAvalanche(wallet.provider)
       await reportPeriod(wallet.provider)
@@ -219,7 +219,7 @@ function onReportPeriod(): void {
 function onGetNextPeriod(): void {
   $('#get-next-period-interface').on('click', async () => {
     try {
-      const wallet = requireConnectedWallet()
+      const wallet = await ensureOrForceEip1193()
       loadingStart('get-next-period-interface')
       await requireWalletOnAvalanche(wallet.provider)
       const nextPeriodUnix = await getNextPeriod(wallet.provider)
