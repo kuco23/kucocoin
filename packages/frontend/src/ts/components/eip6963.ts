@@ -11,10 +11,7 @@ import type { EIP6963AnnounceProviderEvent, EIP6963ProviderDetail, MetaMaskInpag
 declare const window: any
 
 export async function ensureOrForceEip1193(): Promise<EIP6963ProviderDetail> {
-  if (globals.connectedAccount !== undefined) {
-    return globals.connectedWallet!
-  }
-  if (providers.length > 0) {
+  if (globals.connectedAccount === undefined && providers.length > 0) {
     await onWalletConnectClick(providers[0], false)
   }
   if (globals.connectedAccount !== undefined) {
