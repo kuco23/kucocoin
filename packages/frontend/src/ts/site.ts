@@ -74,10 +74,10 @@ function switchPhaseBaseContent(trading: boolean, fade = 0): void {
   $(trading ? 'investment' : 'trading').fadeOut(fade)
   $(trading ? 'trading' : 'investment').fadeIn(fade)
   if (trading) {
-    $('#buy-kucocoin').text('Trade KUCO')
+    $('#buy-kucocoin').text('TRADE KUCO')
     $('#buy-kucocoin').on('click', () => window.open(config.token.uniswap, '_blank'))
   } else {
-    $('#buy-kucocoin').text('Invest in KUCO')
+    $('#buy-kucocoin').text('INVEST IN KUCO')
     $('#scroll-to-investment, #buy-kucocoin').on('click', () => scrollTo('#invest-claim-retract'))
   }
 }
