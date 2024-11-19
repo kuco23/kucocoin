@@ -190,6 +190,19 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     // investing through the uniswap v2 pool
 
     /**
+     * Amount of native invested
+     * @param _investor - user investing the native token
+     */
+    function getInvestedNatOf(
+        address _investor
+    )
+        external view
+        returns (uint256)
+    {
+        return _investedBy[_investor];
+    }
+
+    /**
      * @dev Initialize the investment phase
      * @param _amountKuco: the amount of kuco initially provided to the
      *  liquidity pool along with the sent nat
@@ -248,7 +261,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     {
         uint112 amountInvestedNat = _investedBy[msg.sender];
         require(amountInvestedNat > 0, "KucoCoin: no investment to claim");
-        uint256 amountClaimedKuco = getInvestmentReward(amountInvestedNat);
+        uint256 amountClaimedKuco = claimReturn(amountInvestedNat);
         _updateClaimed(msg.sender, amountInvestedNat);
         if (amountClaimedKuco > 0) {
             _mint(_receiver, amountClaimedKuco);
@@ -268,22 +281,13 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         requireRetractPhase
     {
         uint112 amountInvestedNat = _investedBy[msg.sender];
-        uint256 amountInvestedNatWithFee = amountInvestedNat * retractFactorBips / MAX_BIPS;
+        uint256 amountInvestedNatWithFee = retractionReturn(amountInvestedNat);
         require(amountInvestedNatWithFee > 0, "KucoCoin: investment too low to retract");
         _updateClaimed(msg.sender, amountInvestedNat);
         _removeNatFromDex(amountInvestedNatWithFee, _receiver);
     }
 
-    function getInvestedNatOf(
-        address _investor
-    )
-        external view
-        returns (uint256)
-    {
-        return _investedBy[_investor];
-    }
-
-    function getInvestmentReward(
+    function claimReturn(
         uint112 _amountInvestedNat
     )
         internal view
@@ -292,6 +296,15 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
         uint256 rewardAmountKuco = _quote(_amountInvestedNat, reserveNat, reserveKuco);
         return rewardAmountKuco * investmentFactorBips / MAX_BIPS;
+    }
+
+    function retractionReturn(
+        uint256 _amountInvestedNat
+    )
+        internal view
+        returns (uint256)
+    {
+        return _amountInvestedNat * retractFactorBips / MAX_BIPS;
     }
 
     function isInvestmentPhase()
@@ -450,7 +463,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         if (isRetractPhase()) {
             if (to == address(uniswapV2Pair)) {
                 (, uint256 reserveNat) = getPoolReserves();
-                require(reserveNat >= investedUnclaimed,
+                uint256 investedUnretracted = retractionReturn(investedUnclaimed);
+                require(reserveNat >= investedUnretracted,
                     "KucoCoin: withdrawn liquidity is protected during retract phase");
             }
         }
