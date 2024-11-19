@@ -38,16 +38,11 @@ function setPopup(): void {
   })
 }
 
-function setScrollAnimations(): void {
-  $('#scroll-to-investment').on('click', () => scrollTo('#invest-claim-retract'))
-}
-
 function setLinks(): void {
   $('a[data-title="Snowtrace"]').attr('href', config.token.snowtrace)
   $('a[title="Snowtrace"]').attr('href', config.token.snowtrace)
   $('a[data-title="Uniswap"]').attr('href', config.token.uniswap)
   $('a[title="Uniswap"]').attr('href', config.token.uniswap)
-  $('#buy-kucocoin').on('click', () => window.open(config.token.uniswap, '_blank'))
   $('.buy-kucocoin-link').attr('href', config.token.uniswap)
 }
 
@@ -71,8 +66,20 @@ function displayKucoStages(): void {
 }
 
 function displayPhaseBasedContent(): void {
-  getMsUnixNow() >= config.token.startTradingTimeUnixMs
-    ? $('investment').hide() : $('trading').hide()
+  const trading = getMsUnixNow() >= config.token.startTradingTimeUnixMs
+  switchPhaseBaseContent(trading)
+}
+
+function switchPhaseBaseContent(trading: boolean, fade = 0): void {
+  $(trading ? 'investment' : 'trading').fadeOut(fade)
+  $(trading ? 'trading' : 'investment').fadeIn(fade)
+  if (trading) {
+    $('#buy-kucocoin').text('Trade KUCO')
+    $('#buy-kucocoin').on('click', () => window.open(config.token.uniswap, '_blank'))
+  } else {
+    $('#buy-kucocoin').text('Invest in KUCO')
+    $('#scroll-to-investment, #buy-kucocoin').on('click', () => scrollTo('#invest-claim-retract'))
+  }
 }
 
 function displayCountdown(tilUnix: number): void {
@@ -87,8 +94,7 @@ function displayCountdown(tilUnix: number): void {
     const distance = countdown - now
     if (distance < 0) {
       clearInterval(x)
-      $('investment').hide(500)
-      $('trading').show(500)
+      switchPhaseBaseContent(true, 500)
     }
     const seconds = Math.floor((distance % minute) / second)
     $('#countdown-seconds').text(seconds.toString().padStart(2, '0'))
@@ -258,7 +264,6 @@ $(() => {
   adjustForMobile()
   setPopup()
   setLinks()
-  setScrollAnimations()
   attachWallet()
   void attachEip6963()
   displayKucoStages()
