@@ -290,11 +290,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         returns (uint256)
     {
         (uint256 reserveKuco, uint256 reserveNat) = getPoolReserves();
-        return investmentFactorBips
-            * _amountInvestedNat
-            * reserveKuco
-            / reserveNat
-            / MAX_BIPS;
+        uint256 rewardAmountKuco = _quote(_amountInvestedNat, reserveNat, reserveKuco);
+        return rewardAmountKuco * investmentFactorBips / MAX_BIPS;
     }
 
     function isInvestmentPhase()
@@ -362,7 +359,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         IUniswapV2Pair pair = uniswapV2Pair;
         uint256 totalLiquidity = pair.totalSupply();
         (, uint256 reserveNat) = getPoolReserves();
-        uint256 liquidity = totalLiquidity * _amountNat / reserveNat;
+        uint256 liquidity = _quote(_amountNat, reserveNat, totalLiquidity);
         pair.approve(address(uniswapV2Router), liquidity);
         _forceTrading = true;
         (uint256 _amountKuco,) = uniswapV2Router.removeLiquidityETH(
