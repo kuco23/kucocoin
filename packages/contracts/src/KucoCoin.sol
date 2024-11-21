@@ -387,7 +387,7 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
         _transfer(address(this), address(pair), _amountKuco);
         pair.sync();
         _forceTrading = false;
-        // transfer overflow contract nat to _to
+        // transfer nat to _to
         _transferNat(_amountNat, _to);
     }
 

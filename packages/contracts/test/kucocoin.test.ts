@@ -1,11 +1,12 @@
 import { ethers } from "hardhat"
 import { time, reset } from "@nomicfoundation/hardhat-network-helpers"
 import { expect } from "chai"
-import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat } from "./utils/calculations"
+import { swapOutput, optimalAddedLiquidity, rewardKucoFromInvestedNat, retractedNatFromInvestedNat, secondsTilMonday } from "./utils/calculations"
 import { getFactories } from "./utils/factories"
 import type { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 import type { ERC20, KucoCoin, FakeWNat, UniswapV2Router, UniswapV2Factory, UniswapV2Pair } from '../types'
 import type { ContractFactories } from "./utils/factories"
+import type { HDNodeWallet } from "ethers"
 
 
 const SUNDAY = 1722117600
@@ -14,32 +15,37 @@ const KUCOCOIN_FEATURE_FEE = ethers.parseEther("1")
 
 const DEFAULT_INITIAL_LIQUIDITY_KUCO = ethers.parseEther("100000000")
 const DEFAULT_INITIAL_LIQUIDITY_NAT = ethers.parseEther("100")
-const INVESTMENT_INTEREST_BIPS = 500
+const INVESTMENT_INTEREST_BIPS = 500 // 5% interest on investment
 const INVESTMENT_FACTOR_BIPS = 10_000 + INVESTMENT_INTEREST_BIPS
-const TRADING_STARTS_AT = 7258114800
-const RETRACT_FEE_BIPS = 1000 // 10% fee on retracting the investment
+const TRADING_STARTS_AT = 7258114800 // 1st of January 2200
+const RETRACT_FEE_BIPS = 500 // 5% fee on retracting the investment
 const RETRACT_ENDS_AT = TRADING_STARTS_AT + 24 * 60 * 60 * 14
 
-async function getTimestampOfBlock(blockNumber: number): Promise<number> {
+async function getBlockTimestamp(blockNumber: number): Promise<number> {
   const block = await ethers.provider.getBlock(blockNumber)
   return block!.timestamp
 }
 
-function secondsTilMonday(unix: number): number {
-  const day = 60 * 60 * 24
-  const week = day * 7
-  const secondsAfterMonday = (unix - SUNDAY - day) % week
-  return unix + (week - secondsAfterMonday)
-}
-
-async function moveToMonday(): Promise<void> {
+async function moveToWeekday(day: 'sunday' | 'monday'): Promise<void> {
   const now = await time.latest()
-  await time.increaseTo(secondsTilMonday(Number(now)))
+  const mon = secondsTilMonday(now, SUNDAY)
+  await time.increaseTo(mon)
+  if (day === 'sunday') {
+    const sun = 60 * 60 * 24 * 6
+    await time.increase(sun)
+  }
 }
 
-async function moveToSunday(): Promise<void> {
-  await moveToMonday()
-  await time.increase(60 * 60 * 24 * 6)
+async function createNewSigners(n: number, funds: bigint): Promise<HDNodeWallet[]> {
+  const signers = []
+  for (let i = 0; i < n; i++) {
+    const wallet = ethers.Wallet.createRandom(ethers.provider)
+    await ethers.provider.send("hardhat_setBalance", [
+      wallet.address, '0x' + funds.toString()
+    ])
+    signers.push(wallet)
+  }
+  return signers
 }
 
 describe("KucoCoin", () => {
@@ -56,8 +62,8 @@ describe("KucoCoin", () => {
     const [reserveA, reserveB] = await pair.getReserves()
     const addressA = await tokenA.getAddress()
     const addressB = await tokenB.getAddress()
-    const AlessThanB = BigInt(addressA) < parseInt(addressB)
-    return AlessThanB ? [reserveA, reserveB] : [reserveB, reserveA]
+    return BigInt(addressA) < parseInt(addressB)
+      ? [reserveA, reserveB] : [reserveB, reserveA]
   }
 
   async function getPairFor(tokenA: ERC20, tokenB: ERC20): Promise<UniswapV2Pair> {
@@ -111,7 +117,7 @@ describe("KucoCoin", () => {
 
   beforeEach(async () => {
     await reset() // need for time correction
-    await moveToMonday()
+    await moveToWeekday('monday')
     wNat = await factories.fakeWNat.connect(admin).deploy()
     uniswapV2Factory = await factories.uniswapV2Factory.connect(admin).deploy(ethers.ZeroAddress)
     uniswapV2Router = await factories.uniswapV2Router.connect(admin).deploy(uniswapV2Factory, wNat)
@@ -178,7 +184,7 @@ describe("KucoCoin", () => {
       await kucocoin.connect(investor2).invest(investor2, { value: investedNat2 })
       expect(await kucocoin.getInvestedNatOf(investor1)).to.equal(investedNat1)
       expect(await kucocoin.getInvestedNatOf(investor2)).to.equal(investedNat2)
-      await moveToSunday() // additional test
+      await moveToWeekday('sunday') // additional test
       await moveToTradingPhase(false)
       const { reserveKuco, reserveNat } = await kucocoin.getPoolReserves()
       await kucocoin.connect(investor1).claim(investor1)
@@ -190,7 +196,7 @@ describe("KucoCoin", () => {
       // test investment reward when liquidity pool is altered
       await kucocoin.connect(investor1).sell(balanceKuco1, 0, investor1, ethers.MaxUint256)
       const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
-      await moveToSunday() // additional test
+      await moveToWeekday('sunday') // additional test
       await kucocoin.connect(investor2).claim(investor2)
       const balanceKuco2 = await kucocoin.balanceOf(investor2)
       const expectedRewardKuco2 = rewardKucoFromInvestedNat(
@@ -206,7 +212,7 @@ describe("KucoCoin", () => {
       // test
       await initKucoCoin(admin)
       const investorNatBefore = await ethers.provider.getBalance(investor)
-      await moveToSunday() // additional test
+      await moveToWeekday('sunday') // additional test
       await kucocoin.connect(investor).invest(investor, { value: investedNat })
       const investorNatMiddle = await ethers.provider.getBalance(investor)
       expect(investorNatMiddle).to.be.above(investorNatBefore - investedNat - MAX_GAS_COST)
@@ -216,7 +222,7 @@ describe("KucoCoin", () => {
       await moveToTradingPhase(false)
       const retracteeNatBefore = await ethers.provider.getBalance(retractee)
       const { reserveKuco: reserveKucoBefore, reserveNat: reserveNatBefore } = await kucocoin.getPoolReserves()
-      await moveToSunday() // additional test
+      await moveToWeekday('sunday') // additional test
       await kucocoin.connect(investor).retract(retractee)
       const { reserveKuco: reserveKucoAfter, reserveNat: reserveNatAfter } = await kucocoin.getPoolReserves()
       // check that retraction gave NAT to the retractee
@@ -381,30 +387,33 @@ describe("KucoCoin", () => {
         .to.be.revertedWith("KucoCoin: no investment to claim")
     })
 
-    it.skip("should not allow selling too much KucoCoin inside the retraction period", async () => {
-      const [, seller, other] = signers
+    it.skip("should not allow selling too much KucoCoin inside the retraction period", async function () {
+      this.timeout(6000_000)
+      // define params
+      const [, shielded] = signers
       const initialLiquidityKuco = ethers.parseEther("1000")
-      const initialLiquidityNat = ethers.parseEther("10")
-      const investedNatSeller = ethers.parseEther("10")
-      const investedNatOther = ethers.parseEther("800.166193719106")
+      const initialLiquidityNat = ethers.parseEther("1")
+      const investedNatShielded = ethers.parseEther("1000")
+      const investedNatSybil = ethers.parseEther("5")
+      const sybil = await createNewSigners(100, investedNatSybil + MAX_GAS_COST)
+      // run test
       await initKucoCoin(admin, initialLiquidityKuco, initialLiquidityNat)
-      await kucocoin.connect(seller).invest(seller, { value: investedNatSeller })
-      await kucocoin.connect(other).invest(other, { value: investedNatOther })
+      await kucocoin.connect(shielded).invest(shielded, { value: investedNatShielded })
+      for (const other of sybil) {
+        console.log("sybil", other.address, 'investing', investedNatSybil.toString(), 'NAT')
+        await kucocoin.connect(other).invest(other, { value: investedNatSybil })
+      }
       await moveToTradingPhase(false)
-      // now `investedNatOther` is protected by the retraction period
-      // which means `seller` cannot sell more than `investedNatSeller` worth of KUCO
-      // (note that they got more because of kuconomics)
-      await kucocoin.connect(seller).claim(seller)
-      const sellerKuco = await kucocoin.balanceOf(seller)
-      await expect(kucocoin.connect(seller).sell(sellerKuco, 0, seller, ethers.MaxUint256))
-        .to.be.revertedWith("KucoCoin: retraction period")
-      // wait for retract period to end
-      await time.increaseTo(RETRACT_ENDS_AT)
-      await kucocoin.connect(seller).sell(sellerKuco, 0, seller, ethers.MaxUint256)
-      const sellerKucoAfter = await kucocoin.balanceOf(seller)
-      expect(sellerKucoAfter).to.equal(0)
+      for (const other of sybil) {
+        await kucocoin.connect(other).claim(other)
+        const balanceKuco = await kucocoin.balanceOf(other)
+        console.log("sybil", other.address, 'selling', balanceKuco.toString(), 'KUCO')
+        await kucocoin.connect(other).sell(balanceKuco, 0, other, ethers.MaxUint256)
+        const { reserveNat } = await kucocoin.getPoolReserves()
+        console.log('left', reserveNat, 'in the pool, need at least',
+          retractedNatFromInvestedNat(investedNatSybil, RETRACT_FEE_BIPS))
+      }
     })
-
   })
 
   describe("kucocoin specific", () => {
@@ -443,7 +452,7 @@ describe("KucoCoin", () => {
       expect(kucoBalance5 - kucoBalance6).to.equal(periodLogFee)
       const entries = await kucocoin.connect(periodReporter).periodHistory()
       const resps = [resp1, resp2, resp3, resp4]
-      const timestamps = await Promise.all(resps.map(resp => getTimestampOfBlock(resp.blockNumber!)))
+      const timestamps = await Promise.all(resps.map(resp => getBlockTimestamp(resp.blockNumber!)))
       expect(entries.map(x => Number(x))).to.have.same.members(timestamps)
     })
 
@@ -451,7 +460,7 @@ describe("KucoCoin", () => {
       const [, sender, receiver] = signers
       await initKucoCoin(admin)
       await fundAccountWithKuco(sender, ethers.parseEther("100"))
-      await moveToSunday()
+      await moveToWeekday('sunday')
       await expect(kucocoin.connect(sender).transfer(receiver, 1))
         .to.be.revertedWith('KucoCoin: token not working on Sundays')
     })
@@ -460,7 +469,7 @@ describe("KucoCoin", () => {
       const [, trader] = signers
       await initKucoCoin(admin)
       await fundAccountWithKuco(trader, ethers.parseEther("100"))
-      await moveToSunday()
+      await moveToWeekday('sunday')
       await expect(kucocoin.connect(trader).buy(0, trader, ethers.MaxUint256, { value: 100 })).to.be.reverted
       await expect(kucocoin.connect(trader).sell(KUCOCOIN_FEATURE_FEE, 0, trader, ethers.MaxUint256)).to.be.reverted
     })

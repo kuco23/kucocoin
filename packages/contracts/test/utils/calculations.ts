@@ -61,6 +61,13 @@ export function investmentFromKucoClaim(
   return (b - a + c) / (BigInt(2) * amountKuco)
 }
 
+export function secondsTilMonday(unix: number, sunday: number): number {
+  const day = 60 * 60 * 24
+  const week = day * 7
+  const secondsAfterMonday = (unix - sunday - day) % week
+  return unix + week - secondsAfterMonday
+}
+
 // Helper functions
 
 function sqrt(value: bigint): bigint {
