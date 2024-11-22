@@ -1,8 +1,17 @@
 # Kuco Coin
 
-This is an implementation of a non-meme token on Avalanche. It has real world functionalities, like things and such, so it's definitely not a pyramid scheme. The code has also been audited by the author during implementation.
+This is an implementation of a non-meme token on Avalanche. It has real world functionalities, like things and such, so it's definitely not a pyramid scheme. The code has been audited by the author during implementation.
 
-## Deployment
+## Thanks to
+- Avalanche for honestly being the best chain,
+- Uniswap for deploying their V2 on Avalanche,
+- People that developed [Namari](https://onepagelove.com/namari) for their free template hacked into KucoCoin frontend,
+- To tis guy for [this awesome pen](https://codepen.io/Rplus/pen/abPLGx),
+- To this guy for the [spiral animation](https://jsfiddle.net/j08691/CKWrN/),
+- To this guy for the [windows95 error tab in css](https://codepen.io/jkantner/pen/oNypPOZ),
+- To this guy that updated [UniwapV2 for Solidity 0.8.4](https://github.com/islishude/uniswapv2-solc0.8).
+
+## Deploying contracts + frontend
 
 To deploy the contract and frontend, do the following:
 
@@ -23,7 +32,7 @@ To deploy the contract and frontend, do the following:
 > **Note**
 > If you change `<investmentInterestBips>` or `<retractFeeBips>` you have to manually find the sections in `packages/frontend/index.html` where those values are directly referenced (in `kuconomics` section).
 
-## Testing
+## Testing on forked avalanche mainnet
 
 You can test the frontend on a locally run avalanche fork, which comes with a funded account specified by the private key `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`, which we'll refer to as `PRIVATE_KEY` in the following steps.
 
@@ -44,23 +53,13 @@ To configure investment and retract periods, you have to also navigate to `src/t
 
 inside `contracts` workspace.
 
-## Thanks to
-- Avalanche for honestly being the best chain,
-- Uniswap for deploying their V2 on Avalanche,
-- People that developed [Namari](https://onepagelove.com/namari) for their free template hacked into KucoCoin frontend,
-- To tis guy for [this awesome pen](https://codepen.io/Rplus/pen/abPLGx),
-- To this guy for the [spiral animation](https://jsfiddle.net/j08691/CKWrN/),
-- To this guy for the [windows95 error tab in css](https://codepen.io/jkantner/pen/oNypPOZ),
-- To this guy that updated [UniwapV2 for Solidity 0.8.4](https://github.com/islishude/uniswapv2-solc0.8).
-
 ## To do
-- [x] Modal for wallet balance,
-- [x] Button for period data fetching,
-- [ ] KucoCoin burn front-end integration,
-- [x] KucoCoin freeze implementation,
-- [x] disable retract button if it is overdue (and show a tooltip),
-- [x] better error display,
-- [ ] format error display,
-- [x] get svg links for metamask and avalanche,
-- [ ] error display "can't read properties of undefined" when metamask is not installed,
-- [ ] copy kucocoin address to clipboard.
+- [x] Modal for wallet balance;
+- [x] Button for period data fetching;
+- [x] KucoCoin freeze implementation;
+- [x] Disable retract button if it is overdue (and show a tooltip);
+- [x] Better error display;
+- [ ] Format error display;
+- [x] Get svg links for metamask and avalanche;
+- [ ] Error display "can't read properties of undefined" when metamask is not installed;
+- [ ] Copy kucocoin address to clipboard.
