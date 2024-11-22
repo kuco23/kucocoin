@@ -27,11 +27,6 @@
   animation: spin $kucocoin-animation-duration linear infinite;
 }
 
-@keyframes spin {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(360deg);}
-}
-
 /* kucocoin stages */
 
 #gallery {
@@ -306,15 +301,6 @@ blockquote.ancient:after {
   z-index: -1;
   animation: underline $underline-duration forwards;
   animation-delay: $underline-delay;
-}
-
-@keyframes underline {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
 }
 
 /* KucoCoin price showcase */
