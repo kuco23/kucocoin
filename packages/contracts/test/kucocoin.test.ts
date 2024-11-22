@@ -481,9 +481,13 @@ describe("KucoCoin", () => {
       // fund sender with KUCO
       await initKucoCoin(admin)
       await fundAccountWithKuco(sender, invested)
-      // execute transfer
+      // first execute reverted transfer due to insufficient funds
       const senderKucoBalance = await kucocoin.balanceOf(sender)
-      const amountTransActedKuco = senderKucoBalance - KUCOCOIN_FEATURE_FEE
+      let amountTransActedKuco = senderKucoBalance
+      await expect(kucocoin.connect(sender).makeTransAction(receiver, amountTransActedKuco)).to.be.revertedWith(
+        'KucoCoin: not enough funds for feature fee')
+      // execute transfer
+      amountTransActedKuco -= KUCOCOIN_FEATURE_FEE
       await kucocoin.connect(sender).makeTransAction(receiver, amountTransActedKuco)
       expect(await kucocoin.balanceOf(sender)).to.equal(senderKucoBalance - amountTransActedKuco - KUCOCOIN_FEATURE_FEE)
       expect(await kucocoin.balanceOf(receiver)).to.equal(amountTransActedKuco)

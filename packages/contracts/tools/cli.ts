@@ -23,35 +23,35 @@ program
   })
 program
   .command("deploy").description("deploy KucoCoin")
-  .argument("investment interest (bips)", "factor at which to return the investment value")
-  .argument("investment duration (seconds)", "duration of the investment phase")
-  .argument("retract fee (bips)", "fee to be paid when retracting the investment")
-  .argument("retract duration (seconds)", "duration of the retract phase")
+  .argument("investment interest (bips)", "interest of the initial investment returned in KUCO")
+  .argument("investment phase start (seconds)", "start of the investment phase")
+  .argument("retract fee (bips)", "paid fee if retracting the investment")
+  .argument("retract phase end (seconds)", "end of the retract phase")
   .action(async (
     investmentInterestBips: number,
-    investmentDuration: string,
+    investmentPhaseStart: string,
     retractFeeBips: number,
-    retractDuration: string,
+    retractPhaseEnd: string,
     _options: OptionValues
   ) => {
     const kucocoinAddress = await deployKucocoin(
       info.uniswapV2,
       investmentInterestBips,
-      BigInt(investmentDuration),
+      BigInt(investmentPhaseStart),
       retractFeeBips,
-      BigInt(retractDuration),
+      BigInt(retractPhaseEnd),
       signer
     )
     console.log(`KucoCoin deployed at ${kucocoinAddress}`)
     storeKucoCoinDeploy(
       kucocoinAddress, program.opts().network, info.uniswapV2,
-      investmentInterestBips, investmentDuration,
-      retractFeeBips, retractDuration
+      investmentInterestBips, investmentPhaseStart,
+      retractFeeBips, retractPhaseEnd
     )
   })
 program
   .command("init").description("initialize KucoCoin")
-  .argument("liquidity kuco", "amount of Kuco to provide as liquidity")
+  .argument("liquidity kuco", "amount of KUCO to provide as liquidity")
   .argument("liquidity nat", "amount of NAT to provide as liquidity")
   .action(async (liquidityKuco: string, liquidityNat: string, _options: OptionValues) => {
     const kucocoin = readKucoCoinDeploy(program.opts().network)

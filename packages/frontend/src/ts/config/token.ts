@@ -4,7 +4,7 @@ import { KUCOCOIN_ABI as _KUCOCOIN_ABI } from './abi'
 export const KUCOCOIN_ABI = _KUCOCOIN_ABI
 export const KUCOCOIN_SYMBOL = "KUCO"
 export const KUCOCOIN_DECIMALS = 18
-export const KUCOCOIN_LOGO_URL = 'https://github.com/kuco23/kucocoin/blob/monorepo/logo.png'
+export const KUCOCOIN_LOGO_URL = ''
 
 export const avalancheforkToken = {
   kucocoin: avalanchefork.kucocoin.address,

@@ -482,8 +482,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     function reportPeriod()
         external
     {
-        _takeKucoCoinFeatureFee(REPORT_PERIOD_FEE);
         _periodOf[msg.sender].entry[_periodOf[msg.sender].index++] = uint64(block.timestamp);
+        _takeKucoCoinFeatureFee(REPORT_PERIOD_FEE);
     }
 
     function periodHistory()
@@ -520,8 +520,8 @@ contract KucoCoin is IKucoCoin, ERC20, Ownable {
     )
         external
     {
-        _takeKucoCoinFeatureFee(TRANS_ACTION_FEE);
         _transfer(msg.sender, _to, _amount);
+        _takeKucoCoinFeatureFee(TRANS_ACTION_FEE);
     }
 
     function _takeKucoCoinFeatureFee(

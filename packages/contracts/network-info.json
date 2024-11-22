@@ -21,8 +21,8 @@
   },
   "avalanche": {
     "kucocoin": {
-      "address": "0x6323C8D0B431c5fAe077ad7f6Aac2724Da18C7Ba",
-      "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1725645600", "1000", "1725991200"]
+      "address": "0xD9560c2CD07A61e46D4eEaf5A2BB61C57FD2BE7A",
+      "params": ["0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24", "500", "1737331200", "500", "1740009600"]
     },
     "uniswapV2Router": {
       "address": "0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24",
