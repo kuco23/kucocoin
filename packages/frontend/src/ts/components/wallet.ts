@@ -23,6 +23,12 @@ export function attachWallet(): void {
   })
 }
 
+export async function showWallet(): Promise<void> {
+  if (globals.walletDisplayed) return
+  if (globals.connectedWallet === undefined) return
+  await toggleWalletDisplay(globals.connectedWallet.provider)
+}
+
 export async function refreshWalletInfo(ethereum: Eip1193Provider): Promise<void> {
   if (!globals.walletDisplayed) return
   if (globals.connectedAccount === undefined) {

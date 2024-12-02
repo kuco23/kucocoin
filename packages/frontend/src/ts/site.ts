@@ -13,7 +13,7 @@ import {
 import { requestAccounts, requireWalletOnAvalanche } from './wrappers/eip1193'
 import { popupSuccess, popupError, loadingStart, loadingEnd } from './components/utils'
 import { attachEip6963, ensureOrForceEip1193 } from './components/eip6963'
-import { attachWallet, attachWalletInfoRefresher } from './components/wallet'
+import { attachWallet, attachWalletInfoRefresher, showWallet } from './components/wallet'
 import { KUCOCOIN_DECIMALS } from './config/token'
 import { config } from './config/main'
 import {
@@ -135,6 +135,7 @@ function onInvestInKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await investInKucoCoin(wallet.provider, amount, accounts[0])
+      showWallet()
       popupSuccess('Investment Successful')
     } catch (err: any) {
       popupError("Investment failed", err.message.toString())
@@ -152,6 +153,7 @@ function onClaimKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await claimKucoCoin(wallet.provider, accounts[0])
+      showWallet()
       popupSuccess('Claim was successful')
     } catch (err: any) {
       popupError("Claim failed", err.message)
@@ -183,6 +185,7 @@ function onRetractKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await retractKucoCoin(wallet.provider, accounts[0])
+      showWallet()
       popupSuccess('Retract was successful')
     } catch (err: any) {
       popupError("Retract failed", err.message)
