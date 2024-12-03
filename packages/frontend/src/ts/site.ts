@@ -135,7 +135,7 @@ function onInvestInKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await investInKucoCoin(wallet.provider, amount, accounts[0])
-      showWallet()
+      void showWallet()
       popupSuccess('Investment Successful')
     } catch (err: any) {
       popupError("Investment failed", err.message.toString())
@@ -153,7 +153,7 @@ function onClaimKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await claimKucoCoin(wallet.provider, accounts[0])
-      showWallet()
+      void showWallet()
       popupSuccess('Claim was successful')
     } catch (err: any) {
       popupError("Claim failed", err.message)
@@ -185,7 +185,7 @@ function onRetractKucoCoin(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
       await retractKucoCoin(wallet.provider, accounts[0])
-      showWallet()
+      void showWallet()
       popupSuccess('Retract was successful')
     } catch (err: any) {
       popupError("Retract failed", err.message)
