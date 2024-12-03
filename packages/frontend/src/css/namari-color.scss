@@ -152,9 +152,9 @@ body {
 #banner h2 {
   font-family: $body-font-family;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: bold;
   color: $kucomoon-moon-color;
-  text-shadow: black 0px 0px 8px, $kucomoon-moon-color 0 0 18px;
+  text-shadow: black 0px 0px 8px, black 0 0 18px;
 }
 
 
