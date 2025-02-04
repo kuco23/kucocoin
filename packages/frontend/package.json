@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "ethers": "^6.4.0",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "update-browserslist-db": "^1.1.1"
   },
   "compilerOptions": {
     "typeRoots": [
