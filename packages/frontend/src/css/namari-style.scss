@@ -373,9 +373,9 @@ section {
 #logo h3 {
   font-size: 24px;
   font-weight: bold;
-  font-family: arial;
   padding: 0;
-  color: black;
+  color: $navigation-logo-color;
+  font-family: $navigation-logo-font-family;
 }
 
 #logo img {

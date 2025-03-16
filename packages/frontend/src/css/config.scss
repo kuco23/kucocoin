@@ -1,7 +1,8 @@
 /* global */
 $background-color: #171818;
-$foreground-color: darkred;
+$foreground-color: #282929;
 $suptitle-color: white;
+$nav-header-color: #777;
 $body-font-family: 'Source Code Pro', sans-serif, Arial, Helvetica;
 $h1-font-family: 'Open Sans', sans-serif, Arial, Helvetica;
 $h2-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
@@ -9,7 +10,15 @@ $h3-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
 $h4-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
 
 /* navigation logo */
-$navigation-logo-text-shadow: black 0px 0px 3px, black 0 0 9px;
+$navigation-logo-color: #fff;
+$navigation-logo-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
+$navigation-logo-text-shadow:  0 0 7px #fff,
+0 0 10px #fff,
+0 0 15px #fff,
+0 0 20px #0fa,
+0 0 23px #0fa,
+0 0 25px #0fa,
+0 0 28px #0fa;
 
 /* banner */
 $banner-font-family: 'Montserrat Alternates', sans-serif, Arial, Helvetica;
