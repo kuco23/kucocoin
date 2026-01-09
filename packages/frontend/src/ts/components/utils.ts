@@ -1,12 +1,15 @@
 import $ from 'jquery'
-import { sleep } from '../utils'
-import { POPUP_SHOW_MS, POPUP_FADE_IN_MS, POPUP_FADE_OUT_MS } from "../config/display"
+import { hashlink } from '../utils'
 
 
-export function popupSuccess(text: string): void {
-  $('#popup').text(text).css('color', 'lime').fadeIn(POPUP_FADE_IN_MS, () =>
-    sleep(POPUP_SHOW_MS).then(() => $('#popup').fadeOut(POPUP_FADE_OUT_MS))
-  )
+export function popupSuccess(title: string, text: string): void {
+  $('#success-desc-0').text(title)
+  if (text.startsWith('0x')) {
+    $('#success-desc-1').html(hashlink(text))
+  } else {
+    $('#success-desc-1').text(text)
+  }
+  $('#windows95-success').show(0)
 }
 
 export function popupError(title?: string, message?: string): void {

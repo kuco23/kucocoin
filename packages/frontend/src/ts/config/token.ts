@@ -10,6 +10,7 @@ export const avalancheforkToken = {
   kucocoin: avalanchefork.kucocoin.address,
   uniswap: '',
   snowtrace: '',
+  snowtraceTx: (hash: string) => '',
   startTradingTimeUnixMs: Number(avalanchefork.kucocoin.params[2]) * 1000,
   endRetractPeriodUnixMs: Number(avalanchefork.kucocoin.params[4]) * 1000
 }
@@ -18,6 +19,7 @@ export const fujiToken = {
   kucocoin: fuji.kucocoin.address,
   uniswap: `https://testnet.snowtrace.io/address/${fuji.uniswapV2Router.address}/contract/43113/writeContract?chainId=43113#F10`,
   snowtrace: `https://testnet.snowtrace.io/address/${fuji.kucocoin.address}/contract/43113/writeContract?chainId=43113`,
+  snowtraceTx: (hash: string) => `https://testnet.snowtrace.io/tx/${hash}?chainid=43114`,
   startTradingTimeUnixMs: Number(fuji.kucocoin.params[2]) * 1000,
   endRetractPeriodUnixMs: Number(fuji.kucocoin.params[4]) * 1000
 }
@@ -26,6 +28,7 @@ export const avalancheToken = {
   kucocoin: avalanche.kucocoin.address,
   uniswap: `https://app.uniswap.org/explore/tokens/avalanche/${avalanche.kucocoin.address}`,
   snowtrace: `https://snowtrace.io/address/${avalanche.kucocoin.address}/contract/43114/writeContract?chainid=43114`,
+  snowtraceTx: (hash: string) => `https://snowtrace.io/tx/${hash}?chainid=43114`,
   startTradingTimeUnixMs: Number(avalanche.kucocoin.params[2]) * 1000,
   endRetractPeriodUnixMs: Number(avalanche.kucocoin.params[4]) * 1000
 }

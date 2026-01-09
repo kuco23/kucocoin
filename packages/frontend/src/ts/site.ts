@@ -36,6 +36,9 @@ function setPopup(): void {
   $('#windows95-error button').on('click', () => {
     $('#windows95-error').hide()
   })
+  $('#windows95-success button').on('click', () => {
+    $('#windows95-success').hide()
+  })
 }
 
 function setLinks(): void {
@@ -134,9 +137,9 @@ function onInvestInKucoCoin(): void {
       const amount = parseEther(amountInput)
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
-      await investInKucoCoin(wallet.provider, amount, accounts[0])
+      const hash = await investInKucoCoin(wallet.provider, amount, accounts[0])
       void showWallet()
-      popupSuccess('Investment Successful')
+      popupSuccess('Invested executed', hash)
     } catch (err: any) {
       popupError("Investment failed", err.message.toString())
     } finally {
@@ -152,9 +155,9 @@ function onClaimKucoCoin(): void {
       loadingStart('invest-claim-retract-interface')
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
-      await claimKucoCoin(wallet.provider, accounts[0])
+      const hash = await claimKucoCoin(wallet.provider, accounts[0])
       void showWallet()
-      popupSuccess('Claim was successful')
+      popupSuccess('Claim executed', hash)
     } catch (err: any) {
       popupError("Claim failed", err.message)
     } finally {
@@ -184,9 +187,9 @@ function onRetractKucoCoin(): void {
       loadingStart('invest-claim-retract-interface')
       await requireWalletOnAvalanche(wallet.provider)
       const accounts = await requestAccounts(wallet.provider)
-      await retractKucoCoin(wallet.provider, accounts[0])
+      const hash = await retractKucoCoin(wallet.provider, accounts[0])
       void showWallet()
-      popupSuccess('Retract was successful')
+      popupSuccess('Retract completed', hash)
     } catch (err: any) {
       popupError("Retract failed", err.message)
     } finally {
@@ -204,10 +207,10 @@ function onMakeTransAction(): void {
       const amountInput = $('#trans-action-amount').val()!
       const amount = parseUnits(amountInput, KUCOCOIN_DECIMALS)
       await requireWalletOnAvalanche(wallet.provider)
-      await makeTransAction(wallet.provider, to, amount)
-      popupSuccess('Trans Action Successful')
+      const hash = await makeTransAction(wallet.provider, to, amount)
+      popupSuccess('Trans action made', hash)
     } catch (err: any) {
-      popupError("Trans Action Failed", err.message)
+      popupError('Trans Action Failed', err.message)
     } finally {
       loadingEnd('trans-action-interface')
     }
@@ -220,8 +223,8 @@ function onReportPeriod(): void {
       const wallet = await ensureOrForceEip1193()
       loadingStart('report-period-interface')
       await requireWalletOnAvalanche(wallet.provider)
-      await reportPeriod(wallet.provider)
-      popupSuccess('Period Successfully Reported')
+      const hash = await reportPeriod(wallet.provider)
+      popupSuccess('Period reported', hash)
     } catch (err: any) {
       popupError("Period report failed", err.message)
     } finally {
@@ -238,7 +241,7 @@ function onGetNextPeriod(): void {
       await requireWalletOnAvalanche(wallet.provider)
       const nextPeriodUnix = await getNextPeriod(wallet.provider)
       const nextPeriod = formatUnixDate(Number(nextPeriodUnix))
-      popupSuccess(nextPeriod)
+      popupSuccess('Next period obtained', nextPeriod)
     } catch (err: any) {
       popupError("Period fetching failed", err.message)
     } finally {

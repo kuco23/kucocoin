@@ -84,7 +84,7 @@ async function onWalletConnectClick(wallet: EIP6963ProviderDetail, popup = true)
       const accounts = await requestAccounts(wallet.provider)
       if (accounts?.length) {
         await updateWalletConnectionDisplay(wallet)
-        popup && popupSuccess(`Connected to ${wallet.info.name}`)
+        popup && popupSuccess('Connected', `Connected to ${wallet.info.name}`)
         globals.connectedAccount = accounts[0]
         globals.connectedWallet = wallet
       } else {
@@ -92,7 +92,7 @@ async function onWalletConnectClick(wallet: EIP6963ProviderDetail, popup = true)
         await updateWalletConnectionDisplay()
       }
     } else {
-      popup && popupSuccess(`Already connected to ${wallet.info.name}`)
+      popup && popupSuccess('Connected', `Already connected to ${wallet.info.name}`)
       await updateWalletConnectionDisplay(wallet)
     }
   } else {
@@ -140,7 +140,7 @@ function onWalletAddKucoCoin(): void {
       if (switched) {
         const added = await addKucoCoinToken(wallet.provider)
         if (added) {
-          popupSuccess(`KucoCoin added to ${wallet.info.name}`)
+          popupSuccess('Token added', `KucoCoin added to ${wallet.info.name}`)
         } else {
           popupError(`Failed to add KucoCoin to ${wallet.info.name}`)
         }

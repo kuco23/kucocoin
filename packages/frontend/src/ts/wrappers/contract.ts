@@ -14,31 +14,34 @@ export async function investInKucoCoin(
   ethereum: Eip1193Provider,
   amount: bigint,
   receiver: string,
-): Promise<void> {
+): Promise<string> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  await kucocoin.connect(signer).invest(receiver, { value: amount })
+  const resp = await kucocoin.connect(signer).invest(receiver, { value: amount })
+  return resp.hash
 }
 
 export async function claimKucoCoin(
   ethereum: Eip1193Provider,
   receiver: string
-): Promise<void> {
+): Promise<string> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  await kucocoin.connect(signer).claim(receiver)
+  const resp = await kucocoin.connect(signer).claim(receiver)
+  return resp.hash
 }
 
 export async function retractKucoCoin(
   ethereum: Eip1193Provider,
   receiver: string
-): Promise<void> {
+): Promise<string> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  await kucocoin.connect(signer).retract(receiver)
+  const resp = await kucocoin.connect(signer).retract(receiver)
+  return resp.hash
 }
 
 export async function buyKucoCoin(
@@ -53,18 +56,20 @@ export async function buyKucoCoin(
   await kucocoin.connect(signer).buy(minKuco, signer, deadline, { value: amount })
 }
 
-export async function makeTransAction(ethereum: Eip1193Provider, to: AddressLike, amount: bigint): Promise<void> {
+export async function makeTransAction(ethereum: Eip1193Provider, to: AddressLike, amount: bigint): Promise<string> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  await kucocoin.connect(signer).makeTransAction(to, amount)
+  const resp = await kucocoin.connect(signer).makeTransAction(to, amount)
+  return resp.hash
 }
 
-export async function reportPeriod(ethereum: Eip1193Provider): Promise<void> {
+export async function reportPeriod(ethereum: Eip1193Provider): Promise<string> {
   const provider = new BrowserProvider(ethereum)
   const signer = await provider.getSigner(globals.connectedAccount)
   const kucocoin = getKucoCoin(provider)
-  await kucocoin.connect(signer).reportPeriod()
+  const resp = await kucocoin.connect(signer).reportPeriod()
+  return resp.hash
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

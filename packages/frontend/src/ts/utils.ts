@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { formatUnits } from 'ethers'
+import { config } from './config/main'
 
 
 declare const window: any
@@ -62,4 +63,10 @@ export function scrollTo(target: string, offset = 0, duration = 1000, easing = "
     const scrollTop = $target.offset()!.top - $target.height()! + offset;
     $("html, body").animate({ scrollTop }, { duration, easing })
   }
+}
+
+export const hashlink = (hash: string) => {
+  const display = hash.substring(0, 10) + '...' + hash.substring(66 - 10)
+  const hashurl = config.token.snowtraceTx(hash)
+  return `<a style="color: black; font-weight: bold;" target="_blank" href="${hashurl}">${display}</a>`
 }

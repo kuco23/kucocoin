@@ -1,6 +1,3 @@
-export const POPUP_FADE_IN_MS = 500
-export const POPUP_FADE_OUT_MS = 500
-export const POPUP_SHOW_MS = 1500
 export const UNDERLINE_CHECK_INTERVAL_MS = 1000
 export const WALLET_SLIDE_DURATION_MS = 100
 
